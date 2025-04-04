@@ -6,12 +6,12 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:56:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 16:10:32 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 16:15:06 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
-
+/*initialize the data for the struct*/
 void	cmds_init(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds_counter = 0;
@@ -20,7 +20,8 @@ void	cmds_init(t_parsed_data *cmds_d)
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
 }
-
+/*function to re read the line and count the pipes so we know how 
+many commands we will have*/
 void	find_cmds_counter(t_data *data, t_parsed_data *cmds_d)
 {
 	int	i;
@@ -35,7 +36,8 @@ void	find_cmds_counter(t_data *data, t_parsed_data *cmds_d)
 	}
 	cmds_d->cmds_counter = cmds_d->pipes_counter + 1;
 }
-
+/*to create new array for commands and arguments */
+/*to create new array for redirections*/
 void	create_cmds_arr(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds = malloc(sizeof(t_cmds) * cmds_d->cmds_counter);
@@ -46,13 +48,12 @@ void	create_cmds_arr(t_parsed_data *cmds_d)
 		cmds_d->cmds[i].cmd = malloc(sizeof(char *) * 20);
 		if (!cmds_d->cmds[i].cmd)
 			exit(EXIT_FAILURE);
-		// Allocate memory for reds (assuming a max of 5 reds per command)
 		cmds_d->cmds[i].reds = malloc(sizeof(char *) * 20);
 		if (!cmds_d->cmds[i].reds)
 			exit(EXIT_FAILURE);
 	}
 }
-
+/* when pipe found make new commands and start filling the new one*/
 void	pipe_found(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
@@ -61,19 +62,19 @@ void	pipe_found(t_parsed_data *cmds_d)
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
 }
-
+/* add new redirecttion from tokens to the final struct for execution*/
 void	redirection_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 {
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = data->tokens[*i].data;
 	cmds_d->token_ctr++;
 }
-
+/* add new commands from tokens to the final struct for execution*/
 void	cmd_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 {
 	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = data->tokens[*i].data;
 	cmds_d->red_ctr++;
 }
-
+/*to fill in data from tokens struct to the commands struct*/
 void	fill_in_arr(t_parsed_data *cmds_d, t_data *data)
 {
 	int	i;
@@ -100,7 +101,7 @@ void	fill_in_arr(t_parsed_data *cmds_d, t_data *data)
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
 	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL;
 }
-
+/*testing function to print commands and redirections*/
 void	printing_cmds_reds(t_parsed_data *cmds_d)
 {
 	int	i;
@@ -137,6 +138,7 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 		i++;
 	}
 }
+
 void	parsing(t_data *data, t_parsed_data *cmds_d)
 {
 	find_cmds_counter(data, cmds_d);
