@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:17:36 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 11:36:18 by akumari          ###   ########.fr       */
+/*   Updated: 2025/04/04 14:40:08 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include "lexing.h"
+# include "parsing.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
@@ -86,7 +87,6 @@ int					line_split(t_data *data);
 int					lexing(t_data *data);
 int					tokenizing(t_data *data);
 void 				print_error(char *msg);
-void parsing(t_data *data);
 
 /*---------------Execution----------------*/
 
