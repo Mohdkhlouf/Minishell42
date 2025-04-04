@@ -1,0 +1,58 @@
+int check_nl(char *new_line)
+{
+	int i = 0;
+	if (ft_strlen(new_line) <= 1)
+		return (0);
+	if (new_line[0] != '-')
+		return (0);
+	while (new_line[++i])
+	{
+		if (new_line[i] != 'n')
+			return (0);
+	}
+	return (1);
+}
+
+char *remove_quotes(char *str)
+{
+	int len = ft_strlen(str);
+	printf("len is %d", len);
+	if (len < 2 || str[0] != '"' || str[len - 1] != '"')
+		return ft_strdup(str);
+
+	char *new_str = malloc(len - 1);
+	if (!new_str)
+		return NULL;
+	strncpy(new_str, str + 1, len - 2);
+	new_str[len - 2] = '\0';
+
+	return new_str;
+}
+
+int ft_echo(t_data *data)
+{
+	int i = 1;
+	int print_newline = 1;
+
+	if (data->words[i] && check_nl(data->words[i]))
+	{
+		print_newline = 0;
+		i++;
+	}
+	while (data->words[i])
+	{
+		char *clean_word = remove_quotes(data->words[i]);
+		if (clean_word)
+		{
+			printf("%s", clean_word);
+			free(clean_word);
+		}
+		if (data->words[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (print_newline)
+		printf("\n");
+	free_matrix(data->words);
+	return (0);
+}
