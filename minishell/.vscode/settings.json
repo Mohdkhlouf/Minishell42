@@ -1,0 +1,13 @@
+{
+	"files.associations": {
+		"stdbool.h": "c",
+		"minishell.h": "c",
+		"readline.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"span": "c",
+		"parsing.h": "c",
+		"random": "c"
+	}
+}

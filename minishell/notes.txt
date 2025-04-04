@@ -1,0 +1,28 @@
+/*
+
+* here-doc:
+<< $USER must not expand keep as it is.
+
+
+mkhlouf@c1r4p8:~/mygithub/minishell$ export TEST='cat a'
+mkhlouf@c1r4p8:~/mygithub/minishell$ ./minishell 
+Prompt> $TEST
+Token:#cat a# Type:10
+
+example:
+mkhlouf@c1r4p8:~/mygithub/minishell$ $export TEST='cat a'
+TEST=cat a: command not found
+mkhlouf@c1r4p8:~/mygithub/minishell$ export TEST='cat a'
+mkhlouf@c1r4p8:~/mygithub/minishell$ echo hello > a
+mkhlouf@c1r4p8:~/mygithub/minishell$ echo "$TEST world"
+cat a world
+mkhlouf@c1r4p8:~/mygithub/minishell$ echo $TEST
+cat a
+mkhlouf@c1r4p8:~/mygithub/minishell$ export TEST='echo hi'
+mkhlouf@c1r4p8:~/mygithub/minishell$ "$TEST hi"
+echo hi hi: command not found
+mkhlouf@c1r4p8:~/mygithub/minishell$ $TEST
+hi
+
+
+after you expand a variable if it has spaces it must be splitted to new tokens.
