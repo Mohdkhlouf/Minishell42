@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 12:20:09 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 15:44:00 by akumari          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
 void	data_init(t_data *data)
@@ -29,6 +17,12 @@ void	data_init(t_data *data)
 
 void	reading_loop(t_data *data)
 {
+	t_parsed_data	*cmds_d;
+
+	cmds_d = malloc(sizeof(t_parsed_data));
+	if (!cmds_d)
+		exit(EXIT_FAILURE);
+		
 	while (true)
 	{
 		data_init(data);
@@ -42,9 +36,9 @@ void	reading_loop(t_data *data)
 		add_history(data->input_line);
 		lexing(data);
 		tokenizing(data);
-		parsing(data);
-		// if (cmds_process_loop(data))
-		// 	break ;
+		parsing(data, cmds_d);
+		if (cmds_process_loop(data))
+			break;
 		free_data(data);
 	}
 }

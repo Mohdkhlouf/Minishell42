@@ -1,20 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 12:17:36 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 15:16:54 by akumari          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "../libft/libft.h"
 # include "lexing.h"
+# include "parsing.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
@@ -80,12 +69,11 @@ typedef struct s_data
 
 /*---------------Parsing------------------*/
 
-void							free_data(t_data *data);
-int								line_split(t_data *data);
-int								lexing(t_data *data);
-int								tokenizing(t_data *data);
-void							print_error(char *msg);
-void							parsing(t_data *data);
+void				free_data(t_data *data);
+int					line_split(t_data *data);
+int					lexing(t_data *data);
+int					tokenizing(t_data *data);
+void 				print_error(char *msg);
 
 /*---------------Execution----------------*/
 
