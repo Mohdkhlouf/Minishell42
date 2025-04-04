@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 14:56:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 16:15:06 by mkhlouf          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/parsing.h"
 /*initialize the data for the struct*/
 void	cmds_init(t_parsed_data *cmds_d)
@@ -101,8 +89,10 @@ void	fill_in_arr(t_parsed_data *cmds_d, t_data *data)
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
 	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL;
 }
+
 /*testing function to print commands and redirections*/
 void	printing_cmds_reds(t_parsed_data *cmds_d)
+
 {
 	int	i;
 	int	j;
@@ -116,6 +106,7 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 		printf("Final Command %d: ", i);
 		while (cmds_d->cmds[i].cmd[j])
 		{
+
 			printf("%s ", cmds_d->cmds[i].cmd[j]);
 			j++;
 		}
@@ -127,12 +118,14 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 			while (cmds_d->cmds[i].reds[j])
 			{
 				printf("%s ", cmds_d->cmds[i].reds[j]);
+
 				j++;
 			}
 		}
 		else
 		{
 			printf("No reds");
+
 		}
 		printf("#\n");
 		i++;

@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 12:17:36 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 16:10:29 by mkhlouf          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
@@ -37,5 +26,6 @@ typedef struct s_parsed_data
 
 
 void					parsing(t_data *data, t_parsed_data *cmds_d);
+void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 #endif

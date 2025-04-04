@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 12:17:36 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 14:40:08 by mkhlouf          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -21,11 +9,12 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 
 # define SUCCESS 1
 # define FAILIURE 0
+
+typedef struct s_parsed_data	t_parsed_data;
 
 typedef enum e_token_type
 {
@@ -42,43 +31,41 @@ typedef enum e_token_type
 	TOK_ENV_VAR,          // Environment variable (e.g., $HOME)
 	TOK_EOF,              // End of file or input termination
 
-}					t_token_type;
+}								t_token_type;
 
 typedef struct s_token
 {
-	char			*data;
-	t_token_type	type;
-}					t_token;
+	char						*data;
+	t_token_type				type;
+}								t_token;
 
 typedef struct s_var
 {
-	char *key;
-	char *value;
-	char meaning;
-	struct s_var *next;
-} t_var;
+	char						*key;
+	char						*value;
+	char						meaning;
+	struct s_var				*next;
+}								t_var;
 
 typedef struct s_data
 {
-	char			*input_line;
-	int				cline_parts;
-	t_token			*tokens;
-	size_t			end;
-	size_t			start;
-	bool			in_token;
-	int				tokens_conter;
-	bool			quote_found;
-	bool			double_quote_found;
-	char			quote_type;
-	bool			file_seperator_found;
-	char *cmd;
-	char *path;
-	char *pwd;
-	char **words;
-	char *exit_code;
-	t_var *env_lst;
-
-}					t_data;
+	char						*input_line;
+	int							cline_parts;
+	t_token						*tokens;
+	size_t						end;
+	size_t						start;
+	bool						in_token;
+	int							tokens_conter;
+	bool						quote_found;
+	bool						double_quote_found;
+	char						quote_type;
+	bool						file_seperator_found;
+	char						*path;
+	char						*pwd;
+	char						**words;
+	char						*exit_code;
+	t_var						*env_lst;
+}								t_data;
 
 /*---------------Parsing------------------*/
 
@@ -90,43 +77,50 @@ void 				print_error(char *msg);
 
 /*---------------Execution----------------*/
 
-char *get_path(char **env);
-int free_matrix(char **env);
-void free_env_list(t_var *head);
+// char *get_path(char **env);
+int								free_matrix(char **env);
+void							free_env_list(t_var *head);
 
-void handle_sigint(int sig);
-void handle_sigquit(int sig);
+// void handle_sigint(int sig);
+// void handle_sigquit(int sig);
 
-int cmds_process_loop(t_data *data);
+//void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 /*----Built-ins----*/
-int execute_builtin(t_data *data);
-int is_builtin(char *cmd);
+int								execute_builtin(t_data *data,
+									t_parsed_data *cmds_data);
+int								is_builtin(char *cmd);
 /*-------echo------*/
-int ft_echo(t_data *data);
-int check_nl(char *new_line);
-void remove_quotes(char *word);
+int								ft_echo(t_data *data);
+int								check_nl(char *new_line);
+void							remove_quotes(char *word);
 /*-------pwd-------*/
-int ft_pwd(t_data *data);
+int								ft_pwd(t_data *data);
 /*-------env-------*/
-int ft_env(t_data *data);
-void init_env(char **envp, t_data *data);
-t_var *init_envp_node(char *env);
-void env_addtolist(t_var **lst, t_var *node);
+int								ft_env(t_data *data);
+void							init_env(char **envp, t_data *data);
+t_var							*init_envp_node(char *env);
+void							env_addtolist(t_var **lst, t_var *node);
 /*-------cd--------*/
-int ft_cd(t_data *data);
-void cd_with_no_param(t_data *data);
-void cd_with_dash_param(t_data *data);
-void cd_with_param(t_data *data, char *path_value);
-void add_env_list(char *key, char *value, t_data *data);
-char *get_env_value(char *key, t_data *data);
+int								ft_cd(t_data *data);
+void							cd_with_no_param(t_data *data);
+void							cd_with_dash_param(t_data *data);
+void							cd_with_param(t_data *data, char *path_value);
+void							add_env_list(char *key, char *value,
+									t_data *data);
+char							*get_env_value(char *key, t_data *data);
 /*------export------*/
-int ft_export(t_data *data);
-int get_env_len(t_var *env);
-char **list_to_arr(int size, t_var *env);
-char **sort_arr_list(char **arr, int size);
-void get_export(char **sorted_arr, t_data *data);
-void export_with_param(t_data *data);
+int								ft_export(t_data *data);
+int								get_env_len(t_var *env);
+char							**list_to_arr(int size, t_var *env);
+char							**sort_arr_list(char **arr, int size);
+void							get_export(char **sorted_arr, t_data *data);
+void							export_with_param(t_data *data);
+
+int								ft_strcmp(const char *s1, const char *s2);
+void							print_env(t_var *head);
+#endif
+
 
 // void check_echo_$(t_data *data);
 // int check$(char *sign);
@@ -138,8 +132,4 @@ void export_with_param(t_data *data);
 // void init_env(char **envp, t_data *data);
 // void set_shlvl(t_data *data, char **envp, int i);
 
-void print_env(t_var *head);
-int ft_strcmp(const char *s1, const char *s2);
-
-
-#endif
+// 
