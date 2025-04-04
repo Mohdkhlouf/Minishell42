@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:17:36 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 15:55:33 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 16:07:05 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct s_parsed_data
 	int 				cmds_counter;
 	int 				pipes_counter;
 	int	cmds_ctr;
-	int	redirect_counter;
-	int	token_counter;
+	int	red_ctr;
+	int	token_ctr;
 }						t_parsed_data;
 
 

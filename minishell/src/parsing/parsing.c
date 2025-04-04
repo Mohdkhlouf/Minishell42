@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:56:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 15:55:36 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 16:07:17 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	cmds_init(t_parsed_data *cmds_data)
 	cmds_data->cmds_counter = 0;
 	cmds_data->pipes_counter = 0;
 	cmds_data->cmds_ctr = 0;
-	cmds_data->redirect_counter = 0;
-	cmds_data->token_counter = 0;
+	cmds_data->red_ctr = 0;
+	cmds_data->token_ctr = 0;
 }
 
 void	find_cmds_counter(t_data *data, t_parsed_data *cmds_data)
@@ -55,23 +55,23 @@ void	create_cmds_arr(t_parsed_data *cmds_data)
 
 void	pipe_found(t_parsed_data *cmds_data)
 {
-	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_counter] = NULL;
-	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->token_counter] = NULL;
+	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_ctr] = NULL;
+	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->token_ctr] = NULL;
 	cmds_data->cmds_ctr++;
-	cmds_data->redirect_counter = 0;
-	cmds_data->token_counter = 0;
+	cmds_data->red_ctr = 0;
+	cmds_data->token_ctr = 0;
 }
 
 void	redirection_appened(t_parsed_data *cmds_data, t_data *data, int *i)
 {
-	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_counter] = data->tokens[*i].data;
-	cmds_data->token_counter++;
+	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_ctr] = data->tokens[*i].data;
+	cmds_data->token_ctr++;
 }
 
 void	cmd_appened(t_parsed_data *cmds_data, t_data *data, int *i)
 {
-	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->redirect_counter] = data->tokens[*i].data;
-	cmds_data->redirect_counter++;
+	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->red_ctr] = data->tokens[*i].data;
+	cmds_data->red_ctr++;
 }
 
 void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
@@ -97,8 +97,8 @@ void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
 		}
 		i++;
 	}
-	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_counter] = NULL;
-	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->redirect_counter] = NULL;
+	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_ctr] = NULL;
+	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->red_ctr] = NULL;
 }
 
 void	printing_cmds_reds(t_parsed_data *cmds_data)
