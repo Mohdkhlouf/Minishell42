@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:20:09 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 11:24:57 by akumari          ###   ########.fr       */
+/*   Updated: 2025/04/04 14:39:18 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ void data_init(t_data *data)
 
 void reading_loop(t_data *data)
 {
+	t_parsed_data	*cmds_data;
+
+	cmds_data = malloc(sizeof(t_parsed_data));
+	if (!cmds_data)
+		exit(EXIT_FAILURE);
+		
 	while (true)
 	{
 		data_init(data);
@@ -43,7 +49,7 @@ void reading_loop(t_data *data)
 		add_history(data->input_line);
 		lexing(data);
 		tokenizing(data);
-		parsing(data);
+		parsing(data, cmds_data);
 		if (cmds_process_loop(data))
 			break;
 		free_data(data);

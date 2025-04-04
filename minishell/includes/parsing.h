@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:17:36 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/03 16:02:35 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 14:38:16 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct s_data	t_data;
 
-void					parsing(t_data *data);
+
 
 typedef struct s_cmds
 {
@@ -31,5 +31,8 @@ typedef struct s_parsed_data
 	int cmds_counter;
 	int pipes_counter;
 }						t_parsed_data;
+
+
+void					parsing(t_data *data, t_parsed_data *cmds_data);
 
 #endif

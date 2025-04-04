@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:56:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 11:57:13 by akumari          ###   ########.fr       */
+/*   Updated: 2025/04/04 14:39:24 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,17 @@ void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
 	cmds_data->cmds[cmds_ctr].cmd[token_counter] = NULL;
 	cmds_data->cmds[cmds_ctr].redirections[redirect_counter] = NULL;
 }
-void	parsing(t_data *data)
+void	parsing(t_data *data, t_parsed_data *cmds_data)
 {
 	int				i;
 	int				j;
-	t_parsed_data	*cmds_data;
+	// t_parsed_data	*cmds_data;
 
 	i = 0;
 	j = 0;
-	cmds_data = malloc(sizeof(t_parsed_data));
-	if (!cmds_data)
-		exit(EXIT_FAILURE);
+	// cmds_data = malloc(sizeof(t_parsed_data));
+	// if (!cmds_data)
+	// 	exit(EXIT_FAILURE);
 	find_cmds_counter(data, cmds_data);
 	create_cmds_arr(cmds_data);
 	fill_in_arr(cmds_data, data);
