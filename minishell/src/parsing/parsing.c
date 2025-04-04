@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:56:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 14:39:24 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:55:36 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	cmds_init(t_parsed_data *cmds_data)
 {
 	cmds_data->cmds_counter = 0;
 	cmds_data->pipes_counter = 0;
+	cmds_data->cmds_ctr = 0;
+	cmds_data->redirect_counter = 0;
+	cmds_data->token_counter = 0;
 }
 
 void	find_cmds_counter(t_data *data, t_parsed_data *cmds_data)
@@ -43,37 +46,43 @@ void	create_cmds_arr(t_parsed_data *cmds_data)
 		cmds_data->cmds[i].cmd = malloc(sizeof(char *) * 20);
 		if (!cmds_data->cmds[i].cmd)
 			exit(EXIT_FAILURE);
-
-		// Allocate memory for redirections (assuming a max of 5 redirections per command)
-		cmds_data->cmds[i].redirections = malloc(sizeof(char *) * 20);
-		if (!cmds_data->cmds[i].redirections)
+		// Allocate memory for reds (assuming a max of 5 reds per command)
+		cmds_data->cmds[i].reds = malloc(sizeof(char *) * 20);
+		if (!cmds_data->cmds[i].reds)
 			exit(EXIT_FAILURE);
-
 	}
 }
+
+void	pipe_found(t_parsed_data *cmds_data)
+{
+	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_counter] = NULL;
+	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->token_counter] = NULL;
+	cmds_data->cmds_ctr++;
+	cmds_data->redirect_counter = 0;
+	cmds_data->token_counter = 0;
+}
+
+void	redirection_appened(t_parsed_data *cmds_data, t_data *data, int *i)
+{
+	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_counter] = data->tokens[*i].data;
+	cmds_data->token_counter++;
+}
+
+void	cmd_appened(t_parsed_data *cmds_data, t_data *data, int *i)
+{
+	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->redirect_counter] = data->tokens[*i].data;
+	cmds_data->redirect_counter++;
+}
+
 void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
 {
 	int	i;
-	//int	j;
-	int	cmds_ctr;
-	int	redirect_counter;
-	int	token_counter;
 
 	i = 0;
-	//j = 0;
-	cmds_ctr = 0;
-	redirect_counter = 0;
-	token_counter = 0;
 	while (data->tokens[i].type != TOK_EOF)
 	{
 		if (data->tokens[i].type == TOK_PIPE)
-		{
-			cmds_data->cmds[cmds_ctr].cmd[token_counter] = NULL;
-			cmds_data->cmds[cmds_ctr].redirections[token_counter] = NULL;
-			cmds_ctr++;
-			redirect_counter = 0;
-			token_counter = 0;
-		}
+			pipe_found(cmds_data);
 		else
 		{
 			if (data->tokens[i].type == TOK_REDIRECT_HEREDOC
@@ -81,34 +90,24 @@ void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
 				|| data->tokens[i].type == TOK_REDIRECT_OUT
 				|| data->tokens[i].type == TOK_APPEND)
 			{
-				cmds_data->cmds[cmds_ctr].redirections[redirect_counter] = data->tokens[i].data;
-				redirect_counter++;
+				cmd_appened(cmds_data, data, &i);
 			}
 			else
-			{
-				cmds_data->cmds[cmds_ctr].cmd[token_counter] = data->tokens[i].data;
-				token_counter++;
-			}
+				redirection_appened(cmds_data, data, &i);
 		}
 		i++;
 	}
-	cmds_data->cmds[cmds_ctr].cmd[token_counter] = NULL;
-	cmds_data->cmds[cmds_ctr].redirections[redirect_counter] = NULL;
+	cmds_data->cmds[cmds_data->cmds_ctr].cmd[cmds_data->token_counter] = NULL;
+	cmds_data->cmds[cmds_data->cmds_ctr].reds[cmds_data->redirect_counter] = NULL;
 }
-void	parsing(t_data *data, t_parsed_data *cmds_data)
+
+void	printing_cmds_reds(t_parsed_data *cmds_data)
 {
-	int				i;
-	int				j;
-	// t_parsed_data	*cmds_data;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	// cmds_data = malloc(sizeof(t_parsed_data));
-	// if (!cmds_data)
-	// 	exit(EXIT_FAILURE);
-	find_cmds_counter(data, cmds_data);
-	create_cmds_arr(cmds_data);
-	fill_in_arr(cmds_data, data);
 	printf("i have %d commands\n", cmds_data->cmds_counter);
 	while (i < cmds_data->cmds_counter)
 	{
@@ -120,22 +119,28 @@ void	parsing(t_data *data, t_parsed_data *cmds_data)
 			j++;
 		}
 		printf("#\n");
-		printf("Final Redirections %d: ", i);
-        j = 0;
-        if (cmds_data->cmds[i].redirections[j])
-        {
-            while (cmds_data->cmds[i].redirections[j])
-            {
-                printf("%s ", cmds_data->cmds[i].redirections[j]);
-                j++;
-            }
-        }
-        else
-        {
-            printf("No redirections");
-        }
-        printf("#\n");
-		
+		printf("Final reds %d: ", i);
+		j = 0;
+		if (cmds_data->cmds[i].reds[j])
+		{
+			while (cmds_data->cmds[i].reds[j])
+			{
+				printf("%s ", cmds_data->cmds[i].reds[j]);
+				j++;
+			}
+		}
+		else
+		{
+			printf("No reds");
+		}
+		printf("#\n");
 		i++;
 	}
+}
+void	parsing(t_data *data, t_parsed_data *cmds_data)
+{
+	find_cmds_counter(data, cmds_data);
+	create_cmds_arr(cmds_data);
+	fill_in_arr(cmds_data, data);
+	printing_cmds_reds(cmds_data);
 }
