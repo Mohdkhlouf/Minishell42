@@ -37,8 +37,7 @@ void	reading_loop(t_data *data)
 		lexing(data);
 		tokenizing(data);
 		parsing(data, cmds_d);
-		if (cmds_process_loop(data))
-			break;
+		cmds_process_loop(data, cmds_d);
 		free_data(data);
 	}
 }
