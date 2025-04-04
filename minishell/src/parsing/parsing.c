@@ -6,7 +6,7 @@
 /*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:56:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 11:57:13 by akumari          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:26:55 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,21 @@ void	create_cmds_arr(t_parsed_data *cmds_data)
 		cmds_data->cmds[i].cmd = malloc(sizeof(char *) * 20);
 		if (!cmds_data->cmds[i].cmd)
 			exit(EXIT_FAILURE);
-
 		// Allocate memory for redirections (assuming a max of 5 redirections per command)
 		cmds_data->cmds[i].redirections = malloc(sizeof(char *) * 20);
 		if (!cmds_data->cmds[i].redirections)
 			exit(EXIT_FAILURE);
-
 	}
 }
+
 void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
 {
 	int	i;
-	//int	j;
 	int	cmds_ctr;
 	int	redirect_counter;
 	int	token_counter;
 
 	i = 0;
-	//j = 0;
 	cmds_ctr = 0;
 	redirect_counter = 0;
 	token_counter = 0;
@@ -95,6 +92,7 @@ void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
 	cmds_data->cmds[cmds_ctr].cmd[token_counter] = NULL;
 	cmds_data->cmds[cmds_ctr].redirections[redirect_counter] = NULL;
 }
+
 void	parsing(t_data *data)
 {
 	int				i;
@@ -116,26 +114,29 @@ void	parsing(t_data *data)
 		printf("Final Command %d: ", i);
 		while (cmds_data->cmds[i].cmd[j])
 		{
-			printf("%s ", cmds_data->cmds[i].cmd[j]);
+			printf("%s\n", cmds_data->cmds[i].cmd[j]);	
 			j++;
 		}
 		printf("#\n");
-		printf("Final Redirections %d: ", i);
-        j = 0;
-        if (cmds_data->cmds[i].redirections[j])
-        {
-            while (cmds_data->cmds[i].redirections[j])
-            {
-                printf("%s ", cmds_data->cmds[i].redirections[j]);
-                j++;
-            }
-        }
-        else
-        {
-            printf("No redirections");
-        }
-        printf("#\n");
+
+		//Akancha addition for builtins
+		cmds_process_loop(data, cmds_data);
 		
+		printf("Final Redirections %d: ", i);
+		j = 0;
+		if (cmds_data->cmds[i].redirections[j])
+		{
+			while (cmds_data->cmds[i].redirections[j])
+			{
+				printf("%s ", cmds_data->cmds[i].redirections[j]);
+				j++;
+			}
+		}
+		else
+		{
+			printf("No redirections");
+		}
+		printf("#\n");
 		i++;
 	}
 }

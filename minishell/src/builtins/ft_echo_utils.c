@@ -1,4 +1,16 @@
-#include "../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 12:42:38 by akumari           #+#    #+#             */
+/*   Updated: 2025/04/04 12:44:51 by akumari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+//#include "../includes/minishell.h"
 
 // static char *get_env_value(t_var *node, const char *key)
 // {
@@ -28,7 +40,6 @@
 // 		i++;
 // 	}
 // }
-
 // int check$(char *sign)
 // {
 // 	char *has_value = ft_strchr(sign, '$');

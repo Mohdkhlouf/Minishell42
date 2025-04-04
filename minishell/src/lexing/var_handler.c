@@ -12,7 +12,7 @@
 
 #include "../includes/lexing.h"
 
-void split_vars_var(char *token, int *c, t_vars_data *var,  int *start)
+void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 {
 	while (token[*c])
 	{
@@ -21,16 +21,19 @@ void split_vars_var(char *token, int *c, t_vars_data *var,  int *start)
 			var->var_is_found = true;
 			if (*c != 0)
 			{
-				var->vars_arr[var->parts_count] = ft_substr(token, *start, *c - *start);
+				var->vars_arr[var->parts_count] = ft_substr(token, *start, *c
+						- *start);
 				var->parts_count++;
 			}
 			*start = *c;
 		}
 		else if ((var->var_is_found && token[*c] == ' ') || (var->var_is_found
-				&& token[*c] == '/') || (var->var_is_found && token[*c] == '\"'))
+				&& token[*c] == '/') || (var->var_is_found
+				&& token[*c] == '\"'))
 		{
 			var->var_is_found = false;
-			var->vars_arr[var->parts_count] = ft_substr(token, *start, *c - *start);
+			var->vars_arr[var->parts_count] = ft_substr(token, *start, *c
+					- *start);
 			var->parts_count++;
 			*start = *c;
 		}
@@ -40,8 +43,8 @@ void split_vars_var(char *token, int *c, t_vars_data *var,  int *start)
 
 void	split_vars(char *token, t_vars_data *var)
 {
-	int		start;
-	int		c;
+	int	start;
+	int	c;
 
 	start = 0;
 	c = 0;
@@ -54,11 +57,11 @@ void	split_vars(char *token, t_vars_data *var)
 		if (start == c)
 			var->vars_arr[var->parts_count] = ft_substr(token, start, 1);
 		else
-			var->vars_arr[var->parts_count] = ft_substr(token, start, c - start);
+			var->vars_arr[var->parts_count] = ft_substr(token, start, c
+					- start);
 		var->parts_count++;
 		var->vars_arr[var->parts_count] = ft_strdup("\0");
 	}
-
 }
 
 char	*expand_vars(t_vars_data *var)
@@ -73,7 +76,7 @@ char	*expand_vars(t_vars_data *var)
 		if (var->vars_arr[c][0] == '$')
 		{
 			if (getenv(var->vars_arr[c] + 1))
-				var->vars_arr[c] = ft_strdup(getenv(var->vars_arr[c] + 1));	
+				var->vars_arr[c] = ft_strdup(getenv(var->vars_arr[c] + 1));
 			else
 				var->vars_arr[c] = ft_strdup("");
 		}

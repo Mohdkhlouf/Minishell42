@@ -94,13 +94,17 @@ void	redirection_setting(t_data *data, int i)
 {
 	if (data->tokens[i].type == TOK_UNKNOWN && i > 0)
 	{
-		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i - 1].data[0] == '<')
+		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i
+			- 1].data[0] == '<')
 			data->tokens[i].type = TOK_REDIRECT_IN;
-		else if (data->tokens[i - 1].type == TOK_REDIRECT_OUT && data->tokens[i - 1].data[0] == '>')
+		else if (data->tokens[i - 1].type == TOK_REDIRECT_OUT && data->tokens[i
+			- 1].data[0] == '>')
 			data->tokens[i].type = TOK_REDIRECT_OUT;
-		else if (data->tokens[i - 1].type == TOK_APPEND && data->tokens[i - 1].data[0] == '>')
+		else if (data->tokens[i - 1].type == TOK_APPEND && data->tokens[i
+			- 1].data[0] == '>')
 			data->tokens[i].type = TOK_APPEND;
-		else if (data->tokens[i - 1].type == TOK_REDIRECT_HEREDOC && data->tokens[i - 1].data[0] == '<')
+		else if (data->tokens[i - 1].type == TOK_REDIRECT_HEREDOC
+			&& data->tokens[i - 1].data[0] == '<')
 			data->tokens[i].type = TOK_REDIRECT_HEREDOC;
 	}
 }

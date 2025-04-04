@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   var_handler_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:12:29 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/03/28 11:53:49 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:51:42 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexing.h"
 
-void var_init(t_vars_data *var, t_data *data, int i)
+void	var_init(t_vars_data *var, t_data *data, int i)
 {
 	var->len = 0;
 	var->temp = NULL;
@@ -22,10 +22,11 @@ void var_init(t_vars_data *var, t_data *data, int i)
 	var->vars_count = 0;
 	var->len = ft_strlen(data->tokens[i].data);
 	var->vars_count = find_vars_count(data, i);
-	var->vars_arr = (char **)malloc(sizeof (char *) * (var->vars_count * 20));
+	var->vars_arr = (char **)malloc(sizeof(char *) * (var->vars_count * 20));
 	if (!var->vars_arr)
 		exit(EXIT_FAILURE);
 }
+
 void	search_for_file_seperator(t_data *data, int i, int len, int *j)
 {
 	while (*j < len)

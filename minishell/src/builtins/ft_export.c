@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 12:41:40 by akumari           #+#    #+#             */
+/*   Updated: 2025/04/04 15:39:15 by akumari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 // TODO return value
 
-int get_env_len(t_var *env)
+int	get_env_len(t_var *env)
 {
-	int count = 0;
+	int	count;
+
+	count = 0;
 	if (!env)
 		return (0);
 	while (env)
@@ -14,11 +28,13 @@ int get_env_len(t_var *env)
 	}
 	return (count);
 }
-char **list_to_arr(int size, t_var *env)
-{
-	char **arr_str;
-	int i = 0;
 
+char	**list_to_arr(int size, t_var *env)
+{
+	char	**arr_str;
+	int		i;
+
+	i = 0;
 	arr_str = malloc(sizeof(char *) * (size + 1));
 	if (!arr_str)
 		return (NULL);
@@ -32,16 +48,18 @@ char **list_to_arr(int size, t_var *env)
 	return (arr_str);
 }
 
-char **sort_arr_list(char **arr, int size)
+char	**sort_arr_list(char **arr, int size)
 {
-	int j = 0;
-	int swapped;
-	char *temp;
+	int		j;
+	int		swapped;
+	char	*temp;
+	int		k;
 
+	j = 0;
 	while (j < size - 1)
 	{
 		swapped = 0;
-		int k = 0;
+		k = 0;
 		while (k < size - j - 1)
 		{
 			if (ft_strcmp(arr[k], arr[k + 1]) > 0)
@@ -54,34 +72,41 @@ char **sort_arr_list(char **arr, int size)
 			k++;
 		}
 		if (!swapped)
-			break;
+			break ;
 		j++;
 	}
 	return (arr);
 }
-void get_export(char **sorted_arr, t_data *data)
+
+void	get_export(char **sorted_arr, t_data *data)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (sorted_arr[i])
 	{
-		printf("declare -x %s", sorted_arr[i]);
-		if (get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i], data)[0] != '\0')
+		printf("\033[0;32mdeclare -x %s\033[0m", sorted_arr[i]);
+		if (get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i],
+				data)[0] != '\0')
 		{
-			printf("=\"%s\"", get_env_value(sorted_arr[i], data));
+			printf("\033[0;32m=\"%s\"\033[0m", get_env_value(sorted_arr[i], data));
 		}
 		printf("\n");
 		i++;
 	}
 }
 
-int ft_export(t_data *data)
+int	ft_export(t_data *data)
 {
-	char **arr = NULL;
-	char **sorted_arr = NULL;
+	char	**arr;
+	char	**sorted_arr;
+	int		size;
+	t_var	*env;
 
-	int size = 0;
-
-	t_var *env = data->env_lst;
+	arr = NULL;
+	sorted_arr = NULL;
+	size = 0;
+	env = data->env_lst;
 	if (!env)
 		return (1);
 	size = get_env_len(env);

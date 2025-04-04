@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:17:36 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/03 16:02:35 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:26:41 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ typedef struct s_cmds
 typedef struct s_parsed_data
 {
 	t_cmds				*cmds;
-	int cmds_counter;
-	int pipes_counter;
+	int					cmds_counter;
+	int					pipes_counter;
 }						t_parsed_data;
+
+void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 #endif
