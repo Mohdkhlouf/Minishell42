@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:56:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/03 17:54:01 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 11:57:13 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void	create_cmds_arr(t_parsed_data *cmds_data)
 void	fill_in_arr(t_parsed_data *cmds_data, t_data *data)
 {
 	int	i;
-	int	j;
+	//int	j;
 	int	cmds_ctr;
 	int	redirect_counter;
 	int	token_counter;
 
 	i = 0;
-	j = 0;
+	//j = 0;
 	cmds_ctr = 0;
 	redirect_counter = 0;
 	token_counter = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 10:59:49 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/03/25 15:57:28 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:09:57 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	**ft_split(char *s, char c)
 	word_start = -1;
 	if (!s)
 	{
-		arr = malloc(1);
+		arr = malloc(sizeof (char*) * 1);
 		arr[0] = NULL;
 	}
 	else
