@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:15 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/02 15:31:14 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:01:43 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,8 @@ void	free_var(t_vars_data *var)
 
 void	var_handler2(t_data *data, int i)
 {
-	int			j;
-	int			c;
 	t_vars_data	*var;
 
-	j = 0;
-	c = 0;
 	var = malloc(sizeof(t_vars_data) * 1);
 	if (!var)
 		exit(EXIT_FAILURE);

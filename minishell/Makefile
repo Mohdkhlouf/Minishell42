@@ -35,8 +35,13 @@ LIBS    = -lreadline
 # Files
 NAME    = minishell
 SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/minishell_utils.c $(SRC_DIR)/lexing/lexing.c \
-			$(SRC_DIR)/lexing/lexing_functions.c 	$(SRC_DIR)/lexing/lexing_functions2.c $(SRC_DIR)/lexing/tokenizing.c \
-			$(SRC_DIR)/lexing/var_handler.c		$(SRC_DIR)/lexing/var_handler_utils.c $(SRC_DIR)/parsing/parsing.c
+			$(SRC_DIR)/lexing/lexing_functions.c 	$(SRC_DIR)/lexing/lexing_functions2.c \
+			$(SRC_DIR)/lexing/tokenizing.c $(SRC_DIR)/lexing/var_handler.c \
+			$(SRC_DIR)/lexing/var_handler_utils.c $(SRC_DIR)/parsing/parsing.c \
+			$(SRC_DIR)/builtins/ft_cd.c $(SRC_DIR)/builtins/ft_echo.c $(SRC_DIR)/builtins/ft_env.c \
+			$(SRC_DIR)/builtins/ft_export.c $(SRC_DIR)/builtins/ft_export_utils.c $(SRC_DIR)/builtins/ft_pwd.c \
+			$(SRC_DIR)/minishell_command.c $(SRC_DIR)/env.c 
+
 
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 LIBFT_A = $(LIBFT)/libft.a
@@ -62,8 +67,8 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT)
 
 # Ensure obj directory and subdirectories exist, then compile source files into object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) $(OBJ_DIR)/lexing  $(OBJ_DIR)/parsing
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) $(OBJ_DIR)/lexing  $(OBJ_DIR)/parsing $(OBJ_DIR)/builtins
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 # Create obj directory if it doesn't exist
 $(OBJ_DIR):
@@ -76,6 +81,10 @@ $(OBJ_DIR)/lexing:
 # Create parsing subdirectory under obj if it doesn't exist
 $(OBJ_DIR)/parsing:
 	mkdir -p $(OBJ_DIR)/parsing
+
+# Create builtins subdirectory under obj if it doesn't exist
+$(OBJ_DIR)/builtins:
+	mkdir -p $(OBJ_DIR)/builtins
 
 # Run with Valgrind
 run: $(NAME)

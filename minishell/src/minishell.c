@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:20:09 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/02 15:17:36 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/04/04 11:24:57 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void reading_loop(t_data *data)
 	while (true)
 	{
 		data_init(data);
-		data->input_line = readline("Prompt> ");
+		data->input_line = readline("\033[0;35mminishell>\033[0m ");
 		if (!data->input_line)
 		{
 			printf("Exit");
@@ -44,15 +44,19 @@ void reading_loop(t_data *data)
 		lexing(data);
 		tokenizing(data);
 		parsing(data);
+		if (cmds_process_loop(data))
+			break;
 		free_data(data);
 	}
 }
 
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_data *data;
 	
+	(void)argc;
+	(void)argv;
 	data = malloc(sizeof (t_data));
 	if(!data)
 	{
@@ -60,7 +64,9 @@ int	main(void)
 		exit(EXIT_FAILURE);
 	}
 	data_init(data);
+	init_env(envp, data);
 	reading_loop(data);
+	printf("\33[0;33mlogout\33[0m\n");
 	free(data);
 	return (EXIT_SUCCESS);
 }

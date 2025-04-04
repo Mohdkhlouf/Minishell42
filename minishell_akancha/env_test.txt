@@ -1,0 +1,196 @@
+#include "main.h"
+
+void init_env(char **envp, t_data *data)
+{
+	int i = 0;
+	char *key;
+	char *value;
+	t_var *node;
+	t_var *list = NULL;
+	t_var *current = NULL;
+
+	if (!envp || !data)
+		return;
+	while (envp[i])
+	{
+		key = ft_substr(envp[i], 0, ft_strchr(envp[i], "=") - envp[i]);
+		value = ft_substr(ft_strchr(envp[i], "=") + 1, 0,
+						  ft_strlen(ft_strchr(envp[i], "=") + 1));
+		if (!key || !value)
+		{
+			free(key);
+			free(value);
+			return;
+		}
+		node = malloc(sizeof(t_var));
+		if (!node)
+		{
+			free(key);
+			free(value);
+			return;
+		}
+		node->key = key;
+		node->value = value;
+		node->next = NULL;
+		if (!list)
+			list = node;
+		else
+			current->next = node;
+		current = node;
+		i++;
+	}
+	data->env_lst = list;
+}
+
+// t_var *lst_last(t_var *lst)
+// {
+// 	if (lst)
+// 	{
+// 		while (lst->next)
+// 			lst = lst->next;
+// 		return (lst);
+// 	}
+// 	return (0);
+// }
+
+// void lst_add_back(t_var **lst, t_var *new_node)
+// {
+// 	t_var *tmp;
+
+// 	if (lst)
+// 	{
+// 		if (*lst == 0)
+// 			*lst = new_node;
+// 		else
+// 		{
+// 			tmp = lst_last(*lst);
+// 			tmp->next = new_node;
+// 		}
+// 	}
+// }
+
+// t_var *lst_new_elem(char *name, char *value)
+// {
+// 	t_var *new_elem;
+
+// 	new_elem = (t_var *)malloc(sizeof(t_var));
+// 	if (!new_elem)
+// 		return (0);
+// 	new_elem->key = name;
+// 	new_elem->value = value;
+// 	new_elem->meaning = 'e';
+// 	new_elem->next = NULL;
+// 	return (new_elem);
+// }
+
+// t_var *env_content(char *key, char *value)
+// {
+// 	char *name;
+// 	char *val;
+// 	t_var *node;
+
+// 	name = ft_strdup(key);
+// 	val = ft_strdup(value);
+// 	node = lst_new_elem(name, val);
+// 	node->next = NULL;
+// 	return (node);
+// }
+
+// int init_env(char **envp, t_var **env_lst)
+// {
+// 	int i;
+// 	char *eq;
+// 	t_var *node;
+
+// 	*env_lst = 0;
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		eq = ft_strchr(envp[i], '=');
+// 		*eq = '\0';
+// 		node = env_content(envp[i], eq + 1);
+// 		lst_add_back(env_lst, node);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+// int init_env(char **envp, t_data *data)
+// {
+// 	int i;
+// 	char *eq;
+// 	t_var *node;
+// 	char *key;
+// 	char *value;
+
+// 	data->env_lst = 0;
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		eq = ft_strchr(envp[i], '=');
+		// if (!eq)
+		// {
+		// 	i++;
+		// 	continue;
+		// }
+// 		key = ft_strndup(envp[i], eq - envp[i]);
+		// if (!key)
+		// 	return (1);
+// 		value = ft_strdup(eq + 1);
+		// if (!value)
+		// {
+		// 	free(key);
+		// 	return (1);
+		// }
+// 		node = env_content(key, value);
+		// if (!node)
+		// {
+		// 	free(key);
+		// 	free(value);
+		// 	return (1);
+		// }
+// 		lst_add_back(&(data->env_lst), node);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+// // void set_shlvl(t_data *data, char **envp, int i)
+// // {
+// // 	char *shlvl;
+
+// // 	shlvl = ft_itoa(ft_atoi(&envp[i][6]) + 1);
+// // 	if (!shlvl)
+// // 		return;
+// // 	data->env[i] = ft_strjoin("SHLVL=", shlvl);
+// // 	free(shlvl);
+// // }
+
+// // void init_env(char **envp, t_data *data)
+// // {
+// // 	int i;
+
+// // 	i = 0;
+// // 	while (envp[i])
+// // 		i++;
+// // 	data->env = malloc(sizeof(char *) * (i + 1));
+// // 	if (!(data->env))
+// // 		exit(write(1, "Error allocating env\n", 21));
+// // 	i = -1;
+// // 	while (envp[++i])
+// // 	{
+// // 		if (!ft_strncmp("SHLVL=", envp[i], 6))
+// // 			set_shlvl(data, envp, i);
+// // 		else if (!ft_strncmp("SHELL=", envp[i], 6))
+// // 			data->env[i] = ft_strdup("SHELL=minishell");
+// // 		else
+// // 		{
+// // 			data->env[i] = ft_strdup(envp[i]);
+// // 			if (data->env[i])
+// // 				continue;
+// // 			free_matrix(data->env);
+// // 			exit(write(1, "Error setting up env\n", 21));
+// // 		}
+// // 	}
+// // 	data->env[i] = NULL;
+// // }
