@@ -27,18 +27,24 @@ void	reading_loop(t_data *data)
 	{
 		data_init(data);
 		data->input_line = readline("\033[0;35mminishell>\033[0m ");
-		if (!data->input_line)
+		
+		if (ft_strcmp(data->input_line, "") == 0)
+			continue ;
+		else if(!data->input_line)
 		{
 			printf("Exit");
 			free(data->input_line);
 			return ;
 		}
-		add_history(data->input_line);
-		lexing(data);
-		tokenizing(data);
-		parsing(data, cmds_d);
-		cmds_process_loop(data, cmds_d);
-		free_data(data);
+		else
+		{
+			add_history(data->input_line);
+			lexing(data);
+			tokenizing(data);
+			parsing(data, cmds_d);
+			cmds_process_loop(data, cmds_d);
+			free_data(data);
+		}
 	}
 }
 
