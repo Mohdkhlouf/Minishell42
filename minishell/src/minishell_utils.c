@@ -1,5 +1,21 @@
 #include "../includes/minishell.h"
 
+
+void	free_cmds_d(t_parsed_data	*cmds_d)
+{
+	int	i;
+
+	i = 0;
+	while (cmds_d && i < cmds_d->cmds_counter)
+	{
+		if (cmds_d->cmds[i].cmd)
+			free(cmds_d->cmds[i].cmd);
+		if (cmds_d->cmds[i].reds)
+			free(cmds_d->cmds->reds);
+		i++;
+	}
+}
+
 void	free_data(t_data *data)
 {
 	int	i;
@@ -60,38 +76,3 @@ int	free_matrix(char **env)
 	free(env);
 	return (0);
 }
-
-// int ft_strcmp(const char *s1, const char *s2)
-// {
-// 	size_t i;
-
-// 	i = 0;
-// 	while ((s1[i] || s2[i]))
-// 	{
-// 		if ((unsigned char)s1[i] != (unsigned char)s2[i])
-// 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-// char	*get_path(char **env)
-// {
-// 	char	*path;
-// 	int		i;
-
-// 	path = NULL;
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		if (ft_strncmp(env[i], "PWD=", 4) == 0)
-// 		{
-// 			path = ft_strdup(env[i] + 4);
-// 			if (path == NULL)
-// 				return (NULL);
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// 	return (path);
-// }

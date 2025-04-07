@@ -1,5 +1,9 @@
 #include "../includes/lexing.h"
 
+/*this function to create the array of structs. the memoory i have located
+is not accurate just i assumed that the memory will not exceed the number 
+of letters*/
+
 int	malloc_tokens_arr(t_data *data)
 {
 	data->cline_parts = ft_strlen(data->input_line);
@@ -18,6 +22,7 @@ int	malloc_tokens_arr(t_data *data)
 }
 
 // this one to add the data normally
+
 void	append_token(t_data *data, int type)
 {
 	if (data->end == data->start)
@@ -29,6 +34,9 @@ void	append_token(t_data *data, int type)
 	data->tokens[data->tokens_conter].type = type;
 	data->tokens_conter++;
 }
+
+/* in this function i start the main loop which goes letter by letter and check
+depending of the tokens type enum i have created in the .h file.*/
 
 int	line_split(t_data *data)
 {
@@ -58,11 +66,11 @@ int	line_split(t_data *data)
 	return (SUCCESS);
 }
 
+/*main function for lexting, in this function i created array of stucts to 
+exctract all tokenns from the input line data. */
+
 int	lexing(t_data *data)
 {
-	// int	i;
-
-	// i = 0;
 	if (malloc_tokens_arr(data) != SUCCESS)
 		return (FAILIURE);
 	if (line_split(data) != SUCCESS)

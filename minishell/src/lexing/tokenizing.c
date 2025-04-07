@@ -46,36 +46,49 @@ void	quote_fixing(t_data *data, int i)
 	data->tokens[i].data = ft_strdup(temp);
 	free(temp);
 }
+void	init_var(t_var_d *var, t_data *data, int i)
+{
+	
+	var->temp = NULL;
+	var->var = NULL;
+	var->path = NULL;
+	var->j = 0;
+	var->len = ft_strlen(data->tokens[i].data);
+}
+
+void	free_var_mem(t_var_d *var)
+{
+	free(var->var);
+	free(var->temp);
+	free(var->path);
+	free(var);
+}
 
 void	var_handler(t_data *data, int i)
 {
-	char	*path;
-	char	*var;
-	char	*temp;
-	int		len;
-	int		j;
-
-	j = 0;
-	temp = NULL;
-	var = NULL;
-	path = NULL;
-	len = ft_strlen(data->tokens[i].data);
-	search_for_file_seperator(data, i, len, &j);
+	t_var_d *var;
+	
+	var = malloc (sizeof (t_var_d));
+	if (!var)
+		{
+			printf("Error\n");
+			exit(EXIT_FAILURE);
+		}
+	init_var(var, data, i);
+	search_for_file_seperator(data, var, i);
 	if (data->file_seperator_found)
 	{
-		var = ft_substr(data->tokens[i].data, 0, j);
-		temp = ft_substr(data->tokens[i].data, j, len);
+		var->var = ft_substr(data->tokens[i].data, 0, var->j);
+		var->temp = ft_substr(data->tokens[i].data, var->j, var->len);
 	}
 	else
-		var = data->tokens[i].data;
-	if (getenv(var + 1))
-		path = ft_strdup(getenv(var + 1));
+		var->var = data->tokens[i].data;
+	if (getenv(var->var + 1))
+		var->path = ft_strdup(getenv(var->var + 1));
 	else
-		path = ft_strdup("");
-	path_set_and_join(data, i, temp, path);
-	free(var);
-	free(temp);
-	free(path);
+		var->path = ft_strdup("");
+	path_set_and_join(data, i, var->temp, var->path);
+	free_var_mem(var);
 }
 
 void	redirection_setting(t_data *data, int i)
@@ -97,6 +110,23 @@ void	redirection_setting(t_data *data, int i)
 	}
 }
 
+void init_var_handler(t_data *data, int *i)
+{
+	if (data->tokens_conter > 1)
+	{
+		if (*i > 0 && data->tokens[*i - 1].type == TOK_REDIRECT_HEREDOC)
+			data->tokens[*i].type = TOK_REDIRECT_HEREDOC;
+		else
+			var_handler(data, *i);
+	}
+	else
+		var_handler(data, *i);
+}
+/*after creatiing the tokens, i start iterate them as i need, so this funnction
+will solve the var$ seperated, withing quotes and then fix the qouting text to
+work with double quotes and single quotes.
+then i iterate the result for redirections
+if the redirection is herdoc the var wis not expanded*/
 int	tokenizing(t_data *data)
 {
 	int	i;
@@ -105,15 +135,18 @@ int	tokenizing(t_data *data)
 	while (i < data->tokens_conter)
 	{
 		if (data->tokens[i].data[0] == '$')
-			var_handler(data, i);
-		else if ((data->tokens[i].data[0] == '\"')
+		{
+			init_var_handler(data, &i);
+		}
+		// else if ((data->tokens[i].data[0] == '\"')
+		// 	&& ft_strchr(data->tokens[i].data, '$'))
+		// 	var_handler2(data, i);
+		else if (ft_strchr(data->tokens[i].data, '\"')
 			&& ft_strchr(data->tokens[i].data, '$'))
 			var_handler2(data, i);
 		if (ft_strchr(data->tokens[i].data, '\'')
 				|| ft_strchr(data->tokens[i].data, '\"'))
-		{
 			quote_fixing(data, i);
-		}
 		redirection_setting(data, i);
 		i++;
 	}

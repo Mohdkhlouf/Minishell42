@@ -21,6 +21,8 @@ int	execute_builtin(t_data *data, t_parsed_data *cmds_data)
 {
 	int i = 0;
 	int count = 0;
+	int j = 0;
+
 	while (cmds_data->cmds[0].cmd[i])
 	{
 		count++;
@@ -32,7 +34,6 @@ int	execute_builtin(t_data *data, t_parsed_data *cmds_data)
 		perror("malloc allocation failed.\n");
 		exit(EXIT_FAILURE);
 	}
-	int j = 0;
 	while (j < count)
 	{
 		data->words[j] = ft_strdup(cmds_data->cmds[0].cmd[j]);
@@ -60,11 +61,18 @@ int	execute_builtin(t_data *data, t_parsed_data *cmds_data)
 void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data)
 {
 	int	ret;
-
-	if (!data)
-		return;
 	int i = 0;
 	int j = 0;
+	
+	if (!data || !cmds_data)
+		return;
+		/* Important, when the commmand is empty "" it must be sent to
+		be checked ad return error like bash*/
+	if (ft_strcmp(cmds_data->cmds[0].cmd[0] , "") == 0)
+		{
+			printf("Command not found.\n");
+			return;
+		}
 	if (is_builtin(cmds_data->cmds[i].cmd[j]) == 1)
 	{
 		ret = execute_builtin(data, cmds_data);

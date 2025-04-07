@@ -52,6 +52,14 @@ void	split_vars(char *token, t_vars_data *var)
 	}
 }
 
+void	var_expander(t_vars_data *var, int *c)
+{
+	if (getenv(var->vars_arr[*c] + 1))
+		var->vars_arr[*c] = ft_strdup(getenv(var->vars_arr[*c] + 1));
+	else
+		var->vars_arr[*c] = ft_strdup("");
+}
+
 char	*expand_vars(t_vars_data *var)
 {
 	int		c;
@@ -62,12 +70,7 @@ char	*expand_vars(t_vars_data *var)
 	while (c < var->parts_count)
 	{
 		if (var->vars_arr[c][0] == '$')
-		{
-			if (getenv(var->vars_arr[c] + 1))
-				var->vars_arr[c] = ft_strdup(getenv(var->vars_arr[c] + 1));
-			else
-				var->vars_arr[c] = ft_strdup("");
-		}
+			var_expander(var, &c);
 		c++;
 	}
 	c = 0;

@@ -8,6 +8,7 @@
 
 typedef struct s_data	t_data;
 
+//for var when it is double quoted
 typedef struct s_vars_data
 {
 	char				**vars_arr;
@@ -19,6 +20,16 @@ typedef struct s_vars_data
 	bool				var_is_found;
 }						t_vars_data;
 
+//for var when it is single one
+typedef struct s_var_d
+{
+	char	*path;
+	char	*var;
+	char	*temp;
+	int		len;
+	int		j;
+}						t_var_d;
+
 void					space_function(t_data *data);
 void					pipe_function(t_data *data);
 void					redirectin_function(t_data *data);
@@ -28,13 +39,10 @@ void					normal_function(t_data *data);
 void					append_token(t_data *data, int type);
 void					env_variable_function(t_data *data);
 void					eof_function(t_data *data);
-void					search_for_file_seperator(t_data *data, int i, int len,
-							int *j);
 int						find_vars_count(t_data *data, int i);
 void					path_set_and_join(t_data *data, int i, char *temp,
 							char *path);
-void					search_for_file_seperator(t_data *data, int i, int len,
-							int *j);
+void					search_for_file_seperator(t_data *data,t_var_d *var, int i);
 void					var_init(t_vars_data *var, t_data *data, int i);
 void					var_handler2(t_data *data, int i);
 void					print_tokens(t_data *data);
