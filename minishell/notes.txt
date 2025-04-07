@@ -30,10 +30,10 @@ after you expand a variable if it has spaces it must be splitted to new tokens.
 
 
 
-empty string must be sent as empry command.
 not found variables must be ignored so it like pressing enter.
 test"$HOME"word this must be expanded.
 
 
 --herdoc must not be expannded. SOLVED
 --pressing enter SOLVED
+-- empty string must be sent as empty command. SOLVED
