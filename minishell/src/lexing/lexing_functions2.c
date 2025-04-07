@@ -1,5 +1,8 @@
 #include "../includes/lexing.h"
 
+/* this function to continue when the input is nprmal not from the needed
+charaters*/
+
 void	normal_function(t_data *data)
 {
 	data->in_token = true;
@@ -12,6 +15,7 @@ void	normal_function(t_data *data)
 			data->quote_found = true;
 	}
 }
+/* this funcction to add variable tokens like $HOME*/
 
 void	env_variable_function(t_data *data)
 {
@@ -22,7 +26,7 @@ void	env_variable_function(t_data *data)
 	}
 	data->start = data->end;
 }
-
+/* this funcction to add the end of line null terminator as a seperate token*/
 void	eof_function(t_data *data)
 {
 	if (data->double_quote_found || data->quote_found)

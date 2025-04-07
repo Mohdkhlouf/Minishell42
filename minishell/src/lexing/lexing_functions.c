@@ -13,7 +13,7 @@ void	append_token_double(t_data *data, int type)
 	data->tokens[data->tokens_conter].type = type;
 	data->tokens_conter++;
 }
-
+/*this functton add outfile redirection with appened*/
 void	redirectout_function(t_data *data)
 {
 	if (data->in_token)
@@ -31,7 +31,7 @@ void	redirectout_function(t_data *data)
 		append_token(data, TOK_REDIRECT_OUT);
 	data->start = data->end + 1;
 }
-
+/*this functton add input redirection with herdoc*/
 void	redirectin_function(t_data *data)
 {
 	if (data->in_token)
@@ -49,7 +49,7 @@ void	redirectin_function(t_data *data)
 		append_token(data, TOK_REDIRECT_IN);
 	data->start = data->end + 1;
 }
-
+/*this functton add pipes as seperated tokens.*/
 void	pipe_function(t_data *data)
 {
 	if (data->in_token)
@@ -61,7 +61,8 @@ void	pipe_function(t_data *data)
 	append_token(data, TOK_PIPE);
 	data->start = data->end + 1;
 }
-
+/*this functton to handle when space is found so it will add the prevois to
+new token then start the start counter for new one.*/
 void	space_function(t_data *data)
 {
 	if (data->quote_found)

@@ -85,6 +85,8 @@ t_var	*init_envp_node(char *env)
 	node->key = key;
 	node->value = value;
 	node->next = NULL;
+	free(key);
+	free(value);
 	return (node);
 }
 

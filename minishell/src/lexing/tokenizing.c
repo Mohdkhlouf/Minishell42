@@ -96,7 +96,11 @@ void	redirection_setting(t_data *data, int i)
 			data->tokens[i].type = TOK_REDIRECT_HEREDOC;
 	}
 }
-
+/*after creatiing the tokens, i start iterate them as i need, so this funnction
+will solve the var$ seperated, withing quotes and then fix the qouting text to
+work with double quotes and single quotes.
+then i iterate the result for redirections
+if the redirection is herdoc the var wis not expanded*/
 int	tokenizing(t_data *data)
 {
 	int	i;
@@ -105,7 +109,17 @@ int	tokenizing(t_data *data)
 	while (i < data->tokens_conter)
 	{
 		if (data->tokens[i].data[0] == '$')
-			var_handler(data, i);
+		{
+			if (data->tokens_conter > 1)
+			{
+				if (i > 0 && data->tokens[i - 1].type == TOK_REDIRECT_HEREDOC)
+					data->tokens[i].type = TOK_REDIRECT_HEREDOC;
+				else
+					var_handler(data, i);
+			}
+			else
+				var_handler(data, i);
+		}
 		else if ((data->tokens[i].data[0] == '\"')
 			&& ft_strchr(data->tokens[i].data, '$'))
 			var_handler2(data, i);

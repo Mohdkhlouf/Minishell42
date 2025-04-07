@@ -74,6 +74,7 @@ int					line_split(t_data *data);
 int					lexing(t_data *data);
 int					tokenizing(t_data *data);
 void 				print_error(char *msg);
+void				free_cmds_d(t_parsed_data	*cmds_d);
 
 /*---------------Execution----------------*/
 
