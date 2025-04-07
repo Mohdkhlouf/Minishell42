@@ -15,17 +15,17 @@ void	var_init(t_vars_data *var, t_data *data, int i)
 		exit(EXIT_FAILURE);
 }
 
-void	search_for_file_seperator(t_data *data, int i, int len, int *j)
+void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 {
-	while (*j < len)
+	while (var->j < var->len)
 	{
-		if (data->tokens[i].data[*j] == '/' || data->tokens[i].data[*j] == '\''
-			|| data->tokens[i].data[*j] == '\"')
+		if (data->tokens[i].data[var->j] == '/' || data->tokens[i].data[var->j] == '\''
+			|| data->tokens[i].data[var->j] == '\"')
 		{
 			data->file_seperator_found = true;
 			break ;
 		}
-		(*j)++;
+		var->j++;
 	}
 }
 
