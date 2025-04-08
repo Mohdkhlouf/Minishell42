@@ -109,7 +109,8 @@ void	redirection_setting(t_data *data, int i)
 			data->tokens[i].type = TOK_REDIRECT_HEREDOC;
 	}
 }
-
+/* this function to make sure from if there is a Heredoc redirection 
+then dont expand the variable*/
 void init_var_handler(t_data *data, int *i)
 {
 	if (data->tokens_conter > 1)
