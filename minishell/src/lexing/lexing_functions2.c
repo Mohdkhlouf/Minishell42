@@ -43,3 +43,10 @@ void	eof_function(t_data *data)
 	append_token(data, TOK_EOF);
 	data->start = data->end + 1;
 }
+
+
+void	free_var(t_vars_data *var)
+{
+	free(var->vars_arr);
+	free(var);
+}
