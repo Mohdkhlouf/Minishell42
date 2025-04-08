@@ -36,6 +36,7 @@ so $HOME@123 , this one must e expanded then added to @123 and print not found
 
 
 
+***************
 --herdoc must not be expannded. SOLVED
 --pressing enter SOLVED
 -- empty string must be sent as empty command. SOLVED
