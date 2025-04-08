@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	data_init(data);
-	// init_env(envp, data);
+	init_env(envp, data);
 	reading_loop(data, cmds_d);
 	free_data(data);
 	free_cmds_d(cmds_d);

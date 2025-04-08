@@ -25,14 +25,14 @@ mkhlouf@c1r4p8:~/mygithub/minishell$ $TEST
 hi
 
 
+this one is for export;
 after you expand a variable if it has spaces it must be splitted to new tokens.
 
 
 
 
 not found variables must be ignored so it like pressing enter.
-the variable ends when it finds any not letter and numbers.
-so $HOME@123 , this one must e expanded then added to @123 and print not found
+
 
 
 
@@ -41,3 +41,5 @@ so $HOME@123 , this one must e expanded then added to @123 and print not found
 --pressing enter SOLVED
 -- empty string must be sent as empty command. SOLVED
 -- test"$HOME"word this must be expanded.
+-- the variable ends when it finds any not letter and numbers.
+so $HOME@123 , this one must e expanded then added to @123 and print not found -- SOLVED
