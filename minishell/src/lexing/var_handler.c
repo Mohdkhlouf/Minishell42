@@ -15,9 +15,11 @@ void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 			}
 			*start = *c;
 		}
-		else if ((var->var_is_found && token[*c] == ' ') || (var->var_is_found
-				&& token[*c] == '/') || (var->var_is_found
-				&& token[*c] == '\"'))
+		// else if ((var->var_is_found && token[*c] == ' ') || (var->var_is_found
+		// 		&& token[*c] == '/') || (var->var_is_found
+		// 		&& token[*c] == '\"'))
+		else if ((var->var_is_found && (ft_isalnum(token[*c]) == 0)) ||
+		(var->var_is_found && (ft_isalpha(token[*c]) == 0)))
 		{
 			var->var_is_found = false;
 			var->vars_arr[var->parts_count] = ft_substr(token, *start, *c
@@ -34,6 +36,7 @@ void	split_vars(char *token, t_vars_data *var)
 	int	start;
 	int	c;
 
+	
 	start = 0;
 	c = 0;
 	var->var_is_found = false;
