@@ -1,11 +1,10 @@
 #include "../includes/minishell.h"
 
-
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
-	const char *builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
-							  "env", NULL};
-	int i;
+	const char	*builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
+			"env", NULL};
+	int			i;
 
 	i = 0;
 	while (builtins[i] != NULL)
@@ -17,12 +16,15 @@ int is_builtin(char *cmd)
 	return (0);
 }
 
-int execute_builtin(t_data *data, t_parsed_data *cmds_data)
+int	execute_builtin(t_data *data, t_parsed_data *cmds_data)
 {
-	int i = 0;
-	int count = 0;
-	int j = 0;
+	int	i;
+	int	count;
+	int	j;
 
+	i = 0;
+	count = 0;
+	j = 0;
 	while (cmds_data->cmds[0].cmd[i])
 	{
 		count++;
@@ -58,28 +60,34 @@ int execute_builtin(t_data *data, t_parsed_data *cmds_data)
 	return (1);
 }
 
-void execution(t_data *data, t_parsed_data *cmds_d)
-{
 
-		int ret;
+
+void	execution(t_data *data, t_parsed_data *cmds_d)
+{
+	int ret;
 	int i = 0;
-	int j = 0;
 
 	if (!data || !cmds_d)
-		return;
+		return ;
+
+	// parse_path(data);
+	if (cmds_d->cmds_counter == 0)
+		return ;
+	else if (cmds_d->cmds_counter == 1)
+	{
+		if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
+		{
+			ret = execute_builtin(data, cmds_d);
+			if (ret == -1)
+				printf("Command not found.\n");
+			return ;
+		}
+		else
+			execute_command(cmds_d->cmds[0]);
+	}
+
 	/* Important, when the commmand is empty "" it must be sent to
 	be checked ad return error like bash*/
-	if (ft_strcmp(cmds_d->cmds[0].cmd[0], "") == 0)
-	{
-		printf("Command not found.\n");
-		return;
-	}
-	if (is_builtin(cmds_d->cmds[i].cmd[j]) == 1)
-	{
-		ret = execute_builtin(data, cmds_d);
-		if (ret == -1)
-			printf("Command not found.\n");
-		return;
-	}
-	return;
+
+	return ;
 }

@@ -1,16 +1,17 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-#include "../libft/libft.h"
-#include "lexing.h"
-#include "parsing.h"
-#include "execution.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "../libft/libft.h"
+#include "lexing.h"
+#include "parsing.h"
+#include "execution.h"
+
 
 #define SUCCESS 1
 #define FAILIURE 0
@@ -62,6 +63,7 @@ typedef struct s_data
 	char quote_type;
 	bool file_seperator_found;
 	char *path;
+	char **parsed_path;
 	char *pwd;
 	char **words;
 	char *exit_code;
