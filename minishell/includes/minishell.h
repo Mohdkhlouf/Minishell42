@@ -4,6 +4,7 @@
 #include "../libft/libft.h"
 #include "lexing.h"
 #include "parsing.h"
+#include "execution.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdbool.h>

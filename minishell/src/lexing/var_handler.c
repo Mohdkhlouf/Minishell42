@@ -58,8 +58,8 @@ void	split_vars(char *token, t_vars_data *var)
 void	var_expander(t_vars_data *var, int *c, t_data *data)
 {
 	(void) data;
-	if (getenv(var->vars_arr[*c] + 1))
-		var->vars_arr[*c] = ft_strdup(getenv(var->vars_arr[*c] + 1));
+	if (get_env_value(var->vars_arr[*c] + 1, data))
+		var->vars_arr[*c] = ft_strdup(get_env_value(var->vars_arr[*c] + 1, data));
 	else
 		var->vars_arr[*c] = ft_strdup("");
 }

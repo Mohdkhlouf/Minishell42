@@ -37,8 +37,8 @@ void	var_handler(t_data *data, int i)
 	}
 	else
 		var->var = data->tokens[i].data;
-	if (getenv(var->var + 1))
-		var->path = ft_strdup(getenv(var->var + 1));
+	if (get_env_value(var->var + 1, data))
+		var->path = ft_strdup(get_env_value(var->var + 1, data));
 	else
 		var->path = ft_strdup("");
 	path_set_and_join(data, i, var->temp, var->path);
