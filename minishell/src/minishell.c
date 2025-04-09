@@ -13,8 +13,6 @@ void data_init(t_data *data)
 	data->double_quote_found = false;
 	data->quote_type = 0;
 	data->file_seperator_found = false;
-	data->export_list = NULL;
-	data->new_export = NULL;
 }
 
 void reading_loop(t_data *data, t_parsed_data *cmds_d)

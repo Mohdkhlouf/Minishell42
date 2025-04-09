@@ -22,7 +22,7 @@ void add_new_env_variable(char *key, char *value, t_data *data)
 {
 	t_var *new_node;
 
-	if (!key || !value || !data)
+	if (!key || !data)
 		return;
 
 	new_node = malloc(sizeof(t_var));
