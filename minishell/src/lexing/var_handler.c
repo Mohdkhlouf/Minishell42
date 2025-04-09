@@ -15,9 +15,11 @@ void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 			}
 			*start = *c;
 		}
-		else if ((var->var_is_found && token[*c] == ' ') || (var->var_is_found
-				&& token[*c] == '/') || (var->var_is_found
-				&& token[*c] == '\"'))
+		// else if ((var->var_is_found && token[*c] == ' ') || (var->var_is_found
+		// 		&& token[*c] == '/') || (var->var_is_found
+		// 		&& token[*c] == '\"'))
+		else if ((var->var_is_found && (ft_isalnum(token[*c]) == 0)) ||
+		(var->var_is_found && (ft_isalpha(token[*c]) == 0)))
 		{
 			var->var_is_found = false;
 			var->vars_arr[var->parts_count] = ft_substr(token, *start, *c
@@ -34,6 +36,7 @@ void	split_vars(char *token, t_vars_data *var)
 	int	start;
 	int	c;
 
+	
 	start = 0;
 	c = 0;
 	var->var_is_found = false;
@@ -52,15 +55,16 @@ void	split_vars(char *token, t_vars_data *var)
 	}
 }
 
-void	var_expander(t_vars_data *var, int *c)
+void	var_expander(t_vars_data *var, int *c, t_data *data)
 {
+	(void) data;
 	if (getenv(var->vars_arr[*c] + 1))
 		var->vars_arr[*c] = ft_strdup(getenv(var->vars_arr[*c] + 1));
 	else
 		var->vars_arr[*c] = ft_strdup("");
 }
 
-char	*expand_vars(t_vars_data *var)
+char	*expand_vars(t_vars_data *var, t_data *data)
 {
 	int		c;
 	char	*temp;
@@ -70,7 +74,7 @@ char	*expand_vars(t_vars_data *var)
 	while (c < var->parts_count)
 	{
 		if (var->vars_arr[c][0] == '$')
-			var_expander(var, &c);
+			var_expander(var, &c, data);
 		c++;
 	}
 	c = 0;
@@ -87,12 +91,6 @@ char	*expand_vars(t_vars_data *var)
 	return (temp);
 }
 
-void	free_var(t_vars_data *var)
-{
-	free(var->vars_arr);
-	free(var);
-}
-
 void	var_handler2(t_data *data, int i)
 {
 	t_vars_data	*var;
@@ -102,7 +100,7 @@ void	var_handler2(t_data *data, int i)
 		exit(EXIT_FAILURE);
 	var_init(var, data, i);
 	split_vars(data->tokens[i].data, var);
-	var->var_var = expand_vars(var);
+	var->var_var = expand_vars(var, data);
 	path_set_and_join(data, i, var->temp, var->var_var);
 	free_var(var);
 }

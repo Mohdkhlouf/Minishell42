@@ -68,6 +68,7 @@ void init_env(char **envp, t_data *data)
 		return;
 	while (envp[i])
 	{
+		printf("ENVP PRINT TEST %s\n",envp[i]);
 		node = init_envp_node(envp[i]);
 		if (!node)
 		{

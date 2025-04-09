@@ -49,6 +49,7 @@ int main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	data = malloc(sizeof(t_data));
 	cmds_d = malloc(sizeof(t_parsed_data));
 	if (!data || !cmds_d)
@@ -61,6 +62,8 @@ int main(int argc, char **argv, char **envp)
 	reading_loop(data, cmds_d);
 	free_data(data);
 	free_cmds_d(cmds_d);
+	free(data);
+	free(cmds_d);
 	return (EXIT_SUCCESS);
 }
 // print_env(data->env_lst);

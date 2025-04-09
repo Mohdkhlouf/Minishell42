@@ -19,8 +19,12 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 {
 	while (var->j < var->len)
 	{
-		if (data->tokens[i].data[var->j] == '/' || data->tokens[i].data[var->j] == '\''
-			|| data->tokens[i].data[var->j] == '\"')
+		// if (data->tokens[i].data[var->j] == '/' || data->tokens[i].data[var->j] == '\''
+		// 	|| data->tokens[i].data[var->j] == '\"' || data->tokens[i].data[var->j] == '@')
+		printf("%c\n", data->tokens[i].data[var->j]);
+		if (data->tokens[i].data[0] == '$')
+			var->j++;
+		if(ft_isalnum(data->tokens[i].data[var->j]) == 0 && ft_isalpha(data->tokens[i].data[var->j]) == 0 )
 		{
 			data->file_seperator_found = true;
 			break ;
