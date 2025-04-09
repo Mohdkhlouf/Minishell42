@@ -1,5 +1,15 @@
 {
 	"files.associations": {
-		"readline.h": "c"
+		"lexing.h": "c",
+		"history.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"span": "c",
+		"random": "c",
+		"readline.h": "c",
+		"unistd.h": "c",
+		"execution.h": "c",
+		"format": "c"
 	}
 }
