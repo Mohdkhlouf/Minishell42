@@ -35,7 +35,7 @@ void reading_loop(t_data *data, t_parsed_data *cmds_d)
 			lexing(data);
 			tokenizing(data);
 			parsing(data, cmds_d);
-			cmds_process_loop(data, cmds_d);
+			execution(data, cmds_d);
 			free_data(data);
 			free_cmds_d(cmds_d);
 		}
