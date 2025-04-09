@@ -65,8 +65,6 @@ typedef struct s_data
 	char **words;
 	char *exit_code;
 	t_var *env_lst;
-	t_var *export_list;
-	t_var *new_export;
 } t_data;
 
 /*---------------Parsing------------------*/
@@ -117,19 +115,17 @@ int ft_export(t_data *data);
 int get_env_len(t_var *env);
 char **list_to_arr(int size, t_var *env);
 char **sort_arr_list(char **arr, int size);
-void get_export(char **sorted_arr, t_data *data);
 void export_with_param(t_data *data);
 void add_new_env_variable(char *key, char *value, t_data *data);
-void add_export_to_list(char **arr_list, t_data *data);
-void print_export(t_data *data);
-char *get_export_value(char *key, t_data *data);
-void add_new_export_var(char *key, char *value, t_data *data);
-void print_new_export(t_data *data);
+void get_export(char **sorted_arr, t_data *data);
+char *get_env_key(char *key, t_data *data);
+
 
 int ft_strcmp(const char *s1, const char *s2);
-void print_env(t_var *head);
 #endif
 
+//void add_export_to_list(char **arr_list, t_data *data);
+//void print_export(t_data *data);
 // void check_echo_$(t_data *data);
 // int check$(char *sign);
 // void print_env_to_envp(t_data *data);

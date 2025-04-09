@@ -12,7 +12,8 @@ int ft_env(t_data *data)
 	}
 	while (env)
 	{
-		printf("\033[0;32m%s=%s\033[0m\n", env->key, env->value);
+		if (env->value)
+			printf("\033[0;32m%s=%s\033[0m\n", env->key, env->value);
 		env = env->next;
 	}
 	return (0);
