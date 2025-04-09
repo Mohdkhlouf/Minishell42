@@ -120,6 +120,9 @@ void add_new_env_variable(char *key, char *value, t_data *data);
 void get_export(char **sorted_arr, t_data *data);
 char *get_env_key(char *key, t_data *data);
 
+/*-------unset-----------*/
+int ft_unset(t_data *data);
+void update_env_on_unset(t_data *data);
 
 int ft_strcmp(const char *s1, const char *s2);
 #endif
