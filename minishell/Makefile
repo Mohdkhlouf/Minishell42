@@ -30,7 +30,7 @@ SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/minishell_utils.c $(SRC_DIR)/lexing/
 			$(SRC_DIR)/builtins/ft_cd.c $(SRC_DIR)/builtins/ft_echo.c $(SRC_DIR)/builtins/ft_env.c \
 			$(SRC_DIR)/builtins/ft_export.c $(SRC_DIR)/builtins/ft_export_utils.c $(SRC_DIR)/builtins/ft_pwd.c \
 			$(SRC_DIR)/env.c $(SRC_DIR)/env_utils.c \
-      	$(SRC_DIR)/execution/execution.c 
+      		$(SRC_DIR)/execution/execution.c 
 		  
 
 
