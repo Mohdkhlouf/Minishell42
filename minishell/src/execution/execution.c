@@ -57,6 +57,8 @@ int	execute_builtin(t_data *data, t_parsed_data *cmds_data)
 		return (ft_cd(data));
 	else if (ft_strncmp(data->words[0], "export", ft_strlen("export")) == 0)
 		return (ft_export(data));
+	else if (ft_strncmp(data->words[0], "unset", ft_strlen("unset")) == 0)
+		return (ft_unset(data));
 	return (1);
 }
 
