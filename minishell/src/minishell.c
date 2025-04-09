@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	data_init(t_data *data)
+void data_init(t_data *data)
 {
 	data->cline_parts = 0;
 	data->input_line = NULL;
@@ -13,21 +13,23 @@ void	data_init(t_data *data)
 	data->double_quote_found = false;
 	data->quote_type = 0;
 	data->file_seperator_found = false;
+	data->export_list = NULL;
+	data->new_export = NULL;
 }
 
-void	reading_loop(t_data *data, t_parsed_data	*cmds_d)
-{		
+void reading_loop(t_data *data, t_parsed_data *cmds_d)
+{
 	while (true)
 	{
 		data_init(data);
 		data->input_line = readline("\033[0;35mminishell>\033[0m ");
-		if(data->input_line == NULL)
+		if (data->input_line == NULL)
 		{
 			printf("Exit");
 			free(data->input_line);
 			free(data);
 			free(cmds_d);
-			exit (EXIT_SUCCESS) ;
+			exit(EXIT_SUCCESS);
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
@@ -42,10 +44,10 @@ void	reading_loop(t_data *data, t_parsed_data	*cmds_d)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	t_data	*data;
-	t_parsed_data	*cmds_d;
+	t_data *data;
+	t_parsed_data *cmds_d;
 
 	(void)argc;
 	(void)argv;
@@ -63,3 +65,13 @@ int	main(int argc, char **argv, char **envp)
 	free_cmds_d(cmds_d);
 	return (EXIT_SUCCESS);
 }
+// print_env(data->env_lst);
+
+// void print_env(t_var *head)
+// {
+// 	while (head)
+// 	{
+// 		printf("%s=%s\n", head->key, head->value);
+// 		head = head->next;
+// 	}
+// }
