@@ -1,8 +1,8 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	ft_env(t_data *data)
+int ft_env(t_data *data)
 {
-	t_var	*env;
+	t_var *env;
 
 	env = data->env_lst;
 	if (data->words[0] && data->words[1])
