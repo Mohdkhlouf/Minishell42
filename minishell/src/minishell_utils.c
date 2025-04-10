@@ -10,8 +10,8 @@ void	free_cmds_d(t_parsed_data	*cmds_d)
 	{
 		if (cmds_d->cmds[i].cmd)
 			free(cmds_d->cmds[i].cmd);
-		if (cmds_d->cmds[i].reds)
-			free(cmds_d->cmds->reds);
+		// if (cmds_d->cmds[i].reds)
+		// 	free(cmds_d->cmds->reds);
 		i++;
 	}
 }

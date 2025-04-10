@@ -63,6 +63,20 @@ int	execute_builtin(t_data *data, t_parsed_data *cmds_data)
 }
 
 
+void execute_pipes(t_data *data, t_parsed_data *cmds_d)
+{
+	(void) data;
+	(void) cmds_d;
+	int i;
+
+	i = 0;
+	while(i < cmds_d->cmds_counter)
+	{
+		execute_command(cmds_d->cmds[i]);
+		i++;
+	}
+	
+}
 
 void	execution(t_data *data, t_parsed_data *cmds_d)
 {
@@ -73,6 +87,7 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 		return ;
 
 	// parse_path(data);
+
 	if (cmds_d->cmds_counter == 0)
 		return ;
 	else if (cmds_d->cmds_counter == 1)
@@ -87,6 +102,8 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 		else
 			execute_command(cmds_d->cmds[0]);
 	}
+	else
+		execute_pipes(data, cmds_d);
 
 	/* Important, when the commmand is empty "" it must be sent to
 	be checked ad return error like bash*/
