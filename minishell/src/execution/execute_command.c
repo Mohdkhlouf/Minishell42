@@ -2,6 +2,9 @@
 
 /* main function to execute one command, i will make it execute the redirections
 then do the command execution*/
+
+
+
 void handle_empty_cmd(t_cmds cmd, t_data *data)
 {
 	(void) data;
@@ -9,7 +12,7 @@ void handle_empty_cmd(t_cmds cmd, t_data *data)
 	printf("empty cmd handler\n");
 }
 
-void	execute_command(t_cmds cmd, t_data *data)
+void	handle_command(t_cmds cmd, t_data *data)
 {
 	int	ret;
 
