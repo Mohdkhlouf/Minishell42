@@ -29,8 +29,9 @@ SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/minishell_utils.c $(SRC_DIR)/lexing/
 			$(SRC_DIR)/lexing/var_handler_utils.c $(SRC_DIR)/parsing/parsing.c $(SRC_DIR)/parsing/parsing_utils.c \
 			$(SRC_DIR)/builtins/ft_cd.c $(SRC_DIR)/builtins/ft_echo.c $(SRC_DIR)/builtins/ft_env.c \
 			$(SRC_DIR)/builtins/ft_export.c $(SRC_DIR)/builtins/ft_export_utils.c $(SRC_DIR)/builtins/ft_pwd.c \
-			$(SRC_DIR)/env.c $(SRC_DIR)/env_utils.c $(SRC_DIR)/builtins/ft_unset.c\
-      		$(SRC_DIR)/execution/execution.c  $(SRC_DIR)/execution/handle_command.c $(SRC_DIR)/execution/execution_utils.c
+			$(SRC_DIR)/env.c $(SRC_DIR)/env_utils.c $(SRC_DIR)/builtins/ft_unset.c \
+      		$(SRC_DIR)/execution/execution.c  $(SRC_DIR)/execution/handle_command.c \
+			$(SRC_DIR)/execution/execution_utils.c 	$(SRC_DIR)/signals/signals.c
 		  
 
 
@@ -58,7 +59,7 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT)
 
 # Ensure obj directory and subdirectories exist, then compile source files into object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) $(OBJ_DIR)/lexing  $(OBJ_DIR)/parsing $(OBJ_DIR)/builtins $(OBJ_DIR)/execution
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) $(OBJ_DIR)/lexing  $(OBJ_DIR)/parsing $(OBJ_DIR)/builtins $(OBJ_DIR)/execution  $(OBJ_DIR)/signals 
 	$(CC) $(CFLAGS) -c $< -o $@ 
 
 # Create obj directory if it doesn't exist
@@ -80,6 +81,10 @@ $(OBJ_DIR)/builtins:
 # Create execution subdirectory under obj if it doesn't exist
 $(OBJ_DIR)/execution:
 	mkdir -p $(OBJ_DIR)/execution
+
+# Create execution subdirectory under obj if it doesn't exist
+$(OBJ_DIR)/signals:
+	mkdir -p $(OBJ_DIR)/signals
 
 # Run with Valgrind
 run: $(NAME)
