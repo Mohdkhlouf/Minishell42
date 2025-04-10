@@ -1,16 +1,18 @@
 #include "../includes/minishell.h"
 
-void	remove_quotes(char *word)
+void remove_quotes(char *word)
 {
+	if (!word)
+		return;
 	if (word[0] == '"')
 		ft_memmove(word, word + 1, ft_strlen(word));
 	if (word[ft_strlen(word) - 1] == '"')
 		word[ft_strlen(word) - 1] = '\0';
 }
 
-int	check_nl(char *new_line)
+int check_nl(char *new_line)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (ft_strlen(new_line) <= 1)
@@ -25,10 +27,10 @@ int	check_nl(char *new_line)
 	return (1);
 }
 
-int	ft_echo(t_data *data)
+int ft_echo(t_data *data)
 {
-	int	print_newline;
-	int	i;
+	int print_newline;
+	int i;
 
 	print_newline = 1;
 	i = 1;
@@ -40,6 +42,11 @@ int	ft_echo(t_data *data)
 	}
 	while (data->words[i])
 	{
+		if (data->words[i][0] == '\0')
+		{
+			i++;
+			continue;
+		}
 		remove_quotes(data->words[i]);
 		ft_putstr_fd(data->words[i], 1);
 		if (data->words[i + 1])
@@ -49,6 +56,5 @@ int	ft_echo(t_data *data)
 	if (print_newline)
 		ft_putchar_fd('\n', 1);
 	ft_putstr_fd("\033[0m", 1);
-	free_matrix(data->words);
 	return (0);
 }
