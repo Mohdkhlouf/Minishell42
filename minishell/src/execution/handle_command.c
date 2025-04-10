@@ -9,16 +9,16 @@ char *join_cmd_with_slash(char *cmd)
 
 	result = NULL;
 	result = ft_strjoin("/", cmd);
-	if(!result)
+	if (!result)
 		print_error("Join is not done\n");
 	return (result);
 }
 
-char	*find_path(t_data *data, char *cmd)
+char *find_path(t_data *data, char *cmd)
 {
-	int		i;
-	char	*file_name;
-	int		not_found;
+	int i;
+	char *file_name;
+	int not_found;
 
 	not_found = 0;
 	i = 0;
@@ -57,9 +57,9 @@ void exec_cmd(t_cmds cmd, t_data *data)
 /* this function will start the fork to execute the cmd
 i did the fork here.
 then send the execution to child process*/
-int	execute_cmd(t_cmds cmd, t_data *data)
+int execute_cmd(t_cmds cmd, t_data *data)
 {
-	pid_t	pid;
+	pid_t pid;
 
 	pid = fork();
 	if (pid == -1)
@@ -69,7 +69,7 @@ int	execute_cmd(t_cmds cmd, t_data *data)
 	return (pid);
 }
 /*to handlle any empty cmd*/
-void	handle_empty_cmd(t_cmds cmd, t_data *data)
+void handle_empty_cmd(t_cmds cmd, t_data *data)
 {
 	(void)data;
 	(void)cmd;
@@ -79,14 +79,13 @@ void	handle_empty_cmd(t_cmds cmd, t_data *data)
 /*this function recieved a cmd struct, first i check if the command is empty
 then if not, check if it is a built in, then will execute as built in.
 if not, i use another function to start executing the external cmd*/
-void	handle_command(t_cmds cmd, t_data *data)
+void handle_command(t_cmds cmd, t_data *data)
 {
-	int	ret;
+	// int	ret;
 	int pid[1];
 	int status;
 
-
-	ret = 0;
+	// ret = 0;
 	(void)data;
 	if (!is_empty_cmd(cmd))
 	{

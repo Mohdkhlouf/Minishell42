@@ -1,36 +1,29 @@
 #include "../includes/minishell.h"
 
-void update_env_on_unset(t_data *data)
+void update_new_env(t_data *data)
 {
 	t_var *env;
-	char **new_env;
+	char **env_new;
 	int i = 0;
-	int count = 0;
+	char *temp;
 
-	env = data->env_lst;
-	if(!env)
-		return;
-	while(env)
-	{
-		count++;
-		env = env->next;
-	}
-	new_env = malloc(sizeof(char *) * (count + 1));
-	if(!new_env)
-		return;
 	env = data->env_lst;
 	while (env)
 	{
-		if (env->value)
-		{
-			char *tmp = ft_strjoin(env->key, "=");
-			new_env[i] = ft_strjoin(tmp, env->value);
-			free(tmp);
-			i++;
-		}
+		i++;
 		env = env->next;
 	}
-	new_env[i] = NULL;
+	env_new = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	env = data->env_lst;
+	while (env)
+	{
+		temp = ft_strjoin(env->key, "=");
+		env_new[i++] = ft_strjoin(temp, env->value);
+		env = env->next;
+	}
+	env_new[i] = NULL;
+	data->envp = env_new;
 }
 
 void remove_value_on_unset(char *key, t_data *data)
@@ -40,18 +33,18 @@ void remove_value_on_unset(char *key, t_data *data)
 
 	prev = NULL;
 	env = data->env_lst;
-	if(!env)
+	if (!env)
 		return;
-	while(env)
+	while (env)
 	{
-		if(!ft_strcmp(key, env->key))
+		if (!ft_strcmp(key, env->key))
 			break;
 		prev = env;
 		env = env->next;
 	}
-	if(env == NULL)
+	if (env == NULL)
 		return;
-	if(prev)
+	if (prev)
 		prev->next = env->next;
 	else
 		data->env_lst = env->next;
@@ -63,28 +56,27 @@ void remove_value_on_unset(char *key, t_data *data)
 
 int ft_unset(t_data *data)
 {
-	if(data->words[0] && !data->words[1])
+	if (data->words[0] && !data->words[1])
 		return (0);
 	int i = 1;
-	while(data->words[i])
+	while (data->words[i])
 	{
 		remove_value_on_unset(data->words[i], data);
 		i++;
 	}
-	update_env_on_unset(data);
+	update_new_env(data);
 	return (0);
 }
 
-
-//update_env_on_unset(data);
-// void print_env(t_var *head)
-// {
-// 	while (head)
-// 	{
-// 		printf("%s=%s\n", head->key, head->value);
-// 		head = head->next;
-// 	}
-// }
+// update_env_on_unset(data);
+//  void print_env(t_var *head)
+//  {
+//  	while (head)
+//  	{
+//  		printf("%s=%s\n", head->key, head->value);
+//  		head = head->next;
+//  	}
+//  }
 
 // void update_env_on_unset(t_data *data)
 // {
@@ -120,4 +112,3 @@ int ft_unset(t_data *data)
 // 	// new_env[i] = NULL;
 // 	// data->new_envp = new_env;
 // }
-
