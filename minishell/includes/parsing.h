@@ -9,6 +9,7 @@ typedef struct s_cmds
 {
 	char				**cmd;
 	char				**reds;
+	t_data				*data;
 }						t_cmds;
 
 typedef struct s_parsed_data
@@ -30,5 +31,7 @@ void					redirection_appened(t_parsed_data *cmds_d, t_data *data,
 							int *i);
 void					cmd_appened(t_parsed_data *cmds_d, t_data *data,
 							int *i);
+
+
 
 #endif
