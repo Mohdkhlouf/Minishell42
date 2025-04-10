@@ -31,4 +31,6 @@ void					redirection_appened(t_parsed_data *cmds_d, t_data *data,
 void					cmd_appened(t_parsed_data *cmds_d, t_data *data,
 							int *i);
 
+
+
 #endif
