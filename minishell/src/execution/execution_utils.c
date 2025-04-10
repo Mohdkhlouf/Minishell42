@@ -5,7 +5,7 @@ bool	is_empty_cmd(t_cmds cmd)
 {
 	if (ft_strcmp(cmd.cmd[0], "") == 0)
 	{
-		print_error("Command not found.\n");
+		/*print_error("Command not found.\n");*/
 		return (true);
 	}
 	return (false);
