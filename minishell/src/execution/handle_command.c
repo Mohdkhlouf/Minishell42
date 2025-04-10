@@ -3,7 +3,12 @@
 /* main function to execute one command, i will make it execute the redirections
 then do the command execution*/
 
-
+void execute_cmd(t_cmds cmd, t_data *data)
+{
+		(void) data;
+	(void)	cmd;
+	printf("start execution signle cmd\n");
+}
 
 void handle_empty_cmd(t_cmds cmd, t_data *data)
 {
@@ -26,7 +31,7 @@ void	handle_command(t_cmds cmd, t_data *data)
 			printf("execute builtin \n");
 		}
 		else
-			printf("execute command \n"); ;
+			execute_cmd(cmd, data);
 	}
 	else
 		handle_empty_cmd(cmd, data);
