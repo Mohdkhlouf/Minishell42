@@ -77,12 +77,11 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 		printf("#\n");
 		printf("Final reds %d: ", i);
 		j = 0;
-		if (cmds_d->cmds[i].reds[j])
+		if (cmds_d->cmds[i].reds[j] && cmds_d->cmds[i].reds)
 		{
 			while (cmds_d->cmds[i].reds[j])
 			{
 				printf("%s ", cmds_d->cmds[i].reds[j]);
-
 				j++;
 			}
 		}
