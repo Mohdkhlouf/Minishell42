@@ -68,11 +68,27 @@ void execute_pipes(t_data *data, t_parsed_data *cmds_d)
 {
 	(void) data;
 	(void) cmds_d;
+	printf("execute pipes\n");
+}
+
+void execute_redirections(t_data *data, t_parsed_data *cmds_d)
+{
+	(void) data;
+	(void) cmds_d;
+	printf("execute pipes\n");
+}
+
+void handle_pipes(t_data *data, t_parsed_data *cmds_d)
+{
+	(void) data;
+	(void) cmds_d;
 	int i;
 
 	i = 0;
 	while(i < cmds_d->cmds_counter)
 	{
+		execute_pipes(data, cmds_d);
+		execute_redirections(data, cmds_d);
 		handle_command(cmds_d->cmds[i], data);
 		i++;
 	}
@@ -104,7 +120,7 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 			handle_command(cmds_d->cmds[0], data);
 	}
 	else
-		execute_pipes(data, cmds_d);
+		handle_pipes(data, cmds_d);
 
 	/* Important, when the commmand is empty "" it must be sent to
 	be checked ad return error like bash*/
