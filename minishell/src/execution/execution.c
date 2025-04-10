@@ -73,7 +73,7 @@ void execute_pipes(t_data *data, t_parsed_data *cmds_d)
 	i = 0;
 	while(i < cmds_d->cmds_counter)
 	{
-		execute_command(cmds_d->cmds[i], data);
+		handle_command(cmds_d->cmds[i], data);
 		i++;
 	}
 	
@@ -101,7 +101,7 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 			return ;
 		}
 		else
-			execute_command(cmds_d->cmds[0], data);
+			handle_command(cmds_d->cmds[0], data);
 	}
 	else
 		execute_pipes(data, cmds_d);

@@ -43,3 +43,16 @@ not found variables must be ignored so it like pressing enter.
 -- test"$HOME"word this must be expanded.
 -- the variable ends when it finds any not letter and numbers.
 so $HOME@123 , this one must e expanded then added to @123 and print not found -- SOLVED
+
+
+
+
+
+/*Updaets:
+i added a checkeer to check how many cmds we have, then if one go to execute function.
+if more go to pipes_execution.
+and from pipes execution i call the execute function too.
+in the execute funtion, i check if the cmd is empty, then if it is a built in, then if normal.
+and call the needed function ffrom there.
+
+*/
