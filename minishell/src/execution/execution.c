@@ -88,7 +88,7 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 		return ;
 
 	// parse_path(data);
-
+	
 	if (cmds_d->cmds_counter == 0)
 		return ;
 	else if (cmds_d->cmds_counter == 1)

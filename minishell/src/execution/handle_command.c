@@ -2,8 +2,6 @@
 
 /* main function to execute one command, i will make it execute the redirections
 then do the command execution*/
-
-
 void exec_cmd(t_cmds cmd, t_data *data)
 {
 	(void)data;

@@ -9,6 +9,7 @@ typedef struct s_cmds
 {
 	char				**cmd;
 	char				**reds;
+	t_data				*data;
 }						t_cmds;
 
 typedef struct s_parsed_data
