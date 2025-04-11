@@ -3,7 +3,7 @@
 # define EXECUTION_H
 
 # include "minishell.h"
-
+#include <stdbool.h>
 typedef struct s_data			t_data;
 typedef struct s_parsed_data	t_parsed_data;
 typedef struct s_cmds			t_cmds;
