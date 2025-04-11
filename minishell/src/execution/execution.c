@@ -1,69 +1,5 @@
 #include "../includes/minishell.h"
 
-int	is_builtin(char *cmd)
-{
-	const char	*builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
-			"env", NULL};
-	int			i;
-
-	i = 0;
-
-	while (builtins[i] != NULL)
-	{
-		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	execute_builtin(t_data *data, t_parsed_data *cmds_data)
-{
-	int	i;
-	int	count;
-	int	j;
-
-	i = 0;
-	count = 0;
-	j = 0;
-	while (cmds_data->cmds[0].cmd[i])
-	{
-		count++;
-		i++;
-	}
-	data->words = malloc(sizeof(char *) * (count + 1));
-	if (!data->words)
-	{
-		perror("malloc allocation failed.\n");
-		exit(EXIT_FAILURE);
-	}
-	while (j < count)
-	{
-		data->words[j] = ft_strdup(cmds_data->cmds[0].cmd[j]);
-		if (!data->words[j])
-		{
-			perror("ft_strdup failed\n");
-			exit(EXIT_FAILURE);
-		}
-		j++;
-	}
-	data->words[j] = NULL;
-	if (ft_strncmp(data->words[0], "echo", ft_strlen("echo")) == 0)
-		return (ft_echo(data));
-	else if (ft_strncmp(data->words[0], "pwd", ft_strlen("pwd")) == 0)
-		return (ft_pwd(data));
-	else if (ft_strncmp(data->words[0], "env", ft_strlen("env")) == 0)
-		return (ft_env(data));
-	else if (ft_strncmp(data->words[0], "cd", ft_strlen("cd")) == 0)
-		return (ft_cd(data));
-	else if (ft_strncmp(data->words[0], "export", ft_strlen("export")) == 0)
-		return (ft_export(data));
-	else if (ft_strncmp(data->words[0], "unset", ft_strlen("unset")) == 0)
-		return (ft_unset(data));
-	return (1);
-}
-
-
 void execute_pipes(t_data *data, t_parsed_data *cmds_d)
 {
 	(void) data;
@@ -89,10 +25,46 @@ void handle_pipes(t_data *data, t_parsed_data *cmds_d)
 	{
 		execute_pipes(data, cmds_d);
 		execute_redirections(data, cmds_d);
-		handle_command(cmds_d->cmds[i], data);
+		handle_command(&cmds_d->cmds[i], data);
 		i++;
 	}
 	
+}
+
+int	is_builtin(char *cmd)
+{
+	const char	*builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
+			"env", NULL};
+	int			i;
+
+	i = 0;
+
+	while (builtins[i] != NULL)
+	{
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	execute_builtin(t_data *data, t_cmds *cmds)
+{
+	if (ft_strncmp(cmds->cmd[0], "echo", ft_strlen("echo")) == 0)
+		return (ft_echo(cmds));
+	else if (ft_strncmp(cmds->cmd[0], "pwd", ft_strlen("pwd")) == 0)
+		return (ft_pwd(cmds));
+	else if (ft_strncmp(cmds->cmd[0], "env", ft_strlen("env")) == 0)
+		return (ft_env(cmds, data));
+	else if (ft_strncmp(cmds->cmd[0], "cd", ft_strlen("cd")) == 0)
+		return (ft_cd(cmds, data));
+	else if (ft_strncmp(cmds->cmd[0], "export", ft_strlen("export")) == 0)
+		return (ft_export(cmds, data));
+	else if (ft_strncmp(cmds->cmd[0], "unset", ft_strlen("unset")) == 0)
+		return (ft_unset(cmds, data));
+	else if (ft_strncmp(cmds->cmd[0], "exit", ft_strlen("exit")) == 0)
+		return (ft_exit(cmds));
+	return (1);
 }
 
 void	execution(t_data *data, t_parsed_data *cmds_d)
@@ -111,13 +83,13 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 	{
 		if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
 		{
-			ret = execute_builtin(data, cmds_d);
+			ret = execute_builtin(data, &cmds_d->cmds[0]);
 			if (ret == -1)
 				printf("Command not found.\n");
 			return ;
 		}
 		else
-			handle_command(cmds_d->cmds[0], data);
+			handle_command(&cmds_d->cmds[0], data);
 	}
 	else
 		handle_pipes(data, cmds_d);
@@ -127,3 +99,41 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 
 	return ;
 }
+
+// int	i;
+	// int j;
+	// int	count;
+
+	// i = 0;
+	// j = 0;
+	// count = 0;
+
+	// while (cmds.cmd[i])
+	// {
+	// 	printf("%s\n", cmds.cmd[i]);
+	// 	count++;
+	// 	i++;
+	// }
+	// data->words = malloc(sizeof(char *) * (count + 1));
+	// if (!data->words)
+	// {
+	// 	perror("malloc allocation failed.\n");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// data->words = malloc(sizeof(char *) * (count + 1));
+	// if (!data->words)
+	// {
+	// 	perror("malloc allocation failed.\n");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// while (j < count)
+	// {
+	// 	data->words[j] = ft_strdup(cmds.cmd[j]);
+	// 	if (!data->words[j])
+	// 	{
+	// 		perror("ft_strdup failed\n");
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// 	j++;
+	// }
+	// data->words[j] = NULL;

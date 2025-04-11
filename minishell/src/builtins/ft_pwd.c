@@ -1,19 +1,22 @@
 #include "../includes/minishell.h"
 
-int	ft_pwd(t_data *data)
+int	ft_pwd(t_cmds *cmd)
 {
-	if (data->words[0] && data->words[1])
+	char *cwd;
+
+	if (cmd->cmd[0] && cmd->cmd[1])
 	{
 		printf("\033[0;31mpwd: too many arguments\033[0m\n");
-		return (1);
+		return (-1);
 	}
-	data->pwd = getcwd(NULL, 0);
-	if (!data->pwd)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
 		perror("getcwd failed");
-		return (1);
+		return (-1);
 	}
-	printf("\033[0;32m%s\033[0m\n", data->pwd);
-	free(data->pwd);
+	printf("\033[0;32m%s\033[0m\n",cwd);
+	free(cwd);
 	return (0);
 }
+

@@ -55,6 +55,7 @@ typedef struct s_var
 
 typedef struct s_data
 {
+
 	char						*input_line;
 	int							cline_parts;
 	t_token						*tokens;
@@ -74,6 +75,7 @@ typedef struct s_data
 	t_var						*env_lst;
 	char						**envp;
 }								t_data;
+
 
 /*---------------Parsing------------------*/
 
@@ -97,6 +99,7 @@ void							free_env_list(t_var *head);
 // void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 /*----Built-ins----*/
+
 int								execute_builtin(t_data *data,
 									t_parsed_data *cmds_data);
 int								is_builtin(char *cmd);
@@ -135,6 +138,7 @@ int								ft_unset(t_data *data);
 void							update_new_env(t_data *data);
 
 int								ft_strcmp(const char *s1, const char *s2);
+
 #endif
 
 // void add_export_to_list(char **arr_list, t_data *data);
