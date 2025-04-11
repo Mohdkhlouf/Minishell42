@@ -38,11 +38,11 @@ void has_equal_sign(char *param_value, t_data *data)
 		add_new_env_variable(ft_strdup(str[0]), ft_strdup(str[1]), data);
 }
 
-void export_with_param(t_data *data)
+void export_with_param(t_cmds *cmd, t_data *data)
 {
 	char *param_value;
 	
-	param_value = data->words[1];
+	param_value = cmd->cmd[1];
 	if (ft_isalpha(param_value[0]) || param_value[0] == '_')
 	{
 		if (ft_strchr(param_value, '='))
