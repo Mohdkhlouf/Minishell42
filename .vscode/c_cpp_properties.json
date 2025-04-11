@@ -1,0 +1,20 @@
+{
+    "configurations": [
+      {
+        "name": "Linux",
+        "includePath": [
+          "${workspaceFolder}/**",
+          "/usr/include",
+          "/usr/local/include"
+        ],
+        "defines": [
+          "_GNU_SOURCE"  // ✅ Helps with glibc extensions like sigaction
+        ],
+        "compilerPath": "/usr/bin/gcc",
+        "cStandard": "c99",
+        "intelliSenseMode": "linux-gcc-x64"
+      }
+    ],
+    "version": 4
+  }
+  
