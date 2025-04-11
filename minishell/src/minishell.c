@@ -60,6 +60,7 @@ int main(int argc, char **argv, char **envp)
 	}
 	data_init(data);
 	init_env(envp, data);
+	start_signal();
 	reading_loop(data, cmds_d);
 	free_data(data);
 	free_cmds_d(cmds_d);
