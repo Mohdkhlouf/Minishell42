@@ -66,8 +66,6 @@ typedef struct s_data
 	bool file_seperator_found;
 	char *path;
 	char **parsed_path;
-	char *pwd;
-	char **words;
 	char *exit_code;
 	t_var *env_lst;
 	char **envp;
@@ -94,42 +92,50 @@ void free_env_list(t_var *head);
 // void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 /*----Built-ins----*/
-int execute_builtin(t_data *data,
-					t_parsed_data *cmds_data);
+// int execute_builtin(t_data *data,
+// 					t_parsed_data *cmds_data);
+int	execute_builtin(t_data *data, t_cmds *cmds);
 int is_builtin(char *cmd);
+
 /*-------echo------*/
-int ft_echo(t_data *data);
+int ft_echo(t_cmds *cmd);
 int check_nl(char *new_line);
-void remove_quotes(char *word);
+
 /*-------pwd-------*/
-int ft_pwd(t_data *data);
+int	ft_pwd(t_cmds *cmd);
+
 /*-------env-------*/
-int ft_env(t_data *data);
+int ft_env(t_cmds *cmd, t_data *data);
 void init_env(char **envp, t_data *data);
 t_var *init_envp_node(char *env);
 void env_addtolist(t_var **lst, t_var *node);
+
 /*-------cd--------*/
-int ft_cd(t_data *data);
-void cd_with_no_param(t_data *data);
-void cd_with_dash_param(t_data *data);
-void cd_with_param(t_data *data, char *path_value);
+int ft_cd(t_cmds *cmd, t_data *data);
+int cd_with_no_param(t_data *data);
+int cd_with_dash_param(t_data *data);
+int cd_with_param(t_data *data, char *path_value);
 void update_env_list(char *key, char *value,
 					 t_data *data);
 char *get_env_value(char *key, t_data *data);
+
 /*------export------*/
-int ft_export(t_data *data);
+int ft_export(t_cmds *cmd, t_data *data);
 int get_env_len(t_var *env);
 char **list_to_arr(int size, t_var *env);
 char **sort_arr_list(char **arr, int size);
-void export_with_param(t_data *data);
+void export_with_param(t_cmds *cmd, t_data *data);
 void add_new_env_variable(char *key, char *value,
 						  t_data *data);
 void get_export(char **sorted_arr, t_data *data);
 char *get_env_key(char *key, t_data *data);
 
 /*-------unset-----------*/
-int ft_unset(t_data *data);
+int ft_unset(t_cmds *cmd, t_data *data);
 void update_new_env(t_data *data);
+
+/*--------exit-----------*/
+int ft_exit(t_cmds *cmd);
 
 int ft_strcmp(const char *s1, const char *s2);
 #endif

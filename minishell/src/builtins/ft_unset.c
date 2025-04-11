@@ -18,8 +18,17 @@ void update_new_env(t_data *data)
 	env = data->env_lst;
 	while (env)
 	{
-		temp = ft_strjoin(env->key, "=");
-		env_new[i++] = ft_strjoin(temp, env->value);
+		if (env->key && env->value) 
+		{
+			temp = ft_strjoin(env->key, "=");
+			if (!temp)
+				return;
+			env_new[i] = ft_strjoin(temp, env->value);
+			free(temp);
+			if (!env_new[i])
+				return;
+			i++;
+		}
 		env = env->next;
 	}
 	env_new[i] = NULL;
@@ -54,61 +63,17 @@ void remove_value_on_unset(char *key, t_data *data)
 	free(env);
 }
 
-int ft_unset(t_data *data)
+int ft_unset(t_cmds *cmd, t_data *data)
 {
-	if (data->words[0] && !data->words[1])
+	if (cmd->cmd[0] && !cmd->cmd[1])
 		return (0);
 	int i = 1;
-	while (data->words[i])
+	while (cmd->cmd[i])
 	{
-		remove_value_on_unset(data->words[i], data);
+		remove_value_on_unset(cmd->cmd[i], data);
 		i++;
 	}
 	update_new_env(data);
 	return (0);
 }
 
-// update_env_on_unset(data);
-//  void print_env(t_var *head)
-//  {
-//  	while (head)
-//  	{
-//  		printf("%s=%s\n", head->key, head->value);
-//  		head = head->next;
-//  	}
-//  }
-
-// void update_env_on_unset(t_data *data)
-// {
-// 	t_var *env;
-// 	// char **new_env;
-// 	// int i = 0;
-// 	// int count = 0;
-
-// 	env = data->env_lst;
-// 	if(!env)
-// 		return;
-// 	print_env(data->env_lst);
-// 	// while(env)
-// 	// {
-// 	// 	count++;
-// 	// 	env = env->next;
-// 	// }
-// 	// new_env = malloc(sizeof(char *) * (count + 1));
-// 	// if(!new_env)
-// 	// 	return;
-// 	// env = data->env_lst;
-// 	// while (env)
-// 	// {
-// 	// 	if (env->value)
-// 	// 	{
-// 	// 		char *tmp = ft_strjoin(env->key, "=");
-// 	// 		new_env[i] = ft_strjoin(tmp, env->value);
-// 	// 		free(tmp);
-// 	// 		i++;
-// 	// 	}
-// 	// 	env = env->next;
-// 	// }
-// 	// new_env[i] = NULL;
-// 	// data->new_envp = new_env;
-// }

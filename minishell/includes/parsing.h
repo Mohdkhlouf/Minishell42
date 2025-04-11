@@ -9,7 +9,6 @@ typedef struct s_cmds
 {
 	char				**cmd;
 	char				**reds;
-	t_data				*data;
 }						t_cmds;
 
 typedef struct s_parsed_data
@@ -23,8 +22,6 @@ typedef struct s_parsed_data
 }						t_parsed_data;
 
 void					parsing(t_data *data, t_parsed_data *cmds_d);
-void					cmds_process_loop(t_data *data,
-							t_parsed_data *cmds_data);
 void					create_cmds_arr(t_parsed_data *cmds_d);
 void					pipe_found(t_parsed_data *cmds_d);
 void					redirection_appened(t_parsed_data *cmds_d, t_data *data,

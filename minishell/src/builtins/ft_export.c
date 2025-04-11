@@ -5,11 +5,14 @@
 void get_export(char **sorted_arr, t_data *data)
 {
 	int i = 0;
+
 	while(sorted_arr[i])
 	{
 		printf("\033[0;32mdeclare -x %s\033[0m", sorted_arr[i]);
 		if(get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i], data)[0] != '\0')
+		{
 			printf("\033[0;32m=\"%s\"\033[0m", get_env_value(sorted_arr[i], data));
+		}
 		printf("\n");
 		i++;
 	}
@@ -21,7 +24,7 @@ int get_env_len(t_var *env)
 
 	count = 0;
 	if (!env)
-		return (0);
+		return (-1);
 	while (env)
 	{
 		count++;
@@ -79,7 +82,7 @@ char **sort_arr_list(char **arr, int size)
 	return (arr);
 }
 
-int ft_export(t_data *data)
+int ft_export(t_cmds *cmd, t_data *data)
 {
 	char **arr;
 	char **sorted_arr;
@@ -93,20 +96,49 @@ int ft_export(t_data *data)
 	if (!env)
 		return (1);
 
-	if (!data->words[1])
+	if (!cmd->cmd[1])
 	{
 		size = get_env_len(env);
 		arr = list_to_arr(size, env);
 		if (!arr)
-			return (1);
+			return (-1);
 		sorted_arr = sort_arr_list(arr, size);
 		get_export(sorted_arr, data);
 	}
 	else
-		export_with_param(data);
+		export_with_param(cmd, data);
 	free(arr);
 	return (0);
 }
+
+// int ft_export(t_data *data)
+// {
+// 	char **arr;
+// 	char **sorted_arr;
+// 	int size;
+// 	t_var *env;
+
+// 	arr = NULL;
+// 	sorted_arr = NULL;
+// 	size = 0;
+// 	env = data->env_lst;
+// 	if (!env)
+// 		return (1);
+
+// 	if (!data->words[1])
+// 	{
+// 		size = get_env_len(env);
+// 		arr = list_to_arr(size, env);
+// 		if (!arr)
+// 			return (1);
+// 		sorted_arr = sort_arr_list(arr, size);
+// 		get_export(sorted_arr, data);
+// 	}
+// 	else
+// 		export_with_param(data);
+// 	free(arr);
+// 	return (0);
+// }
 
 //add_export_to_list(sorted_arr, data);
 //print_export(data);

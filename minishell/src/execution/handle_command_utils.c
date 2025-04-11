@@ -40,7 +40,7 @@ char	*find_path(t_data *data, char *cmd)
 }
 
 /*to handlle any empty cmd*/
-void	handle_empty_cmd(t_cmds cmd, t_data *data)
+void	handle_empty_cmd(t_cmds *cmd, t_data *data)
 {
 	(void)data;
 	(void)cmd;
