@@ -47,17 +47,17 @@ void	print_error_exit(char *msg, t_data *data, t_vars_data *var)
 		free_var(var);
 }
 
-void	free_env_list(t_var *node)
+void	free_env_list(t_var *env)
 {
-	t_var	*tmp;
+	t_var *tmp;
 
-	while (node)
+	while (env)
 	{
-		tmp = node;
+		tmp = env;
+		env = env->next;
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);
-		node = node->next;
 	}
 }
 

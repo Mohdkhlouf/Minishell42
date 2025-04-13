@@ -104,7 +104,6 @@ int								is_builtin(char *cmd);
 /*-------echo------*/
 int								ft_echo(t_cmds *cmd);
 int								check_nl(char *new_line);
-void							remove_quotes(char *word);
 /*-------pwd-------*/
 int								ft_pwd(t_cmds *cmd);
 
