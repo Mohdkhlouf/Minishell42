@@ -34,24 +34,24 @@ void env_addtolist(t_var **lst, t_var *node)
 t_var *init_envp_node(char *env)
 {
 	t_var *node;
-	char *temp_key;
-	char *temp_value;
-	char *temp_equal_sign;
+	char *key;
+	char *value;
+	char *equal_sign;
 
-	temp_equal_sign = ft_strchr(env, '=');
-	if (!temp_equal_sign)
+	equal_sign = ft_strchr(env, '=');
+	if (!equal_sign)
 		return (NULL);
 	node = malloc(sizeof(t_var));
 	if (!node)
 		return (NULL);
-	temp_key = ft_substr(env, 0, temp_equal_sign - env);
-	temp_value = ft_substr(temp_equal_sign + 1, 0, ft_strlen(temp_equal_sign + 1));
-	if (!temp_key || !temp_value)
+	key = ft_substr(env, 0, equal_sign - env);
+	value = ft_substr(equal_sign + 1, 0, ft_strlen(equal_sign + 1));
+	if (!key || !value)
 	{
-		return (free(temp_key), free(temp_value), free(node), NULL);
+		return (free(key), free(value), free(node), NULL);
 	}
-	node->key = temp_key;
-	node->value = temp_value;
+	node->key = key;
+	node->value = value;
 	node->next = NULL;
 	return (node);
 }
