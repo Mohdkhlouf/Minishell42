@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void data_init(t_data *data)
+void	data_init(t_data *data)
 {
 	data->cline_parts = 0;
 	data->input_line = NULL;
@@ -15,15 +15,17 @@ void data_init(t_data *data)
 	data->file_seperator_found = false;
 }
 
-void reading_loop(t_data *data, t_parsed_data *cmds_d)
+void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
 	while (true)
 	{
 		data_init(data);
 		data->input_line = readline("\033[0;35mminishell>\033[0m ");
-		if (data->input_line == NULL)
+		if (!data->input_line)
 		{
 			printf("Exit");
+			free_matrix(data->parsed_path);
+			free_env_list(data->env_lst);
 			free(data->input_line);
 			free(data);
 			free(cmds_d);
@@ -43,10 +45,10 @@ void reading_loop(t_data *data, t_parsed_data *cmds_d)
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_data *data;
-	t_parsed_data *cmds_d;
+	t_data			*data;
+	t_parsed_data	*cmds_d;
 
 	(void)argc;
 	(void)argv;
