@@ -8,27 +8,30 @@ void	free_cmds_d(t_parsed_data	*cmds_d)
 	i = 0;
 	while (cmds_d && i < cmds_d->cmds_counter)
 	{
-		if (cmds_d->cmds[i].cmd)
-			free(cmds_d->cmds[i].cmd);
-		// if (cmds_d->cmds[i].reds)
-		// 	free(cmds_d->cmds->reds);
+		free_matrix(cmds_d->cmds[i].cmd);
+		free_matrix(cmds_d->cmds[i].reds);
 		i++;
 	}
+	free(cmds_d->cmds);
 }
 
 void	free_data(t_data *data)
 {
 	int	i;
-
+		/* ithingk i free some of these tokens that are moved to new pointer in the 
+		cmds_data so i have to check or maybe fr double free for the thinfs copied there*/
 	i = 0;
 	while (data->tokens && i < data->tokens_conter)
 	{
 		if (data->tokens[i].data)
+		{
 			free(data->tokens[i].data);
+			data->tokens[i].data = NULL;
+		}
 		i++;
 	}
 	free(data->tokens);
-	free(data->input_line);
+
 }
 
 void	print_error(char *msg)
