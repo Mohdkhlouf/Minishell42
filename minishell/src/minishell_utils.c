@@ -29,8 +29,6 @@ void	free_data(t_data *data)
 	}
 	free(data->tokens);
 	free(data->input_line);
-	free_matrix(data->parsed_path);
-	free_env_list(data->env_lst);
 }
 
 void	print_error(char *msg)
