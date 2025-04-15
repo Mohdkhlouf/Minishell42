@@ -39,7 +39,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			execution(data, cmds_d);
 			free_matrix(data->envp);
 			free(data->input_line);
-			free_data(data);
+			// free_data(data);
 			free_cmds_d(cmds_d);
 		}
 		else
