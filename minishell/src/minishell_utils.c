@@ -8,12 +8,11 @@ void	free_cmds_d(t_parsed_data	*cmds_d)
 	i = 0;
 	while (cmds_d && i < cmds_d->cmds_counter)
 	{
-		if (cmds_d->cmds[i].cmd)
-			free(cmds_d->cmds[i].cmd);
-		// if (cmds_d->cmds[i].reds)
-		// 	free(cmds_d->cmds->reds);
+		free_matrix(cmds_d->cmds[i].cmd);
+		free_matrix(cmds_d->cmds[i].reds);
 		i++;
 	}
+	free(cmds_d->cmds);
 }
 
 void	free_data(t_data *data)
@@ -28,7 +27,7 @@ void	free_data(t_data *data)
 		i++;
 	}
 	free(data->tokens);
-	free(data->input_line);
+
 }
 
 void	print_error(char *msg)
