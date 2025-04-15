@@ -44,10 +44,10 @@ void	fill_in_arr(t_parsed_data *cmds_d, t_data *data)
 				|| data->tokens[i].type == TOK_REDIRECT_OUT
 				|| data->tokens[i].type == TOK_APPEND)
 			{
-				cmd_appened(cmds_d, data, &i);
+				redirection_appened(cmds_d, data, &i);
 			}
 			else
-				redirection_appened(cmds_d, data, &i);
+				cmd_appened(cmds_d, data, &i);
 		}
 		i++;
 	}
@@ -101,5 +101,5 @@ void	parsing(t_data *data, t_parsed_data *cmds_d)
 	find_cmds_counter(data, cmds_d);
 	create_cmds_arr(cmds_d);
 	fill_in_arr(cmds_d, data);
-	printing_cmds_reds(cmds_d);
+	// printing_cmds_reds(cmds_d);
 }
