@@ -2,8 +2,6 @@
 
 void execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd, int *pipe_fd)
 {
-    char *path;
-
     if (*prev_cmd != -1)
     {
         dup2(*prev_cmd, STDIN_FILENO); 
@@ -15,17 +13,7 @@ void execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd, in
         dup2(pipe_fd[1], STDOUT_FILENO);
         close(pipe_fd[1]); 
     }
-    //set_default_signal_handlers(); // Set up signal handling
-    path = find_path(data, cmds_d->cmds[i].cmd[0]); // Find the path of the command
-    if (!path)
-    {
-        printf("command not found: %s\n", cmds_d->cmds[i].cmd[0]);
-        exit(127); // Command not found, exit with 127
-    }
-    execve(path, cmds_d->cmds[i].cmd, data->envp); 
-    free(path); 
-    perror("execve failed");
-    return;
+    handle_command(&cmds_d->cmds[i], data);
 }
 
 void execute_parent(int *prev_cmd, int *pipe_fd, int i, int cmds_counter)

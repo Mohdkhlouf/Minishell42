@@ -28,7 +28,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			free_env_list(data->env_lst);
 			free(data->input_line);
 			free(data->tokens);
-			break;
+			break ;
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
@@ -38,6 +38,9 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			parsing(data, cmds_d);
 			update_new_env(data);
 			execution(data, cmds_d);
+			free(data->tokens);
+			free_matrix(data->envp);
+			free_cmds_d(cmds_d);
 		}
 		free(data->input_line);
 	}
@@ -63,9 +66,6 @@ int	main(int argc, char **argv, char **envp)
 	init_env(envp, data);
 	start_signal();
 	reading_loop(data, cmds_d);
-	free(data->tokens);
-	free_matrix(data->envp);
-	free_cmds_d(cmds_d);
 	free(data);
 	free(cmds_d);
 	return (EXIT_SUCCESS);

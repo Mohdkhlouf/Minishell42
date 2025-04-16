@@ -58,6 +58,7 @@ void	handle_command(t_cmds *cmd, t_data *data)
 	int status;
 
 	ret = 0;
+	
 	(void)data;
 	if (!is_empty_cmd(cmd))
 	{
