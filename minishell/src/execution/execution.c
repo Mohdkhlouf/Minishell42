@@ -1,20 +1,5 @@
 #include "../includes/minishell.h"
 
-void execute_redirections(t_data *data, t_parsed_data *cmds_d)
-{
-	(void) data;
-	(void) cmds_d;
-	printf("execute redirections\n");
-	int i;
-
-	i = 0;
-	while (cmds_d->cmds->reds[i])
-	{
-		printf("redirect %s:\n",cmds_d->cmds->reds[i]);
-		i++;
-	}
-}
-
 void handle_pipes(t_data *data, t_parsed_data *cmds_d)
 {
 	int prev_cmd = -1;

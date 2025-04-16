@@ -15,7 +15,7 @@ void execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd, in
         dup2(pipe_fd[1], STDOUT_FILENO);
         close(pipe_fd[1]); 
     }
-    set_default_signal_handlers(); // Set up signal handling
+    //set_default_signal_handlers(); // Set up signal handling
     path = find_path(data, cmds_d->cmds[i].cmd[0]); // Find the path of the command
     if (!path)
     {

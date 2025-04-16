@@ -1,13 +1,13 @@
 #include "../includes/minishell.h"
 
 /*reset the signals from child process*/
-void set_default_signal_handlers(void)
-{
-    struct sigaction sa;
+// void set_default_signal_handlers(void)
+// {
+//     struct sigaction sa;
 
-    sa.sa_handler = SIG_DFL;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
+//     sa.sa_handler = SIG_DFL;
+//     sigemptyset(&sa.sa_mask);
+//     sa.sa_flags = 0;
 
 //     sigaction(SIGINT, &sa, NULL);
 //     sigaction(SIGQUIT, &sa, NULL);
@@ -55,11 +55,9 @@ void	handle_command(t_cmds *cmd, t_data *data)
 {
 	int	ret;
 	int pid;
-	//int	ret;
-	int pid[1];
 	int status;
 
-	//ret = 0;
+	ret = 0;
 	(void)data;
 	if (!is_empty_cmd(cmd))
 	{
