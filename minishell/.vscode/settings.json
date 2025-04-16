@@ -8,6 +8,7 @@
 		"string_view": "c",
 		"span": "c",
 		"parsing.h": "c",
-		"random": "c"
+		"random": "c",
+		"fcntl.h": "c"
 	}
 }
