@@ -7,20 +7,6 @@ void execute_pipes(t_data *data, t_parsed_data *cmds_d)
 	printf("execute pipes\n");
 }
 
-void execute_redirections(t_data *data, t_parsed_data *cmds_d)
-{
-	(void) data;
-	(void) cmds_d;
-	printf("execute redirections\n");
-	int i;
-
-	i = 0;
-	while (cmds_d->cmds->reds[i])
-	{
-		printf("redirect %s:\n",cmds_d->cmds->reds[i]);
-		i++;
-	}
-}
 
 void handle_pipes(t_data *data, t_parsed_data *cmds_d)
 {
@@ -31,7 +17,7 @@ void handle_pipes(t_data *data, t_parsed_data *cmds_d)
 	i = 0;
 	while(i < cmds_d->cmds_counter)
 	{
-		execute_redirections(data, cmds_d);
+		// execute_redirections(data, cmds_d);
 		execute_pipes(data, cmds_d);
 		handle_command(&cmds_d->cmds[i], data);
 		i++;

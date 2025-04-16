@@ -1,18 +1,18 @@
 #include "../includes/minishell.h"
 
 
-/*reset the signals from child process*/
-void set_default_signal_handlers(void)
-{
-    struct sigaction sa;
+// /*reset the signals from child process*/
+// void set_default_signal_handlers(void)
+// {
+//     struct sigaction sa;
 
-    sa.sa_handler = SIG_DFL;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
+//     sa.sa_handler = SIG_DFL;
+//     sigemptyset(&sa.sa_mask);
+//     sa.sa_flags = 0;
 
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGQUIT, &sa, NULL);
-}
+//     sigaction(SIGINT, &sa, NULL);
+//     sigaction(SIGQUIT, &sa, NULL);
+// }
 
 
 /* main function to execute one command, i will make it execute the redirections
@@ -20,14 +20,14 @@ then do the command execution*/
 void exec_cmd(t_cmds *cmd, t_data *data)
 {
 	(void)data;
-	(void)cmd;
 	char *path;
 
 	path = NULL;
-	set_default_signal_handlers();
+	// set_default_signal_handlers();
 	path = find_path(data, cmd->cmd[0]);
-	if (execve(path, cmd->cmd, NULL) == -1)
-		exit(1);
+	execve(path, cmd->cmd, NULL);
+	perror("execve"); 
+	exit(1);
 }
 
 /* this function will start the fork to execute the cmd
@@ -39,7 +39,11 @@ int	execute_cmd(t_cmds *cmd, t_data *data)
 
 	pid = fork();
 	if (pid == -1)
+	{
 		print_error("ERROR IN FORKING\n");
+		exit(1);
+	}
+		
 	if (pid == 0)
 		exec_cmd(cmd, data);
 	return (pid);
@@ -51,26 +55,29 @@ if not, i use another function to start executing the external cmd*/
 void	handle_command(t_cmds *cmd, t_data *data)
 {
 	int	ret;
-	int pid[1];
+	int pid;
 	int status;
 
 	ret = 0;
-	(void)data;
+	pid = 0;
 	if (!is_empty_cmd(cmd))
 	{
-		printf("%s\n", cmd->cmd[0]);
 		if (is_builtin(cmd->cmd[0]) == 1)
 		{
 			/*function to execute builtin function the sent will be a command*/
-			int ret = execute_builtin(data, cmd);
+			ret = execute_builtin(data, cmd);
 			if(ret == -1)
 				print_error("Error.\n");
 			printf("execute builtin \n");
 		}
 		else
-			pid[0] = execute_cmd(cmd, data);
+		{
+			execute_redirections(data, cmd);
+			pid = execute_cmd(cmd, data);
+			waitpid(pid, &status, 0);
+		}
 	}
 	else
 		handle_empty_cmd(cmd, data);
-	waitpid(pid[0], &status, 0);
+	
 }
