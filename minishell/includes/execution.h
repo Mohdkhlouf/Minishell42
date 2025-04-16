@@ -17,6 +17,8 @@ int								execute_cmd(t_cmds *cmd, t_data *data);
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
-void							execute_redirections(t_data *data, t_cmds *cmds_d);
+void 							execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd);
+void 							set_default_signal_handlers(void);
+void	execute_redirections(t_data *data, t_cmds *cmds_d);
 
 #endif

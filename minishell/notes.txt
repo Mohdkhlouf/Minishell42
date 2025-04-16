@@ -36,6 +36,7 @@ not found variables must be ignored so it like pressing enter.
 
 
 
+
 ***************
 --herdoc must not be expannded. SOLVED
 --pressing enter SOLVED
@@ -43,6 +44,7 @@ not found variables must be ignored so it like pressing enter.
 -- test"$HOME"word this must be expanded.
 -- the variable ends when it finds any not letter and numbers.
 so $HOME@123 , this one must e expanded then added to @123 and print not found -- SOLVED
+
 
 
 

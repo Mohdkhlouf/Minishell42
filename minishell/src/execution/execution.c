@@ -1,28 +1,26 @@
 #include "../includes/minishell.h"
 
-void execute_pipes(t_data *data, t_parsed_data *cmds_d)
-{
-	(void) data;
-	(void) cmds_d;
-	printf("execute pipes\n");
-}
-
-
 void handle_pipes(t_data *data, t_parsed_data *cmds_d)
 {
-	(void) data;
-	(void) cmds_d;
+	int prev_cmd = -1;
 	int i;
+	int j = 0;
 
 	i = 0;
 	while(i < cmds_d->cmds_counter)
 	{
-		// execute_redirections(data, cmds_d);
-		execute_pipes(data, cmds_d);
-		handle_command(&cmds_d->cmds[i], data);
+		execute_pipes(data, cmds_d, i, &prev_cmd);
+		//execute_redirections(data, cmds_d);
+		//handle_command(&cmds_d->cmds[i], data);
 		i++;
 	}
-	
+	if (prev_cmd != -1)
+    	close(prev_cmd);
+	while (j < cmds_d->cmds_counter)
+	{
+        wait(NULL); 
+		j++;
+	}
 }
 
 int	is_builtin(char *cmd)
@@ -93,41 +91,3 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 
 	return ;
 }
-
-// int	i;
-	// int j;
-	// int	count;
-
-	// i = 0;
-	// j = 0;
-	// count = 0;
-
-	// while (cmds.cmd[i])
-	// {
-	// 	printf("%s\n", cmds.cmd[i]);
-	// 	count++;
-	// 	i++;
-	// }
-	// data->words = malloc(sizeof(char *) * (count + 1));
-	// if (!data->words)
-	// {
-	// 	perror("malloc allocation failed.\n");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// data->words = malloc(sizeof(char *) * (count + 1));
-	// if (!data->words)
-	// {
-	// 	perror("malloc allocation failed.\n");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// while (j < count)
-	// {
-	// 	data->words[j] = ft_strdup(cmds.cmd[j]);
-	// 	if (!data->words[j])
-	// 	{
-	// 		perror("ft_strdup failed\n");
-	// 		exit(EXIT_FAILURE);
-	// 	}
-	// 	j++;
-	// }
-	// data->words[j] = NULL;

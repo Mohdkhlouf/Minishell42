@@ -1,7 +1,6 @@
 #include "../includes/minishell.h"
 
-
-// /*reset the signals from child process*/
+/*reset the signals from child process*/
 // void set_default_signal_handlers(void)
 // {
 //     struct sigaction sa;
@@ -25,9 +24,9 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 	path = NULL;
 	// set_default_signal_handlers();
 	path = find_path(data, cmd->cmd[0]);
-	execve(path, cmd->cmd, NULL);
-	perror("execve"); 
-	exit(1);
+	if (execve(path, cmd->cmd, data->envp) == -1)
+		exit(1);
+	free(path);
 }
 
 /* this function will start the fork to execute the cmd
@@ -59,7 +58,7 @@ void	handle_command(t_cmds *cmd, t_data *data)
 	int status;
 
 	ret = 0;
-	pid = 0;
+	(void)data;
 	if (!is_empty_cmd(cmd))
 	{
 		if (is_builtin(cmd->cmd[0]) == 1)
