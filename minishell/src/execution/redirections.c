@@ -7,14 +7,14 @@ void hanlde_fd(int old, int fd)
 	close(fd);
 }
 
-bool	open_output_file(char *outfile)
+bool	open_output_file(char *outfile, int mode)
 {
 	int	fd;
 
 	if (access(outfile, F_OK) == 0 && access(outfile, W_OK) != 0)
 			return (print_error(strerror(errno)), false);
 
-	fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(outfile, O_WRONLY | O_CREAT | mode, 0644);
 	if (fd >= 0)
 		hanlde_fd(1 , fd);
 	else
@@ -58,7 +58,7 @@ void	heredoc_handller(int *i, char *heredoc)
 }
 void	append_handller(int *i, char *append)
 {
-	if (!open_input_file(append))
+	if (!open_output_file(append, O_APPEND))
 	{
 		/*handle that needed*/
 		exit(-1);
@@ -68,7 +68,7 @@ void	append_handller(int *i, char *append)
 
 void	output_handller(int *i, char *outfile)
 {
-	if (!open_output_file(outfile))
+	if (!open_output_file(outfile, O_TRUNC))
 	{
 		/*handle that needed*/
 		exit(-1);
