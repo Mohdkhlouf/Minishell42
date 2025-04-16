@@ -1,18 +1,25 @@
 #include "../includes/minishell.h"
 
-
 void	free_cmds_d(t_parsed_data	*cmds_d)
 {
 	int	i;
 
 	i = 0;
-	while (cmds_d && i < cmds_d->cmds_counter)
+	if (!cmds_d || !cmds_d->cmds)
+        return;
+	while (i < cmds_d->cmds_counter)
 	{
-		free_matrix(cmds_d->cmds[i].cmd);
-		free_matrix(cmds_d->cmds[i].reds);
+		if (cmds_d->cmds[i].cmd)
+            free_matrix(cmds_d->cmds[i].cmd);
+        if (cmds_d->cmds[i].reds)
+            free_matrix(cmds_d->cmds[i].reds);
 		i++;
 	}
-	free(cmds_d->cmds);
+	if (cmds_d->cmds) 
+    {
+        free(cmds_d->cmds); 
+        cmds_d->cmds = NULL; 
+    }
 }
 
 void	free_data(t_data *data)
@@ -74,8 +81,10 @@ int	free_matrix(char **env)
 	while (env[i])
 	{
 		free(env[i]);
+		env[i] = NULL;
 		i++;
 	}
 	free(env);
+	env = NULL;
 	return (0);
 }

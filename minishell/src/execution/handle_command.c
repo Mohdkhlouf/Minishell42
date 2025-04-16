@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-
 /*reset the signals from child process*/
 void set_default_signal_handlers(void)
 {
@@ -26,8 +25,9 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 	path = NULL;
 	set_default_signal_handlers();
 	path = find_path(data, cmd->cmd[0]);
-	if (execve(path, cmd->cmd, NULL) == -1)
+	if (execve(path, cmd->cmd, data->envp) == -1)
 		exit(1);
+	free(path);
 }
 
 /* this function will start the fork to execute the cmd
@@ -50,11 +50,11 @@ then if not, check if it is a built in, then will execute as built in.
 if not, i use another function to start executing the external cmd*/
 void	handle_command(t_cmds *cmd, t_data *data)
 {
-	int	ret;
+	//int	ret;
 	int pid[1];
 	int status;
 
-	ret = 0;
+	//ret = 0;
 	(void)data;
 	if (!is_empty_cmd(cmd))
 	{

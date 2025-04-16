@@ -27,6 +27,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			free_matrix(data->parsed_path);
 			free_env_list(data->env_lst);
 			free(data->input_line);
+			free(data->tokens);
 			break;
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
@@ -37,13 +38,8 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			parsing(data, cmds_d);
 			update_new_env(data);
 			execution(data, cmds_d);
-			free_matrix(data->envp);
-			free(data->input_line);
-			// free_data(data);
-			free_cmds_d(cmds_d);
 		}
-		else
-			free(data->input_line);
+		free(data->input_line);
 	}
 }
 
@@ -57,6 +53,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	data = malloc(sizeof(t_data));
 	cmds_d = malloc(sizeof(t_parsed_data));
+	ft_memset(cmds_d, 0, sizeof(t_parsed_data));
 	if (!data || !cmds_d)
 	{
 		perror("Memory allocation failed");
@@ -66,17 +63,10 @@ int	main(int argc, char **argv, char **envp)
 	init_env(envp, data);
 	start_signal();
 	reading_loop(data, cmds_d);
+	free(data->tokens);
+	free_matrix(data->envp);
+	free_cmds_d(cmds_d);
 	free(data);
 	free(cmds_d);
 	return (EXIT_SUCCESS);
 }
-// print_env(data->env_lst);
-
-// void print_env(t_var *head)
-// {
-// 	while (head)
-// 	{
-// 		printf("%s=%s\n", head->key, head->value);
-// 		head = head->next;
-// 	}
-// }
