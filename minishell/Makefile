@@ -32,8 +32,7 @@ SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/free_and_error.c $(SRC_DIR)/lexing/l
 			$(SRC_DIR)/env.c $(SRC_DIR)/env_utils.c $(SRC_DIR)/builtins/ft_unset.c $(SRC_DIR)/builtins/ft_exit.c\
       		$(SRC_DIR)/execution/execution.c  $(SRC_DIR)/execution/handle_command.c \
 			$(SRC_DIR)/execution/execution_utils.c 	$(SRC_DIR)/signals/signals.c \
-			$(SRC_DIR)/execution/handle_command_utils.c $(SRC_DIR)/execution/execute_pipe.c \
-			$(SRC_DIR)/execution/redirections.c
+			$(SRC_DIR)/execution/handle_command_utils.c $(SRC_DIR)/execution/execute_pipe.c 
 
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 LIBFT_A = $(LIBFT)/libft.a
