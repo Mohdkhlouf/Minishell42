@@ -23,12 +23,12 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		data->input_line = readline("\033[0;35mminishell>\033[0m ");
 		if (!data->input_line)
 		{
-			printf("Exit");
+			printf("Exit from EOF");
 			free_matrix(data->parsed_path);
 			free_env_list(data->env_lst);
 			free(data->input_line);
 			free(data->tokens);
-			break ;
+			return ;
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{

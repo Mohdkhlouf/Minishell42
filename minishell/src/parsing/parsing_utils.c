@@ -10,10 +10,10 @@ void	create_cmds_arr(t_parsed_data *cmds_d)
 	ft_memset(cmds_d->cmds, 0, sizeof(t_cmds) * cmds_d->cmds_counter);
 	for (int i = 0; i < cmds_d->cmds_counter; i++)
 	{
-		cmds_d->cmds[i].cmd = malloc(sizeof(char *) * 20);
+		cmds_d->cmds[i].cmd = malloc(sizeof(char *) * 100);
 		if (!cmds_d->cmds[i].cmd)
 			exit(EXIT_FAILURE);
-		cmds_d->cmds[i].reds = malloc(sizeof(char *) * 20);
+		cmds_d->cmds[i].reds = malloc(sizeof(char *) * 100);
 		if (!cmds_d->cmds[i].reds)
 			exit(EXIT_FAILURE);
 	}
@@ -22,7 +22,7 @@ void	create_cmds_arr(t_parsed_data *cmds_d)
 void	pipe_found(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
-	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL;
+	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL; /* here is a problem*/
 	cmds_d->cmds_ctr++;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
