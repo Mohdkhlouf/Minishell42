@@ -91,8 +91,12 @@ void	execute_redirections(t_data *data, t_cmds *cmds_d)
 	int i;
 
 	i = 0;
+	if (!cmds_d->reds) // protect against NULL cmds_d or reds
+		return;
 	while (cmds_d->reds[i])
 	{
+		if (cmds_d->reds[i] == NULL)
+			break;
 		if (ft_strcmp(cmds_d->reds[i], "<") == 0)
 			input_handller(&i, cmds_d->reds[i + 1]);
 		else if (ft_strcmp(cmds_d->reds[i], "<<") == 0)

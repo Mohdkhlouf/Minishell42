@@ -24,8 +24,10 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 	path = NULL;
 	// set_default_signal_handlers();
 	path = find_path(data, cmd->cmd[0]);
+	if(!path)
+		return;
 	if (execve(path, cmd->cmd, data->envp) == -1)
-		exit(1);
+		return;
 	free(path);
 }
 
@@ -58,7 +60,7 @@ void	handle_command(t_cmds *cmd, t_data *data)
 	int status;
 
 	ret = 0;
-	
+	pid = 0;
 	(void)data;
 	if (!is_empty_cmd(cmd))
 	{

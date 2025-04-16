@@ -22,7 +22,7 @@ void	create_cmds_arr(t_parsed_data *cmds_d)
 void	pipe_found(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
-	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->token_ctr] = NULL;
+	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL;
 	cmds_d->cmds_ctr++;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
@@ -30,12 +30,12 @@ void	pipe_found(t_parsed_data *cmds_d)
 /* add new redirecttion from tokens to the final struct for execution*/
 void	cmd_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 {
-	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = data->tokens[*i].data;
+	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = ft_strdup(data->tokens[*i].data);
 	cmds_d->token_ctr++;
 }
 /* add new commands from tokens to the final struct for execution*/
 void	redirection_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 {
-	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = data->tokens[*i].data;
+	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = ft_strdup(data->tokens[*i].data);
 	cmds_d->red_ctr++;
 }

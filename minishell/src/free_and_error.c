@@ -38,6 +38,7 @@ void	free_data(t_data *data)
 		i++;
 	}
 	free(data->tokens);
+	data->tokens = NULL;
 
 }
 
