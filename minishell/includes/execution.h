@@ -17,5 +17,6 @@ int								execute_cmd(t_cmds *cmd, t_data *data);
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
+void							execute_redirections(t_data *data, t_cmds *cmds_d);
 
 #endif
