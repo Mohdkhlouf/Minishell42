@@ -23,12 +23,12 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		data->input_line = readline("\033[0;35mminishell>\033[0m ");
 		if (!data->input_line)
 		{
-			printf("Exit");
+			printf("Exit from EOF");
 			free_matrix(data->parsed_path);
 			free_env_list(data->env_lst);
 			free(data->input_line);
 			free(data->tokens);
-			break;
+			return ;
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
@@ -38,6 +38,9 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			parsing(data, cmds_d);
 			update_new_env(data);
 			execution(data, cmds_d);
+			free_matrix(data->envp);
+			free_cmds_d(cmds_d);
+			free_data(data);
 		}
 		free(data->input_line);
 	}
@@ -54,6 +57,7 @@ int	main(int argc, char **argv, char **envp)
 	data = malloc(sizeof(t_data));
 	cmds_d = malloc(sizeof(t_parsed_data));
 	ft_memset(cmds_d, 0, sizeof(t_parsed_data));
+	ft_memset(data, 0, sizeof(t_data));
 	if (!data || !cmds_d)
 	{
 		perror("Memory allocation failed");
@@ -63,9 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	init_env(envp, data);
 	start_signal();
 	reading_loop(data, cmds_d);
-	free(data->tokens);
-	free_matrix(data->envp);
-	free_cmds_d(cmds_d);
 	free(data);
 	free(cmds_d);
 	return (EXIT_SUCCESS);
