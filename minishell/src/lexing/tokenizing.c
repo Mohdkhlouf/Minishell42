@@ -74,7 +74,12 @@ int	tokenizing(t_data *data)
 	{
 		if (data->tokens[i].data[0] == '$')
 		{
-			init_var_handler(data, &i);
+			if(data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
+			{
+				data->tokens[i].data = ft_itoa(data->g_exit_status);
+			}
+			else
+				init_var_handler(data, &i);
 		}
 		// else if ((data->tokens[i].data[0] == '\"')
 		// 	&& ft_strchr(data->tokens[i].data, '$'))
@@ -88,6 +93,6 @@ int	tokenizing(t_data *data)
 		redirection_setting(data, i);
 		i++;
 	}
-	print_tokens(data);
+	// print_tokens(data);
 	return (SUCCESS);
 }

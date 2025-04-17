@@ -63,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
 		perror("Memory allocation failed");
 		exit(EXIT_FAILURE);
 	}
+	data->g_exit_status = 0;
 	data_init(data);
 	init_env(envp, data);
 	start_signal();
