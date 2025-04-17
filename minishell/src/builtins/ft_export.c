@@ -2,25 +2,27 @@
 
 // TODO return value
 
-void get_export(char **sorted_arr, t_data *data)
+void	get_export(char **sorted_arr, t_data *data)
 {
-	int i = 0;
+	int	i;
 
-	while(sorted_arr[i])
+	i = 0;
+	while (sorted_arr[i])
 	{
-		printf("\033[0;32mdeclare -x %s\033[0m", sorted_arr[i]);
-		if(get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i], data)[0] != '\0')
+		printf("declare -x %s", sorted_arr[i]);
+		if (get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i],
+				data)[0] != '\0')
 		{
-			printf("\033[0;32m=\"%s\"\033[0m", get_env_value(sorted_arr[i], data));
+			printf("\"%s\"", get_env_value(sorted_arr[i], data));
 		}
 		printf("\n");
 		i++;
 	}
 }
 
-int get_env_len(t_var *env)
+int	get_env_len(t_var *env)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (!env)
@@ -33,10 +35,10 @@ int get_env_len(t_var *env)
 	return (count);
 }
 
-char **list_to_arr(int size, t_var *env)
+char	**list_to_arr(int size, t_var *env)
 {
-	char **arr_str;
-	int i;
+	char	**arr_str;
+	int		i;
 
 	i = 0;
 	arr_str = malloc(sizeof(char *) * (size + 1));
@@ -52,12 +54,12 @@ char **list_to_arr(int size, t_var *env)
 	return (arr_str);
 }
 
-char **sort_arr_list(char **arr, int size)
+char	**sort_arr_list(char **arr, int size)
 {
-	int j;
-	int swapped;
-	char *temp;
-	int k;
+	int		j;
+	int		swapped;
+	char	*temp;
+	int		k;
 
 	j = 0;
 	while (j < size - 1)
@@ -76,18 +78,18 @@ char **sort_arr_list(char **arr, int size)
 			k++;
 		}
 		if (!swapped)
-			break;
+			break ;
 		j++;
 	}
 	return (arr);
 }
 
-int ft_export(t_cmds *cmd, t_data *data)
+int	ft_export(t_cmds *cmd, t_data *data)
 {
-	char **arr;
-	char **sorted_arr;
-	int size;
-	t_var *env;
+	char	**arr;
+	char	**sorted_arr;
+	int		size;
+	t_var	*env;
 
 	arr = NULL;
 	sorted_arr = NULL;
@@ -95,7 +97,6 @@ int ft_export(t_cmds *cmd, t_data *data)
 	env = data->env_lst;
 	if (!env)
 		return (1);
-
 	if (!cmd->cmd[1])
 	{
 		size = get_env_len(env);
@@ -140,15 +141,15 @@ int ft_export(t_cmds *cmd, t_data *data)
 // 	return (0);
 // }
 
-//add_export_to_list(sorted_arr, data);
-//print_export(data);
+// add_export_to_list(sorted_arr, data);
+// print_export(data);
 // void print_export(t_data *data)
 // {
 // 	t_var *export_node;
 // 	if (!data->export_list)
 // 	{
 // 		printf("Error: No environment variables to export.\n");
-// 		return;
+// 		return ;
 // 	}
 // 	export_node = data->export_list;
 // 	while (export_node)

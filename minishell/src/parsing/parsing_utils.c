@@ -1,7 +1,6 @@
 
 #include "../includes/parsing.h"
 
-
 void	create_cmds_arr(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds = malloc(sizeof(t_cmds) * cmds_d->cmds_counter);
@@ -22,7 +21,8 @@ void	create_cmds_arr(t_parsed_data *cmds_d)
 void	pipe_found(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
-	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL; /* here is a problem*/
+	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL;
+		/* here is a problem*/
 	cmds_d->cmds_ctr++;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;

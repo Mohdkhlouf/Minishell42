@@ -2,9 +2,9 @@
 
 // TODO return value
 
-int cd_with_no_param(t_data *data)
+int	cd_with_no_param(t_data *data)
 {
-	char *home_dir;
+	char	*home_dir;
 
 	home_dir = ft_strdup(get_env_value("HOME", data));
 	if (!home_dir)
@@ -19,15 +19,15 @@ int cd_with_no_param(t_data *data)
 		return (-1);
 	}
 	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
-					data);
+		data);
 	update_env_list(ft_strdup("PWD"), home_dir, data);
 	return (0);
 }
 
-int cd_with_dash_param(t_data *data)
+int	cd_with_dash_param(t_data *data)
 {
-	char *pwd_path;
-	char *oldpwd_path;
+	char	*pwd_path;
+	char	*oldpwd_path;
 
 	pwd_path = ft_strdup(get_env_value("PWD", data));
 	oldpwd_path = ft_strdup(get_env_value("OLDPWD", data));
@@ -50,9 +50,9 @@ int cd_with_dash_param(t_data *data)
 	return (0);
 }
 
-int cd_with_param(t_data *data, char *path_value)
+int	cd_with_param(t_data *data, char *path_value)
 {
-	char *newpath;
+	char	*newpath;
 
 	if (chdir(path_value) != 0)
 	{
@@ -60,7 +60,7 @@ int cd_with_param(t_data *data, char *path_value)
 		return (-1);
 	}
 	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
-					data);
+		data);
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
 	{
@@ -72,9 +72,9 @@ int cd_with_param(t_data *data, char *path_value)
 	return (0);
 }
 
-int ft_cd(t_cmds *cmd, t_data *data)
+int	ft_cd(t_cmds *cmd, t_data *data)
 {
-	char *path_value;
+	char	*path_value;
 
 	if (!cmd->cmd[1])
 		return (cd_with_no_param(data));
@@ -97,4 +97,3 @@ int ft_cd(t_cmds *cmd, t_data *data)
 	}
 	return (0);
 }
-

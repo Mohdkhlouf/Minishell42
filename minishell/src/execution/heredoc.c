@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void heredoc()
-{
+// void heredoc()
+// {
 	
-}
+// }

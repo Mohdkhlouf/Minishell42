@@ -1,8 +1,8 @@
 #include "../includes/minishell.h"
 
-int check_nl(char *new_line)
+int	check_nl(char *new_line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_strlen(new_line) <= 1)
@@ -17,14 +17,14 @@ int check_nl(char *new_line)
 	return (1);
 }
 
-int ft_echo(t_cmds *cmd)
+int	ft_echo(t_cmds *cmd, t_data *data)
 {
-	int print_newline;
-	int i;
+	int	print_newline;
+	int	i;
 
+	(void)data;
 	print_newline = 1;
 	i = 1;
-	ft_putstr_fd("\033[1;32m", 1);
 	if (cmd->cmd[i] && check_nl(cmd->cmd[i]))
 	{
 		print_newline = 0;
@@ -35,7 +35,7 @@ int ft_echo(t_cmds *cmd)
 		if (cmd->cmd[i][0] == '\0')
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		ft_putstr_fd(cmd->cmd[i], 1);
 		if (cmd->cmd[i + 1])
@@ -44,38 +44,5 @@ int ft_echo(t_cmds *cmd)
 	}
 	if (print_newline)
 		ft_putchar_fd('\n', 1);
-	ft_putstr_fd("\033[0m", 1);
 	return (0);
 }
-
-
-// int ft_echo(t_data *data)
-// {
-// 	int print_newline;
-// 	int i;
-
-// 	print_newline = 1;
-// 	i = 1;
-// 	ft_putstr_fd("\033[1;32m", 1);
-// 	if (data->words[i] && check_nl(data->words[i]))
-// 	{
-// 		print_newline = 0;
-// 		i++;
-// 	}
-// 	while (data->words[i])
-// 	{
-// 		if (data->words[i][0] == '\0')
-// 		{
-// 			i++;
-// 			continue;
-// 		}
-// 		ft_putstr_fd(data->words[i], 1);
-// 		if (data->words[i + 1])
-// 			ft_putchar_fd(' ', 1);
-// 		i++;
-// 	}
-// 	if (print_newline)
-// 		ft_putchar_fd('\n', 1);
-// 	ft_putstr_fd("\033[0m", 1);
-// 	return (0);
-// }

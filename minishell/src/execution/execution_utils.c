@@ -28,7 +28,6 @@ void	parse_path(t_data *data)
 	// }
 }
 
-
 // char	*find_path(t_pipex *pipex, char *cmd)
 // {
 // 	int		i;

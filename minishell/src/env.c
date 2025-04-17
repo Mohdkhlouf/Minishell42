@@ -1,29 +1,30 @@
 #include "../includes/minishell.h"
 
-char *get_env_value(char *key, t_data *data)
+char	*get_env_value(char *key, t_data *data)
 {
-	t_var *env;
+	t_var	*env;
 
 	env = data->env_lst;
 	while (env)
 	{
-		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0 && (ft_strlen(env->key) == ft_strlen(key)))
+		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0
+			&& (ft_strlen(env->key) == ft_strlen(key)))
 			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
 }
 
-void env_addtolist(t_var **lst, t_var *node)
+void	env_addtolist(t_var **lst, t_var *node)
 {
-	t_var *current;
+	t_var	*current;
 
 	if (!lst || !node)
-		return;
+		return ;
 	if (!*lst)
 	{
 		*lst = node;
-		return;
+		return ;
 	}
 	current = *lst;
 	while (current->next != NULL)
@@ -31,12 +32,12 @@ void env_addtolist(t_var **lst, t_var *node)
 	current->next = node;
 }
 
-t_var *init_envp_node(char *env)
+t_var	*init_envp_node(char *env)
 {
-	t_var *node;
-	char *key;
-	char *value;
-	char *equal_sign;
+	t_var	*node;
+	char	*key;
+	char	*value;
+	char	*equal_sign;
 
 	equal_sign = ft_strchr(env, '=');
 	if (!equal_sign)
@@ -56,31 +57,31 @@ t_var *init_envp_node(char *env)
 	return (node);
 }
 /*mohammad add start*/
-void create_path_arr(char *path, t_data *data)
+void	create_path_arr(char *path, t_data *data)
 {
-	data->parsed_path=ft_split(path,':');
-	if(!data->parsed_path)
+	data->parsed_path = ft_split(path, ':');
+	if (!data->parsed_path)
 		print_error("creating path arr faild");
 }
 /*mohammad add end*/
 
-void init_env(char **envp, t_data *data)
+void	init_env(char **envp, t_data *data)
 {
-	int i;
-	t_var *list;
-	t_var *node;
+	int		i;
+	t_var	*list;
+	t_var	*node;
 
 	i = 0;
 	list = NULL;
 	if (!envp)
-		return;
+		return ;
 	while (envp[i])
 	{
 		node = init_envp_node(envp[i]);
 		if (!node)
 		{
 			free_env_list(list);
-			return;
+			return ;
 		}
 		env_addtolist(&list, node);
 		i++;
@@ -88,10 +89,10 @@ void init_env(char **envp, t_data *data)
 	data->env_lst = list;
 	/* Mohammad add start*/
 	/*fill in path in main strcut then we have to split using split with :
-	so all paths are there then we have to compare with the command so we can 
-	know if it is existed or not, and we need the right path so we can use it in 
+	so all paths are there then we have to compare with the command so we can
+	know if it is existed or not, and we need the right path so we can use it in
 	execv function*/
-	data->path = get_env_value("PATH",data);
+	data->path = get_env_value("PATH", data);
 	create_path_arr(data->path, data);
 	/* Mohammad add end*/
 }
