@@ -51,6 +51,6 @@ void					free_var(t_vars_data *var);
 void					assign_quotes(t_data *data, int len, int i, char *temp);
 void					quote_fixing(t_data *data, int i);
 void					redirection_setting(t_data *data, int i);
-void	free_var(t_vars_data *var);
+void					free_var(t_vars_data *var);
 
 #endif

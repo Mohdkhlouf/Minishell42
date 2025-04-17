@@ -1,4 +1,5 @@
 #include "../includes/parsing.h"
+
 /*initialize the data for the struct*/
 void	cmds_init(t_parsed_data *cmds_d)
 {
@@ -8,7 +9,7 @@ void	cmds_init(t_parsed_data *cmds_d)
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
 }
-/*function to re read the line and count the pipes so we know how 
+/*function to re read the line and count the pipes so we know how
 many commands we will have*/
 void	find_cmds_counter(t_data *data, t_parsed_data *cmds_d)
 {
@@ -70,7 +71,6 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 		printf("Final Command %d: ", i);
 		while (cmds_d->cmds[i].cmd[j])
 		{
-
 			printf("%s ", cmds_d->cmds[i].cmd[j]);
 			j++;
 		}
@@ -88,13 +88,11 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 		else
 		{
 			printf("No reds");
-
 		}
 		printf("#\n");
 		i++;
 	}
 }
-
 
 void	parsing(t_data *data, t_parsed_data *cmds_d)
 {

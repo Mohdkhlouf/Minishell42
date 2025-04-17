@@ -24,13 +24,12 @@ last: from << herdoc, EOF signal*/
 void	start_signal(void)
 {
 	struct sigaction	sa;
+
 	sa.sa_handler = handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
-	
 	// this will ignore the crtrl + \ like bash
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
-	
 }

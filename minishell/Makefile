@@ -23,7 +23,7 @@ LIBS    = -lreadline
 
 # Files
 NAME    = minishell
-SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/free_and_error.c $(SRC_DIR)/lexing/lexing.c \
+SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/free.c $(SRC_DIR)/error.c $(SRC_DIR)/lexing/lexing.c \
 			$(SRC_DIR)/lexing/lexing_functions.c 	$(SRC_DIR)/lexing/lexing_functions2.c \
 			$(SRC_DIR)/lexing/tokenizing.c $(SRC_DIR)/lexing/qoutes_redirections.c $(SRC_DIR)/lexing/var_handler.c \
 			$(SRC_DIR)/lexing/var_handler_utils.c $(SRC_DIR)/parsing/parsing.c $(SRC_DIR)/parsing/parsing_utils.c \
@@ -33,7 +33,7 @@ SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/free_and_error.c $(SRC_DIR)/lexing/l
       		$(SRC_DIR)/execution/execution.c  $(SRC_DIR)/execution/handle_command.c \
 			$(SRC_DIR)/execution/execution_utils.c 	$(SRC_DIR)/signals/signals.c \
 			$(SRC_DIR)/execution/handle_command_utils.c $(SRC_DIR)/execution/execute_pipe.c \
-			$(SRC_DIR)/execution/redirections.c 
+			$(SRC_DIR)/execution/redirections.c $(SRC_DIR)/execution/redirections_utils.c 
 
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 LIBFT_A = $(LIBFT)/libft.a

@@ -1,12 +1,12 @@
 #include "../includes/minishell.h"
 
-char *join_cmd_with_slash(char *cmd)
+char	*join_cmd_with_slash(char *cmd)
 {
-	char *result;
+	char	*result;
 
 	result = NULL;
 	result = ft_strjoin("/", cmd);
-	if(!result)
+	if (!result)
 		print_error("Join is not done\n");
 	return (result);
 }
@@ -50,7 +50,3 @@ void	handle_empty_cmd(t_cmds *cmd, t_data *data)
 	(void)cmd;
 	printf("empty cmd handler\n");
 }
-
-
-
-

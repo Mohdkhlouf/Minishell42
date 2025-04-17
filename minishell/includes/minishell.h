@@ -5,6 +5,7 @@
 # include "execution.h"
 # include "lexing.h"
 # include "parsing.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -16,8 +17,6 @@
 # include <strings.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <fcntl.h>
-#include <errno.h>
 
 # define SUCCESS 1
 # define FAILIURE 0
@@ -38,7 +37,6 @@ typedef enum e_token_type
 	TOK_DOUBLE_QUOTE,     // Double quote "\"" character
 	TOK_ENV_VAR,          // Environment variable (e.g., $HOME)
 	TOK_EOF,              // End of file or input termination
-
 }								t_token_type;
 
 typedef struct s_token
@@ -87,34 +85,28 @@ void							print_error(char *msg);
 void							free_cmds_d(t_parsed_data *cmds_d);
 void							start_signal(void);
 
-/*---------------Execution----------------*/
-
-// char *get_path(char **env);
+/*---------------free-----------------------*/
 int								free_matrix(char **env);
 void							free_env_list(t_var *head);
 
 // void handle_sigint(int sig);
 // void handle_sigquit(int sig);
-
 // void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
-/*----Built-ins----*/
-
+/*---------------Built-ins--------------------*/
 int								execute_builtin(t_data *data, t_cmds *cmds);
-
 int								is_builtin(char *cmd);
-/*-------echo------*/
-int								ft_echo(t_cmds *cmd);
+/*-----------------echo----------------------*/
+int								ft_echo(t_cmds *cmd, t_data *data);
 int								check_nl(char *new_line);
-/*-------pwd-------*/
-int								ft_pwd(t_cmds *cmd);
-
-/*-------env-------*/
+/*------------------pwd---------------------*/
+int								ft_pwd(t_cmds *cmd, t_data *data);
+/*------------------env---------------------*/
 int								ft_env(t_cmds *cmd, t_data *data);
 void							init_env(char **envp, t_data *data);
 t_var							*init_envp_node(char *env);
 void							env_addtolist(t_var **lst, t_var *node);
-/*-------cd--------*/
+/*-------------------cd---------------------*/
 int								ft_cd(t_cmds *cmd, t_data *data);
 int								cd_with_no_param(t_data *data);
 int								cd_with_dash_param(t_data *data);
@@ -122,7 +114,7 @@ int								cd_with_param(t_data *data, char *path_value);
 void							update_env_list(char *key, char *value,
 									t_data *data);
 char							*get_env_value(char *key, t_data *data);
-/*------export------*/
+/*------------------export-------------------*/
 int								ft_export(t_cmds *cmd, t_data *data);
 int								get_env_len(t_var *env);
 char							**list_to_arr(int size, t_var *env);
@@ -132,16 +124,12 @@ void							add_new_env_variable(char *key, char *value,
 									t_data *data);
 void							get_export(char **sorted_arr, t_data *data);
 char							*get_env_key(char *key, t_data *data);
-int								ft_exit(t_cmds *cmd);
-
-/*-------unset-----------*/
+int								ft_exit(t_cmds *cmd, t_data *data);
+/*--------------------unset-------------------*/
 int								ft_unset(t_cmds *cmd, t_data *data);
 void							update_new_env(t_data *data);
-
 int								ft_strcmp(const char *s1, const char *s2);
-
 #endif
-
 // void add_export_to_list(char **arr_list, t_data *data);
 // void print_export(t_data *data);
 // void check_echo_$(t_data *data);
