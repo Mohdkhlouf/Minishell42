@@ -70,7 +70,7 @@ typedef struct s_data
 	char						**parsed_path;
 	char						*pwd;
 	char						**words;
-	char						*exit_code;
+	volatile sig_atomic_t		g_exit_status;
 	t_var						*env_lst;
 	char						**envp;
 }								t_data;
