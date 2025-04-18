@@ -1,16 +1,5 @@
 #include "../includes/minishell.h"
 
-void	heredoc_handller(int *i, char *heredoc)
-{
-	printf("heredoc is %s:", heredoc);
-	// if (!open_input_file(infile))
-	// {
-	// 	/*handle that needed*/
-	// 	exit(-1);
-	// }
-	(*i)++;
-}
-
 bool	open_output_file(char *outfile, int mode)
 {
 	int	fd;

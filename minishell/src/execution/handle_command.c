@@ -83,3 +83,22 @@ void	handle_command(t_cmds *cmd, t_data *data)
 		handle_empty_cmd(cmd, data);
 	
 }
+
+/* this function will start the fork to execute the cmd
+i did the fork here.
+then send the execution to child process*/
+// int	execute_cmd(t_cmds *cmd, t_data *data)
+// {
+// 	pid_t	pid;
+
+// 	pid = fork();
+// 	if (pid == -1)
+// 	{
+// 		print_error("ERROR IN FORKING\n");
+// 		exit(1);
+// 	}
+
+// 	if (pid == 0)
+// 		exec_cmd(cmd, data);
+// 	return (pid);
+// }

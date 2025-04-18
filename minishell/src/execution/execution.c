@@ -62,10 +62,9 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 	i = 0;
 	if (!data || !cmds_d)
 		return ;
-	// parse_path(data);
 	if (cmds_d->cmds_counter == 0)
 		return ;
-	else if (cmds_d->cmds_counter == 1)
+	if (cmds_d->cmds_counter == 1)
 	{
 		if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
 		{
@@ -79,7 +78,5 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 	}
 	else
 		handle_pipes(data, cmds_d);
-	/* Important, when the commmand is empty "" it must be sent to
-	be checked ad return error like bash*/
 	return ;
 }
