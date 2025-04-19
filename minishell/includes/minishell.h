@@ -73,6 +73,7 @@ typedef struct s_data
 	volatile sig_atomic_t		g_exit_status;
 	t_var						*env_lst;
 	char						**envp;
+	int 						pipe_fd[2];
 }								t_data;
 
 /*---------------Parsing------------------*/

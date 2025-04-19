@@ -31,10 +31,9 @@ void	execute_parent(int *prev_cmd, int *pipe_fd, int i, int cmds_counter)
 
 void	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd)
 {
-	int		pipe_fd[2];
 	pid_t	pid;
 
-	if (i < cmds_d->cmds_counter && pipe(pipe_fd) == -1)
+	if (i < cmds_d->cmds_counter && pipe(data->pipe_fd) == -1)
 	{
 		perror("pipe");
 		return ;
@@ -46,9 +45,9 @@ void	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd)
 		return ;
 	}
 	else if (pid == 0) // child process
-		execute_child(data, cmds_d, i, prev_cmd, pipe_fd);
+		execute_child(data, cmds_d, i, prev_cmd, data->pipe_fd);
 	else
-		execute_parent(prev_cmd, pipe_fd, i, cmds_d->cmds_counter);
+		execute_parent(prev_cmd, data->pipe_fd, i, cmds_d->cmds_counter);
 }
 
 void	handle_pipes(t_data *data, t_parsed_data *cmds_d)
