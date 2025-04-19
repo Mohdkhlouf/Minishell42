@@ -30,4 +30,6 @@ void							heredoc_handller(int *i, char *delimiter);
 bool							open_output_file(char *outfile, int mode);
 bool							open_input_file(char *infile);
 void							hanlde_fd(int old, int fd);
+void	handle_single_command(t_cmds *cmd, t_data *data);
+
 #endif
