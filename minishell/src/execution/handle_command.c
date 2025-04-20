@@ -18,7 +18,6 @@ void set_default_signal_handlers(void)
 then do the command execution*/
 void exec_cmd(t_cmds *cmd, t_data *data)
 {
-	(void)data;
 	char *path;
 
 	path = NULL;
@@ -28,8 +27,9 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 		return;
 	if (execve(path, cmd->cmd, data->envp) == -1)
 		return;
-	free(path);
+	exit(1);
 }
+
 
 /* this function will start the fork to execute the cmd
 i did the fork here.
@@ -50,10 +50,7 @@ int	execute_cmd(t_cmds *cmd, t_data *data)
 	return (pid);
 }
 
-/*this function recieved a cmd struct, first i check if the command is empty
-then if not, check if it is a built in, then will execute as built in.
-if not, i use another function to start executing the external cmd*/
-void	handle_command(t_cmds *cmd, t_data *data)
+void	handle_single_command(t_cmds *cmd, t_data *data)
 {
 	int	ret;
 	int pid;
@@ -66,7 +63,6 @@ void	handle_command(t_cmds *cmd, t_data *data)
 	{
 		if (is_builtin(cmd->cmd[0]) == 1)
 		{
-			/*function to execute builtin function the sent will be a command*/
 			ret = execute_builtin(data, cmd);
 			if(ret == -1)
 				print_error("Error.\n");
@@ -81,24 +77,35 @@ void	handle_command(t_cmds *cmd, t_data *data)
 	}
 	else
 		handle_empty_cmd(cmd, data);
-	
 }
 
-/* this function will start the fork to execute the cmd
-i did the fork here.
-then send the execution to child process*/
-// int	execute_cmd(t_cmds *cmd, t_data *data)
-// {
-// 	pid_t	pid;
 
-// 	pid = fork();
-// 	if (pid == -1)
-// 	{
-// 		print_error("ERROR IN FORKING\n");
-// 		exit(1);
-// 	}
 
-// 	if (pid == 0)
-// 		exec_cmd(cmd, data);
-// 	return (pid);
-// }
+/*this function recieved a cmd struct, first i check if the command is empty
+then if not, check if it is a built in, then will execute as built in.
+if not, i use another function to start executing the external cmd*/
+void	handle_command(t_cmds *cmd, t_data *data)
+{
+	int	ret;
+	ret = 0;
+
+	if (!is_empty_cmd(cmd))
+	{
+		if (is_builtin(cmd->cmd[0]) == 1)
+		{
+			/*function to execute builtin function the sent will be a command*/
+			ret = execute_builtin(data, cmd);
+			if(ret == -1)
+				print_error("Error.\n");
+			printf("execute builtin \n");
+		}
+		else
+		{
+			execute_redirections(data, cmd);
+			exec_cmd(cmd, data);
+		}
+	}
+	else
+		handle_empty_cmd(cmd, data);
+	
+}

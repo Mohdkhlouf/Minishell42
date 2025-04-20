@@ -74,7 +74,7 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 			return ;
 		}
 		else
-			handle_command(&cmds_d->cmds[0], data);
+			handle_single_command(&cmds_d->cmds[0], data);
 	}
 	else
 		handle_pipes(data, cmds_d);
