@@ -76,7 +76,7 @@ int	tokenizing(t_data *data)
 		{
 			if(data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
 			{
-				data->tokens[i].data = ft_itoa(data->g_exit_status);
+				data->tokens[i].data = ft_itoa(g_exit_status);
 			}
 			else
 				init_var_handler(data, &i);

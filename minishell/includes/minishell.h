@@ -22,6 +22,7 @@
 # define FAILIURE 0
 
 typedef struct s_parsed_data	t_parsed_data;
+extern volatile sig_atomic_t		g_exit_status;
 
 typedef enum e_token_type
 {
@@ -70,10 +71,10 @@ typedef struct s_data
 	char						**parsed_path;
 	char						*pwd;
 	char						**words;
-	volatile sig_atomic_t		g_exit_status;
 	t_var						*env_lst;
 	char						**envp;
 	int 						pipe_fd[2];
+	pid_t	pid;
 }								t_data;
 
 /*---------------Parsing------------------*/

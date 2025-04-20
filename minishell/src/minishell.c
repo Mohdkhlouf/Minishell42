@@ -1,5 +1,7 @@
 #include "../includes/minishell.h"
 
+volatile sig_atomic_t		g_exit_status = 0;
+
 void	data_init(t_data *data)
 {
 	data->cline_parts = 0;
@@ -63,7 +65,6 @@ int	main(int argc, char **argv, char **envp)
 		perror("Memory allocation failed");
 		exit(EXIT_FAILURE);
 	}
-	data->g_exit_status = 0;
 	data_init(data);
 	init_env(envp, data);
 	start_signal();
