@@ -38,7 +38,7 @@ char	*find_path(t_data *data, char *cmd)
 	if (not_found == 1)
 	{
 		free(file_name);
-		print_error("FILE NOT FOUND\n");
+		// print_error("FILE NOT FOUND\n");
 	}
 	return (free(with_slash), NULL);
 }

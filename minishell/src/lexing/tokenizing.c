@@ -70,7 +70,7 @@ int	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->tokens_conter)
+	while (data->tokens[i].data)
 	{
 		if (data->tokens[i].data[0] == '$')
 		{

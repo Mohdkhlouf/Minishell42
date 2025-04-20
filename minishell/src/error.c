@@ -2,8 +2,9 @@
 
 void	print_error(char *msg)
 {
-	dup2(STDERR_FILENO, STDOUT_FILENO);
-	printf("minishell:%s", msg);
+	ft_putstr_fd("minishell:", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("\n", 2);
 }
 
 void	print_error_exit(char *msg, t_data *data, t_vars_data *var)

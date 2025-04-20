@@ -30,7 +30,9 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			free_env_list(data->env_lst);
 			free(data->input_line);
 			free(data->tokens);
-			return ;
+			free(data);
+			free(cmds_d);
+			exit(0) ;
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
