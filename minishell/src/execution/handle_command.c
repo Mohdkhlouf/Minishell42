@@ -24,10 +24,21 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 	set_default_signal_handlers();
 	path = find_path(data, cmd->cmd[0]);
 	if(!path)
-		return;
+	{
+		ft_putstr_fd("minishell: '", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd("': command not found\n", 2);
+		exit(127);
+	}
+		
 	if (execve(path, cmd->cmd, data->envp) == -1)
-		return;
-	exit(1);
+	{
+		perror("minishell");
+		g_exit_status = 127;
+		exit(127);
+	}
+		
+
 }
 
 
@@ -42,7 +53,7 @@ int	execute_cmd(t_cmds *cmd, t_data *data)
 	if (pid == -1)
 	{
 		print_error("ERROR IN FORKING\n");
-		exit(1);
+		exit(127);
 	}
 		
 	if (pid == 0)

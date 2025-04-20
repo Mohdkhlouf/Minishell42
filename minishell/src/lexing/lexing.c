@@ -23,6 +23,13 @@ int	malloc_tokens_arr(t_data *data)
 
 // this one to add the data normally
 
+void	append_eof_token(t_data *data, int type)
+{
+	data->tokens[data->tokens_conter].data = '\0';
+	data->tokens[data->tokens_conter].type = type;
+	data->tokens_conter++;
+}
+
 void	append_token(t_data *data, int type)
 {
 	if (data->end == data->start)

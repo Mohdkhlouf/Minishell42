@@ -40,7 +40,7 @@ void	eof_function(t_data *data)
 		data->in_token = false;
 	}
 	data->start = data->end;
-	append_token(data, TOK_EOF);
+	append_eof_token(data, TOK_EOF);
 	data->start = data->end + 1;
 }
 
