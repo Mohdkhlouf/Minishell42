@@ -38,7 +38,8 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		{
 			add_history(data->input_line);
 			lexing(data);
-			tokenizing(data);
+			if (!tokenizing(data))
+				continue;
 			parsing(data, cmds_d);
 			update_new_env(data);
 			execution(data, cmds_d);
@@ -69,9 +70,10 @@ int	main(int argc, char **argv, char **envp)
 	}
 	data_init(data);
 	init_env(envp, data);
-	start_signal();
+	// start_signal();
+	set_prompt_signals();
 	reading_loop(data, cmds_d);
 	free(data);
 	free(cmds_d);
-	return (EXIT_SUCCESS);
+	return (g_exit_status);
 }

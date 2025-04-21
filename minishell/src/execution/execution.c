@@ -5,7 +5,6 @@ int	builtin_with_redirect(t_cmds *cmds, t_data *data,
 {
 	int	result;
 	int	saved_stdout;
-
 	saved_stdout = dup(STDOUT_FILENO); // save terminal
 	if (saved_stdout == -1)
 	{

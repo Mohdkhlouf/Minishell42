@@ -31,5 +31,11 @@ bool							open_output_file(char *outfile, int mode);
 bool							open_input_file(char *infile);
 void							hanlde_fd(int old, int fd);
 void	handle_single_command(t_cmds *cmd, t_data *data);
+void	set_prompt_signals(void);
+void	set_child_signals(void);
+void	set_heredoc_signals(void);
+
+
+
 
 #endif
