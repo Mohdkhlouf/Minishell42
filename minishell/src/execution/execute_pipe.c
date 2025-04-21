@@ -71,8 +71,22 @@ void	handle_pipes(t_data *data, t_parsed_data *cmds_d)
 	{
 		g_exit_status = WEXITSTATUS(status);
 	}
+	else if (WTERMSIG(status))
+	{
+		if (status == SIGINT)
+		{
+			printf("We got CTRL + C\n");
+			g_exit_status = 128 + status;
+		}
+		// else if (status == SIGQUIT)
+		// {
+		// 	printf("We got CTRL + '\'\n");
+		// 	g_exit_status = 128 + status;
+		// }	
+	}
 	else
 		printf("NO ERROR STATUS\n");
 	// 	j++;
 	// }
 }
+

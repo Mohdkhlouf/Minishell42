@@ -67,7 +67,7 @@ void	print_tokens(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->tokens_conter)
+	while (data->tokens[i].data && i<data->tokens_conter)
 	{
 		printf("Token:#%s# Type:%u\n", data->tokens[i].data,
 			data->tokens[i].type);

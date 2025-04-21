@@ -60,6 +60,17 @@ void init_var_handler(t_data *data, int *i)
 	else
 		var_handler(data, *i);
 }
+
+void validation(t_data *data)
+{
+	/*if pipes at the end*/
+	if (data->tokens[data->tokens_conter-1].type)
+	{
+		print_error("Pipe at the end");
+		exit(1);
+	}
+
+}
 /*after creatiing the tokens, i start iterate them as i need, so this funnction
 will solve the var$ seperated, withing quotes and then fix the qouting text to
 work with double quotes and single quotes.
@@ -70,6 +81,7 @@ int	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
+	validation(data);
 	while (data->tokens[i].data && i < data->tokens_conter)
 	{
 		if (data->tokens[i].data[0] == '$')
@@ -93,6 +105,6 @@ int	tokenizing(t_data *data)
 		redirection_setting(data, i);
 		i++;
 	}
-	// print_tokens(data);
+	print_tokens(data);
 	return (SUCCESS);
 }
