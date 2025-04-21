@@ -29,11 +29,6 @@ void	env_variable_function(t_data *data)
 /* this funcction to add the end of line null terminator as a seperate token*/
 void	eof_function(t_data *data)
 {
-	if (data->double_quote_found || data->quote_found)
-	{
-		printf("quotes are not closed");
-		exit(FAILIURE);
-	}
 	if (data->in_token)
 	{
 		append_token(data, TOK_UNKNOWN);

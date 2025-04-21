@@ -38,7 +38,8 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		{
 			add_history(data->input_line);
 			lexing(data);
-			tokenizing(data);
+			if (!tokenizing(data))
+				continue;
 			parsing(data, cmds_d);
 			update_new_env(data);
 			execution(data, cmds_d);

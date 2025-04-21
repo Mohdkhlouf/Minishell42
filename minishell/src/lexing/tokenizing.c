@@ -2,7 +2,6 @@
 
 void	init_var(t_var_d *var, t_data *data, int i)
 {
-	
 	var->temp = NULL;
 	var->var = NULL;
 	var->path = NULL;
@@ -20,14 +19,14 @@ void	free_var_mem(t_var_d *var)
 
 void	var_handler(t_data *data, int i)
 {
-	t_var_d *var;
-	
-	var = malloc (sizeof (t_var_d));
+	t_var_d	*var;
+
+	var = malloc(sizeof(t_var_d));
 	if (!var)
-		{
-			printf("Error\n");
-			exit(EXIT_FAILURE);
-		}
+	{
+		printf("Error\n");
+		exit(EXIT_FAILURE);
+	}
 	init_var(var, data, i);
 	search_for_file_seperator(data, var, i);
 	if (data->file_seperator_found)
@@ -45,10 +44,9 @@ void	var_handler(t_data *data, int i)
 	free_var_mem(var);
 }
 
-
-/* this function to make sure from if there is a Heredoc redirection 
+/* this function to make sure from if there is a Heredoc redirection
 then dont expand the variable*/
-void init_var_handler(t_data *data, int *i)
+void	init_var_handler(t_data *data, int *i)
 {
 	if (data->tokens_conter > 1)
 	{
@@ -61,15 +59,43 @@ void init_var_handler(t_data *data, int *i)
 		var_handler(data, *i);
 }
 
-void validation(t_data *data)
+bool	validation(t_data *data)
 {
-	/*if pipes at the end*/
-	if (data->tokens[data->tokens_conter-1].type)
+	int i;
+
+	i = 0;
+
+	while (data->tokens[i].data && i < data->tokens_conter)
 	{
-		print_error("Pipe at the end");
-		exit(1);
+		if (data->tokens[i].type == 3
+			&& data->tokens[i - 1].type == 3)
+		{
+			print_error("syntax error near unexpected token `|'");
+			return (false);
+		}
+		i++;
 	}
 
+	if (data->double_quote_found || data->quote_found)
+	{
+		print_error("quotes are not closed");
+		return (false);
+	}
+
+	/*if pipes at the end*/
+	if (data->tokens[data->tokens_conter - 1].type == 3 
+	|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_IN
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_OUT
+	|| data->tokens[data->tokens_conter - 1].type == TOK_SINGLE_QUOTE
+	|| data->tokens[data->tokens_conter - 1].type == TOK_DOUBLE_QUOTE)
+	{
+		print_error("syntax error near unexpected token");
+		return (false);
+	}
+	
+	
+	return (true);
 }
 /*after creatiing the tokens, i start iterate them as i need, so this funnction
 will solve the var$ seperated, withing quotes and then fix the qouting text to
@@ -81,12 +107,13 @@ int	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
-	validation(data);
+	if (!validation(data))
+		return (FAILIURE);
 	while (data->tokens[i].data && i < data->tokens_conter)
 	{
 		if (data->tokens[i].data[0] == '$')
 		{
-			if(data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
+			if (data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
 			{
 				data->tokens[i].data = ft_itoa(g_exit_status);
 			}
