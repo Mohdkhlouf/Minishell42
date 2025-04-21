@@ -1,17 +1,17 @@
 #include "../includes/minishell.h"
 
-/*reset the signals from child process*/
-void set_default_signal_handlers(void)
-{
-    struct sigaction sa;
+// /*reset the signals from child process*/
+// void set_default_signal_handlers(void)
+// {
+//     struct sigaction sa;
 
-    sa.sa_handler = SIG_DFL;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
+//     sa.sa_handler = SIG_DFL;
+//     sigemptyset(&sa.sa_mask);
+//     sa.sa_flags = 0;
 
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGQUIT, &sa, NULL);
-}
+//     sigaction(SIGINT, &sa, NULL);
+//     sigaction(SIGQUIT, &sa, NULL);
+// }
 
 
 /* main function to execute one command, i will make it execute the redirections
@@ -21,7 +21,7 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 	char *path;
 
 	path = NULL;
-	set_default_signal_handlers();
+	set_child_signals();
 	path = find_path(data, cmd->cmd[0]);
 	if(!path)
 	{

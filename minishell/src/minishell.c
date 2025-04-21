@@ -69,7 +69,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	data_init(data);
 	init_env(envp, data);
-	start_signal();
+	// start_signal();
+	set_prompt_signals();
 	reading_loop(data, cmds_d);
 	free(data);
 	free(cmds_d);

@@ -15,21 +15,47 @@ void	handler(int num)
 	rl_on_new_line();
 	rl_redisplay();
 }
-/* Signals must be handled in 3 positions and modes,
-first: when nothing input. ctrl+c & ctr + \,  will make new line.
-second: something is written in the line, ctrl+c will do new line, ctr+\
-will be ignored, ctr+d will be ignored.
-third: when processing, execve.
-last: from << herdoc, EOF signal*/
-void	start_signal(void)
-{
-	struct sigaction	sa;
 
-	sa.sa_handler = handler;
+void	set_prompt_signals(void)
+{
+	struct sigaction sa;
+
+	sa.sa_handler = handler; // Your custom handler for prompt
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
-	// this will ignore the crtrl + \ like bash
-	sa.sa_handler = SIG_IGN;
+
+	sa.sa_handler = SIG_IGN; // Ignore Ctrl+
 	sigaction(SIGQUIT, &sa, NULL);
 }
+
+void	set_child_signals(void)
+{
+	signal(SIGINT, SIG_DFL);   // Default behavior for Ctrl+C
+	signal(SIGQUIT, SIG_DFL);  // Default behavior for Ctrl+
+}
+
+void	set_heredoc_signals(void)
+{
+	signal(SIGINT, SIG_DFL);   // Maybe allow interruption
+	signal(SIGQUIT, SIG_IGN);  // Ignore Ctrl+
+}
+
+// /* Signals must be handled in 3 positions and modes,
+// first: when nothing input. ctrl+c & ctr + \,  will make new line.
+// second: something is written in the line, ctrl+c will do new line, ctr+\
+// will be ignored, ctr+d will be ignored.
+// third: when processing, execve.
+// last: from << herdoc, EOF signal*/
+// void	start_signal(void)
+// {
+// 	struct sigaction	sa;
+
+// 	sa.sa_handler = handler;
+// 	sigemptyset(&sa.sa_mask);
+// 	sa.sa_flags = SA_RESTART;
+// 	sigaction(SIGINT, &sa, NULL);
+// 	// this will ignore the crtrl + \ like bash
+// 	sa.sa_handler = SIG_IGN;
+// 	sigaction(SIGQUIT, &sa, NULL);
+// }
