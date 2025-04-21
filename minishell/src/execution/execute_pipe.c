@@ -15,7 +15,6 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		close(pipe_fd[1]);
 	}
 	handle_command(&cmds_d->cmds[i], data);
-	
 }
 
 void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
@@ -51,10 +50,10 @@ void	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd)
 void	handle_pipes(t_data *data, t_parsed_data *cmds_d)
 {
 	int	prev_cmd;
-	int status;
+	int	status;
 	int	i;
-	// int	j;
 
+	// int	j;
 	prev_cmd = -1;
 	// j = 0;
 	i = 0;
@@ -67,13 +66,13 @@ void	handle_pipes(t_data *data, t_parsed_data *cmds_d)
 		close(prev_cmd);
 	// while (j < cmds_d->cmds_counter)
 	// {
-		waitpid( data->pid,&status, 0);
-		if(WIFEXITED(status))
-			{
-				g_exit_status = WEXITSTATUS(status);
-			}
-		else
-			printf("NO ERROR STATUS\n");
+	waitpid(data->pid, &status, 0);
+	if (WIFEXITED(status))
+	{
+		g_exit_status = WEXITSTATUS(status);
+	}
+	else
+		printf("NO ERROR STATUS\n");
 	// 	j++;
 	// }
 }

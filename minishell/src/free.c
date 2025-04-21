@@ -31,7 +31,7 @@ void	free_data(t_data *data)
 	i = 0;
 	while (data->tokens && i < data->tokens_conter)
 	{
-		if (data->tokens[i].data)
+		if (data->tokens[i].data && i < data->tokens_conter)
 		{
 			free(data->tokens[i].data);
 			data->tokens[i].data = NULL;
