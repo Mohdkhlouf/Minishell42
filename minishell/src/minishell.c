@@ -75,5 +75,5 @@ int	main(int argc, char **argv, char **envp)
 	reading_loop(data, cmds_d);
 	free(data);
 	free(cmds_d);
-	return (EXIT_SUCCESS);
+	return (g_exit_status);
 }
