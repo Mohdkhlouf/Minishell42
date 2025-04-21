@@ -28,12 +28,14 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 		ft_putstr_fd("minishell: '", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd("': command not found\n", 2);
+		free(path);
 		exit(127);
 	}
 		
 	if (execve(path, cmd->cmd, data->envp) == -1)
 	{
 		perror("minishell");
+		free(path);
 		g_exit_status = 127;
 		exit(127);
 	}
