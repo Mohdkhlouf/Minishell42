@@ -53,12 +53,12 @@ void	init_var_handler(t_data *data, int *i)
 		if (*i > 0 && data->tokens[*i - 1].type == TOK_REDIRECT_HEREDOC)
 			data->tokens[*i].type = TOK_REDIRECT_HEREDOC;
 		else
-			// var_handler(data, *i);
-			var_handler2(data, *i);
+			var_handler(data, *i);
+			// var_handler2(data, *i);
 	}
 	else
-		// var_handler(data, *i);
-		var_handler2(data, *i);
+		var_handler(data, *i);
+		// var_handler2(data, *i);
 }
 
 
