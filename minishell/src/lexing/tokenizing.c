@@ -21,7 +21,7 @@ void	var_handler(t_data *data, int i)
 {
 	t_var_d	*var;
 
-	var = malloc(sizeof(t_var_d));
+	var = ft_calloc(1, sizeof(t_var_d));
 	if (!var)
 	{
 		printf("Error\n");
@@ -72,7 +72,7 @@ int	tokenizing(t_data *data)
 	i = 0;
 	if (!validation(data))
 		return (FAILIURE);
-	while (data->tokens[i].data && i < data->tokens_conter)
+	while (i < data->tokens_conter)
 	{
 		if (data->tokens[i].data[0] == '$')
 		{

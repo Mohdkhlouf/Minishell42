@@ -40,7 +40,7 @@ void	quote_fixing(t_data *data, int i)
 	else if (data->tokens[i].data[0] == '\"')
 		data->tokens[i].type = TOK_DOUBLE_QUOTE;
 	len = ft_strlen(data->tokens[i].data);
-	temp = malloc(sizeof(char) * len + 1);
+	temp = ft_calloc(len + 1, sizeof(char));
 	if (!temp)
 		exit(EXIT_FAILURE);
 	assign_quotes(data, len, i, temp);

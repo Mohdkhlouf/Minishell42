@@ -10,7 +10,7 @@ void	var_init(t_vars_data *var, t_data *data, int i)
 	var->vars_count = 0;
 	var->len = ft_strlen(data->tokens[i].data);
 	var->vars_count = find_vars_count(data, i);
-	var->vars_arr = (char **)malloc(sizeof(char *) * (var->vars_count * 20));
+	var->vars_arr = (char **)ft_calloc((var->vars_count * data->tokens_conter), sizeof(char *));
 	if (!var->vars_arr)
 		exit(EXIT_FAILURE);
 }

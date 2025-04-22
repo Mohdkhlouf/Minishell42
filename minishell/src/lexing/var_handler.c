@@ -95,7 +95,7 @@ void	var_handler2(t_data *data, int i)
 {
 	t_vars_data	*var;
 
-	var = malloc(sizeof(t_vars_data) * 1);
+	var = ft_calloc(1, sizeof(t_vars_data));
 	if (!var)
 		exit(EXIT_FAILURE);
 	var_init(var, data, i);

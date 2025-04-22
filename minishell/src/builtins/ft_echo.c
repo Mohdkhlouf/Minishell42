@@ -38,7 +38,7 @@ int	ft_echo(t_cmds *cmd, t_data *data)
 			continue ;
 		}
 		ft_putstr_fd(cmd->cmd[i], 1);
-		if (cmd->cmd[i + 1])
+		if (cmd->cmd[i + 1] )
 			ft_putchar_fd(' ', 1);
 		i++;
 	}

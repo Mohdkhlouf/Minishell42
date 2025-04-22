@@ -58,17 +58,16 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	data = malloc(sizeof(t_data));
-	cmds_d = malloc(sizeof(t_parsed_data));
-	ft_memset(cmds_d, 0, sizeof(t_parsed_data));
-	ft_memset(data, 0, sizeof(t_data));
+	data = ft_calloc(1, sizeof(t_data));
+	cmds_d = ft_calloc(1, sizeof(t_parsed_data));
+	// ft_memset(cmds_d, 0, sizeof(t_parsed_data));
+	// ft_memset(data, 0, sizeof(t_data));
 	if (!data || !cmds_d)
 	{
 		perror("Memory allocation failed");
 		exit(EXIT_FAILURE);
 	}
-	data_init(data);
+	// data_init(data);
 	init_env(envp, data);
 	// start_signal();
 	set_prompt_signals();
