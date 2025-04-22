@@ -53,10 +53,12 @@ void	init_var_handler(t_data *data, int *i)
 		if (*i > 0 && data->tokens[*i - 1].type == TOK_REDIRECT_HEREDOC)
 			data->tokens[*i].type = TOK_REDIRECT_HEREDOC;
 		else
-			var_handler(data, *i);
+			// var_handler(data, *i);
+			var_handler2(data, *i);
 	}
 	else
-		var_handler(data, *i);
+		// var_handler(data, *i);
+		var_handler2(data, *i);
 }
 
 
@@ -72,6 +74,7 @@ int	tokenizing(t_data *data)
 	i = 0;
 	if (!validation(data))
 		return (FAILIURE);
+	print_tokens(data);
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
 		if (data->tokens[i].data[0] == '$')
@@ -83,11 +86,8 @@ int	tokenizing(t_data *data)
 			else
 				init_var_handler(data, &i);
 		}
-		// else if ((data->tokens[i].data[0] == '\"')
-		// 	&& ft_strchr(data->tokens[i].data, '$'))
-		// 	var_handler2(data, i);
 		else if (ft_strchr(data->tokens[i].data, '\"')
-			&& ft_strchr(data->tokens[i].data, '$'))
+			&& ft_strchr(data->tokens[i].data, '$')  && data->tokens[i].data[0] !='\'')
 			var_handler2(data, i);
 		if (ft_strchr(data->tokens[i].data, '\'')
 				|| ft_strchr(data->tokens[i].data, '\"'))

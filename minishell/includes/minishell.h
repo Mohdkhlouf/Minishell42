@@ -67,6 +67,7 @@ typedef struct s_data
 	bool						double_quote_found;
 	char						quote_type;
 	bool						file_seperator_found;
+	bool 						variable_sign_found;
 	char						*path;
 	char						**parsed_path;
 	char						*pwd;
