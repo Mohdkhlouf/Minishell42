@@ -22,7 +22,7 @@ typedef struct s_parsed_data
 }						t_parsed_data;
 
 void					parsing(t_data *data, t_parsed_data *cmds_d);
-void					create_cmds_arr(t_parsed_data *cmds_d);
+void					create_cmds_arr(t_data *data, t_parsed_data *cmds_d);
 void					pipe_found(t_parsed_data *cmds_d);
 void					redirection_appened(t_parsed_data *cmds_d, t_data *data,
 							int *i);

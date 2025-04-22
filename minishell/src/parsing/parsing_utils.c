@@ -1,18 +1,18 @@
 
 #include "../includes/parsing.h"
 
-void	create_cmds_arr(t_parsed_data *cmds_d)
+void	create_cmds_arr(t_data *data, t_parsed_data *cmds_d)
 {
-	cmds_d->cmds = malloc(sizeof(t_cmds) * cmds_d->cmds_counter);
+	cmds_d->cmds = ft_calloc(cmds_d->cmds_counter, sizeof(t_cmds));
 	if (!cmds_d->cmds)
 		exit(EXIT_FAILURE);
 	ft_memset(cmds_d->cmds, 0, sizeof(t_cmds) * cmds_d->cmds_counter);
 	for (int i = 0; i < cmds_d->cmds_counter; i++)
 	{
-		cmds_d->cmds[i].cmd = malloc(sizeof(char *) * 100);
+		cmds_d->cmds[i].cmd = ft_calloc(data->tokens_conter +1,  sizeof(char *));
 		if (!cmds_d->cmds[i].cmd)
 			exit(EXIT_FAILURE);
-		cmds_d->cmds[i].reds = malloc(sizeof(char *) * 100);
+		cmds_d->cmds[i].reds = ft_calloc(data->tokens_conter +1, sizeof(char *));
 		if (!cmds_d->cmds[i].reds)
 			exit(EXIT_FAILURE);
 	}

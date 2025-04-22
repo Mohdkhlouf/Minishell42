@@ -36,7 +36,7 @@ void	eof_function(t_data *data)
 	}
 	data->start = data->end;
 	// append_eof_token(data, TOK_EOF);
-	// data->start = data->end + 1;
+	data->start = data->end + 1;
 }
 
 
