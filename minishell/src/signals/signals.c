@@ -43,7 +43,7 @@ void	set_heredoc_signals(void)
 
 // /* Signals must be handled in 3 positions and modes,
 // first: when nothing input. ctrl+c & ctr + \,  will make new line.
-// second: something is written in the line, ctrl+c will do new line, ctr+\
+// second: something is written in the line, ctrl+c will do new line, ctr+
 // will be ignored, ctr+d will be ignored.
 // third: when processing, execve.
 // last: from << herdoc, EOF signal*/
