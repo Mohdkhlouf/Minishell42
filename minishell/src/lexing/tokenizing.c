@@ -72,7 +72,7 @@ int	tokenizing(t_data *data)
 	i = 0;
 	if (!validation(data))
 		return (FAILIURE);
-	while (i < data->tokens_conter)
+	while (i < data->tokens_conter && data->tokens[i].data)
 	{
 		if (data->tokens[i].data[0] == '$')
 		{
