@@ -38,8 +38,7 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 {
 	while (var->j < var->len)
 	{
-		// if (data->tokens[i].data[var->j] == '/' || data->tokens[i].data[var->j] == '\''
-		// 	|| data->tokens[i].data[var->j] == '\"' || data->tokens[i].data[var->j] == '@')
+	
 		if (data->tokens[i].data[0] == '$')
 			var->j++;
 		if(ft_isalnum(data->tokens[i].data[var->j]) == 0 && ft_isalpha(data->tokens[i].data[var->j]) == 0 )
@@ -58,9 +57,14 @@ void	path_set_and_join(t_data *data, int i, char *temp, char *path)
 	else
 	{
 		if (data->file_seperator_found == true)
-			data->tokens[i].data = ft_strdup(ft_strcat(path, temp));
-		else
+			{
+				free(data->tokens[i].data);
+				data->tokens[i].data = ft_strdup(ft_strcat(path, temp));
+			}
+		else {
+			free(data->tokens[i].data);
 			data->tokens[i].data = ft_strdup(path);
+		}
 		data->tokens[i].type = TOK_ENV_VAR;
 	}
 }

@@ -46,11 +46,12 @@ void	split_vars(char *token, t_vars_data *var)
 			var->var_is_found = false;
 		if (start == c)
 		{
-			printf("TEST %s\n", var->vars_arr[var->parts_count]);
+			free(var->vars_arr[var->parts_count]);
 			var->vars_arr[var->parts_count] = ft_substr(token, start, 1);
 		}		
 		else
 		{
+			free(var->vars_arr[var->parts_count]);
 			var->vars_arr[var->parts_count] = ft_substr(token, start, c
 				- start);
 		}
@@ -63,7 +64,11 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 {
 	(void) data;
 	if (get_env_value(var->vars_arr[*c] + 1, data))
+	{
+		// free(var->vars_arr[*c]);
 		var->vars_arr[*c] = get_env_value(var->vars_arr[*c] + 1, data);
+	}
+		
 	else
 		var->vars_arr[*c] = "\0";
 }
