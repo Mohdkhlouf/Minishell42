@@ -1,48 +1,48 @@
 #include "../includes/lexing.h"
 
-void	init_var(t_var_d *var, t_data *data, int i)
-{
-	var->temp = NULL;
-	var->var = NULL;
-	var->path = NULL;
-	var->j = 0;
-	var->len = ft_strlen(data->tokens[i].data);
-}
+// void	init_var(t_var_d *var, t_data *data, int i)
+// {
+// 	var->temp = NULL;
+// 	var->var = NULL;
+// 	var->path = NULL;
+// 	var->j = 0;
+// 	var->len = ft_strlen(data->tokens[i].data);
+// }
 
-void	free_var_mem(t_var_d *var)
-{
-	free(var->var);
-	free(var->temp);
-	free(var->path);
-	free(var);
-}
+// void	free_var_mem(t_var_d *var)
+// {
+// 	free(var->var);
+// 	free(var->temp);
+// 	free(var->path);
+// 	free(var);
+// }
 
-void	var_handler(t_data *data, int i)
-{
-	t_var_d	*var;
+// void	var_handler(t_data *data, int i)
+// {
+// 	t_var_d	*var;
 
-	var = ft_calloc(1, sizeof(t_var_d));
-	if (!var)
-	{
-		printf("Error\n");
-		exit(EXIT_FAILURE);
-	}
-	init_var(var, data, i);
-	search_for_file_seperator(data, var, i);
-	if (data->file_seperator_found)
-	{
-		var->var = ft_substr(data->tokens[i].data, 0, var->j);
-		var->temp = ft_substr(data->tokens[i].data, var->j, var->len);
-	}
-	else
-		var->var = data->tokens[i].data;
-	if (get_env_value(var->var + 1, data))
-		var->path = ft_strdup(get_env_value(var->var + 1, data));
-	else
-		var->path = ft_strdup("");
-	path_set_and_join(data, i, var->temp, var->path);
-	free_var_mem(var);
-}
+// 	var = ft_calloc(1, sizeof(t_var_d));
+// 	if (!var)
+// 	{
+// 		printf("Error\n");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	init_var(var, data, i);
+// 	search_for_file_seperator(data, var, i);
+// 	if (data->file_seperator_found)
+// 	{
+// 		var->var = ft_substr(data->tokens[i].data, 0, var->j);
+// 		var->temp = ft_substr(data->tokens[i].data, var->j, var->len);
+// 	}
+// 	else
+// 		var->var = data->tokens[i].data;
+// 	if (get_env_value(var->var + 1, data))
+// 		var->path = ft_strdup(get_env_value(var->var + 1, data));
+// 	else
+// 		var->path = ft_strdup("");
+// 	path_set_and_join(data, i, var->temp, var->path);
+// 	free_var_mem(var);
+// }
 
 /* this function to make sure from if there is a Heredoc redirection
 then dont expand the variable*/

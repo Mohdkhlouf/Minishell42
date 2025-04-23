@@ -1,6 +1,38 @@
 #include "../includes/lexing.h"
 
 
+
+void	free_var(t_vars_data *var)
+{
+	free_2d_arr(var, var->vars_arr);
+	ft_free(var->var_var);
+	free(var);
+}
+
+void ft_free(char *str)
+{
+	free(str);
+	str = NULL;
+}
+
+void free_2d_arr(t_vars_data *var, char **arr)
+{
+	int i;
+
+	i = 0;
+	while (i < var->parts_count)
+	{
+		if (arr[i] != NULL)
+		{
+			free(arr[i]);
+			arr[i] = NULL;
+		}
+		i++;
+	}
+	free(arr);
+}
+
+
 int	find_vars_count(t_data *data, int i)
 {
 	int	j;
@@ -21,7 +53,6 @@ int	find_vars_count(t_data *data, int i)
 bool	var_init(t_vars_data *var, t_data *data, int i)
 {
 	var->len = 0;
-	var->temp = NULL;
 	var->var_var = NULL;
 	var->vars_arr = NULL;
 	var->parts_count = 0;
@@ -50,24 +81,7 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 	}
 }
 
-void	path_set_and_join(t_data *data, int i, char *temp, char *path)
-{
-	if (path == NULL)
-		exit(EXIT_FAILURE);
-	else
-	{
-		if (data->file_seperator_found == true)
-			{
-				free(data->tokens[i].data);
-				data->tokens[i].data = ft_strdup(ft_strcat(path, temp));
-			}
-		else {
-			free(data->tokens[i].data);
-			data->tokens[i].data = ft_strdup(path);
-		}
-		data->tokens[i].type = TOK_ENV_VAR;
-	}
-}
+
 
 
 
@@ -94,7 +108,6 @@ void	free_var_handler(t_data *data,t_vars_data *var)
 	// 	for (int i = 0; i < data->tokens_conter; i++)
 	// 		free(var->vars_arr[i]);  // 🔥 This is the key fix
 	// }
-	free(var->temp);
 	free(var->var_var);
 	free(var);
 }
