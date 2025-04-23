@@ -94,10 +94,11 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 	}
 }
 
-void	parsing(t_data *data, t_parsed_data *cmds_d)
+bool	parsing(t_data *data, t_parsed_data *cmds_d)
 {
 	find_cmds_counter(data, cmds_d);
 	create_cmds_arr(data, cmds_d);
 	fill_in_arr(cmds_d, data);
 	printing_cmds_reds(cmds_d);
+	return (true);
 }

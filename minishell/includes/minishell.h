@@ -82,8 +82,8 @@ typedef struct s_data
 
 void							free_data(t_data *data);
 int								line_split(t_data *data);
-int								lexing(t_data *data);
-int								tokenizing(t_data *data);
+bool							lexing(t_data *data);
+bool							tokenizing(t_data *data);
 void							print_error(char *msg);
 void							free_cmds_d(t_parsed_data *cmds_d);
 void							start_signal(void);
@@ -130,7 +130,7 @@ char							*get_env_key(char *key, t_data *data);
 int								ft_exit(t_cmds *cmd, t_data *data);
 /*--------------------unset-------------------*/
 int								ft_unset(t_cmds *cmd, t_data *data);
-void							update_new_env(t_data *data);
+bool							update_new_env(t_data *data);
 int								ft_strcmp(const char *s1, const char *s2);
 #endif
 // void add_export_to_list(char **arr_list, t_data *data);

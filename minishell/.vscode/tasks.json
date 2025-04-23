@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	  {
+		"label": "build",
+		"type": "shell",
+		"command": "gcc",
+		"args": [
+		  "-g",          // Include debug symbols
+		  "${workspaceFolder}/main.c",  // Adjust to your source file
+		  "-o", "a.out"  // Output file
+		],
+		"group": {
+		  "kind": "build",
+		  "isDefault": true
+		},
+		"problemMatcher": ["$gcc"],
+		"detail": "Generated task to build C program"
+	  }
+	]
+  }
+  

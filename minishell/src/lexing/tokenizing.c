@@ -67,13 +67,13 @@ will solve the var$ seperated, withing quotes and then fix the qouting text to
 work with double quotes and single quotes.
 then i iterate the result for redirections
 if the redirection is herdoc the var wis not expanded*/
-int	tokenizing(t_data *data)
+bool	tokenizing(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	if (!validation(data))
-		return (FAILIURE);
+		return (false);
 	print_tokens(data);
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
@@ -96,5 +96,5 @@ int	tokenizing(t_data *data)
 		i++;
 	}
 	print_tokens(data);
-	return (SUCCESS);
+	return (true);
 }

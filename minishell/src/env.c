@@ -61,7 +61,10 @@ void	create_path_arr(char *path, t_data *data)
 {
 	data->parsed_path = ft_split(path, ':');
 	if (!data->parsed_path)
+	{
 		print_error("creating path arr faild");
+		return;
+	}
 }
 /*mohammad add end*/
 
@@ -87,12 +90,15 @@ void	init_env(char **envp, t_data *data)
 		i++;
 	}
 	data->env_lst = list;
+
 	/* Mohammad add start*/
 	/*fill in path in main strcut then we have to split using split with :
 	so all paths are there then we have to compare with the command so we can
 	know if it is existed or not, and we need the right path so we can use it in
 	execv function*/
 	data->path = get_env_value("PATH", data);
+	if (!data->path)
+		return;
 	create_path_arr(data->path, data);
 	/* Mohammad add end*/
 }
