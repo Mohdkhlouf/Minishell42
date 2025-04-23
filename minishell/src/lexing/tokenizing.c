@@ -46,19 +46,18 @@ void	var_handler(t_data *data, int i)
 
 /* this function to make sure from if there is a Heredoc redirection
 then dont expand the variable*/
-void	init_var_handler(t_data *data, int *i)
+bool	init_var_handler(t_data *data, int *i)
 {
 	if (data->tokens_conter > 1)
 	{
 		if (*i > 0 && data->tokens[*i - 1].type == TOK_REDIRECT_HEREDOC)
 			data->tokens[*i].type = TOK_REDIRECT_HEREDOC;
-		else
-			var_handler(data, *i);
-			// var_handler2(data, *i);
+		else if(!var_handler2(data, *i))
+			return (false);
 	}
-	else
-		var_handler(data, *i);
-		// var_handler2(data, *i);
+	else if(!var_handler2(data, *i))
+		return (false);
+	return (true);
 }
 
 

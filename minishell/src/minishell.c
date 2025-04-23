@@ -17,11 +17,12 @@ void	data_init(t_data *data)
 	data->file_seperator_found = false;
 }
 
-void	free_cmds(t_data *data, t_parsed_data *cmds_d)
+void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
 	free_matrix(data->envp);
 	free_cmds_d(cmds_d);
 	free_data(data);
+	free(data->input_line);
 }
 
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
@@ -47,12 +48,11 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			if (!lexing(data) || !tokenizing(data) || !parsing(data, cmds_d)
 				|| !update_new_env(data) || !execution(data, cmds_d))
 			{
-				free_cmds(data, cmds_d);
+				command_cleanup(data, cmds_d);
 				continue ;
 			}
-			free_cmds(data, cmds_d);
+			command_cleanup(data, cmds_d);
 		}
-		free(data->input_line);
 	}
 }
 

@@ -1,6 +1,24 @@
 #include "../includes/lexing.h"
 
-void	var_init(t_vars_data *var, t_data *data, int i)
+
+int	find_vars_count(t_data *data, int i)
+{
+	int	j;
+	int	vars_count;
+
+	j = 0;
+	vars_count = 0;
+	while (data->tokens[i].data[j])
+	{
+		if (data->tokens[i].data[j] == '$')
+			vars_count++;
+		j++;
+	}
+	return (vars_count);
+}
+
+
+bool	var_init(t_vars_data *var, t_data *data, int i)
 {
 	var->len = 0;
 	var->temp = NULL;
@@ -10,9 +28,10 @@ void	var_init(t_vars_data *var, t_data *data, int i)
 	var->vars_count = 0;
 	var->len = ft_strlen(data->tokens[i].data);
 	var->vars_count = find_vars_count(data, i);
-	var->vars_arr = ft_calloc((data->cline_parts), sizeof(char *));
+	var->vars_arr = ft_calloc((var->len), sizeof(char *));
 	if (!var->vars_arr)
-		exit(EXIT_FAILURE);
+		return (free (var->vars_arr ), false);
+	return (true);
 }
 
 void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
@@ -46,21 +65,7 @@ void	path_set_and_join(t_data *data, int i, char *temp, char *path)
 	}
 }
 
-int	find_vars_count(t_data *data, int i)
-{
-	int	j;
-	int	vars_count;
 
-	j = 0;
-	vars_count = 0;
-	while (data->tokens[i].data[j])
-	{
-		if (data->tokens[i].data[j] == '$')
-			vars_count++;
-		j++;
-	}
-	return (vars_count);
-}
 
 void	print_tokens(t_data *data)
 {

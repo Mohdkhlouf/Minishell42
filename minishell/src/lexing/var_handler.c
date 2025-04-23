@@ -95,17 +95,19 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	return (temp);
 }
 
-void	var_handler2(t_data *data, int i)
+bool	var_handler2(t_data *data, int i)
 {
 	t_vars_data	*var;
 
 	var = ft_calloc(1, sizeof(t_vars_data));
 	if (!var)
-		exit(EXIT_FAILURE);
-	var_init(var, data, i);
+		return (free(var), false);
+	if (!var_init(var, data, i))
+		return (free(var), false);
 	split_vars(data->tokens[i].data, var);
 	var->var_var = expand_vars(var, data);
 	path_set_and_join(data, i, var->temp, var->var_var);
 	// free(var->var_var);
 	free_var(var);
+	return (true);
 }
