@@ -10,7 +10,7 @@ void	var_init(t_vars_data *var, t_data *data, int i)
 	var->vars_count = 0;
 	var->len = ft_strlen(data->tokens[i].data);
 	var->vars_count = find_vars_count(data, i);
-	var->vars_arr = (char **)ft_calloc((var->vars_count * data->tokens_conter), sizeof(char *));
+	var->vars_arr = ft_calloc((data->cline_parts), sizeof(char *));
 	if (!var->vars_arr)
 		exit(EXIT_FAILURE);
 }
@@ -73,4 +73,19 @@ void	print_tokens(t_data *data)
 			data->tokens[i].type);
 		i++;
 	}
+}
+
+void	free_var_handler(t_data *data,t_vars_data *var)
+{
+	if (!var)
+		return;
+	(void) data;
+	// if (var->vars_arr)
+	// {
+	// 	for (int i = 0; i < data->tokens_conter; i++)
+	// 		free(var->vars_arr[i]);  // 🔥 This is the key fix
+	// }
+	free(var->temp);
+	free(var->var_var);
+	free(var);
 }
