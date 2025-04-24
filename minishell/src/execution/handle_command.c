@@ -43,10 +43,17 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	path = find_path(data, cmd->cmd[0]);
 	if (!path)
 	{
-		ft_putstr_fd("minishell: '", 2);
+		// ft_putstr_fd("minishell: '", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd("': command not found\n", 2);
-		command_cleanup(data, data->cmds_d);
+		free(path);
+		free_matrix(data->envp);
+		free_data(data);
+		free_2arr_general(data->parsed_path);
+		free_env_list(data->env_lst);
+		free_2arr_general(cmd->cmd);
+		free_2arr_general(cmd->reds);
+		free(cmd);
 		free(data->cmds_d);
 		free(data);
 		exit(127);
@@ -55,7 +62,15 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	{
 		perror("minishell");
 		free(path);
+		free_matrix(data->envp);
+		free_data(data);
+		free_2arr_general(data->parsed_path);
+		free_env_list(data->env_lst);
+		free_2arr_general(cmd->cmd);
+		free_2arr_general(cmd->reds);
 		free(cmd);
+		free(data->cmds_d);
+		free(data);
 		data->exit_code = 127;
 		exit(127);
 	}

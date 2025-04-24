@@ -2,8 +2,9 @@
 
 volatile sig_atomic_t	g_signal_status = 0;
 
-void	data_init(t_data *data)
+void	data_init(t_data *data, t_parsed_data *cmds_d)
 {
+	data->cmds_d = cmds_d;
 	data->cline_parts = 0;
 	data->input_line = NULL;
 	data->tokens = NULL;
@@ -29,14 +30,13 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
 	while (true)
 	{
-		data_init(data);
+		data_init(data, cmds_d);
 		data->input_line = readline("\033[0;35mminishell>\033[0m ");
 		if (!data->input_line)
 		{
-			printf("Exit from EOF");
 			free_matrix(data->parsed_path);
 			free_env_list(data->env_lst);
-			free(data->input_line);
+			ft_free(data->input_line);
 			free(data->tokens);
 			free(data);
 			free(cmds_d);

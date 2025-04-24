@@ -51,9 +51,11 @@ t_var	*init_envp_node(char *env)
 	{
 		return (free(key), free(value), free(node), NULL);
 	}
-	node->key = key;
-	node->value = value;
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
 	node->next = NULL;
+	free(key);
+	free(value);
 	return (node);
 }
 /*mohammad add start*/

@@ -10,9 +10,9 @@ void	free_cmds_d(t_parsed_data *cmds_d)
 	while (i < cmds_d->cmds_counter)
 	{
 		if (cmds_d->cmds[i].cmd)
-			free_matrix(cmds_d->cmds[i].cmd);
+			free_2arr_general(cmds_d->cmds[i].cmd);
 		if (cmds_d->cmds[i].reds)
-			free_matrix(cmds_d->cmds[i].reds);
+			free_2arr_general(cmds_d->cmds[i].reds);
 		i++;
 	}
 	if (cmds_d->cmds)
@@ -20,6 +20,7 @@ void	free_cmds_d(t_parsed_data *cmds_d)
 		free(cmds_d->cmds);
 		cmds_d->cmds = NULL;
 	}
+	
 }
 
 void	free_data(t_data *data)
@@ -42,19 +43,38 @@ void	free_data(t_data *data)
 	data->tokens = NULL;
 }
 
-void	free_env_list(t_var *env)
-{
-	t_var	*tmp;
+// void	free_env_list(t_var *env)
+// {
+// 	t_var	*tmp;
 
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-	}
+// 	while (env)
+// 	{
+// 		tmp = env;
+// 		env = env->next;
+// 		free(tmp->key);
+// 		free(tmp->value);
+// 		free(tmp);
+// 	}
+// }
+
+void free_env_list(t_var *env)
+{
+    t_var *tmp;
+
+    while (env)
+    {
+        tmp = env;
+        env = env->next;
+
+        // Free the key and value strings if they were dynamically allocated
+        free(tmp->key);
+        free(tmp->value);
+
+        // Free the current node itself
+        free(tmp);
+    }
 }
+
 
 int	free_matrix(char **env)
 {
@@ -65,11 +85,29 @@ int	free_matrix(char **env)
 	i = 0;
 	while (env[i])
 	{
-		free(env[i]);
+		ft_free(env[i]);
 		env[i] = NULL;
 		i++;
 	}
 	free(env);
 	env = NULL;
+	return (0);
+}
+
+int	free_2arr_general(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return (1);
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
+	free(arr);
+	arr = NULL;
 	return (0);
 }

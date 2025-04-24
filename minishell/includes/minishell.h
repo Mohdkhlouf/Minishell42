@@ -22,7 +22,7 @@
 # define FAILIURE 0
 
 typedef struct s_parsed_data	t_parsed_data;
-extern volatile sig_atomic_t		g_signal_status;
+extern volatile sig_atomic_t	g_signal_status;
 
 typedef enum e_token_type
 {
@@ -56,28 +56,29 @@ typedef struct s_var
 
 typedef struct s_data
 {
-	t_parsed_data *cmds_d;
-	char						*input_line;
-	int							cline_parts;
+	t_parsed_data				*cmds_d;
 	t_token						*tokens;
 	size_t						end;
 	size_t						start;
+	t_var						*env_lst;
+	pid_t						pid;
 	bool						in_token;
-	int							tokens_conter;
 	bool						quote_found;
 	bool						double_quote_found;
-	char						quote_type;
 	bool						file_seperator_found;
-	bool 						variable_sign_found;
+	bool						variable_sign_found;
+	char						*input_line;
+	char						quote_type;
 	char						*path;
 	char						**parsed_path;
 	char						*pwd;
 	char						**words;
-	t_var						*env_lst;
 	char						**envp;
-	int 						pipe_fd[2];
-	int exit_code;
-	pid_t	pid;
+	int							pipe_fd[2];
+	int							exit_code;
+	int							cline_parts;
+	int							tokens_conter;
+
 }								t_data;
 
 /*---------------Parsing------------------*/
@@ -99,7 +100,8 @@ void							free_env_list(t_var *head);
 // void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 /*---------------Built-ins--------------------*/
-int								execute_builtin(t_data *data, t_cmds *cmds, int *exit_code);
+int								execute_builtin(t_data *data, t_cmds *cmds,
+									int *exit_code);
 int								is_builtin(char *cmd);
 /*-----------------echo----------------------*/
 int								ft_echo(t_cmds *cmd, t_data *data);
@@ -134,9 +136,12 @@ int								ft_exit(t_cmds *cmd, t_data *data);
 int								ft_unset(t_cmds *cmd, t_data *data);
 bool							update_new_env(t_data *data);
 int								ft_strcmp(const char *s1, const char *s2);
-void							command_cleanup(t_data *data, t_parsed_data *cmds_d);
+void							command_cleanup(t_data *data,
+									t_parsed_data *cmds_d);
+									int	free_2arr_general(char **arr);
 
 #endif
+
 // void add_export_to_list(char **arr_list, t_data *data);
 // void print_export(t_data *data);
 // void check_echo_$(t_data *data);
