@@ -1,50 +1,37 @@
 #include "../includes/lexing.h"
 
-void	var_init(t_vars_data *var, t_data *data, int i)
+
+
+void	free_var(t_vars_data *var)
 {
-	var->len = 0;
-	var->temp = NULL;
-	var->var_var = NULL;
-	var->vars_arr = NULL;
-	var->parts_count = 0;
-	var->vars_count = 0;
-	var->len = ft_strlen(data->tokens[i].data);
-	var->vars_count = find_vars_count(data, i);
-	var->vars_arr = (char **)ft_calloc((var->vars_count * data->tokens_conter), sizeof(char *));
-	if (!var->vars_arr)
-		exit(EXIT_FAILURE);
+	free_2d_arr(var, var->vars_arr);
+	ft_free(var->var_var);
+	free(var);
 }
 
-void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
+void ft_free(char *str)
 {
-	while (var->j < var->len)
+	free(str);
+	str = NULL;
+}
+
+void free_2d_arr(t_vars_data *var, char **arr)
+{
+	int i;
+
+	i = 0;
+	while (i < var->parts_count)
 	{
-		// if (data->tokens[i].data[var->j] == '/' || data->tokens[i].data[var->j] == '\''
-		// 	|| data->tokens[i].data[var->j] == '\"' || data->tokens[i].data[var->j] == '@')
-		if (data->tokens[i].data[0] == '$')
-			var->j++;
-		if(ft_isalnum(data->tokens[i].data[var->j]) == 0 && ft_isalpha(data->tokens[i].data[var->j]) == 0 )
+		if (arr[i] != NULL)
 		{
-			data->file_seperator_found = true;
-			break ;
+			free(arr[i]);
+			arr[i] = NULL;
 		}
-		var->j++;
+		i++;
 	}
+	free(arr);
 }
 
-void	path_set_and_join(t_data *data, int i, char *temp, char *path)
-{
-	if (path == NULL)
-		exit(EXIT_FAILURE);
-	else
-	{
-		if (data->file_seperator_found == true)
-			data->tokens[i].data = ft_strdup(ft_strcat(path, temp));
-		else
-			data->tokens[i].data = ft_strdup(path);
-		data->tokens[i].type = TOK_ENV_VAR;
-	}
-}
 
 int	find_vars_count(t_data *data, int i)
 {
@@ -62,6 +49,42 @@ int	find_vars_count(t_data *data, int i)
 	return (vars_count);
 }
 
+
+bool	var_init(t_vars_data *var, t_data *data, int i)
+{
+	var->len = 0;
+	var->var_var = NULL;
+	var->vars_arr = NULL;
+	var->parts_count = 0;
+	var->vars_count = 0;
+	var->len = ft_strlen(data->tokens[i].data);
+	var->vars_count = find_vars_count(data, i);
+	var->vars_arr = ft_calloc((var->len), sizeof(char *));
+	if (!var->vars_arr)
+		return (free (var->vars_arr ), false);
+	return (true);
+}
+
+void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
+{
+	while (var->j < var->len)
+	{
+	
+		if (data->tokens[i].data[0] == '$')
+			var->j++;
+		if(ft_isalnum(data->tokens[i].data[var->j]) == 0 && ft_isalpha(data->tokens[i].data[var->j]) == 0 )
+		{
+			data->file_seperator_found = true;
+			break ;
+		}
+		var->j++;
+	}
+}
+
+
+
+
+
 void	print_tokens(t_data *data)
 {
 	int	i;
@@ -73,4 +96,18 @@ void	print_tokens(t_data *data)
 			data->tokens[i].type);
 		i++;
 	}
+}
+
+void	free_var_handler(t_data *data,t_vars_data *var)
+{
+	if (!var)
+		return;
+	(void) data;
+	// if (var->vars_arr)
+	// {
+	// 	for (int i = 0; i < data->tokens_conter; i++)
+	// 		free(var->vars_arr[i]);  // 🔥 This is the key fix
+	// }
+	free(var->var_var);
+	free(var);
 }

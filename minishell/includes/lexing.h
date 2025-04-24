@@ -12,10 +12,10 @@ typedef struct s_data	t_data;
 typedef struct s_vars_data
 {
 	char				**vars_arr;
+	char				*var_var;
+	char *temp;
 	int					parts_count;
 	int					vars_count;
-	char				*temp;
-	char				*var_var;
 	int					len;
 	bool				var_is_found;
 }						t_vars_data;
@@ -40,12 +40,11 @@ void					append_token(t_data *data, int type);
 void					env_variable_function(t_data *data);
 void					eof_function(t_data *data);
 int						find_vars_count(t_data *data, int i);
-void					path_set_and_join(t_data *data, int i, char *temp,
-							char *path);
+void	path_set_and_join(t_data *data, int i, t_vars_data *var);
 void					search_for_file_seperator(t_data *data, t_var_d *var,
 							int i);
-void					var_init(t_vars_data *var, t_data *data, int i);
-void					var_handler2(t_data *data, int i);
+bool					var_init(t_vars_data *var, t_data *data, int i);
+bool					var_handler2(t_data *data, int i);
 void					print_tokens(t_data *data);
 void					free_var(t_vars_data *var);
 void					assign_quotes(t_data *data, int len, int i, char *temp);
@@ -53,5 +52,7 @@ void					quote_fixing(t_data *data, int i);
 void					redirection_setting(t_data *data, int i);
 void					free_var(t_vars_data *var);
 void					append_eof_token(t_data *data, int type);
+void free_2d_arr(t_vars_data *var ,char **arr);
+void ft_free(char *str);
 
 #endif

@@ -53,16 +53,16 @@ int	execute_builtin(t_data *data, t_cmds *cmds)
 	return (1);
 }
 
-void	execution(t_data *data, t_parsed_data *cmds_d)
+bool	execution(t_data *data, t_parsed_data *cmds_d)
 {
 	int	ret;
 	int	i;
 
 	i = 0;
 	if (!data || !cmds_d)
-		return ;
+		return (false);
 	if (cmds_d->cmds_counter == 0)
-		return ;
+		return (false);
 	if (cmds_d->cmds_counter == 1)
 	{
 		if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
@@ -70,12 +70,12 @@ void	execution(t_data *data, t_parsed_data *cmds_d)
 			ret = execute_builtin(data, &cmds_d->cmds[0]);
 			if (ret == -1)
 				printf("Command not found.\n");
-			return ;
+			// return (true);
 		}
 		else
 			handle_single_command(&cmds_d->cmds[0], data);
 	}
 	else
 		handle_pipes(data, cmds_d);
-	return ;
+	return (true);
 }

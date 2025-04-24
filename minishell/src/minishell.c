@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t		g_exit_status = 0;
+volatile sig_atomic_t	g_exit_status = 0;
 
 void	data_init(t_data *data)
 {
@@ -15,6 +15,14 @@ void	data_init(t_data *data)
 	data->double_quote_found = false;
 	data->quote_type = 0;
 	data->file_seperator_found = false;
+}
+
+void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
+{
+	free_matrix(data->envp);
+	free_cmds_d(cmds_d);
+	free_data(data);
+	free(data->input_line);
 }
 
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
@@ -32,22 +40,19 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			free(data->tokens);
 			free(data);
 			free(cmds_d);
-			exit(0) ;
+			exit(0);
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
 			add_history(data->input_line);
-			lexing(data);
-			if (!tokenizing(data))
-				continue;
-			parsing(data, cmds_d);
-			update_new_env(data);
-			execution(data, cmds_d);
-			free_matrix(data->envp);
-			free_cmds_d(cmds_d);
-			free_data(data);
+			if (!lexing(data) || !tokenizing(data) || !parsing(data, cmds_d)
+				|| !update_new_env(data) || !execution(data, cmds_d))
+			{
+				command_cleanup(data, cmds_d);
+				continue ;
+			}
+			command_cleanup(data, cmds_d);
 		}
-		free(data->input_line);
 	}
 }
 
@@ -60,16 +65,15 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
 	cmds_d = ft_calloc(1, sizeof(t_parsed_data));
-	// ft_memset(cmds_d, 0, sizeof(t_parsed_data));
-	// ft_memset(data, 0, sizeof(t_data));
 	if (!data || !cmds_d)
 	{
+		free(data);
+		free(cmds_d);
 		perror("Memory allocation failed");
 		exit(EXIT_FAILURE);
 	}
 	// data_init(data);
 	init_env(envp, data);
-	// start_signal();
 	set_prompt_signals();
 	reading_loop(data, cmds_d);
 	free(data);

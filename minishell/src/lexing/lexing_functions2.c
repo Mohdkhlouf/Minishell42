@@ -6,14 +6,22 @@ charaters*/
 void	normal_function(t_data *data)
 {
 	data->in_token = true;
-	if (data->input_line[data->end] == '\''
-		|| data->input_line[data->end] == '\"')
+	if (data->input_line[data->end] == '\'')
 	{
 		if (data->quote_found == true)
 			data->quote_found = false;
 		else if (data->quote_found == false)
 			data->quote_found = true;
 	}
+	if (data->input_line[data->end] == '\"')
+	{
+		if (data->double_quote_found == true)
+			data->double_quote_found  = false;
+		else if (data->double_quote_found  == false)
+			data->double_quote_found  = true;
+	}
+	if(data->variable_sign_found)
+		data->variable_sign_found = false;
 }
 /* this funcction to add variable tokens like $HOME*/
 
@@ -34,14 +42,9 @@ void	eof_function(t_data *data)
 		append_token(data, TOK_UNKNOWN);
 		data->in_token = false;
 	}
+	if(data->variable_sign_found)
+		data->variable_sign_found = false;
 	data->start = data->end;
 	// append_eof_token(data, TOK_EOF);
 	data->start = data->end + 1;
-}
-
-
-void	free_var(t_vars_data *var)
-{
-	free(var->vars_arr);
-	free(var);
 }

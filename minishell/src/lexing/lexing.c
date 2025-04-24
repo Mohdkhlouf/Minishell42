@@ -4,21 +4,20 @@
 is not accurate just i assumed that the memory will not exceed the number 
 of letters*/
 
-int	malloc_tokens_arr(t_data *data)
+bool	malloc_tokens_arr(t_data *data)
 {
 	data->cline_parts = ft_strlen(data->input_line);
-	if (data->cline_parts != 0)
+	if (data->cline_parts > 0)
 	{
-		data->tokens = ft_calloc(data->cline_parts, sizeof(t_token));
+		data->tokens = ft_calloc(data->cline_parts, sizeof(t_token *));
 		if (!data->tokens)
 		{
 			print_error("Error allocating memory for tokens\n");
-			free(data);
-			exit(EXIT_FAILURE);
+			return(false);
 		}
-		return (SUCCESS);
+		return (true);
 	}
-	return (FAILIURE);
+	return (false);
 }
 
 // this one to add the data normally
@@ -50,11 +49,10 @@ int	line_split(t_data *data)
 	while (true)
 	{
 		if (data->input_line[data->end] == '\0')
-			return (eof_function(data), FAILIURE);
+			return (eof_function(data), true);
 		if (data->quote_found && data->input_line[data->end] != '\'')
 			normal_function(data);
-		else if (data->double_quote_found && data->input_line[data->end] != '\"'
-			&& data->input_line[data->end] != '$')
+		else if (data->double_quote_found && data->input_line[data->end] != '\"')
 			normal_function(data);
 		else if (ft_strchr(DELEMETERS, data->input_line[data->end]))
 			space_function(data);
@@ -64,23 +62,30 @@ int	line_split(t_data *data)
 			redirectout_function(data);
 		else if (data->input_line[data->end] == '<')
 			redirectin_function(data);
-		else if (data->input_line[data->end] == '$' && !data->quote_found)
-			env_variable_function(data);
+		// else if (data->input_line[data->end] == '$' && !data->quote_found
+		// && !data->double_quote_found)
+		// {	
+		// 	if (data->variable_sign_found)
+		// 		continue;
+		// 	data->variable_sign_found = true;
+		// 	printf("variable flaq:%d\n", data->variable_sign_found);
+		// 	env_variable_function(data);
+		// }
 		else
 			normal_function(data);
 		data->end++;
 	}
-	return (SUCCESS);
+	return (false);
 }
 
 /*main function for lexting, in this function i created array of stucts to 
 exctract all tokenns from the input line data. */
 
-int	lexing(t_data *data)
+bool	lexing(t_data *data)
 {
-	if (malloc_tokens_arr(data) != SUCCESS)
-		return (FAILIURE);
-	if (line_split(data) != SUCCESS)
-		return (FAILIURE);
-	return (SUCCESS);
+	if (!malloc_tokens_arr(data))
+		return (false);
+	if (!line_split(data))
+		return (false);
+	return (true);
 }

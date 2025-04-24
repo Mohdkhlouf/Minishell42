@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	update_new_env(t_data *data)
+bool	update_new_env(t_data *data)
 {
 	t_var	*env;
 	char	**env_new;
@@ -23,17 +23,18 @@ void	update_new_env(t_data *data)
 		{
 			temp = ft_strjoin(env->key, "=");
 			if (!temp)
-				return ;
+				return (false);
 			env_new[i] = ft_strjoin(temp, env->value);
 			free(temp);
 			if (!env_new[i])
-				return ;
+				return (false);
 			i++;
 		}
 		env = env->next;
 	}
 	env_new[i] = NULL;
 	data->envp = env_new;
+	return (true);
 }
 
 void	remove_value_on_unset(char *key, t_data *data)
