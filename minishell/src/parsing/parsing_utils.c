@@ -6,7 +6,6 @@ void	create_cmds_arr(t_data *data, t_parsed_data *cmds_d)
 	cmds_d->cmds = ft_calloc(cmds_d->cmds_counter, sizeof(t_cmds));
 	if (!cmds_d->cmds)
 		exit(EXIT_FAILURE);
-	ft_memset(cmds_d->cmds, 0, sizeof(t_cmds) * cmds_d->cmds_counter);
 	for (int i = 0; i < cmds_d->cmds_counter; i++)
 	{
 		cmds_d->cmds[i].cmd = ft_calloc(data->tokens_conter +1,  sizeof(char *));

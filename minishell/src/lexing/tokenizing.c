@@ -73,14 +73,14 @@ bool	tokenizing(t_data *data)
 	i = 0;
 	if (!validation(data))
 		return (false);
-	print_tokens(data);
+	// print_tokens(data);
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
 		if (data->tokens[i].data[0] == '$')
 		{
 			if (data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
 			{
-				data->tokens[i].data = ft_itoa(g_exit_status);
+				data->tokens[i].data = ft_itoa(data->exit_code);
 			}
 			else
 				init_var_handler(data, &i);
@@ -94,6 +94,6 @@ bool	tokenizing(t_data *data)
 		redirection_setting(data, i);
 		i++;
 	}
-	print_tokens(data);
+	// print_tokens(data);
 	return (true);
 }

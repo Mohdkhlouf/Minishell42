@@ -34,8 +34,9 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	execute_builtin(t_data *data, t_cmds *cmds)
+int	execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 {
+	*exit_code = 0;
 	if (ft_strncmp(cmds->cmd[0], "echo", ft_strlen("echo")) == 0)
 		return (builtin_with_redirect(cmds, data, ft_echo));
 	else if (ft_strncmp(cmds->cmd[0], "pwd", ft_strlen("pwd")) == 0)
@@ -56,6 +57,7 @@ int	execute_builtin(t_data *data, t_cmds *cmds)
 bool	execution(t_data *data, t_parsed_data *cmds_d)
 {
 	int	ret;
+	static int exit_code = 0;
 	int	i;
 
 	i = 0;
@@ -67,15 +69,17 @@ bool	execution(t_data *data, t_parsed_data *cmds_d)
 	{
 		if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
 		{
-			ret = execute_builtin(data, &cmds_d->cmds[0]);
+			ret = execute_builtin(data, &cmds_d->cmds[0], &exit_code);
 			if (ret == -1)
 				printf("Command not found.\n");
 			// return (true);
 		}
 		else
-			handle_single_command(&cmds_d->cmds[0], data);
+			handle_single_command(&cmds_d->cmds[0], data, &exit_code);
 	}
 	else
-		handle_pipes(data, cmds_d);
+		handle_pipes(data, cmds_d, &exit_code);
+
+	data->exit_code = exit_code;
 	return (true);
 }

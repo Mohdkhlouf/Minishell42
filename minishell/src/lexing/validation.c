@@ -5,7 +5,8 @@ bool	validation(t_data *data)
 	int i;
 
 	i = 0;
-
+	if (data->tokens_conter == 1)
+		return (true);
 	while (data->tokens[i].data && i < data->tokens_conter)
 	{
 		if (data->tokens[i].type == 3
@@ -34,7 +35,6 @@ bool	validation(t_data *data)
 		print_error("syntax error near unexpected token");
 		return (false);
 	}
-	
 	
 	return (true);
 }
