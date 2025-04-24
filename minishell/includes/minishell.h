@@ -22,7 +22,7 @@
 # define FAILIURE 0
 
 typedef struct s_parsed_data	t_parsed_data;
-extern volatile sig_atomic_t		g_exit_status;
+extern volatile sig_atomic_t		g_signal_status;
 
 typedef enum e_token_type
 {
@@ -56,6 +56,7 @@ typedef struct s_var
 
 typedef struct s_data
 {
+	t_parsed_data *cmds_d;
 	char						*input_line;
 	int							cline_parts;
 	t_token						*tokens;
@@ -75,6 +76,7 @@ typedef struct s_data
 	t_var						*env_lst;
 	char						**envp;
 	int 						pipe_fd[2];
+	int exit_code;
 	pid_t	pid;
 }								t_data;
 
@@ -97,7 +99,7 @@ void							free_env_list(t_var *head);
 // void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 /*---------------Built-ins--------------------*/
-int								execute_builtin(t_data *data, t_cmds *cmds);
+int								execute_builtin(t_data *data, t_cmds *cmds, int *exit_code);
 int								is_builtin(char *cmd);
 /*-----------------echo----------------------*/
 int								ft_echo(t_cmds *cmd, t_data *data);
@@ -132,6 +134,8 @@ int								ft_exit(t_cmds *cmd, t_data *data);
 int								ft_unset(t_cmds *cmd, t_data *data);
 bool							update_new_env(t_data *data);
 int								ft_strcmp(const char *s1, const char *s2);
+void							command_cleanup(t_data *data, t_parsed_data *cmds_d);
+
 #endif
 // void add_export_to_list(char **arr_list, t_data *data);
 // void print_export(t_data *data);

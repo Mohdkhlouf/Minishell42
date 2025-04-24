@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t	g_exit_status = 0;
+volatile sig_atomic_t	g_signal_status = 0;
 
 void	data_init(t_data *data)
 {
@@ -22,7 +22,7 @@ void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 	free_matrix(data->envp);
 	free_cmds_d(cmds_d);
 	free_data(data);
-	free(data->input_line);
+
 }
 
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
@@ -53,6 +53,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			}
 			command_cleanup(data, cmds_d);
 		}
+		free(data->input_line);
 	}
 }
 
@@ -78,5 +79,6 @@ int	main(int argc, char **argv, char **envp)
 	reading_loop(data, cmds_d);
 	free(data);
 	free(cmds_d);
-	return (g_exit_status);
+	printf("END OF MAIN FILE REACHED\n");
+	return (g_signal_status);
 }
