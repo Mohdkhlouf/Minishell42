@@ -4,9 +4,10 @@ void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 {
 	char * temp;
 
-	temp = NULL;
+	
 	while (token[*c])
 	{
+		temp = NULL;
 		if (token[*c] == '$')
 		{
 			var->var_is_found = true;
@@ -24,13 +25,14 @@ void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 		{
 			var->var_is_found = false;
 			temp = ft_substr(token, *start, *c - *start);
-			var->vars_arr[var->parts_count] = temp;
-			// ft_free(temp);
+			var->vars_arr[var->parts_count] = ft_strdup(temp);
+			free(temp);
 			var->parts_count++;
 			*start = *c;
 		}
 		(*c)++;
 	}
+	// free(temp);
 }
 
 void	split_vars(char *token, t_vars_data *var)
@@ -51,7 +53,7 @@ void	split_vars(char *token, t_vars_data *var)
 			var->temp = ft_substr(token, start, 1);
 		else
 			var->temp = ft_substr(token, start, c - start);
-		var->vars_arr[var->parts_count] = var->temp;
+		var->vars_arr[var->parts_count] = ft_strdup(var->temp);
 		// ft_free(temp);
 		var->parts_count++;
 	}
@@ -60,15 +62,21 @@ void	split_vars(char *token, t_vars_data *var)
 
 void	var_expander(t_vars_data *var, int *c, t_data *data)
 {
-	(void) data;
-	if (get_env_value(var->vars_arr[*c] + 1, data))
+	char *env_value;
+
+	env_value = NULL;
+	env_value = get_env_value(var->vars_arr[*c] + 1, data);
+	if (env_value)
 	{
-		// free(var->vars_arr[*c]);
-		var->vars_arr[*c] = ft_strdup(get_env_value(var->vars_arr[*c] + 1, data));
-	}
-		
-	else
+		free(var->vars_arr[*c]);
 		var->vars_arr[*c] = NULL;
+		var->vars_arr[*c] = ft_strdup(env_value);
+	}
+	else
+	{
+		free(var->vars_arr[*c]);
+		var->vars_arr[*c] = NULL;
+	}
 }
 
 char	*expand_vars(t_vars_data *var, t_data *data)
@@ -131,6 +139,5 @@ bool	var_handler2(t_data *data, int i)
 	path_set_and_join(data, i, var);
 	free(var->temp);
 	free_var(var);
-	
 	return (true);
 }
