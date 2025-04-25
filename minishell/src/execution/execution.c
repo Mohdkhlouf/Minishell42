@@ -65,6 +65,41 @@ bool	execution(t_data *data, t_parsed_data *cmds_d)
 		return (false);
 	if (cmds_d->cmds_counter == 0)
 		return (false);
+	// if there is
+	// 	handle_heredoc
+	
+	// if (check cmd  :only 1 and bulitin )
+	// 	exuecute builtin in parent 
+	// else 
+	// {
+	// 	handle pipe 
+	// 	handle_redirection
+	// 	{
+	// 		if other RD 
+	// 		if HD 
+	// 			open fd, write the file content to write fd and cloe, return the read fd, 
+	// 	}
+	// }
+
+	/* functionn to search and get input for all heredocs.
+	the result of the last one wiill be stored in a file.*/
+	
+	while (cmds_d->cmds[0].reds[i])
+	{
+		if (ft_strcmp(cmds_d->cmds[0].reds[i], "<<") == 0)
+		{
+			if (handle_heredoc(cmds_d->cmds[0].reds[i + 1], data, 1) == 0)
+			{
+				int fd = get_heredoc_fd();
+				dup2(fd, STDIN_FILENO);
+				close(fd);
+			}
+		}
+		i++;
+	}
+
+	
+
 	if (cmds_d->cmds_counter == 1)
 	{
 		if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
