@@ -1,24 +1,5 @@
 #include "../includes/minishell.h"
-#define HEREDOC_TEMP "/tmp/.minishell_heredoc"
 
-// static void sigint_handler(int sig)
-// {
-// 	(void)sig;
-// 	g_heredoc_interrupted = 1;
-// 	write(STDOUT_FILENO, "\n", 1);
-// 	// rl_replace_line("", 0);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-// void signal_handler_heredoc()
-// {
-// 	struct sigaction sa;
-// 	sa.sa_handler = sigint_handler;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = SA_RESTART;
-// 	sigaction(SIGINT, &sa, NULL);
-// }
 static char *expand_variables(char *line, t_data *data)
 {
 	char *result = ft_calloc(1, 1);
@@ -57,40 +38,31 @@ static char *expand_variables(char *line, t_data *data)
 
 int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 {
-	//(void)expand;
 	int fd;
 	char *line;
-	// bool no_expand;
-	// char *delimiter;
-	// int j;
 
-	// no_expand = false;
-	// if (ft_strchr(input_delimiter, '"')) // input_delimiter, '\'') ||
-	// 	no_expand = true;
-
-	// delimiter = ft_calloc(1, ft_strlen(input_delimiter) + 1);
-	// j = 0;
-	// for (int i = 0; input_delimiter[i]; i++)
-	// {
-	// 	if (input_delimiter[i] != '"') // input_delimiter[i] != '\'' &&
-	// 		delimiter[j++] = input_delimiter[i];
-	// }
-	g_heredoc_interrupted = 0;
-	// signal_handler_heredoc();
 	fd = open("HEREDOC_TEMP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
 	{
 		perror("open");
-		return -1;
+		return (-1);
 	}
-
+	
 	while (1)
 	{
 		line = readline("heredoc> ");
-		if (!line || ft_strcmp(line, input_delimiter) == 0)
+		if (!line)
+			break;
+		if (!input_delimiter)
+		{
+			fprintf(stderr, "heredoc: null delimiter\n");
+			free(line);
+			break;
+		}
+		if (ft_strcmp(line, input_delimiter) == 0)
 		{
 			free(line);
-			return (1);
+			break;
 		}
 		char *to_write = expand ? expand_variables(line, data) : ft_strdup(line);
 		dprintf(fd, "%s\n", to_write);
@@ -98,20 +70,65 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 		free(line);
 	}
 	close(fd);
-	// Reset signal handler
-	// struct sigaction sa;
-	// sa.sa_handler = SIG_DFL;
-	// sigaction(SIGINT, &sa, NULL);
-	// signal interrupt
-	// if (g_heredoc_interrupted)
-	// 	return (-2);
 	return (0);
 }
 
-int get_heredoc_fd()
+// int get_heredoc_fd()
+// {
+// 	printf("I am here3.\n");
+// 	return open("HEREDOC_TEMP.txt", O_RDONLY);
+// }
+
+/* 
+--------------------Important one to use later---------------------------
+static void sigint_handler(int sig)
 {
-	return open("HEREDOC_TEMP.txt", O_RDONLY);
+	(void)sig;
+	g_heredoc_interrupted = 1;
+	write(STDOUT_FILENO, "\n", 1);
+    rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
+
+void signal_handler_heredoc()
+{
+	struct sigaction sa;
+	sa.sa_handler = sigint_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+}
+
+	//Reset signal handler
+	struct sigaction sa;
+	sa.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &sa, NULL);
+	signal interrupt
+	if (g_heredoc_interrupted)
+		return (-2);
+
+	g_heredoc_interrupted = 0;
+	// signal_handler_heredoc();
+	bool no_expand;
+	char *delimiter;
+	int j;
+
+	no_expand = false;
+	if (input_delimiter, '\'') ||ft_strchr(input_delimiter, '"')) 
+		no_expand = true;
+
+	delimiter = ft_calloc(1, ft_strlen(input_delimiter) + 1);
+	j = 0;
+	for (int i = 0; input_delimiter[i]; i++)
+	{
+		if (input_delimiter[i] != '\'' && input_delimiter[i] != '"') 
+			delimiter[j++] = input_delimiter[i];
+	} 
+------------------------------------------------------------------------		
+	*/
+
+
 
 // char *expand_var(char *line, size_t *i, t_data *data)
 // {
