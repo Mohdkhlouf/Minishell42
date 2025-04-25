@@ -142,6 +142,7 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 				printf("Child process stopped by signal %d\n", stop_signal);
 			}
 		}
+		return;
 	}
 	else
 		handle_empty_cmd(cmd, data);
