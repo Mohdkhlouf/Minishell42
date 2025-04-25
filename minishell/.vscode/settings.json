@@ -9,6 +9,7 @@
 		"span": "c",
 		"parsing.h": "c",
 		"random": "c",
-		"fcntl.h": "c"
+		"fcntl.h": "c",
+		"libft.h": "c"
 	}
 }

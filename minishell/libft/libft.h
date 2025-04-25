@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 11:47:29 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/04/04 12:07:09 by akumari          ###   ########.fr       */
+/*   Updated: 2025/04/25 11:44:55 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char				*ft_strdup(const char *s1);
 char				*ft_strcat(char *dest, char *src);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 
-
 /* additional */
 char				*ft_substr(const char *s, unsigned int start, size_t len);
 char				*ft_strjoin(const char *s1, const char *s2);
@@ -74,6 +73,9 @@ void				ft_putnbr_unsigned(unsigned long long n, int *count);
 void				ft_putnbr_hex(uint64_t n, int *count, unsigned char c);
 void				ft_putptr(void *n, int *count);
 int					ft_printf(const char *num, ...);
+char				*ft_strncpy(char *dest, const char *src, size_t n);
+char				*ft_strndup(const char *s, size_t n);
+size_t				ft_strnlen(const char *s, size_t n);
 
 /* bonus */
 t_list				*ft_lstnew(void *content);
