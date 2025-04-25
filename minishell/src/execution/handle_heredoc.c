@@ -40,6 +40,7 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 {
 	int fd;
 	char *line;
+	char buff[1024];
 
 	fd = open("HEREDOC_TEMP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
@@ -55,7 +56,7 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 			break;
 		if (!input_delimiter)
 		{
-			fprintf(stderr, "heredoc: null delimiter\n");
+			printf("heredoc: null delimiter\n");
 			free(line);
 			break;
 		}
@@ -65,7 +66,10 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 			break;
 		}
 		char *to_write = expand ? expand_variables(line, data) : ft_strdup(line);
-		dprintf(fd, "%s\n", to_write);
+		ft_strncpy(buff, to_write, ft_strlen(to_write));
+		buff[ft_strlen(to_write)] = '\n';
+    	buff[ft_strlen(to_write) + 1] = '\0';
+		write(fd, buff, ft_strlen(buff));
 		free(to_write);
 		free(line);
 	}
@@ -125,6 +129,7 @@ void signal_handler_heredoc()
 		if (input_delimiter[i] != '\'' && input_delimiter[i] != '"') 
 			delimiter[j++] = input_delimiter[i];
 	} 
+	dprintf(fd, "%s\n", to_write);
 ------------------------------------------------------------------------		
 	*/
 
