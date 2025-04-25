@@ -48,14 +48,17 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		ft_putstr_fd("': command not found\n", 2);
 		free(path);
 		free_matrix(data->envp);
-		free_data(data);
 		free_2arr_general(data->parsed_path);
 		free_env_list(data->env_lst);
 		free_2arr_general(cmd->cmd);
 		free_2arr_general(cmd->reds);
-		free(cmd);
+		free_2arr_general(data->cmds_d->cmds->cmd);
+		free_2arr_general(data->cmds_d->cmds->reds);
+		free(data->cmds_d->cmds);
 		free(data->cmds_d);
+		free_data(data);
 		free(data);
+		
 		exit(127);
 	}
 	if (execve(path, cmd->cmd, data->envp) == -1)
@@ -63,18 +66,21 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		perror("minishell");
 		free(path);
 		free_matrix(data->envp);
-		free_data(data);
 		free_2arr_general(data->parsed_path);
 		free_env_list(data->env_lst);
-		free_2arr_general(cmd->cmd);
-		free_2arr_general(cmd->reds);
-		free(cmd);
+		free_2arr_general(data->cmds_d->cmds->cmd);
+		free_2arr_general(data->cmds_d->cmds->reds);
+		free(data->cmds_d->cmds);
 		free(data->cmds_d);
+		free_data(data);
 		free(data);
 		data->exit_code = 127;
 		exit(127);
 	}
 }
+/*
+cat input | wzc -l
+*/
 
 /* this function will start the fork to execute the cmd
 i did the fork here.
