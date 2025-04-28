@@ -46,6 +46,7 @@ depending of the tokens type enum i have created in the .h file.*/
 
 int	line_split(t_data *data)
 {
+
 	while (true)
 	{
 		if (data->input_line[data->end] == '\0')

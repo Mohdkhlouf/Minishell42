@@ -25,16 +25,21 @@ bool	validation(t_data *data)
 	}
 
 	/*if pipes at the end*/
-	if (data->tokens[data->tokens_conter - 1].type == 3 
-	|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
-	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_IN
-	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_OUT
-	|| data->tokens[data->tokens_conter - 1].type == TOK_SINGLE_QUOTE
-	|| data->tokens[data->tokens_conter - 1].type == TOK_DOUBLE_QUOTE)
+	if (data->tokens[data->tokens_conter - 1].type == 3 )
 	{
 		print_error("syntax error near unexpected token");
 		return (false);
 	}
 	
+	/*
+	
+	|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_IN
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_OUT
+	|| data->tokens[data->tokens_conter - 1].type == TOK_SINGLE_QUOTE
+	|| data->tokens[data->tokens_conter - 1].type == TOK_DOUBLE_QUOTE)
+
+
+	*/
 	return (true);
 }
