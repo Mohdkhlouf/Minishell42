@@ -111,3 +111,14 @@ int	free_2arr_general(char **arr)
 	arr = NULL;
 	return (0);
 }
+
+
+void cleanup_minishell(t_data *data)
+{
+	free_matrix(data->envp);
+	free_2arr_general(data->parsed_path);
+	free_env_list(data->env_lst);
+	free_cmds_d(data->cmds_d);
+	free_data(data);
+	free(data);
+}

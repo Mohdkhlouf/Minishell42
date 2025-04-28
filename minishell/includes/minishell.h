@@ -139,6 +139,7 @@ int								ft_strcmp(const char *s1, const char *s2);
 void							command_cleanup(t_data *data,
 									t_parsed_data *cmds_d);
 									int	free_2arr_general(char **arr);
+void cleanup_minishell(t_data *data);
 
 #endif
 

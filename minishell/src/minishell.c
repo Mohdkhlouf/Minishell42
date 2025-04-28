@@ -23,7 +23,6 @@ void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 	free_matrix(data->envp);
 	free_cmds_d(cmds_d);
 	free_data(data);
-
 }
 
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
