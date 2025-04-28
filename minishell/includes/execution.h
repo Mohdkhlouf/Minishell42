@@ -28,7 +28,7 @@ void							execute_pipes(t_data *data,
 									int *exit_code);
 void							set_default_signal_handlers(void);
 /*---------------redirectins------------------*/
-void							execute_redirections(t_data *data,
+bool							execute_redirections(t_data *data,
 									t_cmds *cmds_d);
 void							heredoc_handller(int *i, char *delimiter);
 bool							open_output_file(char *outfile, int mode);

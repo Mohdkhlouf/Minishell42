@@ -32,7 +32,7 @@ void	free_data(t_data *data)
 	i = 0;
 	while (data->tokens && i < data->tokens_conter)
 	{
-		if (data->tokens[i].data && i < data->tokens_conter)
+		if (data->tokens[i].data)
 		{
 			free(data->tokens[i].data);
 			data->tokens[i].data = NULL;
@@ -67,9 +67,10 @@ void free_env_list(t_var *env)
         env = env->next;
 
         // Free the key and value strings if they were dynamically allocated
-        free(tmp->key);
-        free(tmp->value);
-
+        if(tmp->key)
+			free(tmp->key);
+		if (tmp->value)
+       		free(tmp->value);
         // Free the current node itself
         free(tmp);
     }
@@ -89,7 +90,8 @@ int	free_matrix(char **env)
 		env[i] = NULL;
 		i++;
 	}
-	free(env);
+	if(env)
+		free(env);
 	env = NULL;
 	return (0);
 }
@@ -110,4 +112,15 @@ int	free_2arr_general(char **arr)
 	free(arr);
 	arr = NULL;
 	return (0);
+}
+
+
+void cleanup_minishell(t_data *data)
+{
+	free_matrix(data->envp);
+	free_2arr_general(data->parsed_path);
+	free_env_list(data->env_lst);
+	free_cmds_d(data->cmds_d);
+	free_data(data);
+	free(data);
 }

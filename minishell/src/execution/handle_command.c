@@ -39,6 +39,8 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	char	*path;
 
 	path = NULL;
+	if (!execute_redirections(data, cmd))
+		return ;
 	set_child_signals();
 	path = find_path(data, cmd->cmd[0]);
 	if (!path)
@@ -46,34 +48,13 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		// ft_putstr_fd("minishell: '", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd("': command not found\n", 2);
-		free(path);
-		free_matrix(data->envp);
-		free_2arr_general(data->parsed_path);
-		free_env_list(data->env_lst);
-		free_2arr_general(cmd->cmd);
-		free_2arr_general(cmd->reds);
-		free_2arr_general(data->cmds_d->cmds->cmd);
-		free_2arr_general(data->cmds_d->cmds->reds);
-		free(data->cmds_d->cmds);
-		free(data->cmds_d);
-		free_data(data);
-		free(data);
+		cleanup_minishell(data);
 		exit(127);
 	}
-	execute_redirections(data, cmd);
 	if (execve(path, cmd->cmd, data->envp) == -1)
 	{
 		perror("minishell");
-		free(path);
-		free_matrix(data->envp);
-		free_2arr_general(data->parsed_path);
-		free_env_list(data->env_lst);
-		free_2arr_general(data->cmds_d->cmds->cmd);
-		free_2arr_general(data->cmds_d->cmds->reds);
-		free(data->cmds_d->cmds);
-		free(data->cmds_d);
-		free_data(data);
-		free(data);
+		cleanup_minishell(data);
 		data->exit_code = 127;
 		exit(127);
 	}
@@ -128,18 +109,18 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 			if (WIFEXITED(status))
 			{
 				*exit_code = WEXITSTATUS(status);
-				printf("Child process exited with code %d\n", *exit_code);
+				// printf("Child process exited with code %d\n", *exit_code);
 			}
 			else if (WIFSIGNALED(status))
 			{
 				signal_num = WTERMSIG(status);
-				printf("Child process terminated by signal %d\n", signal_num);
+				// printf("Child process terminated by signal %d\n", signal_num);
 			}
 			else if (WIFSTOPPED(status))
 			{
 				// Child process stopped
 				stop_signal = WSTOPSIG(status);
-				printf("Child process stopped by signal %d\n", stop_signal);
+				// printf("Child process stopped by signal %d\n", stop_signal);
 			}
 		}
 	}

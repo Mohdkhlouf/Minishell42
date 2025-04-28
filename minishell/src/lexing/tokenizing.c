@@ -71,9 +71,6 @@ bool	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
-	if (!validation(data))
-		return (false);
-	// print_tokens(data);
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
 		if (data->tokens[i].data[0] == '$')

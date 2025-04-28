@@ -12,6 +12,8 @@ void	normal_function(t_data *data)
 			data->quote_found = false;
 		else if (data->quote_found == false)
 			data->quote_found = true;
+		if(data->first_quote_type == 0)
+			data->first_quote_type = 1;
 	}
 	if (data->input_line[data->end] == '\"')
 	{
@@ -19,6 +21,8 @@ void	normal_function(t_data *data)
 			data->double_quote_found  = false;
 		else if (data->double_quote_found  == false)
 			data->double_quote_found  = true;
+		if(data->first_quote_type == 0)
+			data->first_quote_type = 2;
 	}
 	if(data->variable_sign_found)
 		data->variable_sign_found = false;
@@ -34,6 +38,7 @@ void	env_variable_function(t_data *data)
 	}
 	data->start = data->end;
 }
+
 /* this funcction to add the end of line null terminator as a seperate token*/
 void	eof_function(t_data *data)
 {
@@ -48,3 +53,4 @@ void	eof_function(t_data *data)
 	// append_eof_token(data, TOK_EOF);
 	data->start = data->end + 1;
 }
+

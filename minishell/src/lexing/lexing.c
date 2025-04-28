@@ -9,7 +9,7 @@ bool	malloc_tokens_arr(t_data *data)
 	data->cline_parts = ft_strlen(data->input_line);
 	if (data->cline_parts > 0)
 	{
-		data->tokens = ft_calloc(data->cline_parts, sizeof(t_token *));
+		data->tokens = ft_calloc(data->cline_parts + 1, sizeof(t_token *));
 		if (!data->tokens)
 		{
 			print_error("Error allocating memory for tokens\n");
@@ -46,6 +46,7 @@ depending of the tokens type enum i have created in the .h file.*/
 
 int	line_split(t_data *data)
 {
+
 	while (true)
 	{
 		if (data->input_line[data->end] == '\0')

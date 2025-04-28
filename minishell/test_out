@@ -1,0 +1,14 @@
+total 152
+-rw------- 1 mkhlouf 2020     17 Apr 25 17:17 HEREDOC_TEMP.txt
+drwxr-xr-x 2 mkhlouf 2020     77 Apr 24 10:59 includes
+-rw-r--r-- 1 mkhlouf 2020     19 Apr 23 11:19 input
+drwxr-xr-x 2 mkhlouf 2020   4096 Apr 25 17:22 libft
+-rw-r--r-- 1 mkhlouf 2020   3725 Apr 25 11:45 Makefile
+-rwxr-xr-x 1 mkhlouf 2020 129496 Apr 25 17:22 minishell
+drwxr-xr-x 9 mkhlouf 2020   4096 Apr 17 16:47 minishell_tester
+drwxr-xr-x 7 mkhlouf 2020    163 Apr 25 17:22 obj
+-rw-r--r-- 1 mkhlouf 2020     81 Apr 23 11:19 readline.sup
+drwxr-xr-x 7 mkhlouf 2020    180 Apr 23 15:04 src
+-rw-r--r-- 1 mkhlouf 2020      0 Apr 25 17:23 test_out
+Child process exited with code 0
+[?2004h[0;35mminishell>[0m ^C[?2004l[0;35mminishell>[0m [?2004h[?2004l

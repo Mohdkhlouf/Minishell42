@@ -18,23 +18,34 @@ bool	validation(t_data *data)
 		i++;
 	}
 
-	if (data->double_quote_found || data->quote_found)
+	if (data->quote_found && data->first_quote_type == 1)
+	{
+		print_error("quotes are not closed");
+		return (false);
+	}
+
+	if (data->double_quote_found && data->first_quote_type == 2)
 	{
 		print_error("quotes are not closed");
 		return (false);
 	}
 
 	/*if pipes at the end*/
-	if (data->tokens[data->tokens_conter - 1].type == 3 
-	|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
-	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_IN
-	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_OUT
-	|| data->tokens[data->tokens_conter - 1].type == TOK_SINGLE_QUOTE
-	|| data->tokens[data->tokens_conter - 1].type == TOK_DOUBLE_QUOTE)
+	if (data->tokens[data->tokens_conter - 1].type == 3 )
 	{
 		print_error("syntax error near unexpected token");
 		return (false);
 	}
 	
+	/*
+	
+	|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_IN
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_OUT
+	|| data->tokens[data->tokens_conter - 1].type == TOK_SINGLE_QUOTE
+	|| data->tokens[data->tokens_conter - 1].type == TOK_DOUBLE_QUOTE)
+
+
+	*/
 	return (true);
 }
