@@ -9,7 +9,8 @@ bool	validation(t_data *data)
 		return (true);
 	while (data->tokens[i].data && i < data->tokens_conter)
 	{
-		if (data->tokens[i].type == 3 && data->tokens[i - 1].type == 3)
+		if (data->tokens[i].type == 3
+			&& data->tokens[i - 1].type == 3)
 		{
 			print_error("syntax error near unexpected token `|'");
 			return (false);
@@ -24,23 +25,16 @@ bool	validation(t_data *data)
 	}
 
 	/*if pipes at the end*/
-	if (data->tokens[data->tokens_conter - 1].type == 3
-		|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
-		|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_IN
-		|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_OUT
-		|| data->tokens[data->tokens_conter - 1].type == TOK_SINGLE_QUOTE
-		|| data->tokens[data->tokens_conter - 1].type == TOK_DOUBLE_QUOTE
-	)
+	if (data->tokens[data->tokens_conter - 1].type == 3 
+	|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_IN
+	|| data->tokens[data->tokens_conter - 1].type == TOK_REDIRECT_OUT
+	|| data->tokens[data->tokens_conter - 1].type == TOK_SINGLE_QUOTE
+	|| data->tokens[data->tokens_conter - 1].type == TOK_DOUBLE_QUOTE)
 	{
 		print_error("syntax error near unexpected token");
 		return (false);
 	}
-
-	if(ft_strcmp(data->tokens[data->tokens_conter - 1].data,"$") == 0)
-	{
-		print_error("syntax error near unexpected token");
-		return (false);
-	}
-
+	
 	return (true);
 }

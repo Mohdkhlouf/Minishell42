@@ -67,6 +67,9 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 		return (false);
 	if (cmds_d->cmds_counter == 0)
 		return (false);
+
+	if (!validation(data))
+		return (false);
 	/* function to search and get input for all heredocs. the result of the last one wiill
 	be stored in a file.*/
 	while (true)
