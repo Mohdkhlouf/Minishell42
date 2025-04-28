@@ -11,7 +11,8 @@ void	free_var(t_vars_data *var)
 
 void ft_free(char *str)
 {
-	free(str);
+	if(str)
+		free(str);
 	str = NULL;
 }
 
