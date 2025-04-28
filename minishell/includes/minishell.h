@@ -65,6 +65,7 @@ typedef struct s_data
 	bool						in_token;
 	bool						quote_found;
 	bool						double_quote_found;
+	int 						first_quote_type;
 	bool						file_seperator_found;
 	bool						variable_sign_found;
 	char						*input_line;

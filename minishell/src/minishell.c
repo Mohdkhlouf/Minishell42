@@ -16,6 +16,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->double_quote_found = false;
 	data->quote_type = 0;
 	data->file_seperator_found = false;
+	data->first_quote_type = 0;
 }
 
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)

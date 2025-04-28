@@ -18,7 +18,13 @@ bool	validation(t_data *data)
 		i++;
 	}
 
-	if (data->double_quote_found || data->quote_found)
+	if (data->quote_found && data->first_quote_type == 1)
+	{
+		print_error("quotes are not closed");
+		return (false);
+	}
+
+	if (data->double_quote_found && data->first_quote_type == 2)
 	{
 		print_error("quotes are not closed");
 		return (false);
