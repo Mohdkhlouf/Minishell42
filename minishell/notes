@@ -1,0 +1,9 @@
+these need to be handleld
+
+- echo "test"$
+- echo "$"
+- echo $$
+- echo $$$
+
+
+- also when there is << heredoc dont expand the variables.
