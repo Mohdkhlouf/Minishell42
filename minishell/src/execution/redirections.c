@@ -36,6 +36,16 @@ void	input_handller(int *i, char *infile)
 	(*i)++;
 }
 
+void	heredoc_read(int *i, char *heredoc_filename)
+{
+	if (!open_input_file(heredoc_filename))
+	{
+		/*handle that needed*/
+		exit(-1);
+	}
+	(*i)++;
+}
+
 void	execute_redirections(t_data *data, t_cmds *cmds_d)
 {
 	int	i;
@@ -50,8 +60,8 @@ void	execute_redirections(t_data *data, t_cmds *cmds_d)
 			break ;
 		if (ft_strcmp(cmds_d->reds[i], "<") == 0)
 			input_handller(&i, cmds_d->reds[i + 1]);
-		// else if (ft_strcmp(cmds_d->reds[i], "<<") == 0)
-		// 	heredoc_handller(&i, cmds_d->reds[i + 1]);
+		else if (ft_strcmp(cmds_d->reds[i], "<<") == 0)
+			heredoc_read(&i, "HEREDOC_TEMP.txt");
 		else if (ft_strcmp(cmds_d->reds[i], ">") == 0)
 			output_handller(&i, cmds_d->reds[i + 1]);
 		else if (ft_strcmp(cmds_d->reds[i], ">>") == 0)

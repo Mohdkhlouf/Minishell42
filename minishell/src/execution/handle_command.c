@@ -58,9 +58,9 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		free(data->cmds_d);
 		free_data(data);
 		free(data);
-		
 		exit(127);
 	}
+	execute_redirections(data, cmd);
 	if (execve(path, cmd->cmd, data->envp) == -1)
 	{
 		perror("minishell");
@@ -122,7 +122,7 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 		}
 		else
 		{
-			execute_redirections(data, cmd);
+			// execute_redirections(data, cmd);
 			pid = execute_cmd(cmd, data);
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
@@ -142,7 +142,6 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 				printf("Child process stopped by signal %d\n", stop_signal);
 			}
 		}
-		return;
 	}
 	else
 		handle_empty_cmd(cmd, data);

@@ -34,7 +34,7 @@ void	fill_in_arr(t_parsed_data *cmds_d, t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->tokens[i].type != TOK_EOF && i < data->tokens_conter)
+	while (data->tokens[i].data)
 	{
 		if (data->tokens[i].type == TOK_PIPE)
 			pipe_found(cmds_d);

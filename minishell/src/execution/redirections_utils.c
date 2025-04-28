@@ -18,20 +18,13 @@ bool	open_input_file(char *infile)
 {
 	int	fd;
 
-	if (access(infile, F_OK) == 0)
-	{
-		if (access(infile, R_OK) == 0)
-		{
-			fd = open(infile, O_RDONLY);
-			if (fd >= 0)
-				hanlde_fd(0, fd);
-			else
-				return (print_error(strerror(errno)), false);
-		}
-		else
-			return (print_error(strerror(errno)), false);
-	}
-	else
+	if (access(infile, F_OK) != 0)
+		return (print_error("No such file"), false);
+	if (access(infile, R_OK) != 0)
+		return (print_error("Permission denied"), false);
+	fd = open(infile, O_RDONLY);
+	if (fd < 0)
 		return (print_error(strerror(errno)), false);
+	hanlde_fd(STDIN_FILENO, fd);
 	return (true);
 }
