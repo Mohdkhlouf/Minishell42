@@ -14,11 +14,6 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
-	else
-	{
-		close(pipe_fd[0]);  
-        close(pipe_fd[1]); 
-	}
 	handle_command(&cmds_d->cmds[i], data, exit_code);
 }
 
@@ -32,6 +27,12 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 	{
 		close(data->pipe_fd[1]);
 		*prev_cmd = data->pipe_fd[0];
+	}
+	else
+	{
+		close(data->pipe_fd[0]);
+		close(data->pipe_fd[1]);
+		*prev_cmd = -1;
 	}
 }
 

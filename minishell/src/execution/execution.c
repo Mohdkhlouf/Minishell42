@@ -72,24 +72,30 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 		return (false);
 	/* function to search and get input for all heredocs. the result of the last one wiill
 	be stored in a file.*/
-	while (true)
+	while (i < data->cmds_d->pipes_counter + 1)
 	{
-		char *cmd_exist = cmds_d->cmds[0].reds[j];
-		if (!cmd_exist)
-			break;
-		if (ft_strcmp(cmds_d->cmds[0].reds[j], "<<") == 0)
+		j = 0;
+		while (true)
 		{
-			if (!cmds_d->cmds[0].reds[j + 1])
-			{
-				printf("syntax error: expected delimiter after <<\n");
+			char *cmd_exist = cmds_d->cmds[i].reds[j];
+			if (!cmd_exist)
 				break;
+			if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
+			{
+				if (!cmds_d->cmds[i].reds[j + 1])
+				{
+					printf("syntax error: expected delimiter after <<\n");
+					break;
+				}
+				int test = handle_heredoc(cmds_d->cmds[i].reds[++j], data, 1);
+				if (test == -1)
+					printf("error");
 			}
-			int test = handle_heredoc(cmds_d->cmds[0].reds[++j], data, 1);
-			if (test == -1)
-				printf("error");
+			j++;
 		}
-		j++;
+		i++;
 	}
+	i = 0;
 	if (cmds_d->cmds_counter == 1)
 	{
 		char *counter_exist = cmds_d->cmds[0].cmd[0];
