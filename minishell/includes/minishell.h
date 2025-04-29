@@ -78,7 +78,7 @@ typedef struct s_data
 	int							pipe_fd[2];
 	int							exit_code;
 	int							cline_parts;
-	int							tokens_conter;
+	int							tokens_conter; 
 
 }								t_data;
 

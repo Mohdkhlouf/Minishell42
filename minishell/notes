@@ -1,9 +1,12 @@
 these need to be handleld
 
-- echo "test"$
+- echo "test"$ / echo 'test'
 - echo "$"
+- echo "$?" - gives exit code of the last command
 - echo $$
 - echo $$$
+- echo "|" //print | not consider it as pipe
+
 
 
 - also when there is << heredoc dont expand the variables.
