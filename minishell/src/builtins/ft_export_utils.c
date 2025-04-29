@@ -1,5 +1,21 @@
 #include "../includes/minishell.h"
 
+static int	is_valid_identifier(const char *str)
+{
+	int i = 0;
+
+	if (!(ft_isalpha(str[0]) || str[0] == '_'))
+		return (0);
+
+	while (str[i] && str[i] != '=')
+	{
+		if (!(ft_isalnum(str[i]) || str[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char	*get_env_key(char *key, t_data *data)
 {
 	t_var	*env;
@@ -15,7 +31,7 @@ char	*get_env_key(char *key, t_data *data)
 	return (NULL);
 }
 
-void	has_equal_sign(char *param_value, t_data *data)
+void	has_equal_sign(char *param_value, t_data *data, int *exit_code)
 {
 	char	**str;
 	int		j;
@@ -28,7 +44,10 @@ void	has_equal_sign(char *param_value, t_data *data)
 	{
 		if (!ft_isalnum(str[0][j]) && str[0][j] != '_')
 		{
-			printf("export: \"%s\": not a valid identifier\n", param_value);
+			*exit_code = 1;
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(param_value, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			return ;
 		}
 		j++;
@@ -39,15 +58,16 @@ void	has_equal_sign(char *param_value, t_data *data)
 		add_new_env_variable(ft_strdup(str[0]), ft_strdup(str[1]), data);
 }
 
-void	export_with_param(t_cmds *cmd, t_data *data)
+void	export_with_param(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	char	*param_value;
+	int i = 0;
 
 	param_value = cmd->cmd[1];
-	if (ft_isalpha(param_value[0]) || param_value[0] == '_')
+	if (is_valid_identifier(param_value))
 	{
 		if (ft_strchr(param_value, '='))
-			has_equal_sign(param_value, data);
+			has_equal_sign(param_value, data, exit_code);
 		else
 		{
 			if (get_env_key(param_value, data))
@@ -57,7 +77,12 @@ void	export_with_param(t_cmds *cmd, t_data *data)
 		}
 	}
 	else
-		printf("export: \"%s\": not a valid identifier\n", param_value);
+	{
+		*exit_code = 1;
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(param_value, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+	}
 }
 
 // void add_export_to_list(char **arr_list, t_data *data)

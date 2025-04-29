@@ -1,7 +1,8 @@
 #include "../includes/minishell.h"
 
 int builtin_with_redirect(t_cmds *cmds, t_data *data,
-						  int (*builtin_func)(t_cmds *, t_data *))
+						  int (*builtin_func)(t_cmds *, t_data *, int *exit_code), 
+						  int *exit_code)
 {
 	int result;
 	int saved_stdout;
@@ -12,7 +13,7 @@ int builtin_with_redirect(t_cmds *cmds, t_data *data,
 		return (-1);
 	}
 	execute_redirections(data, cmds);
-	result = builtin_func(cmds, data);
+	result = builtin_func(cmds, data, exit_code);
 	dup2(saved_stdout, STDOUT_FILENO); // restore the terminal
 	close(saved_stdout);			   // close temp fd to avoid leaks
 	return (result);
@@ -38,19 +39,19 @@ int execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 {
 	*exit_code = 0;
 	if (ft_strncmp(cmds->cmd[0], "echo", ft_strlen("echo")) == 0)
-		return (builtin_with_redirect(cmds, data, ft_echo));
+		return (builtin_with_redirect(cmds, data, ft_echo, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "pwd", ft_strlen("pwd")) == 0)
-		return (builtin_with_redirect(cmds, data, ft_pwd));
+		return (builtin_with_redirect(cmds, data, ft_pwd, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "env", ft_strlen("env")) == 0)
-		return (builtin_with_redirect(cmds, data, ft_env));
+		return (builtin_with_redirect(cmds, data, ft_env, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "cd", ft_strlen("cd")) == 0)
-		return (builtin_with_redirect(cmds, data, ft_cd));
+		return (builtin_with_redirect(cmds, data, ft_cd, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "export", ft_strlen("export")) == 0)
-		return (builtin_with_redirect(cmds, data, ft_export));
+		return (builtin_with_redirect(cmds, data, ft_export, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "unset", ft_strlen("unset")) == 0)
-		return (builtin_with_redirect(cmds, data, ft_unset));
+		return (builtin_with_redirect(cmds, data, ft_unset, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "exit", ft_strlen("exit")) == 0)
-		return (builtin_with_redirect(cmds, data, ft_exit));
+		return (builtin_with_redirect(cmds, data, ft_exit, exit_code));
 	return (1);
 }
 
@@ -106,7 +107,6 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 			ret = execute_builtin(data, &cmds_d->cmds[0], &exit_code);
 			if (ret == -1)
 				printf("Command not found.\n");
-			// return (true);
 		}
 		else
 			handle_single_command(&cmds_d->cmds[0], data, &exit_code);

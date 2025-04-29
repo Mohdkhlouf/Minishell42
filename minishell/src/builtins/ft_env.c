@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	ft_env(t_cmds *cmd, t_data *data)
+int	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
 {
 	t_var	*env;
 

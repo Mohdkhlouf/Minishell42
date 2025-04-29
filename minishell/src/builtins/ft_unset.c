@@ -65,7 +65,7 @@ void	remove_value_on_unset(char *key, t_data *data)
 	free(env);
 }
 
-int	ft_unset(t_cmds *cmd, t_data *data)
+int	ft_unset(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	int	i;
 

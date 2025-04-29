@@ -84,7 +84,7 @@ char	**sort_arr_list(char **arr, int size)
 	return (arr);
 }
 
-int	ft_export(t_cmds *cmd, t_data *data)
+int	ft_export(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	char	**arr;
 	char	**sorted_arr;
@@ -107,7 +107,7 @@ int	ft_export(t_cmds *cmd, t_data *data)
 		get_export(sorted_arr, data);
 	}
 	else
-		export_with_param(cmd, data);
+		export_with_param(cmd, data, exit_code);
 	free(arr);
 	return (0);
 }

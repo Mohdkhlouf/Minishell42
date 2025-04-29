@@ -99,7 +99,6 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 			ret = execute_builtin(data, cmd, exit_code);
 			if (ret == -1)
 				print_error("Error.\n");
-			printf("execute builtin \n");
 		}
 		else
 		{
@@ -144,7 +143,6 @@ void	handle_command(t_cmds *cmd, t_data *data, int *exit_code)
 			ret = execute_builtin(data, cmd, exit_code);
 			if (ret == -1)
 				print_error("Error.\n");
-			printf("execute builtin \n");
 		}
 		else
 		{
