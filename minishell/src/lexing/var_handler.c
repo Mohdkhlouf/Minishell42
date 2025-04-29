@@ -75,7 +75,7 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 	else
 	{
 		free(var->vars_arr[*c]);
-		var->vars_arr[*c] = NULL;
+		var->vars_arr[*c] = ft_strdup(" ");
 	}
 }
 

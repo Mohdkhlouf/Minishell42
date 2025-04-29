@@ -35,8 +35,9 @@ bool pre_validation(t_data *data)
 	len = 0;
 	len = ft_strlen(data->input_line);
 
-	if(data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>' || data->input_line[len - 1] == '|'
-		|| data->input_line[len - 1] == ';')
+	if(data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>'
+		|| data->input_line[len - 1] == '|'
+		|| (data->input_line[len - 1] == '$' && data->input_line[len - 2] == ' '))
 		{
 			print_error("syntax error near unexpected token");
 			return (false);
