@@ -20,8 +20,25 @@ void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 			}
 			*start = *c;
 		}
-		else if ((var->var_is_found && (ft_isalnum(token[*c]) == 0)) ||
-		(var->var_is_found && (ft_isalpha(token[*c]) == 0)))
+		else if (token[*c] == '?' && token[*c - 1] == '$')
+		{
+			var->var_is_found = false;
+			temp = ft_substr(token, *start,  2);
+			var->vars_arr[var->parts_count] = ft_strdup(temp);
+			free(temp);
+			var->parts_count++;
+			*start = *c + 1;
+		}
+		else if ((token[*c - 1] == '$') && ((ft_isdigit(token[*c]) == 1) && (ft_isdigit(token[*c + 1]) == 1)))
+		{
+			var->var_is_found = false;
+			temp = ft_substr(token, *start,  2);
+			var->vars_arr[var->parts_count] = ft_strdup(temp);
+			free(temp);
+			var->parts_count++;
+			*start = *c + 1;
+		}
+		else if (var->var_is_found && (ft_isalnum(token[*c]) == 0))
 		{
 			var->var_is_found = false;
 			temp = ft_substr(token, *start, *c - *start);
@@ -63,8 +80,15 @@ void	split_vars(char *token, t_vars_data *var)
 void	var_expander(t_vars_data *var, int *c, t_data *data)
 {
 	char *env_value;
-
 	env_value = NULL;
+	if ((var->vars_arr[*c][1]) == '?')
+	{
+		free(var->vars_arr[*c]);
+		var->vars_arr[*c] = NULL;
+		var->vars_arr[*c] = ft_itoa(data->exit_code);
+		return ;
+	}
+	
 	env_value = get_env_value(var->vars_arr[*c] + 1, data);
 	if (env_value)
 	{
@@ -75,7 +99,7 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 	else
 	{
 		free(var->vars_arr[*c]);
-		var->vars_arr[*c] = ft_strdup(" ");
+		var->vars_arr[*c] = ft_strdup("");
 	}
 }
 
