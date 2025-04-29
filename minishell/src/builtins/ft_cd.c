@@ -2,7 +2,7 @@
 
 // TODO return value
 
-int	cd_with_no_param(t_data *data)
+static int	cd_with_no_param(t_data *data)
 {
 	char	*home_dir;
 
@@ -24,7 +24,7 @@ int	cd_with_no_param(t_data *data)
 	return (0);
 }
 
-int	cd_with_dash_param(t_data *data)
+static int	cd_with_dash_param(t_data *data)
 {
 	char	*pwd_path;
 	char	*oldpwd_path;
@@ -50,14 +50,15 @@ int	cd_with_dash_param(t_data *data)
 	return (0);
 }
 
-int	cd_with_param(t_data *data, char *path_value)
+static int	cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
 	char	*newpath;
 
 	if (chdir(path_value) != 0)
 	{
-		printf("cd: No such file or directory\n");
-		return (-1);
+		*exit_code = 1;
+		print_error("cd: No such file or directory");
+		return (1);
 	}
 	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
 		data);
@@ -72,7 +73,7 @@ int	cd_with_param(t_data *data, char *path_value)
 	return (0);
 }
 
-int	ft_cd(t_cmds *cmd, t_data *data)
+int	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	char	*path_value;
 
@@ -84,13 +85,19 @@ int	ft_cd(t_cmds *cmd, t_data *data)
 		if (ft_strncmp("-", path_value, ft_strlen(path_value)) == 0)
 			return (cd_with_dash_param(data));
 		else
-			return (cd_with_param(data, path_value));
+			return (cd_with_param(data, path_value, exit_code));
 		return (0);
+	}
+	else if(cmd->cmd[2])
+	{
+		*exit_code = 1;
+		print_error("cd : too many arguments");
+		return (1);
 	}
 	else
 	{
 		if (chdir(cmd->cmd[1]) != 0)
-		{
+		{	
 			perror("minishell");
 			return (-1);
 		}

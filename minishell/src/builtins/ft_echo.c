@@ -17,7 +17,7 @@ int	check_nl(char *new_line)
 	return (1);
 }
 
-int	ft_echo(t_cmds *cmd, t_data *data)
+int	ft_echo(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	int	print_newline;
 	int	i;
