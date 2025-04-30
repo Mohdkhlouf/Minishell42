@@ -44,7 +44,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->envp = NULL;
 	data->pipe_fd[0] = -1;
 	data->pipe_fd[1] = -1;
-	data->exit_code = 0;
+	// data->exit_code = 0;
 	data->cline_parts = 0;
 	data->tokens_conter = 0;
 }

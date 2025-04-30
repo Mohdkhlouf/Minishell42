@@ -115,7 +115,6 @@ int	free_2arr_general(char **arr)
 	return (0);
 }
 
-
 void cleanup_minishell(t_data *data)
 {
 	free_matrix(data->envp);
