@@ -17,9 +17,9 @@ void	find_cmds_counter(t_data *data, t_parsed_data *cmds_d)
 
 	i = 0;
 	cmds_init(cmds_d);
-	while (data->input_line[i])
+	while (i < data->tokens_conter)
 	{
-		if (data->input_line[i] == '|')
+		if (data->tokens[i].type == TOK_PIPE)
 			cmds_d->pipes_counter++;
 		i++;
 	}

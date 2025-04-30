@@ -1,7 +1,7 @@
 #include "../includes/lexing.h"
 
 /*this function to create the array of structs. the memoory i have located
-is not accurate just i assumed that the memory will not exceed the number 
+is not accurate just i assumed that the memory will not exceed the number
 of letters*/
 
 bool	malloc_tokens_arr(t_data *data)
@@ -13,7 +13,7 @@ bool	malloc_tokens_arr(t_data *data)
 		if (!data->tokens)
 		{
 			print_error("Error allocating memory for tokens\n");
-			return(false);
+			return (false);
 		}
 		return (true);
 	}
@@ -46,18 +46,19 @@ depending of the tokens type enum i have created in the .h file.*/
 
 int	line_split(t_data *data)
 {
-
 	while (true)
 	{
 		if (data->input_line[data->end] == '\0')
 			return (eof_function(data), true);
 		if (data->quote_found && data->input_line[data->end] != '\'')
 			normal_function(data);
-		else if (data->double_quote_found && data->input_line[data->end] != '\"')
+		else if (data->double_quote_found
+			&& data->input_line[data->end] != '\"')
 			normal_function(data);
 		else if (ft_strchr(DELEMETERS, data->input_line[data->end]))
 			space_function(data);
-		else if (data->input_line[data->end] == '|')
+		else if (data->input_line[data->end] == '|' && !data->quote_found
+			&& !data->double_quote_found)
 			pipe_function(data);
 		else if (data->input_line[data->end] == '>')
 			redirectout_function(data);
@@ -65,9 +66,9 @@ int	line_split(t_data *data)
 			redirectin_function(data);
 		// else if (data->input_line[data->end] == '$' && !data->quote_found
 		// && !data->double_quote_found)
-		// {	
+		// {
 		// 	if (data->variable_sign_found)
-		// 		continue;
+		// 		continue ;
 		// 	data->variable_sign_found = true;
 		// 	printf("variable flaq:%d\n", data->variable_sign_found);
 		// 	env_variable_function(data);
@@ -79,7 +80,7 @@ int	line_split(t_data *data)
 	return (false);
 }
 
-/*main function for lexting, in this function i created array of stucts to 
+/*main function for lexting, in this function i created array of stucts to
 exctract all tokenns from the input line data. */
 
 bool	lexing(t_data *data)
