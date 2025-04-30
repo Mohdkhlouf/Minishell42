@@ -1,10 +1,16 @@
 #include "../includes/lexing.h"
 
+void	process_add(t_vars_data *var, char *temp)
+{
+	var->vars_arr[var->parts_count] = ft_strdup(temp);
+	ft_free(temp);
+	var->parts_count++;
+}
+
 void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 {
-	char * temp;
+	char	*temp;
 
-	
 	while (token[*c])
 	{
 		temp = NULL;
@@ -13,38 +19,32 @@ void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
 			var->var_is_found = true;
 			if (*c != 0)
 			{
-				temp = ft_substr(token, *start, *c- *start);
-				var->vars_arr[var->parts_count] = ft_strdup(temp);
-				ft_free(temp);
-				var->parts_count++;
+				temp = ft_substr(token, *start, *c - *start);
+				process_add(var, temp);
 			}
 			*start = *c;
 		}
 		else if (token[*c] == '?' && token[*c - 1] == '$')
 		{
 			var->var_is_found = false;
-			temp = ft_substr(token, *start,  2);
-			var->vars_arr[var->parts_count] = ft_strdup(temp);
-			free(temp);
-			var->parts_count++;
+			temp = ft_substr(token, *start, 2);
+			process_add(var, temp);
 			*start = *c + 1;
 		}
-		else if ((token[*c - 1] == '$') && ((ft_isdigit(token[*c]) == 1) && (ft_isdigit(token[*c + 1]) == 1)))
+		else if (*c > 0 && (token[*c - 1] == '$')
+			&& ((ft_isdigit(token[*c]) == 1) && (ft_isdigit(token[*c
+						+ 1]) == 1)))
 		{
 			var->var_is_found = false;
-			temp = ft_substr(token, *start,  2);
-			var->vars_arr[var->parts_count] = ft_strdup(temp);
-			free(temp);
-			var->parts_count++;
+			temp = ft_substr(token, *start, 2);
+			process_add(var, temp);
 			*start = *c + 1;
 		}
 		else if (var->var_is_found && (ft_isalnum(token[*c]) == 0))
 		{
 			var->var_is_found = false;
 			temp = ft_substr(token, *start, *c - *start);
-			var->vars_arr[var->parts_count] = ft_strdup(temp);
-			free(temp);
-			var->parts_count++;
+			process_add(var, temp);
 			*start = *c;
 		}
 		(*c)++;
@@ -56,7 +56,6 @@ void	split_vars(char *token, t_vars_data *var)
 {
 	int	start;
 	int	c;
-
 
 	var->temp = NULL;
 	start = 0;
@@ -79,7 +78,8 @@ void	split_vars(char *token, t_vars_data *var)
 
 void	var_expander(t_vars_data *var, int *c, t_data *data)
 {
-	char *env_value;
+	char	*env_value;
+
 	env_value = NULL;
 	if ((var->vars_arr[*c][1]) == '?')
 	{
@@ -88,7 +88,6 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 		var->vars_arr[*c] = ft_itoa(data->exit_code);
 		return ;
 	}
-	
 	env_value = get_env_value(var->vars_arr[*c] + 1, data);
 	if (env_value)
 	{
@@ -107,14 +106,14 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 {
 	int		c;
 	char	*temp;
-	char 	*joined;
+	char	*joined;
 
 	c = 0;
 	temp = NULL;
 	joined = NULL;
 	while (c < var->parts_count)
 	{
-		if (var->vars_arr[c][0] == '$')
+		if (var->vars_arr[c][0] == '$' && var->vars_arr[c][1])
 			var_expander(var, &c, data);
 		c++;
 	}
@@ -134,25 +133,35 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	return (joined);
 }
 
-
 void	path_set_and_join(t_data *data, int i, t_vars_data *var)
 {
 	if (var->var_var == NULL)
 		exit(EXIT_FAILURE);
 	else
 	{
-			free(data->tokens[i].data);
-			data->tokens[i].data = ft_strdup(var->var_var);
+		free(data->tokens[i].data);
+		data->tokens[i].data = ft_strdup(var->var_var);
 	}
-		data->tokens[i].type = TOK_ENV_VAR;
-	}
-
-
+	data->tokens[i].type = TOK_ENV_VAR;
+}
 
 bool	var_handler2(t_data *data, int i)
 {
 	t_vars_data	*var;
+	int			len;
+	int			j;
+	char		*var_position;
 
+	j = 0;
+	len = 0;
+	len = ft_strlen(data->tokens[i].data);
+	while (j < len)
+	{
+		if (data->tokens[i].data[j] == '$' && (data->tokens[i].data[j
+				+ 1] == '\"' || data->tokens[i].data[j + 1] == '\0'))
+			return (true);
+		j++;
+	}
 	var = ft_calloc(1, sizeof(t_vars_data));
 	if (!var)
 		return (free(var), false);
