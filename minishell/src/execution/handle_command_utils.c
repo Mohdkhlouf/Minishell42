@@ -22,10 +22,18 @@ char	*find_path(t_data *data, char *cmd)
 	i = 0;
 	file_name = NULL;
 	with_slash = join_cmd_with_slash(cmd);
+	
+	if (!data->parsed_path)
+	{
+		print_error("PATH not set or parsed_path is NULL\n");
+		free(with_slash);
+		return NULL;
+	}
+
 	while (data->parsed_path[i])
 	{
 		if (i != 0)
-			free(file_name);
+			ft_free(file_name);
 		file_name = ft_strjoin(data->parsed_path[i], with_slash);
 		if (!file_name)
 			print_error("Join is not done\n");
