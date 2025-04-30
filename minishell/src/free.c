@@ -72,7 +72,8 @@ void free_env_list(t_var *env)
 		if (tmp->value)
        		free(tmp->value);
         // Free the current node itself
-        free(tmp);
+		if (tmp)
+        	free(tmp);
     }
 }
 
@@ -86,7 +87,7 @@ int	free_matrix(char **env)
 	i = 0;
 	while (env[i])
 	{
-		ft_free(env[i]);
+		free(env[i]);
 		env[i] = NULL;
 		i++;
 	}
@@ -119,8 +120,12 @@ void cleanup_minishell(t_data *data)
 {
 	free_matrix(data->envp);
 	free_2arr_general(data->parsed_path);
+	free_2arr_general(data->words);
+	ft_free(data->pwd);
+	ft_free(data->input_line);
 	free_env_list(data->env_lst);
 	free_cmds_d(data->cmds_d);
 	free_data(data);
+	free(data->cmds_d);
 	free(data);
 }
