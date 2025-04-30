@@ -35,9 +35,9 @@ void	quote_fixing(t_data *data, int i)
 	char	*temp;
 	int		len;
 
-	if (data->tokens[i].data[0] == '\'')
+	if (data->tokens[i].data[0] == '\'' && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC )
 		data->tokens[i].type = TOK_SINGLE_QUOTE;
-	else if (data->tokens[i].data[0] == '\"')
+	else if (data->tokens[i].data[0] == '\"' && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC)
 		data->tokens[i].type = TOK_DOUBLE_QUOTE;
 	len = ft_strlen(data->tokens[i].data);
 	temp = ft_calloc(len + 1, sizeof(char));
@@ -51,6 +51,7 @@ void	quote_fixing(t_data *data, int i)
 
 void	redirection_setting(t_data *data, int i)
 {
+
 	if (data->tokens[i].type == TOK_UNKNOWN && i > 0)
 	{
 		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i
