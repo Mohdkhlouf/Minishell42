@@ -11,6 +11,7 @@ void	append_token_double(t_data *data, int type)
 		data->tokens[data->tokens_conter].data = ft_substr(data->input_line,
 				data->start, data->end - data->start + 1);
 	data->tokens[data->tokens_conter].type = type;
+	printf("data %s\t type %d \n", data->tokens[data->tokens_conter].data, data->tokens[data->tokens_conter].type);
 	data->tokens_conter++;
 }
 /*this functton add outfile redirection with appened*/
