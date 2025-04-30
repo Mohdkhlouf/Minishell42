@@ -8,6 +8,7 @@ int	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
 	if (cmd->cmd[0] && cmd->cmd[1])
 	{
 		printf("env: more than one arguments are not supported\n");
+		*exit_code = 127;
 		return (-1);
 	}
 	while (env)
@@ -16,5 +17,6 @@ int	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
+	*exit_code = 0;
 	return (0);
 }

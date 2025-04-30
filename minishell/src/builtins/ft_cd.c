@@ -66,10 +66,12 @@ static int	cd_with_param(t_data *data, char *path_value, int *exit_code)
 	if (!newpath)
 	{
 		perror("cd: getcwd failed\n");
+		*exit_code = 1;
 		return (-1);
 	}
 	update_env_list(ft_strdup("PWD"), ft_strdup(newpath), data);
 	free(newpath);
+	*exit_code = 0;
 	return (0);
 }
 
@@ -99,8 +101,10 @@ int	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		if (chdir(cmd->cmd[1]) != 0)
 		{	
 			perror("minishell");
+			/* we have to add exit code in this case*/
 			return (-1);
 		}
 	}
+	*exit_code = 0;
 	return (0);
 }

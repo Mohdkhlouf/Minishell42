@@ -15,7 +15,7 @@ int builtin_with_redirect(t_cmds *cmds, t_data *data,
 	execute_redirections(data, cmds);
 	result = builtin_func(cmds, data, exit_code);
 	dup2(saved_stdout, STDOUT_FILENO); // restore the terminal
-	close(saved_stdout);			   // close temp fd to avoid leaks
+	close(saved_stdout);		   // close temp fd to avoid leaks
 	return (result);
 }
 
@@ -37,7 +37,6 @@ int is_builtin(char *cmd)
 
 int execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 {
-	*exit_code = 0;
 	if (ft_strncmp(cmds->cmd[0], "echo", ft_strlen("echo")) == 0)
 		return (builtin_with_redirect(cmds, data, ft_echo, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "pwd", ft_strlen("pwd")) == 0)
@@ -69,8 +68,6 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 	if (cmds_d->cmds_counter == 0)
 		return (false);
 
-	if (!validation(data))
-		return (false);
 	/* function to search and get input for all heredocs. the result of the last one wiill
 	be stored in a file.*/
 	while (i < data->cmds_d->pipes_counter + 1)
