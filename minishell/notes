@@ -10,3 +10,12 @@ these need to be handleld
 
 
 - also when there is << heredoc dont expand the variables.
+
+
+errors:
+*/
+	minishell> env mo
+	env: more than one arguments are not supported
+	Command not found.
+
+

@@ -44,5 +44,6 @@ int	ft_echo(t_cmds *cmd, t_data *data, int *exit_code)
 	}
 	if (print_newline)
 		ft_putchar_fd('\n', 1);
+	*exit_code = 0;
 	return (0);
 }

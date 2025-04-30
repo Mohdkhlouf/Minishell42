@@ -28,19 +28,21 @@ void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 	free_data(data);
 }
 
-bool pre_validation(t_data *data)
+bool	pre_validation(t_data *data)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	len = ft_strlen(data->input_line);
-
-	if(data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>'
+	// test the last letter in the line
+	if (data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>'
 		|| data->input_line[len - 1] == '|')
-		{
-			print_error("syntax error near unexpected token");
-			return (false);
-		}
+	{
+		print_error("syntax error near unexpected token `|'");
+		data->exit_code = 2;
+		return (false);
+	}
+
 	return (true);
 }
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
@@ -62,8 +64,9 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
 			add_history(data->input_line);
-			if (!pre_validation(data) || !lexing(data) || !tokenizing(data) || !parsing(data, cmds_d)
-				|| !update_new_env(data) || !execution(data, cmds_d))
+			if (!pre_validation(data) || !lexing(data) || !tokenizing(data)
+				|| !parsing(data, cmds_d) || !update_new_env(data)
+				|| !execution(data, cmds_d))
 			{
 				command_cleanup(data, cmds_d);
 				continue ;

@@ -51,7 +51,6 @@ void	quote_fixing(t_data *data, int i)
 
 void	redirection_setting(t_data *data, int i)
 {
-
 	if (data->tokens[i].type == TOK_UNKNOWN && i > 0)
 	{
 		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i

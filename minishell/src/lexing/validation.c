@@ -9,10 +9,28 @@ bool	validation(t_data *data)
 		return (true);
 	while (data->tokens[i].data && i < data->tokens_conter)
 	{
+		if (data->tokens[0].type == 3)
+			{
+			print_error("syntax error near unexpected token `|'");
+			data->exit_code = 2;
+			return (false);
+		}
 		if (data->tokens[i].type == 3
-			&& data->tokens[i - 1].type == 3)
+			&& data->tokens[i + 1].type == 3)
 		{
 			print_error("syntax error near unexpected token `|'");
+			data->exit_code = 2;
+			return (false);
+		}
+
+		if ((data->tokens[i].type == TOK_REDIRECT_IN 
+		|| data->tokens[i].type == TOK_REDIRECT_OUT
+		|| data->tokens[i].type == TOK_REDIRECT_HEREDOC
+		|| data->tokens[i].type == TOK_APPEND) &&
+		data->tokens[i + 1].type == 3)
+		{
+			print_error("syntax error near unexpected token `|'");
+			data->exit_code = 2;
 			return (false);
 		}
 		i++;
@@ -29,14 +47,6 @@ bool	validation(t_data *data)
 		print_error("quotes are not closed");
 		return (false);
 	}
-
-	/*if pipes at the end*/
-	if (data->tokens[data->tokens_conter - 1].type == 3 )
-	{
-		print_error("syntax error near unexpected token");
-		return (false);
-	}
-	
 	/*
 	
 	|| data->tokens[data->tokens_conter - 1].type == TOK_APPEND
