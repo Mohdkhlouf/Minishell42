@@ -3,6 +3,12 @@
 void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		int *pipe_fd, int *exit_code)
 {
+	/*he is the right place to the redirects*/
+	if (!execute_redirections(data, &cmds_d->cmds[i]))
+		return ;
+
+	/*we have to comapre now if there is a redirect in or out this is the priority for them not 
+	for the ppipe fds*/
 	if (*prev_cmd != -1)
 	{
 		dup2(*prev_cmd, STDIN_FILENO);
