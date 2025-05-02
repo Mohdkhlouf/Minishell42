@@ -1,12 +1,21 @@
 
 #include "../includes/parsing.h"
 
+void init_cmd(t_cmds *cmd)
+{
+	cmd->red_in_fd = -1;
+	cmd->red_out_fd = -1;
+}
+
 void	create_cmds_arr(t_data *data, t_parsed_data *cmds_d)
 {
+	int i;
+
+	i = 0;
 	cmds_d->cmds = ft_calloc(cmds_d->cmds_counter, sizeof(t_cmds));
 	if (!cmds_d->cmds)
 		exit(EXIT_FAILURE);
-	for (int i = 0; i < cmds_d->cmds_counter; i++)
+	while( i < cmds_d->cmds_counter)
 	{
 		cmds_d->cmds[i].cmd = ft_calloc(data->tokens_conter +1,  sizeof(char *));
 		if (!cmds_d->cmds[i].cmd)
@@ -14,6 +23,8 @@ void	create_cmds_arr(t_data *data, t_parsed_data *cmds_d)
 		cmds_d->cmds[i].reds = ft_calloc(data->tokens_conter +1, sizeof(char *));
 		if (!cmds_d->cmds[i].reds)
 			exit(EXIT_FAILURE);
+		init_cmd(&cmds_d->cmds[i]);
+		i++;
 	}
 }
 /* when pipe found make new commands and start filling the new one*/

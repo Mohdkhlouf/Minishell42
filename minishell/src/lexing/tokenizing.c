@@ -94,10 +94,12 @@ bool	tokenizing(t_data *data)
 			{
 				var_handler2(data, i);
 			}
-			
-		if (ft_strchr(data->tokens[i].data, '\'')
-				|| ft_strchr(data->tokens[i].data, '\"'))
-			quote_fixing(data, i);
+		
+		if ((ft_strchr(data->tokens[i].data, '\'' ) || ft_strchr(data->tokens[i].data, '\"' )))
+		{
+			if (!ft_strnstr(data->tokens[i - 1].data, "<<", 2))
+				quote_fixing(data, i);
+		}
 		redirection_setting(data, i);
 		i++;
 	}

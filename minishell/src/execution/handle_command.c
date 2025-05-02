@@ -39,8 +39,6 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	char	*path;
 
 	path = NULL;
-	if (!execute_redirections(data, cmd))
-		return ;
 	set_child_signals();
 	path = find_path(data, cmd->cmd[0]);
 	if (!path)
@@ -77,7 +75,10 @@ int	execute_cmd(t_cmds *cmd, t_data *data)
 		exit(127);
 	}
 	if (pid == 0)
+	{
+		execute_redirections(data, cmd);
 		exec_cmd(cmd, data);
+	}
 	return (pid);
 }
 
@@ -102,7 +103,6 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 		}
 		else
 		{
-			// execute_redirections(data, cmd);
 			pid = execute_cmd(cmd, data);
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
@@ -145,10 +145,7 @@ void	handle_command(t_cmds *cmd, t_data *data, int *exit_code)
 				print_error("Error.\n");
 		}
 		else
-		{
-			execute_redirections(data, cmd);
 			exec_cmd(cmd, data);
-		}
 	}
 	else
 		handle_empty_cmd(cmd, data);

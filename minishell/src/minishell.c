@@ -47,6 +47,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	// data->exit_code = 0;
 	data->cline_parts = 0;
 	data->tokens_conter = 0;
+
 }
 
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)

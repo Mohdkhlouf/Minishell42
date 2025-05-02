@@ -6,9 +6,9 @@ void	hanlde_fd(int old, int fd)
 	close(fd);
 }
 
-void	append_handller(t_data *data, int *i, char *append)
+void	append_handller(t_data *data, t_cmds *cmd, int *i, char *append)
 {
-	if (!open_output_file(append, O_APPEND))
+	if (!open_output_file(data,cmd, append, O_APPEND))
 	{
 		/*handle that needed*/
 		exit(-1);
@@ -16,9 +16,9 @@ void	append_handller(t_data *data, int *i, char *append)
 	(*i)++;
 }
 
-void	output_handller(t_data *data, int *i, char *outfile)
+void	output_handller(t_data *data,  t_cmds *cmd, int *i, char *outfile)
 {
-	if (!open_output_file(outfile, O_TRUNC))
+	if (!open_output_file(data,cmd, outfile, O_TRUNC))
 	{
 		/*handle that needed*/
 		exit(-1);
@@ -26,9 +26,9 @@ void	output_handller(t_data *data, int *i, char *outfile)
 	(*i)++;
 }
 
-void	input_handller(t_data *data, int *i, char *infile)
+void	input_handller(t_data *data, t_cmds *cmd, int *i, char *infile)
 {
-	if (!open_input_file(infile))
+	if (!open_input_file(data,cmd, infile))
 	{
 		/*handle that needed*/
 		cleanup_minishell(data);
@@ -37,9 +37,9 @@ void	input_handller(t_data *data, int *i, char *infile)
 	(*i)++;
 }
 
-void	heredoc_read(t_data *data, int *i, char *heredoc_filename)
+void	heredoc_read(t_data *data,  t_cmds *cmd, int *i, char *heredoc_filename)
 {
-	if (!open_input_file(heredoc_filename))
+	if (!open_input_file(data,cmd,  heredoc_filename))
 	{
 		/*handle that needed*/
 		exit(-1);
@@ -47,25 +47,25 @@ void	heredoc_read(t_data *data, int *i, char *heredoc_filename)
 	(*i)++;
 }
 
-bool	execute_redirections(t_data *data, t_cmds *cmds_d)
+bool	execute_redirections(t_data *data, t_cmds *cmd)
 {
 	int	i;
 
 	i = 0;
-	if (!cmds_d->reds) // protect against NULL cmds_d or reds
+	if (!cmd->reds) // protect against NULL cmds_d or reds
 		return (__FLT128_HAS_DENORM__);
-	while (cmds_d->reds[i])
+	while (cmd->reds[i])
 	{
-		if (cmds_d->reds[i] == NULL)
+		if (cmd->reds[i] == NULL)
 			break ;
-		if (ft_strcmp(cmds_d->reds[i], "<") == 0)
-			input_handller(data, &i, cmds_d->reds[i + 1]);
-		else if (ft_strcmp(cmds_d->reds[i], "<<") == 0)
-			heredoc_read(data, &i, "HEREDOC_TEMP.txt");
-		else if (ft_strcmp(cmds_d->reds[i], ">") == 0)
-			output_handller(data, &i, cmds_d->reds[i + 1]);
-		else if (ft_strcmp(cmds_d->reds[i], ">>") == 0)
-			append_handller(data, &i, cmds_d->reds[i + 1]);
+		if (ft_strcmp(cmd->reds[i], "<") == 0)
+			input_handller(data,cmd, &i, cmd->reds[i + 1]);
+		else if (ft_strcmp(cmd->reds[i], "<<") == 0)
+			heredoc_read(data,cmd, &i, "HEREDOC_TEMP.txt");
+		else if (ft_strcmp(cmd->reds[i], ">") == 0)
+			output_handller(data,cmd, &i, cmd->reds[i + 1]);
+		else if (ft_strcmp(cmd->reds[i], ">>") == 0)
+			append_handller(data,cmd, &i, cmd->reds[i + 1]);
 		i++;
 	}
 
