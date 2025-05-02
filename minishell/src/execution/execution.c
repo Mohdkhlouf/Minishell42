@@ -19,6 +19,32 @@ int builtin_with_redirect(t_cmds *cmds, t_data *data,
 	return (result);
 }
 
+// int builtin_with_redirect(t_cmds *cmds, t_data *data,
+// 	int (*builtin_func)(t_cmds *, t_data *, int *exit_code), 
+// 	int *exit_code)
+// {
+// int result;
+// int saved_stdout;
+// int saved_stdin;
+// saved_stdout = dup(STDOUT_FILENO); // save terminal
+// saved_stdin = dup(STDIN_FILENO); // save terminal
+// if (saved_stdout == -1)
+// {
+// print_error("dup failed");
+// return (-1);
+// }
+// execute_redirections(data, cmds);
+// result = builtin_func(cmds, data, exit_code);
+// dup2(saved_stdout, STDOUT_FILENO); // restore the terminal
+// dup2(saved_stdin, STDIN_FILENO);
+
+// close(saved_stdout);		   // close temp fd to avoid leaks
+// close(saved_stdin);
+
+// close(data->red_in_fd);
+// return (result);
+// }
+
 int is_builtin(char *cmd)
 {
 	const char *builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
@@ -53,23 +79,13 @@ int execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 		return (builtin_with_redirect(cmds, data, ft_exit, exit_code));
 	return (1);
 }
-
-bool execution(t_data *data, t_parsed_data *cmds_d)
+bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 {
-	int ret;
-	static int exit_code = 0;
 	int i;
 	int j;
 
 	i = 0;
 	j = 0;
-	if (!data || !cmds_d)
-		return (false);
-	if (cmds_d->cmds_counter == 0)
-		return (false);
-
-	/* function to search and get input for all heredocs. the result of the last one wiill
-	be stored in a file.*/
 	while (i < data->cmds_d->pipes_counter + 1)
 	{
 		j = 0;
@@ -93,7 +109,24 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 		}
 		i++;
 	}
+	return (true);
+}
+bool execution(t_data *data, t_parsed_data *cmds_d)
+{
+	int ret;
+	static int exit_code = 0;
+	int i;
+	int j;
+
 	i = 0;
+	j = 0;
+	if (!data || !cmds_d)
+		return (false);
+	if (cmds_d->cmds_counter == 0)
+		return (false);
+
+	if (!exec_heredoc(data,cmds_d))
+		return (false);
 	if (cmds_d->cmds_counter == 1)
 	{
 		char *counter_exist = cmds_d->cmds[0].cmd[0];
