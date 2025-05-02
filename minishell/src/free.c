@@ -117,16 +117,6 @@ int	free_2arr_general(char **arr)
 
 void cleanup_minishell(t_data *data)
 {
-	if (data->red_in_fd > 0)
-	{
-		dup2(data->red_in_fd, STDIN_FILENO);
-		close(data->red_in_fd);
-	}
-	if (data->red_out_fd > 0)
-	{
-		dup2(data->red_out_fd, STDOUT_FILENO);
-		close(data->red_out_fd);
-	}
 	free_matrix(data->envp);
 	free_2arr_general(data->parsed_path);
 	free_2arr_general(data->words);

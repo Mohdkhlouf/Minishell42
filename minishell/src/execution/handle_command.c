@@ -75,7 +75,10 @@ int	execute_cmd(t_cmds *cmd, t_data *data)
 		exit(127);
 	}
 	if (pid == 0)
+	{
+		execute_redirections(data, cmd);
 		exec_cmd(cmd, data);
+	}
 	return (pid);
 }
 
@@ -100,7 +103,6 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 		}
 		else
 		{
-			// execute_redirections(data, cmd);
 			pid = execute_cmd(cmd, data);
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))

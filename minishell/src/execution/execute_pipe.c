@@ -9,11 +9,23 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 
 	/*we have to comapre now if there is a redirect in or out this is the priority for them not 
 	for the ppipe fds*/
+
+	// if (cmds_d->cmds[i].red_in_fd != -1)
+	// 	{
+	// 		dup2(cmds_d->cmds[i].red_in_fd, STDIN_FILENO);
+	// 		close(cmds_d->cmds[i].red_in_fd);
+	// 	}
 	if (*prev_cmd != -1)
 	{
 		dup2(*prev_cmd, STDIN_FILENO);
 		close(*prev_cmd);
 	}
+
+	// if (cmds_d->cmds[i].red_out_fd != -1)
+	// 	{
+	// 		dup2(data->cmds_d->cmds[i].red_out_fd, STDOUT_FILENO);
+	// 		close(data->cmds_d->cmds[i].red_out_fd);
+	// 	}
 	if (i < cmds_d->cmds_counter - 1)
 	{
 		close(pipe_fd[0]);

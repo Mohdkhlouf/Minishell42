@@ -79,8 +79,6 @@ typedef struct s_data
 	int							exit_code;
 	int							cline_parts;
 	int							tokens_conter; 
-	int 						red_in_fd;
-	int 						red_out_fd;
 }								t_data;
 
 /*---------------Parsing------------------*/
