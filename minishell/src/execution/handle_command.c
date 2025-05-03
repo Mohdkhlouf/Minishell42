@@ -13,53 +13,8 @@
 //     sigaction(SIGQUIT, &sa, NULL);
 // }
 
-void	free_2d_cmd_arr(char **arr)
-{
-	int	i;
 
-	i = 0;
-	while (arr[i])
-	{
-		ft_free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
 
-void	free_cmd(t_cmds *cmd)
-{
-	free_2d_cmd_arr(cmd->cmd);
-	free_2d_cmd_arr(cmd->reds);
-}
-
-/* main function to execute one command, i will make it execute the redirections
-then do the command execution*/
-void	exec_cmd(t_cmds *cmd, t_data *data)
-{
-	char	*path;
-
-	path = NULL;
-	set_child_signals();
-	path = find_path(data, cmd->cmd[0]);
-	if (!path)
-	{
-		// ft_putstr_fd("minishell: '", 2);
-		ft_putstr_fd(cmd->cmd[0], 2);
-		ft_putstr_fd("': command not found\n", 2);
-		cleanup_minishell(data);
-		exit(127);
-	}
-	if (execve(path, cmd->cmd, data->envp) == -1)
-	{
-		perror("minishell");
-		cleanup_minishell(data);
-		data->exit_code = 127;
-		exit(127);
-	}
-}
-/*
-cat input | wzc -l
-*/
 
 /* this function will start the fork to execute the cmd
 i did the fork here.
@@ -126,6 +81,60 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	else
 		handle_empty_cmd(cmd, data);
 }
+
+
+
+
+
+void	free_2d_cmd_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		ft_free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+void	free_cmd(t_cmds *cmd)
+{
+	free_2d_cmd_arr(cmd->cmd);
+	free_2d_cmd_arr(cmd->reds);
+}
+
+/* main function to execute one command, i will make it execute the redirections
+then do the command execution*/
+void	exec_cmd(t_cmds *cmd, t_data *data)
+{
+	char	*path;
+
+	path = NULL;
+	set_child_signals();
+	path = find_path(data, cmd->cmd[0]);
+	if (!path)
+	{
+		// ft_putstr_fd("minishell: '", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd("': command not found\n", 2);
+		cleanup_minishell(data);
+		exit(127);
+	}
+	if (execve(path, cmd->cmd, data->envp) == -1)
+	{
+		perror("minishell");
+		cleanup_minishell(data);
+		data->exit_code = 127;
+		exit(127);
+	}
+}
+/*
+cat input | wzc -l
+*/
+
+
 
 /*this function recieved a cmd struct, first i check if the command is empty
 then if not, check if it is a built in, then will execute as built in.

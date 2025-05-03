@@ -21,9 +21,9 @@ int								execute_cmd(t_cmds *cmd, t_data *data);
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
-void							handle_pipes(t_data *data,
+bool							handle_pipes(t_data *data,
 									t_parsed_data *cmds_d, int *exit_code);
-void							execute_pipes(t_data *data,
+bool							execute_pipes(t_data *data,
 									t_parsed_data *cmds_d, int i, int *prev_cmd,
 									int *exit_code);
 void							set_default_signal_handlers(void);
