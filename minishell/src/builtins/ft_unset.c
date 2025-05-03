@@ -78,5 +78,6 @@ int	ft_unset(t_cmds *cmd, t_data *data, int *exit_code)
 		i++;
 	}
 	update_new_env(data);
+	*exit_code = 0;
 	return (0);
 }

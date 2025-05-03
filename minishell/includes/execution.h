@@ -5,7 +5,7 @@
 # include "minishell.h"
 # include <stdbool.h>
 
-static int						g_heredoc_interrupted = 0;
+// static int						g_heredoc_interrupted = 0;
 
 typedef struct s_data			t_data;
 typedef struct s_parsed_data	t_parsed_data;
@@ -31,8 +31,8 @@ void							set_default_signal_handlers(void);
 bool							execute_redirections(t_data *data,
 									t_cmds *cmds_d);
 void							heredoc_handller(int *i, char *delimiter);
-bool							open_output_file(t_data *data,t_cmds *cmd, char *outfile, int mode);
-bool							open_input_file(t_data *data,t_cmds *cmd, char *infile);
+bool							open_output_file(t_cmds *cmd, char *outfile, int mode);
+bool							open_input_file(t_cmds *cmd, char *infile);
 void							hanlde_fd(int old, int fd);
 void							handle_single_command(t_cmds *cmd, t_data *data,
 									int *exit_code);

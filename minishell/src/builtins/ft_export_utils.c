@@ -61,7 +61,7 @@ void	has_equal_sign(char *param_value, t_data *data, int *exit_code)
 void	export_with_param(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	char	*param_value;
-	int i = 0;
+	// int i = 0;
 
 	param_value = cmd->cmd[1];
 	if (is_valid_identifier(param_value))

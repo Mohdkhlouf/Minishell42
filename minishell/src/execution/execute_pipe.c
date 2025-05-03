@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
 
 void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
-		int *pipe_fd, int *exit_code)
+		int *exit_code)
 {
 	// Redirection handling
 	if (!execute_redirections(data, &cmds_d->cmds[i]))
@@ -26,20 +26,16 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 	// If it's not the last command in the pipeline,we connect it to the next command
 	else if (i < cmds_d->cmds_counter - 1)
 	{
-		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
+		close(data->pipe_fd[0]);
+		dup2(data->pipe_fd[1], STDOUT_FILENO);
+		close(data->pipe_fd[1]);
 	}
 	if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
 	{
 		if (execute_builtin(data, &cmds_d->cmds[i], exit_code) == 0)
 			{
-				close(data);
-				close(cmds_d->cmds[i].red_out_fd);
-				printf("success builtin code \n");
 				cleanup_minishell(data);
-				exit(1);
-				
+				exit(0);
 			}
 	}
 	else
@@ -87,8 +83,6 @@ bool	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		perror("pipe");
 		return (false);
 	}
-	if (!allocate_pid(data, cmds_d))
-		return (false);
 	data->pid[i] = fork(); // create a child process
 	if (data->pid[i] == -1)
 	{
@@ -96,7 +90,7 @@ bool	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		return (false);
 	}
 	else if (data->pid[i] == 0) // child process
-		execute_child(data, cmds_d, i, prev_cmd, data->pipe_fd, exit_code);
+		execute_child(data, cmds_d, i, prev_cmd, exit_code);
 	else
 		execute_parent(prev_cmd, data, i, cmds_d->cmds_counter);
 	return (true);
@@ -113,6 +107,8 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 	prev_cmd = -1;
 	i = 0;
 	status = 0;
+	if (!allocate_pid(data, cmds_d))
+		return (false);
 	while (i < cmds_d->cmds_counter)
 	{
 		if (!execute_pipes(data, cmds_d, i, &prev_cmd, exit_code))
@@ -130,18 +126,18 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 		if (WIFEXITED(status))
 		{
 			*exit_code = WEXITSTATUS(status);
-			// printf("Child process exited with code %d\n", *exit_code);
+			//  printf("Child process exited with code %d\n", *exit_code);
 		}
 		else if (WIFSIGNALED(status))
 		{
 			signal_num = WTERMSIG(status);
-			// printf("Child process terminated by signal %d\n", signal_num);
+			printf("Child process terminated by signal %d\n", signal_num);
 		}
 		else if (WIFSTOPPED(status))
 		{
 			// Child process stopped
 			stop_signal = WSTOPSIG(status);
-			// printf("Child process stopped by signal %d\n", stop_signal);
+			printf("Child process stopped by signal %d\n", stop_signal);
 		}
 		i++;
 	}

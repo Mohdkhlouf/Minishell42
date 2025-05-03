@@ -4,7 +4,7 @@ INCLUDES = -Iincludes
 
 # Compiler and flags
 CC      = gcc
-#CFLAGS  = -g -Wall -Wextra -Werror $(INCLUDES) -fsanitize=address -fsanitize=undefined
+# CFLAGS  = -g -Wall -Wextra -Werror $(INCLUDES) -fsanitize=address -fsanitize=undefined
 CFLAGS  = -g -o -Wall -Wextra -Werror $(INCLUDES) 
 # Valgrind options (kept separate from CFLAGS)
 VALGRIND = valgrind --leak-check=full --track-origins=yes --trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \

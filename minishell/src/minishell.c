@@ -4,20 +4,6 @@ volatile sig_atomic_t	g_signal_status = 0;
 
 void	data_init(t_data *data, t_parsed_data *cmds_d)
 {
-	// data->cmds_d = cmds_d;
-	// data->cline_parts = 0;
-	// data->input_line = NULL;
-	// data->tokens = NULL;
-	// data->end = 0;
-	// data->start = 0;
-	// data->in_token = false;
-	// data->tokens_conter = 0;
-	// data->quote_found = false;
-	// data->double_quote_found = false;
-	// data->quote_type = 0;
-	// data->file_seperator_found = false;
-	// data->first_quote_type = 0;
-
 	// Initialize t_parsed_data
 	cmds_d->cmds = NULL;
 	cmds_d->cmds_counter = 0;
@@ -25,13 +11,15 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	cmds_d->cmds_ctr = 0;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
+	// cmds_d->cmds->red_in_fd = -1;
+	// cmds_d->cmds->red_out_fd = -1;
 
 	// Initialize t_data
 	data->cmds_d = cmds_d;
 	data->tokens = NULL;
 	data->end = 0;
 	data->start = 0;
-	data->pid = 0;
+	data->pid = NULL;
 	data->in_token = false;
 	data->quote_found = false;
 	data->double_quote_found = false;

@@ -13,6 +13,10 @@ void	free_cmds_d(t_parsed_data *cmds_d)
 			free_2arr_general(cmds_d->cmds[i].cmd);
 		if (cmds_d->cmds[i].reds)
 			free_2arr_general(cmds_d->cmds[i].reds);
+		if (cmds_d->cmds[i].red_in_fd != -1)	
+			close(cmds_d->cmds[i].red_in_fd);
+		if (cmds_d->cmds[i].red_out_fd != -1)	
+			close(cmds_d->cmds[i].red_out_fd);
 		i++;
 	}
 	if (cmds_d->cmds)
@@ -20,7 +24,6 @@ void	free_cmds_d(t_parsed_data *cmds_d)
 		free(cmds_d->cmds);
 		cmds_d->cmds = NULL;
 	}
-	
 }
 
 void	free_data(t_data *data)
@@ -41,6 +44,10 @@ void	free_data(t_data *data)
 	}
 	free(data->tokens);
 	data->tokens = NULL;
+	free(data->pid);
+	close(data->pipe_fd[0]);
+	close(data->pipe_fd[1]);
+
 }
 
 // void	free_env_list(t_var *env)
