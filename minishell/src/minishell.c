@@ -52,6 +52,8 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
+	free(data->pid);
+	data->pid = NULL;
 	free_matrix(data->envp);
 	// free_2arr_general(data->parsed_path);
 	// free_env_list(data->env_lst);

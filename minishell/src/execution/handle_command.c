@@ -139,23 +139,24 @@ cat input | wzc -l
 /*this function recieved a cmd struct, first i check if the command is empty
 then if not, check if it is a built in, then will execute as built in.
 if not, i use another function to start executing the external cmd*/
-void	handle_command(t_cmds *cmd, t_data *data, int *exit_code)
-{
-	int ret;
-	ret = 0;
+// void	handle_command(t_cmds *cmd, t_data *data, int *exit_code)
+// {
+// 	int ret;
+// 	ret = 0;
 
-	if (!is_empty_cmd(cmd))
-	{
-		if (is_builtin(cmd->cmd[0]) == 1)
-		{
-			/*function to execute builtin function the sent will be a command*/
-			ret = execute_builtin(data, cmd, exit_code);
-			if (ret == -1)
-				print_error("Error.\n");
-		}
-		else
-			exec_cmd(cmd, data);
-	}
-	else
-		handle_empty_cmd(cmd, data);
-}
+// 	if (!is_empty_cmd(cmd))
+// 	{
+// 		if (is_builtin(cmd->cmd[0]) == 1)
+// 		{
+// 			/*function to execute builtin function the sent will be a command*/
+// 			ret = execute_builtin(data, cmd, exit_code);
+// 			if (ret == -1)
+// 				print_error("Error.\n");
+// 		}
+// 		else
+// 			exec_cmd(cmd, data);
+// 	}
+// 	else
+// 		handle_empty_cmd(cmd, data);
+// }
+

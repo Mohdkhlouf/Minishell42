@@ -101,19 +101,3 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 	data->exit_code = exit_code;
 	return (true);
 }
-
-// if there is
-// 	handle_heredoc
-
-// if (check cmd  :only 1 and bulitin )
-// 	exuecute builtin in parent
-// else
-// {
-// 	handle pipe
-// 	handle_redirection
-// 	{
-// 		if other RD
-// 		if HD
-// 			open fd, write the file content to write fd and cloe, return the read fd,
-// 	}
-// }

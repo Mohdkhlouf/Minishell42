@@ -30,8 +30,20 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
-	// Execute the command
-	handle_command(&cmds_d->cmds[i], data, exit_code);
+	if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
+	{
+		if (execute_builtin(data, &cmds_d->cmds[i], exit_code) == 0)
+			{
+				close(data);
+				close(cmds_d->cmds[i].red_out_fd);
+				printf("success builtin code \n");
+				cleanup_minishell(data);
+				exit(1);
+				
+			}
+	}
+	else
+		exec_cmd(&cmds_d->cmds[i], data);
 }
 
 void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)

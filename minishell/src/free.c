@@ -117,6 +117,8 @@ int	free_2arr_general(char **arr)
 
 void cleanup_minishell(t_data *data)
 {
+	free(data->pid);
+	data->pid = NULL;
 	free_matrix(data->envp);
 	free_2arr_general(data->parsed_path);
 	free_2arr_general(data->words);
