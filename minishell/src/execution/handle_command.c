@@ -112,7 +112,10 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 
 	path = NULL;
 	set_child_signals();
-	path = find_path(data, cmd->cmd[0]);
+	if (ft_strchr(cmd->cmd[0],'/'))
+		path = cmd->cmd[0];
+	else
+		path = find_path(data, cmd->cmd[0]);
 	if (!path)
 	{
 		// ft_putstr_fd("minishell: '", 2);
@@ -129,3 +132,14 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		exit(127);
 	}
 }
+
+		// if (stat(path, &path_stat) != 0)
+		// {
+		// 	// perror("stat failed");
+		// 	return ;
+		// }
+		// if (S_ISDIR(path_stat.st_mode))
+		// 	data->exit_code = 126;
+		// else
+		// 	data->exit_code = 127;
+		// perror("minishell");

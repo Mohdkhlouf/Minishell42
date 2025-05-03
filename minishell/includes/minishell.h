@@ -17,6 +17,7 @@
 # include <strings.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 # define SUCCESS 1
 # define FAILIURE 0
