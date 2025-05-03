@@ -84,16 +84,7 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 		char *counter_exist = cmds_d->cmds[0].cmd[0];
 		if (!counter_exist)
 			return (true);
-		if (is_builtin(cmds_d->cmds[0].cmd[0]) == 1)
-		{
-
-			execute_redirections(data, &cmds_d->cmds[0]);
-			ret = execute_builtin(data, &cmds_d->cmds[0], &exit_code);
-			if (ret == -1)
-				printf("Command not found.\n");
-		}
-		else
-			handle_single_command(&cmds_d->cmds[0], data, &exit_code);
+		handle_single_command(&cmds_d->cmds[0], data, &exit_code);
 	}
 	else
 		handle_pipes(data, cmds_d, &exit_code);

@@ -45,8 +45,10 @@ void	free_data(t_data *data)
 	free(data->tokens);
 	data->tokens = NULL;
 	free(data->pid);
-	close(data->pipe_fd[0]);
-	close(data->pipe_fd[1]);
+	if(data->pipe_fd[0] != -1)
+		close(data->pipe_fd[0]);
+	if(data->pipe_fd[1] != -1)
+		close(data->pipe_fd[1]);
 
 }
 

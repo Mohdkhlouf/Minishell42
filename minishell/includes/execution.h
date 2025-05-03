@@ -17,7 +17,7 @@ void							handle_command(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							parse_path(t_data *data);
 void							handle_empty_cmd(t_cmds *cmd, t_data *data);
-int								execute_cmd(t_cmds *cmd, t_data *data);
+int								execute_cmd(t_cmds *cmd, t_data *data, int *exit_code);
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
