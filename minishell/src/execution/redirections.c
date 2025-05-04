@@ -8,7 +8,8 @@ void	hanlde_fd(int old, int fd)
 
 void	append_handller(t_data *data, t_cmds *cmd, int *i, char *append)
 {
-	if (!open_output_file(data,cmd, append, O_APPEND))
+	(void)data;
+	if (!open_output_file(cmd, append, O_APPEND))
 	{
 		/*handle that needed*/
 		exit(-1);
@@ -18,7 +19,8 @@ void	append_handller(t_data *data, t_cmds *cmd, int *i, char *append)
 
 void	output_handller(t_data *data,  t_cmds *cmd, int *i, char *outfile)
 {
-	if (!open_output_file(data,cmd, outfile, O_TRUNC))
+	(void)data;
+	if (!open_output_file(cmd, outfile, O_TRUNC))
 	{
 		/*handle that needed*/
 		exit(-1);
@@ -28,7 +30,8 @@ void	output_handller(t_data *data,  t_cmds *cmd, int *i, char *outfile)
 
 void	input_handller(t_data *data, t_cmds *cmd, int *i, char *infile)
 {
-	if (!open_input_file(data,cmd, infile))
+	(void)data;
+	if (!open_input_file(cmd, infile))
 	{
 		/*handle that needed*/
 		cleanup_minishell(data);
@@ -39,7 +42,8 @@ void	input_handller(t_data *data, t_cmds *cmd, int *i, char *infile)
 
 void	heredoc_read(t_data *data,  t_cmds *cmd, int *i, char *heredoc_filename)
 {
-	if (!open_input_file(data,cmd,  heredoc_filename))
+	(void)data;
+	if (!open_input_file(cmd,  heredoc_filename))
 	{
 		/*handle that needed*/
 		exit(-1);

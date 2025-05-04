@@ -17,6 +17,7 @@
 # include <strings.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 # define SUCCESS 1
 # define FAILIURE 0
@@ -61,7 +62,7 @@ typedef struct s_data
 	size_t						end;
 	size_t						start;
 	t_var						*env_lst;
-	pid_t						pid;
+	pid_t						*pid;
 	bool						in_token;
 	bool						quote_found;
 	bool						double_quote_found;

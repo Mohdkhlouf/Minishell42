@@ -150,7 +150,7 @@ bool	var_handler2(t_data *data, int i)
 	t_vars_data	*var;
 	int			len;
 	int			j;
-	char		*var_position;
+	// char		*var_position;
 
 	j = 0;
 	len = 0;

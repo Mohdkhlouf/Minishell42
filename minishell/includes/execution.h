@@ -5,7 +5,7 @@
 # include "minishell.h"
 # include <stdbool.h>
 
-static int						g_heredoc_interrupted = 0;
+// static int						g_heredoc_interrupted = 0;
 
 typedef struct s_data			t_data;
 typedef struct s_parsed_data	t_parsed_data;
@@ -17,13 +17,13 @@ void							handle_command(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							parse_path(t_data *data);
 void							handle_empty_cmd(t_cmds *cmd, t_data *data);
-int								execute_cmd(t_cmds *cmd, t_data *data);
+int								execute_cmd(t_cmds *cmd, t_data *data, int *exit_code);
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
-void							handle_pipes(t_data *data,
+bool							handle_pipes(t_data *data,
 									t_parsed_data *cmds_d, int *exit_code);
-void							execute_pipes(t_data *data,
+bool							execute_pipes(t_data *data,
 									t_parsed_data *cmds_d, int i, int *prev_cmd,
 									int *exit_code);
 void							set_default_signal_handlers(void);
@@ -31,8 +31,8 @@ void							set_default_signal_handlers(void);
 bool							execute_redirections(t_data *data,
 									t_cmds *cmds_d);
 void							heredoc_handller(int *i, char *delimiter);
-bool							open_output_file(t_data *data,t_cmds *cmd, char *outfile, int mode);
-bool							open_input_file(t_data *data,t_cmds *cmd, char *infile);
+bool							open_output_file(t_cmds *cmd, char *outfile, int mode);
+bool							open_input_file(t_cmds *cmd, char *infile);
 void							hanlde_fd(int old, int fd);
 void							handle_single_command(t_cmds *cmd, t_data *data,
 									int *exit_code);
