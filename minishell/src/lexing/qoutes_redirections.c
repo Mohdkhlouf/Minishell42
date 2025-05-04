@@ -34,7 +34,8 @@ void	quote_fixing(t_data *data, int i)
 {
 	char	*temp;
 	int		len;
-
+	
+	printf("test inputs\n");
 	if (data->tokens[i].data[0] == '\'' && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC )
 		data->tokens[i].type = TOK_SINGLE_QUOTE;
 	else if (data->tokens[i].data[0] == '\"' && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC)
