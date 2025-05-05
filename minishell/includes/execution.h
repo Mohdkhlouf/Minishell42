@@ -13,7 +13,7 @@ typedef struct s_cmds			t_cmds;
 
 bool							execution(t_data *data, t_parsed_data *cmds_d);
 bool							is_empty_cmd(t_cmds *cmd);
-int								builtin_cmd(t_cmds *cmd, t_data *data,
+bool								builtin_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							parse_path(t_data *data);
 void							handle_empty_cmd(t_cmds *cmd, t_data *data);
