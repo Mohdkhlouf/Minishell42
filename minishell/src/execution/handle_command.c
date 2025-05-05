@@ -52,7 +52,12 @@ int	external_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	}
 	if (pid == 0)
 	{
-		execute_redirections(data, cmd, exit_code);
+		if (!execute_redirections(data, cmd, exit_code))
+		{
+			cleanup_minishell(data);
+			exit (1);
+		}
+			
 		exec_cmd(cmd, data);
 	}
 	return (pid);
