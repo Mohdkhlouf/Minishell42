@@ -58,7 +58,7 @@ static int	cd_with_param(t_data *data, char *path_value, int *exit_code)
 	{
 		*exit_code = 1;
 		print_error("cd: No such file or directory");
-		return (1);
+		exit(*exit_code);
 	}
 	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
 		data);
@@ -71,7 +71,6 @@ static int	cd_with_param(t_data *data, char *path_value, int *exit_code)
 	}
 	update_env_list(ft_strdup("PWD"), ft_strdup(newpath), data);
 	free(newpath);
-	*exit_code = 0;
 	return (0);
 }
 
@@ -79,6 +78,7 @@ int	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	char	*path_value;
 
+	*exit_code = 0;
 	if (!cmd->cmd[1])
 		return (cd_with_no_param(data));
 	else if (cmd->cmd[0] && cmd->cmd[1] && !cmd->cmd[2])
@@ -94,17 +94,16 @@ int	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 	{
 		*exit_code = 1;
 		print_error("cd : too many arguments");
-		return (1);
+		exit(*exit_code);
 	}
 	else
 	{
 		if (chdir(cmd->cmd[1]) != 0)
 		{	
+			*exit_code = 1;
 			perror("minishell");
-			/* we have to add exit code in this case*/
-			return (-1);
+			exit(*exit_code);
 		}
 	}
-	*exit_code = 0;
 	return (0);
 }

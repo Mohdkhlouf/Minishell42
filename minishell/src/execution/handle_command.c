@@ -41,6 +41,18 @@ int	external_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	}
 	if (pid == 0)
 	{
+<<<<<<< HEAD
+=======
+		execute_redirections(data, cmd);
+		if (is_builtin(cmd->cmd[0]) == 1)
+		{
+			if (execute_builtin(data, cmd, exit_code) == 0)
+			{
+				cleanup_minishell(data);
+				exit(*exit_code);
+			}
+		}
+>>>>>>> origin/main
 		exec_cmd(cmd, data);
 	}
 	return (pid);
