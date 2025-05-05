@@ -88,12 +88,13 @@ int	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 			return (cd_with_dash_param(data));
 		else
 			return (cd_with_param(data, path_value, exit_code));
-		return (0);
+		*exit_code = 1;
+		return (1);
 	}
 	else if(cmd->cmd[2])
 	{
-		*exit_code = 1;
 		print_error("cd : too many arguments");
+		*exit_code = 1;
 		return (1);
 	}
 	else
@@ -102,9 +103,10 @@ int	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		{	
 			perror("minishell");
 			/* we have to add exit code in this case*/
-			return (-1);
+			*exit_code = 1;
+			return (1);
 		}
 	}
-	*exit_code = 0;
+	// *exit_code = 0;
 	return (0);
 }

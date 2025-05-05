@@ -4,8 +4,17 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		int *exit_code)
 {
 	// Redirection handling
+	// if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
+	// 	return ;
+
 	if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
-		return ;
+	{
+		cleanup_minishell(data);
+		exit (1) ;
+	}
+		
+
+	// execute_redirections(data, &cmds_d->cmds[i], exit_code);
 	// Handle standard input redirection
 	if (cmds_d->cmds[i].red_in_fd != -1)
 	{

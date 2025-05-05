@@ -67,6 +67,12 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	}
 	return (true);
 }
+
+void set_data_exit_code(t_data *data, int *exit_code)
+{
+	data->exit_code = *exit_code;
+}
+
 bool execution(t_data *data, t_parsed_data *cmds_d)
 {
 	static int exit_code = 0;
@@ -83,7 +89,10 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 		if (!cmds_d->cmds[0].cmd[0])
 			return(print_error("command is not found"),false);
 		if (is_builtin(cmds_d->cmds[0].cmd[0]))
-			builtin_cmd(&cmds_d->cmds[0], data, &exit_code);
+		{
+			if(!builtin_cmd(&cmds_d->cmds[0], data, &exit_code))
+				return (set_data_exit_code(data, &exit_code),false);
+		}
 		else
 			handle_single_command(&cmds_d->cmds[0], data, &exit_code);
 	}

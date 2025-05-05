@@ -61,7 +61,7 @@ bool	execute_redirections(t_data *data, t_cmds *cmd, int *exit_code)
 
 	result = true;
 	i = 0;
-	if (!cmd->reds) // protect against NULL cmds_d or reds
+	if (!cmd->reds) 
 		return (false);
 	while (cmd->reds[i] && result)
 	{
