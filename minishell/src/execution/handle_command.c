@@ -18,13 +18,13 @@ i did the fork here.
 then send the execution to child process*/
 int builtin_cmd (t_cmds *cmd, t_data *data, int *exit_code)
 {
-	execute_redirections(data, cmd);
+	execute_redirections(data, cmd, exit_code);
 	if (is_builtin(cmd->cmd[0]) == 1)
 	{
 		if (execute_builtin(data, cmd, exit_code) == 0)
 		{
 			cleanup_minishell(data);
-			exit(0);
+			exit(*exit_code);
 		}
 	}
 }
@@ -64,13 +64,13 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	else if (WIFSIGNALED(status))
 	{
 		signal_num = WTERMSIG(status);
-		printf("Child process terminated by signal %d\n", signal_num);
+		//printf("Child process terminated by signal %d\n", signal_num);
 	}
 	else if (WIFSTOPPED(status))
 	{
 		// Child process stopped
 		stop_signal = WSTOPSIG(status);
-		printf("Child process stopped by signal %d\n", stop_signal);
+		//printf("Child process stopped by signal %d\n", stop_signal);
 	}
 }
 
