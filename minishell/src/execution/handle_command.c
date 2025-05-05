@@ -13,13 +13,23 @@
 //     sigaction(SIGQUIT, &sa, NULL);
 // }
 
-
-
-
 /* this function will start the fork to execute the cmd
 i did the fork here.
 then send the execution to child process*/
-int	execute_cmd(t_cmds *cmd, t_data *data, int *exit_code)
+int builtin_cmd (t_cmds *cmd, t_data *data, int *exit_code)
+{
+	execute_redirections(data, cmd);
+	if (is_builtin(cmd->cmd[0]) == 1)
+	{
+		if (execute_builtin(data, cmd, exit_code) == 0)
+		{
+			cleanup_minishell(data);
+			exit(0);
+		}
+	}
+}
+
+int	external_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	pid_t	pid;
 
@@ -31,15 +41,6 @@ int	execute_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	}
 	if (pid == 0)
 	{
-		execute_redirections(data, cmd);
-		if (is_builtin(cmd->cmd[0]) == 1)
-		{
-			if (execute_builtin(data, cmd, exit_code) == 0)
-			{
-				cleanup_minishell(data);
-				exit(0);
-			}
-		}
 		exec_cmd(cmd, data);
 	}
 	return (pid);
@@ -47,43 +48,31 @@ int	execute_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 
 void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	int	ret;
 	int	pid;
 	int	status;
 	int	signal_num;
 	int	stop_signal;
 
-	ret = 0;
 	pid = 0;
-	(void)data;
-	if (!is_empty_cmd(cmd))
+	pid = external_cmd(cmd, data, exit_code);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
 	{
-		pid = execute_cmd(cmd, data, exit_code);
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-		{
-			*exit_code = WEXITSTATUS(status);
-			// printf("Child process exited with code %d\n", *exit_code);
-		}
-		else if (WIFSIGNALED(status))
-		{
-			signal_num = WTERMSIG(status);
-			printf("Child process terminated by signal %d\n", signal_num);
-		}
-		else if (WIFSTOPPED(status))
-		{
-			// Child process stopped
-			stop_signal = WSTOPSIG(status);
-			printf("Child process stopped by signal %d\n", stop_signal);
-		}
-		}
-	else
-		handle_empty_cmd(cmd, data);
+		*exit_code = WEXITSTATUS(status);
+		// printf("Child process exited with code %d\n", *exit_code);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		signal_num = WTERMSIG(status);
+		printf("Child process terminated by signal %d\n", signal_num);
+	}
+	else if (WIFSTOPPED(status))
+	{
+		// Child process stopped
+		stop_signal = WSTOPSIG(status);
+		printf("Child process stopped by signal %d\n", stop_signal);
+	}
 }
-
-
-
-
 
 void	free_2d_cmd_arr(char **arr)
 {
@@ -112,7 +101,7 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 
 	path = NULL;
 	set_child_signals();
-	if (ft_strchr(cmd->cmd[0],'/'))
+	if (ft_strchr(cmd->cmd[0], '/'))
 		path = cmd->cmd[0];
 	else
 		path = find_path(data, cmd->cmd[0]);
@@ -120,7 +109,7 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	{
 		// ft_putstr_fd("minishell: '", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
-		ft_putstr_fd("': command not found\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 		cleanup_minishell(data);
 		exit(127);
 	}
@@ -133,13 +122,13 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	}
 }
 
-		// if (stat(path, &path_stat) != 0)
-		// {
-		// 	// perror("stat failed");
-		// 	return ;
-		// }
-		// if (S_ISDIR(path_stat.st_mode))
-		// 	data->exit_code = 126;
-		// else
-		// 	data->exit_code = 127;
-		// perror("minishell");
+// if (stat(path, &path_stat) != 0)
+// {
+// 	// perror("stat failed");
+// 	return ;
+// }
+// if (S_ISDIR(path_stat.st_mode))
+// 	data->exit_code = 126;
+// else
+// 	data->exit_code = 127;
+// perror("minishell");

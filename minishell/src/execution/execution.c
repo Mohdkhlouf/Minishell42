@@ -69,7 +69,6 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 }
 bool execution(t_data *data, t_parsed_data *cmds_d)
 {
-	int ret;
 	static int exit_code = 0;
 
 	if (!data || !cmds_d)
@@ -81,10 +80,12 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 		return (false);
 	if (cmds_d->cmds_counter == 1)
 	{
-		char *counter_exist = cmds_d->cmds[0].cmd[0];
-		if (!counter_exist)
-			return (true);
-		handle_single_command(&cmds_d->cmds[0], data, &exit_code);
+		if (!cmds_d->cmds[0].cmd[0])
+			return(print_error("command is not found"),false);
+		if (is_builtin(cmds_d->cmds[0].cmd[0]))
+			builtin_cmd(&cmds_d->cmds[0], data, &exit_code);
+		else
+			handle_single_command(&cmds_d->cmds[0], data, &exit_code);
 	}
 	else
 		handle_pipes(data, cmds_d, &exit_code);
