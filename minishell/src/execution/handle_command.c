@@ -30,17 +30,12 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 		close(saved_stdin);
 		return (false);
 	}
-
 	if (cmd->red_out_fd != -1)
-	{
 		dup2(saved_stdout, STDOUT_FILENO);
-		close(saved_stdout);
-	}
 	if (cmd->red_in_fd != -1)
-	{
 		dup2(saved_stdin, STDIN_FILENO);
-		close(saved_stdin);
-	}
+	close(saved_stdout);
+	close(saved_stdin);
 	return (true);
 }
 
