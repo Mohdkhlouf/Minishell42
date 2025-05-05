@@ -67,7 +67,6 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	}
 	return (true);
 }
-
 bool execution(t_data *data, t_parsed_data *cmds_d)
 {
 	static int exit_code = 0;
