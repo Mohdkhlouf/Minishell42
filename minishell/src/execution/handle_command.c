@@ -16,20 +16,59 @@
 /* this function will start the fork to execute the cmd
 i did the fork here.
 then send the execution to child process*/
+
+
+// bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
+// {
+// 	int saved_stdout = dup(STDOUT_FILENO);
+// 	int saved_stdin = dup(STDIN_FILENO);
+
+// 	if (!execute_redirections(data, cmd, exit_code))
+// 		return (close(saved_stdout), close(saved_stdin), false);
+// 	if (execute_builtin(data, cmd, exit_code) != 0)
+// 	{
+// 		dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
+// 		dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
+// 		close(saved_stdout);
+// 		close(saved_stdin);
+// 		return (false);
+// 	}
+// 	if (cmd->red_out_fd != -1)
+// 		dup2(saved_stdout, STDOUT_FILENO);
+// 	if (cmd->red_in_fd != -1)
+// 		dup2(saved_stdin, STDIN_FILENO);
+// 	close(saved_stdout);
+// 	close(saved_stdin);
+// 	return (true);
+// }
+
 bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	int saved_stdout = dup(STDOUT_FILENO);
 	int saved_stdin = dup(STDIN_FILENO);
 
-	execute_redirections(data, cmd, exit_code);
-	if (execute_builtin(data, cmd, exit_code) != 0)
+	if (execute_redirections(data, cmd, exit_code))
+		{
+			if (execute_builtin(data, cmd, exit_code) != 0)
+			{
+				dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
+				dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
+				close(saved_stdout);
+				close(saved_stdin);
+				*exit_code = 1;
+				return (false);
+			}
+		}
+	else
 	{
 		dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
-		dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
-		close(saved_stdout);
-		close(saved_stdin);
-		return (false);
+				dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
+				close(saved_stdout);
+				close(saved_stdin);
+				*exit_code = 1;
+				return (false);
 	}
+		
 	if (cmd->red_out_fd != -1)
 		dup2(saved_stdout, STDOUT_FILENO);
 	if (cmd->red_in_fd != -1)
@@ -39,33 +78,37 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	return (true);
 }
 
-int	external_cmd(t_cmds *cmd, t_data *data, int *exit_code)
-{
-	pid_t	pid;
 
-	pid = fork();
-	if (pid == -1)
+
+
+void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
+{
+	*pid = fork();
+	if (*pid == -1)
 	{
 		print_error("ERROR IN FORKING\n");
 		exit(127);
 	}
-	if (pid == 0)
+	if (*pid == 0)
 	{
-		execute_redirections(data, cmd, exit_code);
+		if (!execute_redirections(data, cmd, exit_code))
+		{
+			cleanup_minishell(data);
+			exit (1);
+		}
+			
 		exec_cmd(cmd, data);
 	}
-	return (pid);
 }
 
 void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	int	pid;
+	pid_t	pid;
 	int	status;
 	int	signal_num;
 	int	stop_signal;
 
-	pid = 0;
-	pid = external_cmd(cmd, data, exit_code);
+	external_cmd(cmd, data, exit_code, &pid);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{

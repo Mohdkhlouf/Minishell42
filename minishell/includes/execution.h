@@ -17,8 +17,8 @@ bool								builtin_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							parse_path(t_data *data);
 void							handle_empty_cmd(t_cmds *cmd, t_data *data);
-int								external_cmd(t_cmds *cmd, t_data *data,
-									int *exit_code);
+void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid);
+
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
