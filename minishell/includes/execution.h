@@ -31,7 +31,7 @@ void							set_default_signal_handlers(void);
 
 /*---------------redirectins------------------*/
 bool							execute_redirections(t_data *data,
-									t_cmds *cmds_d);
+									t_cmds *cmds_d, int *exit_code);
 void							heredoc_handller(int *i, char *delimiter);
 bool							open_output_file(t_cmds *cmd, char *outfile,
 									int mode);

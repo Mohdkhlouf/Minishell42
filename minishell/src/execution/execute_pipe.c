@@ -4,7 +4,7 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		int *exit_code)
 {
 	// Redirection handling
-	if (!execute_redirections(data, &cmds_d->cmds[i]))
+	if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
 		return ;
 	// Handle standard input redirection
 	if (cmds_d->cmds[i].red_in_fd != -1)
@@ -131,13 +131,13 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 		else if (WIFSIGNALED(status))
 		{
 			signal_num = WTERMSIG(status);
-			printf("Child process terminated by signal %d\n", signal_num);
+			//printf("Child process terminated by signal %d\n", signal_num);
 		}
 		else if (WIFSTOPPED(status))
 		{
 			// Child process stopped
 			stop_signal = WSTOPSIG(status);
-			printf("Child process stopped by signal %d\n", stop_signal);
+			//printf("Child process stopped by signal %d\n", stop_signal);
 		}
 		i++;
 	}
