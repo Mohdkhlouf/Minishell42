@@ -21,7 +21,8 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	int saved_stdout = dup(STDOUT_FILENO);
 	int saved_stdin = dup(STDIN_FILENO);
 
-	execute_redirections(data, cmd, exit_code);
+	if (!execute_redirections(data, cmd, exit_code))
+		return (close(saved_stdout), close(saved_stdin), false);
 	if (execute_builtin(data, cmd, exit_code) != 0)
 	{
 		dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout

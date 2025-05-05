@@ -1,5 +1,15 @@
 #include "../includes/minishell.h"
 
+
+void	print_error_2msgs(char *msg1, char *msg2)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(msg1, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(msg2, 2);
+	ft_putstr_fd("\n", 2);
+}
+
 void	print_error(char *msg)
 {
 	ft_putstr_fd("minishell: ", 2);
