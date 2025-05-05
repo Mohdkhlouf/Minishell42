@@ -16,17 +16,12 @@
 /* this function will start the fork to execute the cmd
 i did the fork here.
 then send the execution to child process*/
-int builtin_cmd (t_cmds *cmd, t_data *data, int *exit_code)
+bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	execute_redirections(data, cmd, exit_code);
-	if (is_builtin(cmd->cmd[0]) == 1)
-	{
-		if (execute_builtin(data, cmd, exit_code) == 0)
-		{
-			cleanup_minishell(data);
-			exit(*exit_code);
-		}
-	}
+	execute_redirections(data, cmd);
+	if (execute_builtin(data, cmd, exit_code) != 0)
+		return (false);
+	return (true);
 }
 
 int	external_cmd(t_cmds *cmd, t_data *data, int *exit_code)
