@@ -23,7 +23,7 @@ int	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 	{
 		*exit_code = 1;
 		ft_putstr_fd("exit: too many arguments\n", 2);
-		exit(*exit_code);
+		return (1);
 	}
 	else if (cmd->cmd[1])
 	{
