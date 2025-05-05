@@ -75,7 +75,6 @@ bool	tokenizing(t_data *data)
 
 	if (!validation(data))
 		return (false);
-
 		
 	// print_tokens(data);
 	while (i < data->tokens_conter && data->tokens[i].data)
@@ -97,7 +96,7 @@ bool	tokenizing(t_data *data)
 		
 		if ((ft_strchr(data->tokens[i].data, '\'' ) || ft_strchr(data->tokens[i].data, '\"' )))
 		{
-			if (!ft_strnstr(data->tokens[i - 1].data, "<<", 2))
+			if (!(i > 0 && (data->tokens[i - 1].data) && ft_strnstr(data->tokens[i - 1].data, "<<", 2)))
 				quote_fixing(data, i);
 		}
 		redirection_setting(data, i);

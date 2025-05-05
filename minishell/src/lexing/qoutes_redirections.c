@@ -34,11 +34,13 @@ void	quote_fixing(t_data *data, int i)
 {
 	char	*temp;
 	int		len;
-
-	if (data->tokens[i].data[0] == '\'' && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC )
-		data->tokens[i].type = TOK_SINGLE_QUOTE;
-	else if (data->tokens[i].data[0] == '\"' && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC)
-		data->tokens[i].type = TOK_DOUBLE_QUOTE;
+	
+	if (data->tokens[i].data[0] == '\''  )
+		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC ))
+			data->tokens[i].type = TOK_SINGLE_QUOTE;
+	else if (data->tokens[i].data[0] == '\"' )
+		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC ))
+			data->tokens[i].type = TOK_DOUBLE_QUOTE;
 	len = ft_strlen(data->tokens[i].data);
 	temp = ft_calloc(len + 1, sizeof(char));
 	if (!temp)
