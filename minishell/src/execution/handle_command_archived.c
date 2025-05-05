@@ -34,7 +34,7 @@
 // /* this function will start the fork to execute the cmd
 // i did the fork here.
 // then send the execution to child process*/
-// int	execute_cmd(t_cmds *cmd, t_data *data)
+// int	external_cmd(t_cmds *cmd, t_data *data)
 // {
 // 	pid_t	pid;
 
@@ -75,7 +75,7 @@
 // 		else
 // 		{
 // 			execute_redirections(data, cmd);
-// 			pid = execute_cmd(cmd, data);
+// 			pid = external_cmd(cmd, data);
 // 			waitpid(pid, &status, 0);
 // 		}
 // 	}

@@ -13,11 +13,12 @@ typedef struct s_cmds			t_cmds;
 
 bool							execution(t_data *data, t_parsed_data *cmds_d);
 bool							is_empty_cmd(t_cmds *cmd);
-void							handle_command(t_cmds *cmd, t_data *data,
+int								builtin_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							parse_path(t_data *data);
 void							handle_empty_cmd(t_cmds *cmd, t_data *data);
-int								execute_cmd(t_cmds *cmd, t_data *data, int *exit_code);
+int								external_cmd(t_cmds *cmd, t_data *data,
+									int *exit_code);
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
@@ -27,11 +28,13 @@ bool							execute_pipes(t_data *data,
 									t_parsed_data *cmds_d, int i, int *prev_cmd,
 									int *exit_code);
 void							set_default_signal_handlers(void);
+
 /*---------------redirectins------------------*/
 bool							execute_redirections(t_data *data,
 									t_cmds *cmds_d);
 void							heredoc_handller(int *i, char *delimiter);
-bool							open_output_file(t_cmds *cmd, char *outfile, int mode);
+bool							open_output_file(t_cmds *cmd, char *outfile,
+									int mode);
 bool							open_input_file(t_cmds *cmd, char *infile);
 void							hanlde_fd(int old, int fd);
 void							handle_single_command(t_cmds *cmd, t_data *data,
