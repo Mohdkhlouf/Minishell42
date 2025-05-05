@@ -37,7 +37,7 @@ int	execute_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 			if (execute_builtin(data, cmd, exit_code) == 0)
 			{
 				cleanup_minishell(data);
-				exit(*exit_code);
+				exit(0);
 			}
 		}
 		exec_cmd(cmd, data);
@@ -80,6 +80,10 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	else
 		handle_empty_cmd(cmd, data);
 }
+
+
+
+
 
 void	free_2d_cmd_arr(char **arr)
 {
