@@ -18,7 +18,7 @@ i did the fork here.
 then send the execution to child process*/
 bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	execute_redirections(data, cmd);
+	execute_redirections(data, cmd, exit_code);
 	if (execute_builtin(data, cmd, exit_code) != 0)
 		return (false);
 	return (true);
