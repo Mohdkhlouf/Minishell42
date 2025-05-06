@@ -39,6 +39,7 @@ typedef enum e_token_type
 	TOK_DOUBLE_QUOTE,     // Double quote "\"" character
 	TOK_ENV_VAR,          // Environment variable (e.g., $HOME)
 	TOK_EOF,              // End of file or input termination
+	TOK_STRING,
 }								t_token_type;
 
 typedef struct s_token

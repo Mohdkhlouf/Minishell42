@@ -35,39 +35,6 @@ int execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 	return (1);
 }
 
-bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (i < data->cmds_d->pipes_counter + 1)
-	{
-		j = 0;
-		while (true)
-		{
-			char *cmd_exist = cmds_d->cmds[i].reds[j];
-			if (!cmd_exist)
-				break;
-			if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
-			{
-				if (!cmds_d->cmds[i].reds[j + 1])
-				{
-					printf("syntax error: expected delimiter after <<\n");
-					break;
-				}
-				int test = handle_heredoc(cmds_d->cmds[i].reds[++j], data, 1);
-				if (test == -1)
-					printf("error");
-			}
-			j++;
-		}
-		i++;
-	}
-	return (true);
-}
-
 void set_data_exit_code(t_data *data, int *exit_code)
 {
 	data->exit_code = *exit_code;

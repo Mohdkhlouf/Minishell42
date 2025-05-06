@@ -32,7 +32,6 @@ void							set_default_signal_handlers(void);
 /*---------------redirectins------------------*/
 bool							execute_redirections(t_data *data,
 									t_cmds *cmds_d, int *exit_code);
-void							heredoc_handller(int *i, char *delimiter);
 bool							open_output_file(t_cmds *cmd, char *outfile,
 									int mode);
 bool							open_input_file(t_cmds *cmd, char *infile);
@@ -41,9 +40,15 @@ void							handle_single_command(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							set_prompt_signals(void);
 void							set_child_signals(void);
+
+/*------------------heredoc------------------*/
+
+bool exec_heredoc(t_data *data, t_parsed_data *cmds_d);
 void							set_heredoc_signals(void);
-int								handle_heredoc(char *input_delimiter,
-									t_data *data, int expand);
-int								get_heredoc_fd(void);
+int								handle_heredoc(char *input_delimiter, t_data *data, int expand);
+char 							*strip_quotes(char *delim);
+int 							is_quoted_delimiter(char *delim);
+// int								get_heredoc_fd(void);
+// void							heredoc_handller(int *i, char *delimiter);
 
 #endif

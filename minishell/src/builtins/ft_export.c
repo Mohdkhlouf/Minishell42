@@ -13,7 +13,7 @@ void	get_export(char **sorted_arr, t_data *data)
 		if (get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i],
 				data)[0] != '\0')
 		{
-			printf("\"%s\"", get_env_value(sorted_arr[i], data));
+			printf("=\"%s\"", get_env_value(sorted_arr[i], data));
 		}
 		printf("\n");
 		i++;
