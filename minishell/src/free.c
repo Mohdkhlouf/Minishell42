@@ -137,5 +137,5 @@ void cleanup_minishell(t_data *data)
 	free_cmds_d(data->cmds_d);
 	free_data(data);
 	free(data->cmds_d);
-	free(data);
+	// free(data);
 }
