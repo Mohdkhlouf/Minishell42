@@ -16,14 +16,13 @@ int	ft_is_numeric(char *str)
 	return (1);
 }
 
-int	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	(void)data;
 	if (cmd->cmd[1] && cmd->cmd[2])
 	{
 		*exit_code = 1;
 		ft_putstr_fd("exit: too many arguments\n", 2);
-		*exit_code = 1;
 	}
 	else if (cmd->cmd[1])
 	{

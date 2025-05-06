@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int	ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	char	*cwd;
 
@@ -10,12 +10,11 @@ int	ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
 	if (!cwd)
 	{
 		perror("getcwd failed");
-		return (-1);
+		return (false);
 	}
 	printf("%s\n", cwd);
 	free(cwd);
-
-	return (0);
+	return (true);
 }
 
 // if (cmd->cmd[0] && cmd->cmd[1])
