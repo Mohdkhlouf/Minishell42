@@ -1,120 +1,86 @@
 #include "../includes/minishell.h"
 
-void	heredoc_handller(int *i, char *delimiter)
+int is_quoted_delimiter(char *delimiter)
 {
-	int heredoc[2];
-	char	*line;
-	char	*heredoc_content;
-	char	*temp;
-	char	*final_joined;
-
-	if(pipe(heredoc)== -1)
+	int count = 0;
+	size_t i = 0;
+	if (!delimiter)
+		return (0);
+	size_t len = ft_strlen(delimiter);
+	if (len < 2) 
+		return (0);
+	while(delimiter[i])
 	{
-		perror("pipe");
-		return ;
-	}	
-	heredoc_content =  ft_strdup("");
-	while(1)
-	{
-		line = readline("heredoc> ");
-		if(!line)
-		{
-			close(heredoc[1]);
-   			break;
-		}
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			close(heredoc[1]);
-			break;
-		}
-		temp = ft_strjoin(line, "\n");
-		if(!temp)
-		{
-			free(heredoc_content);
-			free(line);
-			return;
-		}
-		free(line);
-		final_joined = ft_strjoin(heredoc_content, temp);
-		if(!final_joined)
-		{
-			free(heredoc_content);
-			free(temp);
-			return;
-		}
-		free(heredoc_content);
-		free(temp);
-		heredoc_content = final_joined;
+		if((delimiter[i] == '\'' || delimiter[i] == '"'))
+			count++;
+		i++;
 	}
-	if (heredoc_content)
-	{
-		write(STDOUT_FILENO, heredoc_content, ft_strlen(heredoc_content));
-		write(heredoc[1], heredoc_content, ft_strlen(heredoc_content));
-		free(heredoc_content);
-	}
-	close(heredoc[1]);
-	dup2(heredoc[0], STDIN_FILENO);
-	close(heredoc[0]);
-	(*i)++;
+	if(count == 2)
+		return (1);
+	else
+		return (0);
 }
 
+char *strip_quotes(char *delimiter)
+{
+	size_t i = 0;
+	size_t j = 0;
+	char *result;
 
-// void child_heredoc(int *heredoc, char *delimiter)
-// {
-// 	char	*line;
-// 	signal(SIGINT, SIG_DFL);
-// 	signal(SIGQUIT, SIG_DFL);
-// 	close(heredoc[0]);
-// 	while(1)
-// 	{
-// 		line = readline("heredoc> ");
-// 		if(!line)
-// 		{
-// 			close(heredoc[1]);
-//    			exit(0);
-// 		}
-// 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-// 		{
-// 			free(line);
-// 			close(heredoc[1]);
-// 			exit(0);
-// 		}
-// 		write(heredoc[1], line, ft_strlen(line));
-//         write(heredoc[1], "\n", 1);
-// 		free(line);
-// 	}
-// }
+	if (!delimiter)
+		return (NULL);
+	size_t len = ft_strlen(delimiter);
+	if (len < 2) 
+		return ft_strdup(delimiter);
+	result = malloc(sizeof(len) + 1);
+	while(delimiter[i])
+	{
+		if ((delimiter[i] != '\'' && delimiter[i] != '"'))
+			result[j++] = delimiter[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
 
-// void	heredoc_handller(int *i, char *delimiter)
-// {
-// 	int pid;
-// 	int heredoc[2];
-// 	int j;
-	
+bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
+{
+	int i;
+	int j;
+	int expand;
+	char *new_delimiter;
+	char *old_delim;
 
-// 	j = pipe(heredoc);
-// 	if(j == -1)
-// 	{
-// 		perror("pipe");
-// 		return ;
-// 	}	
-// 	pid = fork();
-// 	if (pid == -1)
-// 	{
-// 		perror("fork");
-// 		return ;
-// 	}
-// 	else if(pid == 0)
-// 	{
-// 		child_heredoc(heredoc, delimiter);
-// 	}
-// 	else
-// 	{
-// 		signal(SIGINT, SIG_IGN);
-// 		close(heredoc[1]);
-// 		wait(NULL);
-// 		close(heredoc[0]);
-// 	}
-// 	(*i)++;
-// }
+	i = 0;
+	j = 0;
+	expand = 1;
+	while (i < data->cmds_d->pipes_counter + 1)
+	{
+		j = 0;
+		while (true)
+		{
+			char *cmd_exist = cmds_d->cmds[i].reds[j];
+			if (!cmd_exist)
+				break;
+			if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
+			{
+				if (!cmds_d->cmds[i].reds[j + 1])
+				{
+					printf("syntax error: expected delimiter after <<\n");
+					break;
+				}
+				j++;
+				old_delim = cmds_d->cmds[i].reds[j];
+				if(is_quoted_delimiter(old_delim) == 1)
+					expand = 0;
+				new_delimiter = strip_quotes(old_delim);
+				int test = handle_heredoc(new_delimiter, data, expand);
+				if (test == -1)
+					printf("error");
+			}
+			j++;
+		}
+		i++;
+	}
+	return (true);
+}
