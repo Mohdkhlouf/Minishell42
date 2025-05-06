@@ -72,6 +72,8 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 	{
 		data_init(data, cmds_d);
 		data->input_line = readline("\033[0;35mminishell>\033[0m ");
+		// if (isatty(fileno(stdin)))
+		// 	data->input_line = readline("\033[0;35mminishell>\033[0m ");
 		if (!data->input_line)
 		{
 			free_matrix(data->parsed_path);

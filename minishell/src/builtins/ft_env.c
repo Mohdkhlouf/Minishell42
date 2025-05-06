@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
+bool	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
 {
 	t_var	*env;
 
@@ -9,7 +9,7 @@ int	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
 	{
 		printf("env: more than one arguments are not supported\n");
 		*exit_code = 127;
-		return (-1);
+		return (false);
 	}
 	while (env)
 	{
@@ -18,5 +18,5 @@ int	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
 		env = env->next;
 	}
 	*exit_code = 0;
-	return (0);
+	return (true);
 }

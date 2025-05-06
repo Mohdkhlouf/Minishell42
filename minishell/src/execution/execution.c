@@ -16,14 +16,14 @@ int is_builtin(char *cmd)
 	return (0);
 }
 
-int execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
+bool execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 {
 	if (ft_strncmp(cmds->cmd[0], "echo", ft_strlen("echo")) == 0)
-		return (ft_echo(cmds, data, exit_code));
+		return (!ft_echo(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "pwd", ft_strlen("pwd")) == 0)
-		return (ft_pwd(cmds, data, exit_code));
+		return (!ft_pwd(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "env", ft_strlen("env")) == 0)
-		return (ft_env(cmds, data, exit_code));
+		return (!ft_env(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "cd", ft_strlen("cd")) == 0)
 		return (ft_cd(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "export", ft_strlen("export")) == 0)
@@ -31,8 +31,8 @@ int execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 	else if (ft_strncmp(cmds->cmd[0], "unset", ft_strlen("unset")) == 0)
 		return (ft_unset(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "exit", ft_strlen("exit")) == 0)
-		return (ft_exit(cmds, data, exit_code));
-	return (1);
+		return (!ft_exit(cmds, data, exit_code));
+	return (true);
 }
 
 void set_data_exit_code(t_data *data, int *exit_code)

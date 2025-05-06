@@ -102,16 +102,16 @@ void							free_env_list(t_var *head);
 // void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
 
 /*---------------Built-ins--------------------*/
-int								execute_builtin(t_data *data, t_cmds *cmds,
+bool								execute_builtin(t_data *data, t_cmds *cmds,
 									int *exit_code);
 int								is_builtin(char *cmd);
 /*-----------------echo----------------------*/
-int								ft_echo(t_cmds *cmd, t_data *data, int *exit_code);
+bool							ft_echo(t_cmds *cmd, t_data *data, int *exit_code);
 int								check_nl(char *new_line);
 /*------------------pwd---------------------*/
-int								ft_pwd(t_cmds *cmd, t_data *data, int *exit_code);
+bool								ft_pwd(t_cmds *cmd, t_data *data, int *exit_code);
 /*------------------env---------------------*/
-int								ft_env(t_cmds *cmd, t_data *data, int *exit_code);
+bool								ft_env(t_cmds *cmd, t_data *data, int *exit_code);
 void							init_env(char **envp, t_data *data);
 t_var							*init_envp_node(char *env);
 void							env_addtolist(t_var **lst, t_var *node);
@@ -131,7 +131,7 @@ void							add_new_env_variable(char *key, char *value,
 void							get_export(char **sorted_arr, t_data *data);
 char							*get_env_key(char *key, t_data *data);
 /*---------------------exit-------------------*/
-int								ft_exit(t_cmds *cmd, t_data *data, int *exit_code);
+bool								ft_exit(t_cmds *cmd, t_data *data, int *exit_code);
 /*--------------------unset-------------------*/
 int								ft_unset(t_cmds *cmd, t_data *data, int *exit_code);
 bool							update_new_env(t_data *data);

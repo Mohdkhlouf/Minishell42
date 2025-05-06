@@ -49,7 +49,7 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 
 	if (execute_redirections(data, cmd, exit_code))
 		{
-			if (execute_builtin(data, cmd, exit_code) != 0)
+			if (execute_builtin(data, cmd, exit_code))
 			{
 				dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
 				dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
@@ -62,11 +62,11 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	else
 	{
 		dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
-				dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
-				close(saved_stdout);
-				close(saved_stdin);
-				*exit_code = 1;
-				return (false);
+		dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
+		close(saved_stdout);
+		close(saved_stdin);
+		*exit_code = 1;
+		return (false);
 	}
 		
 	if (cmd->red_out_fd != -1)
@@ -77,9 +77,6 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	close(saved_stdin);
 	return (true);
 }
-
-
-
 
 void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
 {
@@ -186,3 +183,22 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 // else
 // 	data->exit_code = 127;
 // perror("minishell");
+
+// while (data->env_lst)
+// 	{
+// 		size_t len = ft_strlen(path);
+// 		while (len > 1 && path[len - 1] == '/') 
+// 		{
+// 			path[len - 1] = '\0';
+// 			len--;
+// 		}
+// 		if (ft_strcmp(get_env_value(data->env_lst->key, data), path))
+// 		{
+
+// 			ft_putstr_fd(cmd->cmd[0], 2);
+// 			ft_putstr_fd(": Is a directory\n", 2);
+// 			cleanup_minishell(data);
+// 			exit(126);
+// 		}
+// 		data->env_lst = data->env_lst->next;
+// 	}
