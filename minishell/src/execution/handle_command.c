@@ -64,11 +64,11 @@ void external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
 	if (*pid == 0)
 	{
 		if (!execute_redirections(data, cmd, exit_code))
-		{
+		{	
 			cleanup_minishell(data);
+			free(data);
 			exit(1);
 		}
-
 		exec_cmd(cmd, data);
 	}
 }
@@ -183,33 +183,3 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 		exit(data->exit_code);
 	}
 }
-
-// if (stat(path, &path_stat) != 0)
-// {
-// 	// perror("stat failed");
-// 	return ;
-// }
-// if (S_ISDIR(path_stat.st_mode))
-// 	data->exit_code = 126;
-// else
-// 	data->exit_code = 127;
-// perror("minishell");
-
-// while (data->env_lst)
-// 	{
-// 		size_t len = ft_strlen(path);
-// 		while (len > 1 && path[len - 1] == '/')
-// 		{
-// 			path[len - 1] = '\0';
-// 			len--;
-// 		}
-// 		if (ft_strcmp(get_env_value(data->env_lst->key, data), path))
-// 		{
-
-// 			ft_putstr_fd(cmd->cmd[0], 2);
-// 			ft_putstr_fd(": Is a directory\n", 2);
-// 			cleanup_minishell(data);
-// 			exit(126);
-// 		}
-// 		data->env_lst = data->env_lst->next;
-// 	}

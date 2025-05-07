@@ -5,7 +5,13 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 {
 	if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
 	{
+		//test solve this whoami | cat -e | cat -e > tmp/file 
+
+		// close(data->pipe_fd[0]);
+		// close(data->pipe_fd[1]);
 		cleanup_minishell(data);
+		free(data);
+		printf("DEBUS: iam here\n");
 		exit (1) ;
 	}
 	if (cmds_d->cmds[i].red_in_fd != -1)
@@ -44,7 +50,7 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 
 void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 {
-		// Close the previous pipe if it exists
+			// Close the previous pipe if it exists
 		if (*prev_cmd != -1)
 		{
 			close(*prev_cmd);
