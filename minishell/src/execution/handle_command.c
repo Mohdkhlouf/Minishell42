@@ -128,7 +128,6 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 {
 	char	*path;
 	struct stat path_stat;
-
 	path = NULL;
 	set_child_signals();
 	if (ft_strchr(cmd->cmd[0], '/'))
@@ -181,7 +180,6 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	{
 		perror("minishell");
 		cleanup_minishell(data);
-		printf("errno is %d", errno);
 		data->exit_code = errno;
 		exit(data->exit_code);
 	}

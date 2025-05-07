@@ -54,7 +54,8 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 	if (cmds_d->cmds_counter == 1)
 	{
 		if (!cmds_d->cmds[0].cmd[0])
-			return(print_error("command is not found"),false);
+			return(false);
+			// return(print_error("command is not found"),false);
 		if (is_builtin(cmds_d->cmds[0].cmd[0]))
 		{
 			if(!builtin_cmd(&cmds_d->cmds[0], data, &exit_code))
