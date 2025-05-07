@@ -2,16 +2,16 @@
 
 // TODO return value
 
-void	get_export(char **sorted_arr, t_data *data)
+void get_export(char **sorted_arr, t_data *data)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (sorted_arr[i])
 	{
 		printf("declare -x %s", sorted_arr[i]);
 		if (get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i],
-				data)[0] != '\0')
+																data)[0] != '\0')
 		{
 			printf("=\"%s\"", get_env_value(sorted_arr[i], data));
 		}
@@ -20,9 +20,9 @@ void	get_export(char **sorted_arr, t_data *data)
 	}
 }
 
-int	get_env_len(t_var *env)
+int get_env_len(t_var *env)
 {
-	int	count;
+	int count;
 
 	count = 0;
 	if (!env)
@@ -35,10 +35,10 @@ int	get_env_len(t_var *env)
 	return (count);
 }
 
-char	**list_to_arr(int size, t_var *env)
+char **list_to_arr(int size, t_var *env)
 {
-	char	**arr_str;
-	int		i;
+	char **arr_str;
+	int i;
 
 	i = 0;
 	arr_str = malloc(sizeof(char *) * (size + 1));
@@ -54,12 +54,12 @@ char	**list_to_arr(int size, t_var *env)
 	return (arr_str);
 }
 
-char	**sort_arr_list(char **arr, int size)
+char **sort_arr_list(char **arr, int size)
 {
-	int		j;
-	int		swapped;
-	char	*temp;
-	int		k;
+	int j;
+	int swapped;
+	char *temp;
+	int k;
 
 	j = 0;
 	while (j < size - 1)
@@ -78,38 +78,38 @@ char	**sort_arr_list(char **arr, int size)
 			k++;
 		}
 		if (!swapped)
-			break ;
+			break;
 		j++;
 	}
 	return (arr);
 }
 
-int	ft_export(t_cmds *cmd, t_data *data, int *exit_code)
+bool ft_export(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	char	**arr;
-	char	**sorted_arr;
-	int		size;
-	t_var	*env;
+	char **arr;
+	char **sorted_arr;
+	int size;
+	t_var *env;
 
 	arr = NULL;
 	sorted_arr = NULL;
 	size = 0;
 	env = data->env_lst;
 	if (!env)
-		return (1);
+		return (false);
 	if (!cmd->cmd[1])
 	{
 		size = get_env_len(env);
 		arr = list_to_arr(size, env);
 		if (!arr)
-			return (-1);
+			return (false);
 		sorted_arr = sort_arr_list(arr, size);
 		get_export(sorted_arr, data);
 	}
 	else
 		export_with_param(cmd, data, exit_code);
 	free(arr);
-	return (0);
+	return (true);
 }
 
 // int ft_export(t_data *data)

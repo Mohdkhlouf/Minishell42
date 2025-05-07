@@ -17,24 +17,23 @@
 i did the fork here.
 then send the execution to child process*/
 
-
-bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
+bool builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	int saved_stdout = dup(STDOUT_FILENO);
 	int saved_stdin = dup(STDIN_FILENO);
 
 	if (execute_redirections(data, cmd, exit_code))
+	{
+		if (execute_builtin(data, cmd, exit_code))
 		{
-			if (execute_builtin(data, cmd, exit_code))
-			{
-				dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
-				dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
-				close(saved_stdout);
-				close(saved_stdin);
-				*exit_code = 1;
-				return (false);
-			}
+			dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
+			dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
+			close(saved_stdout);
+			close(saved_stdin);
+			*exit_code = 1;
+			return (false);
 		}
+	}
 	else
 	{
 		dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
@@ -44,7 +43,7 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 		*exit_code = 1;
 		return (false);
 	}
-		
+
 	if (cmd->red_out_fd != -1)
 		dup2(saved_stdout, STDOUT_FILENO);
 	if (cmd->red_in_fd != -1)
@@ -54,7 +53,7 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	return (true);
 }
 
-void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
+void external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
 {
 	*pid = fork();
 	if (*pid == -1)
@@ -67,19 +66,19 @@ void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
 		if (!execute_redirections(data, cmd, exit_code))
 		{
 			cleanup_minishell(data);
-			exit (1);
+			exit(1);
 		}
-			
+
 		exec_cmd(cmd, data);
 	}
 }
 
-void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
+void handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	pid_t	pid;
-	int	status;
-	int	signal_num;
-	int	stop_signal;
+	pid_t pid;
+	int status;
+	int signal_num;
+	int stop_signal;
 
 	external_cmd(cmd, data, exit_code, &pid);
 	waitpid(pid, &status, 0);
@@ -91,19 +90,19 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	else if (WIFSIGNALED(status))
 	{
 		signal_num = WTERMSIG(status);
-		//printf("Child process terminated by signal %d\n", signal_num);
+		// printf("Child process terminated by signal %d\n", signal_num);
 	}
 	else if (WIFSTOPPED(status))
 	{
 		// Child process stopped
 		stop_signal = WSTOPSIG(status);
-		//printf("Child process stopped by signal %d\n", stop_signal);
+		// printf("Child process stopped by signal %d\n", stop_signal);
 	}
 }
 
-void	free_2d_cmd_arr(char **arr)
+void free_2d_cmd_arr(char **arr)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (arr[i])
@@ -114,19 +113,17 @@ void	free_2d_cmd_arr(char **arr)
 	free(arr);
 }
 
-void	free_cmd(t_cmds *cmd)
+void free_cmd(t_cmds *cmd)
 {
 	free_2d_cmd_arr(cmd->cmd);
 	free_2d_cmd_arr(cmd->reds);
 }
 
-
-
 /* main function to execute one command, i will make it execute the redirections
 then do the command execution*/
-void	exec_cmd(t_cmds *cmd, t_data *data)
+void exec_cmd(t_cmds *cmd, t_data *data)
 {
-	char	*path;
+	char *path;
 	struct stat path_stat;
 	path = NULL;
 	set_child_signals();
@@ -134,7 +131,7 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	{
 		path = cmd->cmd[0];
 		if (stat(path, &path_stat) != 0)
-		{	
+		{
 			perror("minishell");
 			cleanup_minishell(data);
 			data->exit_code = 127;
@@ -149,17 +146,17 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 			cleanup_minishell(data);
 			exit(data->exit_code);
 		}
-	}	
+	}
 	else
 	{
 		if (cmd->cmd[0][0])
 			path = find_path(data, cmd->cmd[0]);
 		else
-			{
-				cleanup_minishell(data);
-				data->exit_code = 0;
-				exit(0);
-			}
+		{
+			cleanup_minishell(data);
+			data->exit_code = 0;
+			exit(0);
+		}
 	}
 	if (!path)
 	{
@@ -171,11 +168,11 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	}
 	if (access(path, X_OK) != 0)
 	{
-        ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 		cleanup_minishell(data);
-        exit(126);  // Command found, but not executable
-    }
+		exit(126); // Command found, but not executable
+	}
 	if (execve(path, cmd->cmd, data->envp) == -1)
 	{
 		perror("minishell");
@@ -199,7 +196,7 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 // while (data->env_lst)
 // 	{
 // 		size_t len = ft_strlen(path);
-// 		while (len > 1 && path[len - 1] == '/') 
+// 		while (len > 1 && path[len - 1] == '/')
 // 		{
 // 			path[len - 1] = '\0';
 // 			len--;
