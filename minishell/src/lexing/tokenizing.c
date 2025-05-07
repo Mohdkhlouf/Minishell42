@@ -52,14 +52,13 @@ bool	init_var_handler(t_data *data, int *i)
 	{
 		if (*i > 0 && data->tokens[*i - 1].type == TOK_REDIRECT_HEREDOC)
 			data->tokens[*i].type = TOK_REDIRECT_HEREDOC;
-		else if(!var_handler2(data, *i))
+		else if (!var_handler2(data, *i))
 			return (false);
 	}
-	else if(!var_handler2(data, *i))
+	else if (!var_handler2(data, *i))
 		return (false);
 	return (true);
 }
-
 
 /*after creatiing the tokens, i start iterate them as i need, so this funnction
 will solve the var$ seperated, withing quotes and then fix the qouting text to
@@ -71,32 +70,29 @@ bool	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
-
-
 	if (!validation(data))
 		return (false);
-		
-	// print_tokens(data);
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
 		if (data->tokens[i].data[0] == '$')
 		{
 			if (data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
-			{
 				data->tokens[i].data = ft_itoa(data->exit_code);
-			}
 			else
 				init_var_handler(data, &i);
 		}
 		else if (ft_strchr(data->tokens[i].data, '\"')
-			&& ft_strchr(data->tokens[i].data, '$')  && data->tokens[i].data[0] !='\'' && !ft_strnstr(data->tokens[i - 1].data, "<<", 2))
-			{
-				var_handler2(data, i);
-			}
-		
-		if ((ft_strchr(data->tokens[i].data, '\'' ) || ft_strchr(data->tokens[i].data, '\"' )))
+			&& ft_strchr(data->tokens[i].data, '$')
+			&& data->tokens[i].data[0] != '\'' && !ft_strnstr(data->tokens[i
+			- 1].data, "<<", 2))
 		{
-			if (!(i > 0 && (data->tokens[i - 1].data) && ft_strnstr(data->tokens[i - 1].data, "<<", 2)))
+			var_handler2(data, i);
+		}
+		if ((ft_strchr(data->tokens[i].data, '\'')
+					|| ft_strchr(data->tokens[i].data, '\"')))
+		{
+			if (!(i > 0 && (data->tokens[i - 1].data)
+					&& ft_strnstr(data->tokens[i - 1].data, "<<", 2)))
 				quote_fixing(data, i);
 		}
 		redirection_setting(data, i);

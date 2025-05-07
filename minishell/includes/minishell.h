@@ -81,6 +81,7 @@ typedef struct s_data
 	int exit_code;
 	int cline_parts;
 	int tokens_conter;
+	char *prompt;
 } t_data;
 
 /*---------------Parsing------------------*/
