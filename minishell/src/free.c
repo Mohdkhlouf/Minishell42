@@ -1,12 +1,12 @@
 #include "../includes/minishell.h"
 
-void free_cmds_d(t_parsed_data *cmds_d)
+void	free_cmds_d(t_parsed_data *cmds_d)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!cmds_d || !cmds_d->cmds)
-		return;
+		return ;
 	while (i < cmds_d->cmds_counter)
 	{
 		if (cmds_d->cmds[i].cmd)
@@ -26,9 +26,9 @@ void free_cmds_d(t_parsed_data *cmds_d)
 	}
 }
 
-void free_data(t_data *data)
+void	free_data(t_data *data)
 {
-	int i;
+	int	i;
 
 	/* ithingk i free some of these tokens that are moved to new pointer in the
 	cmds_data so i have to check or maybe fr double free for the thinfs copied there*/
@@ -65,15 +65,14 @@ void free_data(t_data *data)
 // 	}
 // }
 
-void free_env_list(t_var *env)
+void	free_env_list(t_var *env)
 {
-	t_var *tmp;
+	t_var	*tmp;
 
 	while (env)
 	{
 		tmp = env;
 		env = env->next;
-
 		// Free the key and value strings if they were dynamically allocated
 		if (tmp->key)
 			free(tmp->key);
@@ -85,9 +84,9 @@ void free_env_list(t_var *env)
 	}
 }
 
-int free_matrix(char **env)
+int	free_matrix(char **env)
 {
-	int i;
+	int	i;
 
 	if (!env)
 		return (1);
@@ -104,9 +103,9 @@ int free_matrix(char **env)
 	return (0);
 }
 
-int free_2arr_general(char **arr)
+int	free_2arr_general(char **arr)
 {
-	int i;
+	int	i;
 
 	if (!arr)
 		return (1);
@@ -122,11 +121,13 @@ int free_2arr_general(char **arr)
 	return (0);
 }
 
-void cleanup_minishell(t_data *data)
+void	cleanup_minishell(t_data *data)
 {
 	if (data->pid)
+	{
 		free(data->pid);
-	data->pid = NULL;
+		data->pid = NULL;
+	}
 	free_matrix(data->envp);
 	free_2arr_general(data->parsed_path);
 	free_2arr_general(data->words);
@@ -139,13 +140,13 @@ void cleanup_minishell(t_data *data)
 	// free(data);
 }
 
-void free_split(char **str)
+void	free_split(char **str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!str)
-		return;
-
+		return ;
 	while (str[i])
 	{
 		free(str[i]);

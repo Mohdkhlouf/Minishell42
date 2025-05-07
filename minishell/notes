@@ -37,3 +37,10 @@ when unset pwd, and use cd again, it must set the PWD value but will not shown i
 
 
 export adding variable, in the aphabatic order, it works witch capital but not with small.
+
+
+whoami | cat -e | cat -e > tmp/file 
+
+
+
+whoami | cat -e | cat -e > tmp/file 
