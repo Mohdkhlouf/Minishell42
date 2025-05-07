@@ -1,21 +1,21 @@
 #include "../includes/minishell.h"
 
-void	free_cmds_d(t_parsed_data *cmds_d)
+void free_cmds_d(t_parsed_data *cmds_d)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!cmds_d || !cmds_d->cmds)
-		return ;
+		return;
 	while (i < cmds_d->cmds_counter)
 	{
 		if (cmds_d->cmds[i].cmd)
 			free_2arr_general(cmds_d->cmds[i].cmd);
 		if (cmds_d->cmds[i].reds)
 			free_2arr_general(cmds_d->cmds[i].reds);
-		if (cmds_d->cmds[i].red_in_fd != -1)	
+		if (cmds_d->cmds[i].red_in_fd != -1)
 			close(cmds_d->cmds[i].red_in_fd);
-		if (cmds_d->cmds[i].red_out_fd != -1)	
+		if (cmds_d->cmds[i].red_out_fd != -1)
 			close(cmds_d->cmds[i].red_out_fd);
 		i++;
 	}
@@ -26,9 +26,9 @@ void	free_cmds_d(t_parsed_data *cmds_d)
 	}
 }
 
-void	free_data(t_data *data)
+void free_data(t_data *data)
 {
-	int	i;
+	int i;
 
 	/* ithingk i free some of these tokens that are moved to new pointer in the
 	cmds_data so i have to check or maybe fr double free for the thinfs copied there*/
@@ -45,11 +45,10 @@ void	free_data(t_data *data)
 	free(data->tokens);
 	data->tokens = NULL;
 	free(data->pid);
-	if(data->pipe_fd[0] != -1)
+	if (data->pipe_fd[0] != -1)
 		close(data->pipe_fd[0]);
-	if(data->pipe_fd[1] != -1)
+	if (data->pipe_fd[1] != -1)
 		close(data->pipe_fd[1]);
-
 }
 
 // void	free_env_list(t_var *env)
@@ -68,28 +67,27 @@ void	free_data(t_data *data)
 
 void free_env_list(t_var *env)
 {
-    t_var *tmp;
+	t_var *tmp;
 
-    while (env)
-    {
-        tmp = env;
-        env = env->next;
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
 
-        // Free the key and value strings if they were dynamically allocated
-        if(tmp->key)
+		// Free the key and value strings if they were dynamically allocated
+		if (tmp->key)
 			free(tmp->key);
 		if (tmp->value)
-       		free(tmp->value);
-        // Free the current node itself
+			free(tmp->value);
+		// Free the current node itself
 		if (tmp)
-        	free(tmp);
-    }
+			free(tmp);
+	}
 }
 
-
-int	free_matrix(char **env)
+int free_matrix(char **env)
 {
-	int	i;
+	int i;
 
 	if (!env)
 		return (1);
@@ -100,15 +98,15 @@ int	free_matrix(char **env)
 		env[i] = NULL;
 		i++;
 	}
-	if(env)
+	if (env)
 		free(env);
 	env = NULL;
 	return (0);
 }
 
-int	free_2arr_general(char **arr)
+int free_2arr_general(char **arr)
 {
-	int	i;
+	int i;
 
 	if (!arr)
 		return (1);
@@ -138,4 +136,19 @@ void cleanup_minishell(t_data *data)
 	free_data(data);
 	free(data->cmds_d);
 	// free(data);
+}
+
+void free_split(char **str)
+{
+	int i = 0;
+
+	if (!str)
+		return;
+
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

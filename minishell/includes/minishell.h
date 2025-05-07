@@ -130,6 +130,7 @@ void add_new_env_variable(char *key, char *value,
 						  t_data *data);
 void get_export(char **sorted_arr, t_data *data);
 char *get_env_key(char *key, t_data *data);
+void free_split(char **str);
 /*---------------------exit-------------------*/
 bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code);
 /*--------------------unset-------------------*/
