@@ -127,7 +127,7 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 	struct stat path_stat;
 	path = NULL;
 	set_child_signals();
-	if (ft_strchr(cmd->cmd[0], '/') || ft_strchr(cmd->cmd[0], '.'))
+	if (ft_strchr(cmd->cmd[0], '/'))
 	{
 		path = cmd->cmd[0];
 		if (stat(path, &path_stat) != 0)
