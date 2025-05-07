@@ -66,10 +66,11 @@ bool pre_validation(t_data *data)
 }
 void reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
+	char *prompt = "\001\033[1;32m\002minishell$ \001\033[0m\002";
 	while (true)
 	{
 		data_init(data, cmds_d);
-		data->input_line = readline("\033[0;35mminishell>\033[0m ");
+		data->input_line = readline(prompt);
 		// if (isatty(fileno(stdin)))
 		// 	data->input_line = readline("\033[0;35mminishell>\033[0m ");
 		if (!data->input_line)

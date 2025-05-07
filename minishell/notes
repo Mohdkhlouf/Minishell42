@@ -20,3 +20,8 @@ errors:
 
 
 */empty commands must be solved correctly
+
+when:
+doesntexist
+
+needs to be solved
