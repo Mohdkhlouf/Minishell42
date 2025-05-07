@@ -39,7 +39,8 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
-	free(data->pid);
+	if (data->pid)
+		free(data->pid);
 	data->pid = NULL;
 	free_matrix(data->envp);
 	free_cmds_d(cmds_d);
@@ -56,6 +57,12 @@ bool	pre_validation(t_data *data)
 		|| data->input_line[len - 1] == '|')
 	{
 		print_error("syntax error near unexpected token `|'");
+		data->exit_code = 2;
+		return (false);
+	}
+	if (len  == 1 && data->input_line[len - 1] == '.')
+	{
+		print_error_2msgs(".","filename argument required");
 		data->exit_code = 2;
 		return (false);
 	}
@@ -77,6 +84,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 	while (true)
 	{
 		data_init(data, cmds_d);
+		// if (isatty(fileno(stdin)))
 		data->input_line = readline(data->prompt);
 		if (!data->input_line)
 		{
@@ -119,8 +127,9 @@ int	main(int argc, char **argv, char **envp)
 	init_env(envp, data);
 	set_prompt_signals();
 	reading_loop(data, cmds_d);
-	free(data);
 	free(cmds_d);
+	free(data->path);
+	free(data);
 	printf("END OF MAIN FILE REACHED\n");
 	return (g_signal_status);
 }
