@@ -64,15 +64,6 @@ int	line_split(t_data *data)
 			redirectout_function(data);
 		else if (data->input_line[data->end] == '<')
 			redirectin_function(data);
-		// else if (data->input_line[data->end] == '$' && !data->quote_found
-		// && !data->double_quote_found)
-		// {
-		// 	if (data->variable_sign_found)
-		// 		continue ;
-		// 	data->variable_sign_found = true;
-		// 	printf("variable flaq:%d\n", data->variable_sign_found);
-		// 	env_variable_function(data);
-		// }
 		else
 			normal_function(data);
 		data->end++;
