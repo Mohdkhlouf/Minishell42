@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-static bool cd_with_no_param(t_data *data)
+static bool cd_with_no_param(t_data *data, int *exit_code)
 {
 	char *home_dir;
 
@@ -8,21 +8,24 @@ static bool cd_with_no_param(t_data *data)
 	if (!home_dir)
 	{
 		ft_putstr_fd("cd: HOME not set\n", 2);
+		*exit_code = 1;
 		return (false);
 	}
 	if (chdir(home_dir) != 0)
 	{
 		perror("minishell");
 		free(home_dir);
+		*exit_code = 1;
 		return (false);
 	}
 	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
 					data);
 	update_env_list(ft_strdup("PWD"), home_dir, data);
+	*exit_code = 0;
 	return (true);
 }
 
-static bool cd_with_dash_param(t_data *data)
+static bool cd_with_dash_param(t_data *data, int *exit_code)
 {
 	char *pwd_path;
 	char *oldpwd_path;
@@ -34,6 +37,7 @@ static bool cd_with_dash_param(t_data *data)
 		ft_putstr_fd("cd: PWD or OLDPWD not set\n", 2);
 		free(pwd_path);
 		free(oldpwd_path);
+		*exit_code = 1;
 		return (false);
 	}
 	if (chdir(oldpwd_path) != 0)
@@ -41,10 +45,12 @@ static bool cd_with_dash_param(t_data *data)
 		perror("cd");
 		free(pwd_path);
 		free(oldpwd_path);
+		*exit_code = 1;
 		return (false);
 	}
 	update_env_list(ft_strdup("PWD"), oldpwd_path, data);
 	update_env_list(ft_strdup("OLDPWD"), pwd_path, data);
+	*exit_code = 0;
 	return (true);
 }
 
@@ -78,31 +84,30 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 	char *path_value;
 
 	if (!cmd->cmd[1])
-		return (cd_with_no_param(data));
-	else if (cmd->cmd[0] && cmd->cmd[1] && !cmd->cmd[2])
+		return (cd_with_no_param(data, exit_code));
+	if (cmd->cmd[0] && cmd->cmd[1] && !cmd->cmd[2])
 	{
 		path_value = cmd->cmd[1];
 		if (ft_strncmp("-", path_value, ft_strlen(path_value)) == 0)
-			return (cd_with_dash_param(data));
+			return (cd_with_dash_param(data, exit_code));
 		else
 			return (cd_with_param(data, path_value, exit_code));
-		*exit_code = 1;
-		exit(*exit_code);
 	}
-	else if (cmd->cmd[2])
+	if (cmd->cmd[2])
 	{
 		print_error("cd : too many arguments");
 		*exit_code = 1;
-		exit(*exit_code);
+		return (false);
 	}
-	else
-	{
-		if (chdir(cmd->cmd[1]) != 0)
-		{
-			perror("minishell");
-			*exit_code = 1;
-			exit(*exit_code);
-		}
-	}
-	return (0);
+	*exit_code = 1;
+	return (false);
 }
+// else
+// {
+// 	if (chdir(cmd->cmd[1]) != 0)
+// 	{
+// 		perror("minishell");
+// 		*exit_code = 1;
+// 		return (false);
+// 	}
+// }
