@@ -25,11 +25,11 @@ bool execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 	else if (ft_strncmp(cmds->cmd[0], "env", ft_strlen("env")) == 0)
 		return (!ft_env(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "cd", ft_strlen("cd")) == 0)
-		return (ft_cd(cmds, data, exit_code));
+		return (!ft_cd(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "export", ft_strlen("export")) == 0)
-		return (ft_export(cmds, data, exit_code));
+		return (!ft_export(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "unset", ft_strlen("unset")) == 0)
-		return (ft_unset(cmds, data, exit_code));
+		return (!ft_unset(cmds, data, exit_code));
 	else if (ft_strncmp(cmds->cmd[0], "exit", ft_strlen("exit")) == 0)
 		return (!ft_exit(cmds, data, exit_code));
 	return (true);
@@ -49,17 +49,17 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 	if (cmds_d->cmds_counter == 0)
 		return (false);
 
-	if (!exec_heredoc(data,cmds_d))
+	if (!exec_heredoc(data, cmds_d))
 		return (false);
 	if (cmds_d->cmds_counter == 1)
 	{
 		if (!cmds_d->cmds[0].cmd[0])
-			return(false);
-			// return(print_error("command is not found"),false);
+			return (false);
+		// return(print_error("command is not found"),false);
 		if (is_builtin(cmds_d->cmds[0].cmd[0]))
 		{
-			if(!builtin_cmd(&cmds_d->cmds[0], data, &exit_code))
-				return (set_data_exit_code(data, &exit_code),false);
+			if (!builtin_cmd(&cmds_d->cmds[0], data, &exit_code))
+				return (set_data_exit_code(data, &exit_code), false);
 		}
 		else
 			handle_single_command(&cmds_d->cmds[0], data, &exit_code);

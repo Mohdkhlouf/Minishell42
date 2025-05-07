@@ -1,8 +1,9 @@
 #include "../includes/minishell.h"
 
-bool	ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
+bool ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	char	*cwd;
+	(void)cmd;
+	char *cwd;
 
 	(void)data;
 	*exit_code = 0;

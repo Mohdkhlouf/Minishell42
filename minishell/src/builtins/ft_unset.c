@@ -1,11 +1,11 @@
 #include "../includes/minishell.h"
 
-bool	update_new_env(t_data *data)
+bool update_new_env(t_data *data)
 {
-	t_var	*env;
-	char	**env_new;
-	int		i;
-	char	*temp;
+	t_var *env;
+	char **env_new;
+	int i;
+	char *temp;
 
 	i = 0;
 	env = data->env_lst;
@@ -37,24 +37,24 @@ bool	update_new_env(t_data *data)
 	return (true);
 }
 
-void	remove_value_on_unset(char *key, t_data *data)
+void remove_value_on_unset(char *key, t_data *data)
 {
-	t_var	*env;
-	t_var	*prev;
+	t_var *env;
+	t_var *prev;
 
 	prev = NULL;
 	env = data->env_lst;
 	if (!env)
-		return ;
+		return;
 	while (env)
 	{
 		if (!ft_strcmp(key, env->key))
-			break ;
+			break;
 		prev = env;
 		env = env->next;
 	}
 	if (env == NULL)
-		return ;
+		return;
 	if (prev)
 		prev->next = env->next;
 	else
@@ -65,12 +65,12 @@ void	remove_value_on_unset(char *key, t_data *data)
 	free(env);
 }
 
-int	ft_unset(t_cmds *cmd, t_data *data, int *exit_code)
+bool ft_unset(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	int	i;
+	int i;
 
 	if (cmd->cmd[0] && !cmd->cmd[1])
-		return (0);
+		return (true);
 	i = 1;
 	while (cmd->cmd[i])
 	{
@@ -79,5 +79,5 @@ int	ft_unset(t_cmds *cmd, t_data *data, int *exit_code)
 	}
 	update_new_env(data);
 	*exit_code = 0;
-	return (0);
+	return (true);
 }
