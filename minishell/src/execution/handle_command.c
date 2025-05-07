@@ -18,30 +18,6 @@ i did the fork here.
 then send the execution to child process*/
 
 
-// bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
-// {
-// 	int saved_stdout = dup(STDOUT_FILENO);
-// 	int saved_stdin = dup(STDIN_FILENO);
-
-// 	if (!execute_redirections(data, cmd, exit_code))
-// 		return (close(saved_stdout), close(saved_stdin), false);
-// 	if (execute_builtin(data, cmd, exit_code) != 0)
-// 	{
-// 		dup2(saved_stdout, STDOUT_FILENO); // Restore original stdout
-// 		dup2(saved_stdin, STDIN_FILENO);   // Restore original stdin
-// 		close(saved_stdout);
-// 		close(saved_stdin);
-// 		return (false);
-// 	}
-// 	if (cmd->red_out_fd != -1)
-// 		dup2(saved_stdout, STDOUT_FILENO);
-// 	if (cmd->red_in_fd != -1)
-// 		dup2(saved_stdin, STDIN_FILENO);
-// 	close(saved_stdout);
-// 	close(saved_stdin);
-// 	return (true);
-// }
-
 bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	int saved_stdout = dup(STDOUT_FILENO);
@@ -144,18 +120,48 @@ void	free_cmd(t_cmds *cmd)
 	free_2d_cmd_arr(cmd->reds);
 }
 
+
+
 /* main function to execute one command, i will make it execute the redirections
 then do the command execution*/
 void	exec_cmd(t_cmds *cmd, t_data *data)
 {
 	char	*path;
+	struct stat path_stat;
 
 	path = NULL;
 	set_child_signals();
 	if (ft_strchr(cmd->cmd[0], '/'))
+	{
 		path = cmd->cmd[0];
+		if (stat(path, &path_stat) != 0)
+		{	
+			perror("minishell");
+			cleanup_minishell(data);
+			data->exit_code = 127;
+			exit(data->exit_code);
+		}
+		else if (S_ISDIR(path_stat.st_mode))
+		{
+			data->exit_code = 126;
+			ft_putstr_fd("minishell: '", 2);
+			ft_putstr_fd(path, 2);
+			ft_putstr_fd(": Is a directory\n", 2);
+			cleanup_minishell(data);
+			exit(data->exit_code);
+		}
+	}	
 	else
-		path = find_path(data, cmd->cmd[0]);
+	{
+		if (cmd->cmd[0][0])
+			path = find_path(data, cmd->cmd[0]);
+		else
+			{
+				cleanup_minishell(data);
+				data->exit_code = 0;
+				exit(0);
+			}
+	}
 	if (!path)
 	{
 		// ft_putstr_fd("minishell: '", 2);
@@ -164,12 +170,20 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		cleanup_minishell(data);
 		exit(127);
 	}
+	if (access(path, X_OK) != 0)
+	{
+        ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		cleanup_minishell(data);
+        exit(126);  // Command found, but not executable
+    }
 	if (execve(path, cmd->cmd, data->envp) == -1)
 	{
 		perror("minishell");
 		cleanup_minishell(data);
-		data->exit_code = 127;
-		exit(127);
+		printf("errno is %d", errno);
+		data->exit_code = errno;
+		exit(data->exit_code);
 	}
 }
 
