@@ -1,8 +1,8 @@
 #include "../includes/minishell.h"
 
-int	ft_is_numeric(char *str)
+int ft_is_numeric(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (str[0] == '-' || str[0] == '+')
@@ -16,15 +16,17 @@ int	ft_is_numeric(char *str)
 	return (1);
 }
 
-bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
+bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	(void)data;
 	if (cmd->cmd[1] && cmd->cmd[2])
 	{
 		*exit_code = 1;
-		ft_putstr_fd("exit: too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (false);
 	}
-	else if (cmd->cmd[1])
+	printf("exit\n");
+	if (cmd->cmd[1])
 	{
 		if (!ft_is_numeric(cmd->cmd[1]))
 		{
@@ -34,12 +36,9 @@ bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 			*exit_code = 2;
 		}
 		else
-		{
-			printf("exit\n");
 			*exit_code = ft_atoi(cmd->cmd[1]);
-		}
 	}
-	if (!cmd->cmd[1])
-		printf("exit\n");
 	exit(*exit_code);
 }
+// if (!cmd->cmd[1])
+// 	printf("exit\n");

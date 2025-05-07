@@ -57,6 +57,7 @@ static bool cd_with_dash_param(t_data *data, int *exit_code)
 static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
 	char *newpath;
+	char *oldpwd;
 
 	if (chdir(path_value) != 0)
 	{
@@ -64,8 +65,18 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 		print_error("cd: No such file or directory");
 		return (false);
 	}
-	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
-					data);
+	oldpwd = get_env_value("PWD", data);
+	if (oldpwd)
+		update_env_list(ft_strdup("OLDPWD"), ft_strdup(oldpwd), data);
+	else
+	{
+		*exit_code = 1;
+		ft_putstr_fd("minishell: cd: `", 2);
+		ft_putstr_fd(path_value, 2);
+		ft_putstr_fd("': No such file or directory\n", 2);
+		return (false);
+	}
+	// update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)), data);
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
 	{
