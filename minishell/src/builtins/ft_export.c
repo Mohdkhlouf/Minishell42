@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-// TODO return value
-
 void get_export(char **sorted_arr, t_data *data)
 {
 	int i;
