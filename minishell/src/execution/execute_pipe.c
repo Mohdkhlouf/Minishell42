@@ -3,19 +3,11 @@
 void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		int *exit_code)
 {
-	// Redirection handling
-	// if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
-	// 	return ;
-
 	if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
 	{
 		cleanup_minishell(data);
 		exit (1) ;
 	}
-		
-
-	// execute_redirections(data, &cmds_d->cmds[i], exit_code);
-	// Handle standard input redirection
 	if (cmds_d->cmds[i].red_in_fd != -1)
 	{
 		dup2(cmds_d->cmds[i].red_in_fd, STDIN_FILENO);
@@ -26,13 +18,11 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		dup2(*prev_cmd, STDIN_FILENO);
 		close(*prev_cmd);
 	}
-	// Handle standard output redirection
 	if (cmds_d->cmds[i].red_out_fd != -1)
 	{
 		dup2(cmds_d->cmds[i].red_out_fd, STDOUT_FILENO);
 		close(cmds_d->cmds[i].red_out_fd);
 	}
-	// If it's not the last command in the pipeline,we connect it to the next command
 	else if (i < cmds_d->cmds_counter - 1)
 	{
 		close(data->pipe_fd[0]);
@@ -44,6 +34,7 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		if (execute_builtin(data, &cmds_d->cmds[i], exit_code) == 0)
 			{
 				cleanup_minishell(data);
+				free(data);
 				exit(0);
 			}
 	}
