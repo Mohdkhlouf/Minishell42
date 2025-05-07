@@ -99,16 +99,21 @@ bool ft_export(t_cmds *cmd, t_data *data, int *exit_code)
 		return (false);
 	if (!cmd->cmd[1])
 	{
+		*exit_code = 0;
 		size = get_env_len(env);
 		arr = list_to_arr(size, env);
 		if (!arr)
+		{
+			*exit_code = 1;
 			return (false);
+		}
 		sorted_arr = sort_arr_list(arr, size);
 		get_export(sorted_arr, data);
+		free_split(arr);
 	}
 	else
 		export_with_param(cmd, data, exit_code);
-	free(arr);
+	// free(arr);
 	return (true);
 }
 
