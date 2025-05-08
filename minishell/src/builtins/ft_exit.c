@@ -22,7 +22,7 @@ bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 	if (cmd->cmd[1] && cmd->cmd[2])
 	{
 		*exit_code = 1;
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		print_error("exit: too many arguments");
 		return (false);
 	}
 	printf("exit\n");
@@ -30,9 +30,7 @@ bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 	{
 		if (!ft_is_numeric(cmd->cmd[1]))
 		{
-			ft_putstr_fd("minishell: exit: `", 2);
-			ft_putstr_fd(cmd->cmd[1], 2);
-			ft_putstr_fd("': numeric argument required\n", 2);
+			minishell_error("exit", "numeric argument required", cmd->cmd[1]);
 			*exit_code = 2;
 		}
 		else
@@ -44,5 +42,9 @@ bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 	free(data);
 	exit(*exit_code);
 }
+
 // if (!cmd->cmd[1])
 // 	printf("exit\n");
+// ft_putstr_fd("minishell: exit: `", 2);
+// ft_putstr_fd(cmd->cmd[1], 2);
+// ft_putstr_fd("': numeric argument required\n", 2);

@@ -5,7 +5,7 @@ INCLUDES = -Iincludes
 # Compiler and flags
 CC      = gcc
 # CFLAGS  = -g -Wall -Wextra -Werror $(INCLUDES) -fsanitize=address -fsanitize=undefined
-CFLAGS  = -g -o -Wall -Wextra -Werror $(INCLUDES) 
+CFLAGS  = -g -o -Wall -Wextra -Werror $(INCLUDES)
 # Valgrind options (kept separate from CFLAGS)
 VALGRIND = valgrind --leak-check=full --track-origins=yes --trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
 --trace-children=yes --track-fds=yes --show-reachable=yes --suppressions=readline.sup
@@ -35,8 +35,9 @@ SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/free.c $(SRC_DIR)/error.c $(SRC_DIR)
 			$(SRC_DIR)/execution/handle_command_utils.c $(SRC_DIR)/execution/execute_pipe.c \
 			$(SRC_DIR)/execution/redirections.c $(SRC_DIR)/execution/redirections_utils.c \
 			$(SRC_DIR)/execution/handle_heredoc.c $(SRC_DIR)/execution/heredoc.c \
-			$(SRC_DIR)/lexing/validation.c
-			
+			$(SRC_DIR)/lexing/validation.c \
+			$(SRC_DIR)/builtins/ft_export_utils1.c
+
 
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 LIBFT_A = $(LIBFT)/libft.a
@@ -62,8 +63,8 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT)
 
 # Ensure obj directory and subdirectories exist, then compile source files into object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) $(OBJ_DIR)/lexing  $(OBJ_DIR)/parsing $(OBJ_DIR)/builtins $(OBJ_DIR)/execution  $(OBJ_DIR)/signals 
-	$(CC) $(CFLAGS) -c $< -o $@ 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR) $(OBJ_DIR)/lexing  $(OBJ_DIR)/parsing $(OBJ_DIR)/builtins $(OBJ_DIR)/execution  $(OBJ_DIR)/signals
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # Create obj directory if it doesn't exist
 $(OBJ_DIR):
