@@ -2,16 +2,9 @@
 
 static bool fill_env_array(t_var *env, char **env_new)
 {
-
-
-	if (data->envp)
-		free_matrix(data->envp);
-
-	t_var *env;
-	char **env_new;
 	int i;
 
-	int i = 0;
+	i = 0;
 	char *temp;
 
 	while (env)
@@ -35,6 +28,10 @@ static bool fill_env_array(t_var *env, char **env_new)
 
 bool update_new_env(t_data *data)
 {
+
+	if (data->envp)
+		free_matrix(data->envp);
+
 	t_var *env;
 	char **env_new;
 	int i;
