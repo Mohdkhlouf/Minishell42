@@ -11,6 +11,8 @@ typedef struct s_cmds
 	char				**reds;
 	int 				red_in_fd;
 	int 				red_out_fd;
+	int saved_stdout;
+	int saved_stdin;
 }						t_cmds;
 
 typedef struct s_parsed_data

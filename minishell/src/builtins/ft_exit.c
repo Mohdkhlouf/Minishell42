@@ -38,6 +38,10 @@ bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 		else
 			*exit_code = ft_atoi(cmd->cmd[1]);
 	}
+	close (cmd->saved_stdin);
+	close (cmd->saved_stdout);
+	cleanup_minishell(data);
+	free(data);
 	exit(*exit_code);
 }
 // if (!cmd->cmd[1])
