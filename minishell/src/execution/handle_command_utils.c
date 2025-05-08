@@ -24,11 +24,7 @@ char	*find_path(t_data *data, char *cmd)
 	with_slash = join_cmd_with_slash(cmd);
 	
 	if (!data->parsed_path)
-	{
-		print_error("PATH not set or parsed_path is NULL\n");
-		free(with_slash);
-		return NULL;
-	}
+		return (free(with_slash), NULL);
 
 	while (data->parsed_path[i])
 	{

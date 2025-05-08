@@ -2,6 +2,10 @@
 
 bool update_new_env(t_data *data)
 {
+
+	if (data->envp)
+		free_matrix(data->envp);
+
 	t_var *env;
 	char **env_new;
 	int i;
