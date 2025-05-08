@@ -2,11 +2,11 @@
 
 static int is_valid_identifier(const char *str)
 {
-	int i = 0;
+	int i;
 
+	i = 0;
 	if (!(ft_isalpha(str[0]) || str[0] == '_'))
 		return (0);
-
 	while (str[i] && str[i] != '=')
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
@@ -16,56 +16,56 @@ static int is_valid_identifier(const char *str)
 	return (1);
 }
 
-char *get_env_key(char *key, t_data *data)
+static bool validate_and_store_env(char **str, char *param_value, t_data *data)
 {
-	t_var *env;
+	int i;
+	char *key;
+	char *value;
 
-	env = data->env_lst;
-	while (env)
+	i = 0;
+	while (str[0][i])
 	{
-		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0 && (ft_strlen(env->key) == ft_strlen(key)))
-			return (env->key);
-		env = env->next;
+		if (!ft_isalnum(str[0][i]) && str[0][i] != '_')
+		{
+			minishell_error("export", "not a valid identifier", param_value);
+			return false;
+		}
+		i++;
 	}
-	return (NULL);
+	key = ft_strdup(str[0]);
+	value = str[1] ? ft_strdup(str[1]) : ft_strdup("");
+	if (get_env_key(key, data))
+		update_env_list(key, value, data);
+	else
+		add_new_env_variable(key, value, data);
+	return (true);
 }
 
 static void has_equal_sign(char *param_value, t_data *data, bool *invalid_found)
 {
 	char **str;
-	int j;
-	char *key;
-	char *value;
 
-	j = 0;
 	*invalid_found = false;
 	str = ft_split(param_value, '=');
 	if (!str)
 		return;
-	while (str[0][j])
-	{
-		if (!ft_isalnum(str[0][j]) && str[0][j] != '_')
-		{
-			*invalid_found = true;
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(param_value, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			free_split(str);
-			return;
-		}
-		j++;
-	}
-	key = ft_strdup(str[0]);
-	if (str[1])
-		value = ft_strdup(str[1]);
-	else
-		value = ft_strdup("");
+	if (!validate_and_store_env(str, param_value, data))
+		*invalid_found = true;
 
-	if (get_env_key(str[0], data))
-		update_env_list(key, value, data);
-	else
-		add_new_env_variable(key, value, data);
 	free_split(str);
+}
+
+static void handle_valid_export_param(char *param_value, t_data *data, bool *invalid_found)
+{
+	if (ft_strchr(param_value, '='))
+		has_equal_sign(param_value, data, invalid_found);
+	else
+	{
+		if (get_env_key(param_value, data))
+			update_env_list(ft_strdup(param_value), NULL, data);
+		else
+			add_new_env_variable(ft_strdup(param_value), NULL, data);
+	}
 }
 
 void export_with_param(t_cmds *cmd, t_data *data, int *exit_code)
@@ -78,22 +78,10 @@ void export_with_param(t_cmds *cmd, t_data *data, int *exit_code)
 	{
 		param_value = cmd->cmd[i];
 		if (is_valid_identifier(param_value))
-		{
-			if (ft_strchr(param_value, '='))
-				has_equal_sign(param_value, data, &invalid_found);
-			else
-			{
-				if (get_env_key(param_value, data))
-					update_env_list(ft_strdup(param_value), NULL, data);
-				else
-					add_new_env_variable(ft_strdup(param_value), NULL, data);
-			}
-		}
+			handle_valid_export_param(param_value, data, &invalid_found);
 		else
 		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(param_value, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			minishell_error("export", "not a valid identifier", param_value);
 			invalid_found = true;
 		}
 		i++;
@@ -102,6 +90,13 @@ void export_with_param(t_cmds *cmd, t_data *data, int *exit_code)
 		*exit_code = 1;
 }
 
+// if (str[1])
+// value = ft_strdup(str[1]);
+// else
+// value = ft_strdup("");
+// ft_putstr_fd("minishell: export: `", 2);
+// ft_putstr_fd(param_value, 2);
+// ft_putstr_fd("': not a valid identifier\n", 2);
 // void add_export_to_list(char **arr_list, t_data *data)
 // {
 // 	t_var *new_export;
@@ -130,3 +125,28 @@ void export_with_param(t_cmds *cmd, t_data *data, int *exit_code)
 // 		i++;
 // 	}
 // }
+// ft_putstr_fd("minishell: export: `", 2);
+// ft_putstr_fd(param_value, 2);
+// ft_putstr_fd("': not a valid identifier\n", 2);
+// while (str[0][j])
+// {
+// 	if (!ft_isalnum(str[0][j]) && str[0][j] != '_')
+// 	{
+// 		*invalid_found = true;
+// 		minishell_error("export", "not a valid identifier", param_value);
+// 		free_split(str);
+// 		return;
+// 	}
+// 	j++;
+// }
+// key = ft_strdup(str[0]);
+// value = str[1] ? ft_strdup(str[1]) : ft_strdup("");
+// if (get_env_key(str[0], data))
+// 	update_env_list(key, value, data);
+// else
+// 	add_new_env_variable(key, value, data);
+// int j;
+// char *key;
+// char *value;
+
+// j = 0;
