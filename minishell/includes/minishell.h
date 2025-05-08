@@ -142,6 +142,7 @@ void command_cleanup(t_data *data, t_parsed_data *cmds_d);
 int free_2arr_general(char **arr);
 void cleanup_minishell(t_data *data);
 void print_error_2msgs(char *msg1, char *msg2);
+void set_path(t_data *data);
 
 #endif
 

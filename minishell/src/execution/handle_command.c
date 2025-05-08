@@ -127,6 +127,7 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 	struct stat path_stat;
 	path = NULL;
 	set_child_signals();
+	set_path(data);
 	if (ft_strchr(cmd->cmd[0], '/'))
 	{
 		path = cmd->cmd[0];
@@ -139,7 +140,6 @@ void exec_cmd(t_cmds *cmd, t_data *data)
 		}
 		else if (S_ISDIR(path_stat.st_mode))
 		{
-
 			ft_putstr_fd("minishell: '", 2);
 			ft_putstr_fd(path, 2);
 			ft_putstr_fd(": Is a directory\n", 2);
