@@ -11,7 +11,6 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		// close(data->pipe_fd[1]);
 		cleanup_minishell(data);
 		free(data);
-		printf("DEBUS: iam here\n");
 		exit (1) ;
 	}
 	if (cmds_d->cmds[i].red_in_fd != -1)

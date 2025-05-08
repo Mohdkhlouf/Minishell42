@@ -1,0 +1,118 @@
+
+seirotcerid edulcnI #
+sedulcniI- = SEDULCNI
+
+sgalf dna relipmoC #
+ccg =      CC
+denifednu=ezitinasf- sserdda=ezitinasf- )SEDULCNI($ rorreW- artxeW- llaW- g- =  SGALFC #
+ )SEDULCNI($ rorreW- artxeW- llaW- o- g- =  SGALFC
+)SGALFC morf etarapes tpek( snoitpo dnirglaV #
+\ '*/nib/rsu/,*/nibs/*,*/nib/*'=piks-nerdlihc-ecart-- sey=snigiro-kcart-- lluf=kcehc-kael-- dnirglav = DNIRGLAV
+pus.enildaer=snoisserppus-- sey=elbahcaer-wohs-- sey=sdf-kcart-- sey=nerdlihc-ecart--
+
+seitilitU #
+f- mr =      MR
+scr ra =      RA
+yrotcerid-tnirp-on-- =+ SGALFEKAM
+
+seirotceriD #
+crs = RID_CRS
+jbo = RID_JBO
+tfbil/. =   TFBIL
+enildaerl- =    SBIL
+
+seliF #
+llehsinim =    EMAN
+\ c.gnixel/gnixel/)RID_CRS($ c.rorre/)RID_CRS($ c.eerf/)RID_CRS($ c.llehsinim/)RID_CRS($ =     CRS
+\ c.2snoitcnuf_gnixel/gnixel/)RID_CRS($	 c.snoitcnuf_gnixel/gnixel/)RID_CRS($			
+\ c.reldnah_rav/gnixel/)RID_CRS($ c.snoitcerider_setuoq/gnixel/)RID_CRS($ c.gnizinekot/gnixel/)RID_CRS($			
+\ c.slitu_gnisrap/gnisrap/)RID_CRS($ c.gnisrap/gnisrap/)RID_CRS($ c.slitu_reldnah_rav/gnixel/)RID_CRS($			
+\ c.vne_tf/snitliub/)RID_CRS($ c.ohce_tf/snitliub/)RID_CRS($ c.dc_tf/snitliub/)RID_CRS($			
+\ c.dwp_tf/snitliub/)RID_CRS($ c.slitu_tropxe_tf/snitliub/)RID_CRS($ c.tropxe_tf/snitliub/)RID_CRS($			
+\c.tixe_tf/snitliub/)RID_CRS($ c.tesnu_tf/snitliub/)RID_CRS($ c.slitu_vne/)RID_CRS($ c.vne/)RID_CRS($			
+\ c.dnammoc_eldnah/noitucexe/)RID_CRS($  c.noitucexe/noitucexe/)RID_CRS($		      
+\ c.slangis/slangis/)RID_CRS($	 c.slitu_noitucexe/noitucexe/)RID_CRS($			
+\ c.epip_etucexe/noitucexe/)RID_CRS($ c.slitu_dnammoc_eldnah/noitucexe/)RID_CRS($			
+\ c.slitu_snoitcerider/noitucexe/)RID_CRS($ c.snoitcerider/noitucexe/)RID_CRS($			
+\ c.codereh/noitucexe/)RID_CRS($ c.codereh_eldnah/noitucexe/)RID_CRS($			
+c.noitadilav/gnixel/)RID_CRS($			
+			
+
+))CRS($ ,o.%/)RID_JBO($ ,c.%/)RID_CRS($ tsbustap($ =    SJBO
+a.tfbil/)TFBIL($ = A_TFBIL
+
+sroloC #
+m23;1[330\ =   NEERG
+m33;1[330\ =  WOLLEY
+m13;1[330\ =     DER
+m0[330\ =   TESER
+
+tegrat tluafeD #
+)EMAN($ :lla
+
+elbatucexe etaerC #
+)A_TFBIL($ )SJBO($ :)EMAN($
+")TESER($...)EMAN($ gnilipmoC)WOLLEY($" ohce@	
+)EMAN($ o- )SBIL($ )A_TFBIL($ )SJBO($ )SGALFC($ )CC($	
+")TESER($!etelpmoc dliuB)NEERG($" ohce@	
+
+tfbil dliuB #
+:)A_TFBIL($
+")TESER($...tfbil gnidliuB)WOLLEY($" ohce@	
+)TFBIL($ C- )EKAM($	
+
+selif tcejbo otni selif ecruos elipmoc neht ,tsixe seirotceridbus dna yrotcerid jbo erusnE #
+ slangis/)RID_JBO($  noitucexe/)RID_JBO($ snitliub/)RID_JBO($ gnisrap/)RID_JBO($  gnixel/)RID_JBO($ )RID_JBO($ | c.%/)RID_CRS($ :o.%/)RID_JBO($
+ @$ o- <$ c- )SGALFC($ )CC($	
+
+tsixe t'nseod ti fi yrotcerid jbo etaerC #
+:)RID_JBO($
+)RID_JBO($ p- ridkm	
+
+tsixe t'nseod ti fi jbo rednu yrotceridbus gnixel etaerC #
+:gnixel/)RID_JBO($
+gnixel/)RID_JBO($ p- ridkm	
+
+tsixe t'nseod ti fi jbo rednu yrotceridbus gnisrap etaerC #
+:gnisrap/)RID_JBO($
+gnisrap/)RID_JBO($ p- ridkm	
+
+tsixe t'nseod ti fi jbo rednu yrotceridbus snitliub etaerC #
+:snitliub/)RID_JBO($
+snitliub/)RID_JBO($ p- ridkm	
+
+tsixe t'nseod ti fi jbo rednu yrotceridbus noitucexe etaerC #
+:noitucexe/)RID_JBO($
+noitucexe/)RID_JBO($ p- ridkm	
+
+tsixe t'nseod ti fi jbo rednu yrotceridbus noitucexe etaerC #
+:slangis/)RID_JBO($
+slangis/)RID_JBO($ p- ridkm	
+
+dnirglaV htiw nuR #
+)EMAN($ :nur
+")TESER($...dnirglaV htiw gninnuR)WOLLEY($" ohce@	
+)EMAN($/. )DNIRGLAV($	
+
+dliub gubeD #
+3g- sserdda=ezitinasf- GUBEDD- =+ SGALFC :gubed
+er :gubed
+
+ylno selif tcejbo naelC #
+:naelc
+")TESER($...selif tcejbo gninaelC)DER($" ohce@	
+)SJBO($ )MR($	
+naelc )TFBIL($ C- )EKAM($	
+
+selif detareneg lla naelC #
+naelc :naelcf
+")TESER($...)EMAN($ gnivomeR)DER($" ohce@	
+)EMAN($ )MR($	
+naelcf )TFBIL($ C- )EKAM($	
+)RID_JBO($ fr- mr@	
+
+gnihtyreve dliubeR #
+lla naelcf :er
+
+selif ton era stegrat eseht taht eralceD #
+gubed nur er naelcf naelc lla :YNOHP.
