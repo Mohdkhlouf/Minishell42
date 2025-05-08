@@ -5,6 +5,8 @@ void	init_cmd(t_cmds *cmd)
 {
 	cmd->red_in_fd = -1;
 	cmd->red_out_fd = -1;
+	cmd->saved_stdin = -1;
+	cmd->saved_stdin = -1;
 }
 
 void	create_cmds_arr(t_data *data, t_parsed_data *cmds_d)
