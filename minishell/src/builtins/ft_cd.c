@@ -4,24 +4,22 @@ static bool cd_with_no_param(t_data *data, int *exit_code)
 {
 	char *home_dir;
 
+	*exit_code = 0;
 	home_dir = ft_strdup(get_env_value("HOME", data));
 	if (!home_dir)
 	{
-		ft_putstr_fd("cd: HOME not set\n", 2);
 		*exit_code = 1;
-		return (false);
+		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
 	}
 	if (chdir(home_dir) != 0)
 	{
-		perror("minishell");
-		free(home_dir);
 		*exit_code = 1;
-		return (false);
+		perror("minishell");
+		return (free(home_dir), false);
 	}
 	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
 					data);
 	update_env_list(ft_strdup("PWD"), home_dir, data);
-	*exit_code = 0;
 	return (true);
 }
 
@@ -30,27 +28,23 @@ static bool cd_with_dash_param(t_data *data, int *exit_code)
 	char *pwd_path;
 	char *oldpwd_path;
 
+	*exit_code = 0;
 	pwd_path = ft_strdup(get_env_value("PWD", data));
 	oldpwd_path = ft_strdup(get_env_value("OLDPWD", data));
 	if (!pwd_path || !oldpwd_path)
 	{
 		ft_putstr_fd("cd: PWD or OLDPWD not set\n", 2);
-		free(pwd_path);
-		free(oldpwd_path);
 		*exit_code = 1;
-		return (false);
+		return (free(pwd_path), free(oldpwd_path), false);
 	}
 	if (chdir(oldpwd_path) != 0)
 	{
 		perror("cd");
-		free(pwd_path);
-		free(oldpwd_path);
 		*exit_code = 1;
-		return (false);
+		return (free(pwd_path), free(oldpwd_path), false);
 	}
 	update_env_list(ft_strdup("PWD"), oldpwd_path, data);
 	update_env_list(ft_strdup("OLDPWD"), pwd_path, data);
-	*exit_code = 0;
 	return (true);
 }
 
@@ -59,11 +53,11 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	char *newpath;
 	char *oldpwd;
 
+	*exit_code = 0;
 	if (chdir(path_value) != 0)
 	{
 		*exit_code = 1;
-		print_error("cd: No such file or directory");
-		return (false);
+		return (print_error("cd: No such file or directory"), false);
 	}
 	oldpwd = get_env_value("PWD", data);
 	if (oldpwd)
@@ -71,23 +65,16 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	else
 	{
 		*exit_code = 1;
-		ft_putstr_fd("minishell: cd: `", 2);
-		ft_putstr_fd(path_value, 2);
-		ft_putstr_fd("': No such file or directory\n", 2);
-		return (false);
+		return (minishell_error("cd", "No such file or directory", path_value), false);
 	}
-	// update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)), data);
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
 	{
-		perror("cd: getcwd failed\n");
 		*exit_code = 1;
-		return (false);
+		return (perror("cd: getcwd failed\n"), false);
 	}
 	update_env_list(ft_strdup("PWD"), ft_strdup(newpath), data);
-	free(newpath);
-	*exit_code = 0;
-	return (true);
+	return (free(newpath), true);
 }
 
 bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
@@ -104,13 +91,9 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		else
 			return (cd_with_param(data, path_value, exit_code));
 	}
-	if (cmd->cmd[2])
-	{
-		print_error("cd : too many arguments");
-		*exit_code = 1;
-		return (false);
-	}
 	*exit_code = 1;
+	if (cmd->cmd[2])
+		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
 // else
@@ -122,3 +105,4 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 // 		return (false);
 // 	}
 // }
+// update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)), data);

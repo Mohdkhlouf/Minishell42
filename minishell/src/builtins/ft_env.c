@@ -1,14 +1,17 @@
 #include "../../includes/minishell.h"
 
-bool	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
+bool ft_env(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	t_var	*env;
+	t_var *env;
 
 	env = data->env_lst;
 	if (cmd->cmd[0] && cmd->cmd[1])
 	{
-		printf("env: more than one arguments are not supported\n");
-		*exit_code = 127;
+		if (access(cmd->cmd[1], F_OK) == -1)
+			minishell_error("env", "No such file or directory", cmd->cmd[1]);
+		else if (access(cmd->cmd[1], X_OK) == 0)
+			minishell_error("env", "Permission denied", cmd->cmd[1]);
+		*exit_code = 126;
 		return (false);
 	}
 	while (env)
@@ -20,3 +23,7 @@ bool	ft_env(t_cmds *cmd, t_data *data,  int *exit_code)
 	*exit_code = 0;
 	return (true);
 }
+
+// print_error("env: more than one arguments are not supported");
+// *exit_code = 127;
+// return (false);

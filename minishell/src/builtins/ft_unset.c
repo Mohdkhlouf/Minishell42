@@ -1,7 +1,8 @@
 #include "../includes/minishell.h"
 
-bool update_new_env(t_data *data)
+static bool fill_env_array(t_var *env, char **env_new)
 {
+
 
 	if (data->envp)
 		free_matrix(data->envp);
@@ -9,18 +10,10 @@ bool update_new_env(t_data *data)
 	t_var *env;
 	char **env_new;
 	int i;
+
+	int i = 0;
 	char *temp;
 
-	i = 0;
-	env = data->env_lst;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	env_new = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	env = data->env_lst;
 	while (env)
 	{
 		if (env->key && env->value)
@@ -37,6 +30,28 @@ bool update_new_env(t_data *data)
 		env = env->next;
 	}
 	env_new[i] = NULL;
+	return (true);
+}
+
+bool update_new_env(t_data *data)
+{
+	t_var *env;
+	char **env_new;
+	int i;
+
+	i = 0;
+	env = data->env_lst;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	env_new = malloc(sizeof(char *) * (i + 1));
+	if (!env_new)
+		return (false);
+	if (!fill_env_array(data->env_lst, env_new))
+		return (false);
+
 	data->envp = env_new;
 	return (true);
 }
@@ -85,3 +100,23 @@ bool ft_unset(t_cmds *cmd, t_data *data, int *exit_code)
 	*exit_code = 0;
 	return (true);
 }
+
+// char *temp;
+// i = 0;
+
+// while (env)
+// {
+// 	if (env->key && env->value)
+// 	{
+// 		temp = ft_strjoin(env->key, "=");
+// 		if (!temp)
+// 			return (false);
+// 		env_new[i] = ft_strjoin(temp, env->value);
+// 		free(temp);
+// 		if (!env_new[i])
+// 			return (false);
+// 		i++;
+// 	}
+// 	env = env->next;
+// }
+// env_new[i] = NULL;
