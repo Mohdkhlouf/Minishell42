@@ -1,9 +1,11 @@
 #include "../includes/minishell.h"
 
-static bool cd_with_no_param(t_data *data, int *exit_code)
+static bool	cd_with_no_param(t_data *data, int *exit_code)
 {
-	char *home_dir;
+	char	*home_dir;
+	char	*temp;
 
+	temp = NULL;
 	*exit_code = 0;
 	home_dir = ft_strdup(get_env_value("HOME", data));
 	if (!home_dir)
@@ -17,16 +19,21 @@ static bool cd_with_no_param(t_data *data, int *exit_code)
 		perror("minishell");
 		return (free(home_dir), false);
 	}
-	update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)),
-					data);
-	update_env_list(ft_strdup("PWD"), home_dir, data);
+	temp = ft_strdup("OLDPWD");
+	update_env_list(temp, ft_strdup(get_env_value("PWD", data)), data);
+	if (temp)
+		free(temp);
+	temp = ft_strdup("PWD");
+	update_env_list(temp, home_dir, data);
+	if (temp)
+		free(temp);
 	return (true);
 }
 
-static bool cd_with_dash_param(t_data *data, int *exit_code)
+static bool	cd_with_dash_param(t_data *data, int *exit_code)
 {
-	char *pwd_path;
-	char *oldpwd_path;
+	char	*pwd_path;
+	char	*oldpwd_path;
 
 	*exit_code = 0;
 	pwd_path = ft_strdup(get_env_value("PWD", data));
@@ -48,10 +55,10 @@ static bool cd_with_dash_param(t_data *data, int *exit_code)
 	return (true);
 }
 
-static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
+static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
-	char *newpath;
-	char *oldpwd;
+	char	*newpath;
+	char	*oldpwd;
 
 	*exit_code = 0;
 	if (chdir(path_value) != 0)
@@ -65,7 +72,8 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	else
 	{
 		*exit_code = 1;
-		return (minishell_error("cd", "No such file or directory", path_value), false);
+		return (minishell_error("cd", "No such file or directory", path_value),
+			false);
 	}
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
@@ -77,9 +85,9 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	return (free(newpath), true);
 }
 
-bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	char *path_value;
+	char	*path_value;
 
 	if (!cmd->cmd[1])
 		return (cd_with_no_param(data, exit_code));
@@ -96,13 +104,3 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
-// else
-// {
-// 	if (chdir(cmd->cmd[1]) != 0)
-// 	{
-// 		perror("minishell");
-// 		*exit_code = 1;
-// 		return (false);
-// 	}
-// }
-// update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)), data);
