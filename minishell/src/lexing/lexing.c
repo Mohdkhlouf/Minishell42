@@ -9,7 +9,7 @@ bool	malloc_tokens_arr(t_data *data)
 	data->cline_parts = ft_strlen(data->input_line);
 	if (data->cline_parts > 0)
 	{
-		data->tokens = ft_calloc(data->cline_parts + 1, sizeof(t_token *));
+		data->tokens = ft_calloc(data->cline_parts + 1, sizeof(t_token));
 		if (!data->tokens)
 		{
 			print_error("Error allocating memory for tokens\n");

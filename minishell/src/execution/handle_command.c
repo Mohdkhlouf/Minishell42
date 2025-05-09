@@ -24,13 +24,13 @@ bool builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 
 	if (execute_redirections(data, cmd, exit_code))
 	{
-		if (execute_builtin(data, cmd, exit_code))
+		if (!execute_builtin(data, cmd, exit_code))
 		{
 			dup2(cmd->saved_stdout, STDOUT_FILENO); // Restore original stdout
 			dup2(cmd->saved_stdin, STDIN_FILENO);   // Restore original stdin
 			close(cmd->saved_stdout);
 			close(cmd->saved_stdin);
-			*exit_code = 1;
+			// *exit_code = 1; *
 			return (false);
 		}
 	}
