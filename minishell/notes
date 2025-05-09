@@ -47,16 +47,6 @@ whoami | cat -e | cat -e > tmp/file
 
 
 
-leak in heredoc:
-cat Makefile | rev | echo -e test.txt
-
-
-
-/*
-minishell$ exit
-exit
-
-
 
 add check if there is no A2
 unset A2
