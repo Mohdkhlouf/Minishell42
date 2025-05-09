@@ -54,6 +54,8 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	i = 0;
 	j = 0;
 	expand = 1;
+	new_delimiter=NULL;
+	old_delim = NULL;
 	while (i < data->cmds_d->pipes_counter + 1)
 	{
 		j = 0;
