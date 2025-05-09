@@ -47,18 +47,8 @@ whoami | cat -e | cat -e > tmp/file
 
 
 
-
-Greg notes:
-minishell$ << EOF > test.txt cat -e
-heredoc> EATAFADG
-heredoc> AREGAFG
-heredoc> ADffadf
-heredoc> 
-==2378868== Invalid write of size 8
-==2378868==    at 0x10B465: split_vars (var_handler.c:72)
-
-
-minishell$ cat Makefile | rev | echo -e test.txt
+leak in heredoc:
+cat Makefile | rev | echo -e test.txt
 
 
 
