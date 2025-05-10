@@ -1,11 +1,37 @@
 #include "../includes/minishell.h"
 
+static void heredoc_sigint_handler(int signum)
+{
+	(void)signum;
+	g_signal_status = 1;
+	write(STDOUT_FILENO, "\n", 1);
+	// rl_done = 1; // Force readline() to return immediately
+	close(STDIN_FILENO); // alternative to rl_done
+}
+
+static void set_heredoc_signals(void)
+{
+	struct sigaction sa;
+
+	sa.sa_handler = heredoc_sigint_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0; // No SA_RESTART: readline must return NULL on Ctrl+C
+	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN; // Usually ignore Ctrl+\ during heredoc
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+void reset_signals_to_prompt(void)
+{
+	set_prompt_signals(); // Reapply prompt signal handlers
+}
+
 int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 {
-	int			fd;
-	char		*line;
-	t_token		tmp_token;
-	char		*to_write;
+	int fd;
+	char *line;
+	t_token tmp_token;
+	char *to_write;
 
 	fd = open("HEREDOC_TEMP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
@@ -13,9 +39,18 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 		perror("open");
 		return (-1);
 	}
+	set_heredoc_signals();
 	while (1)
 	{
 		line = readline("heredoc> ");
+		if (g_signal_status)
+		{
+			free(line);
+			close(fd);
+			unlink("HEREDOC_TEMP.txt");
+			reset_signals_to_prompt();
+			return (1);
+		}
 		if (!line)
 			break;
 		if (!input_delimiter)
@@ -52,10 +87,9 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 		free(line);
 	}
 	close(fd);
+	reset_signals_to_prompt();
 	return (0);
 }
-
-
 
 // int get_heredoc_fd()
 // {
@@ -63,14 +97,14 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 // 	return open("HEREDOC_TEMP.txt", O_RDONLY);
 // }
 
-/* 
+/*
 --------------------Important one to use later---------------------------
 static void sigint_handler(int sig)
 {
 	(void)sig;
 	g_heredoc_interrupted = 1;
 	write(STDOUT_FILENO, "\n", 1);
-    rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -99,20 +133,19 @@ void signal_handler_heredoc()
 	int j;
 
 	no_expand = false;
-	if (input_delimiter, '\'') ||ft_strchr(input_delimiter, '"')) 
+	if (input_delimiter, '\'') ||ft_strchr(input_delimiter, '"'))
 		no_expand = true;
 
 	delimiter = ft_calloc(1, ft_strlen(input_delimiter) + 1);
 	j = 0;
 	for (int i = 0; input_delimiter[i]; i++)
 	{
-		if (input_delimiter[i] != '\'' && input_delimiter[i] != '"') 
+		if (input_delimiter[i] != '\'' && input_delimiter[i] != '"')
 			delimiter[j++] = input_delimiter[i];
-	} 
+	}
 	dprintf(fd, "%s\n", to_write);
-------------------------------------------------------------------------		
+------------------------------------------------------------------------
 	*/
-
 
 // static char *expand_variables(char *line, t_data *data)
 // {
@@ -162,7 +195,7 @@ void signal_handler_heredoc()
 // 		perror("open");
 // 		return (-1);
 // 	}
-	
+
 // 	while (1)
 // 	{
 // 		line = readline("heredoc> ");

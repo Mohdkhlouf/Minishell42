@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t	g_signal_status = 0;
+volatile sig_atomic_t g_signal_status = 0;
 
 void cmds_d_init(t_parsed_data *cmds_d)
 {
@@ -12,7 +12,7 @@ void cmds_d_init(t_parsed_data *cmds_d)
 	cmds_d->token_ctr = 0;
 }
 
-void	data_init(t_data *data, t_parsed_data *cmds_d)
+void data_init(t_data *data, t_parsed_data *cmds_d)
 {
 	cmds_d_init(cmds_d);
 	data->cmds_d = cmds_d;
@@ -37,7 +37,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->prompt = "\001\033[1;32m\002minishell$ \001\033[0m\002";
 }
 
-void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
+void command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
 	if (data->pid)
 		free(data->pid);
@@ -47,29 +47,28 @@ void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 	free_data(data);
 }
 
-bool	pre_validation(t_data *data)
+bool pre_validation(t_data *data)
 {
-	int	len;
+	int len;
 
 	len = 0;
 	len = ft_strlen(data->input_line);
-	if (data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>'
-		|| data->input_line[len - 1] == '|')
+	if (data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>' || data->input_line[len - 1] == '|')
 	{
 		print_error("syntax error near unexpected token `|'");
 		data->exit_code = 2;
 		return (false);
 	}
-	if (len  == 1 && data->input_line[len - 1] == '.')
+	if (len == 1 && data->input_line[len - 1] == '.')
 	{
-		print_error_2msgs(".","filename argument required");
+		print_error_2msgs(".", "filename argument required");
 		data->exit_code = 2;
 		return (false);
 	}
 	return (true);
 }
 
-void	free_readingloop(t_data *data, t_parsed_data *cmds_d)
+void free_readingloop(t_data *data, t_parsed_data *cmds_d)
 {
 	free_matrix(data->parsed_path);
 	free_env_list(data->env_lst);
@@ -79,11 +78,18 @@ void	free_readingloop(t_data *data, t_parsed_data *cmds_d)
 	free(cmds_d);
 }
 
-void	reading_loop(t_data *data, t_parsed_data *cmds_d)
+void reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
 	while (true)
 	{
 		data_init(data, cmds_d);
+		if (g_signal_status)
+		{
+			g_signal_status = 0;
+			int new_stdin = open("/dev/tty", O_RDONLY);
+			if (new_stdin >= 0)
+				dup2(new_stdin, STDIN_FILENO);
+		}
 		// if (isatty(fileno(stdin)))
 		data->input_line = readline(data->prompt);
 		if (!data->input_line)
@@ -94,12 +100,10 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
 			add_history(data->input_line);
-			if (!pre_validation(data) || !lexing(data) || !tokenizing(data)
-				|| !parsing(data, cmds_d) || !update_new_env(data)
-				|| !execution(data, cmds_d))
+			if (!pre_validation(data) || !lexing(data) || !tokenizing(data) || !parsing(data, cmds_d) || !update_new_env(data) || !execution(data, cmds_d))
 			{
 				command_cleanup(data, cmds_d);
-				continue ;
+				continue;
 			}
 			command_cleanup(data, cmds_d);
 		}
@@ -107,10 +111,10 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	t_data			*data;
-	t_parsed_data	*cmds_d;
+	t_data *data;
+	t_parsed_data *cmds_d;
 
 	(void)argc;
 	(void)argv;

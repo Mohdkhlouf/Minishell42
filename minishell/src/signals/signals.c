@@ -7,16 +7,17 @@ When executing a child process (like running ls)
 
 When in a heredoc (<<)
 */
-void	handler(int num)
+void handler(int num)
 {
 	(void)num;
+	g_signal_status = 130;
 	ft_putstr_fd("\n", 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-void	set_prompt_signals(void)
+void set_prompt_signals(void)
 {
 	struct sigaction sa;
 
@@ -29,17 +30,17 @@ void	set_prompt_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	set_child_signals(void)
+void set_child_signals(void)
 {
-	signal(SIGINT, SIG_DFL);   // Default behavior for Ctrl+C
-	signal(SIGQUIT, SIG_DFL);  // Default behavior for Ctrl+
+	signal(SIGINT, SIG_DFL);  // Default behavior for Ctrl+C
+	signal(SIGQUIT, SIG_DFL); // Default behavior for Ctrl+
 }
 
-void	set_heredoc_signals(void)
-{
-	signal(SIGINT, SIG_DFL);   // Maybe allow interruption
-	signal(SIGQUIT, SIG_IGN);  // Ignore Ctrl+
-}
+// void set_heredoc_signals(void)
+// {
+// 	signal(SIGINT, SIG_DFL);  // Maybe allow interruption
+// 	signal(SIGQUIT, SIG_IGN); // Ignore Ctrl+
+// }
 
 // /* Signals must be handled in 3 positions and modes,
 // first: when nothing input. ctrl+c & ctr + \,  will make new line.
