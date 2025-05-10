@@ -48,33 +48,52 @@ static bool cd_with_dash_param(t_data *data, int *exit_code)
 	return (true);
 }
 
+static char *expand_path(t_data *data, char *path_value, int *exit_code)
+{
+	char *expanded;
+	char *home;
+
+	if (path_value[0] != '~')
+		return (NULL);
+
+	home = get_env_value("HOME", data);
+	if (!home)
+	{
+		*exit_code = 1;
+		print_error("cd: HOME not set");
+		return (NULL);
+	}
+	expanded = ft_strjoin(home, path_value + 1);
+	return (expanded);
+}
+
 static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
 	char *newpath;
 	char *oldpwd;
+	char *expanded;
 
 	*exit_code = 0;
+	expanded = expand_path(data, path_value, exit_code);
+	if (*exit_code == 1)
+		return (false);
+	if (expanded)
+		path_value = expanded;
 	if (chdir(path_value) != 0)
-	{
-		*exit_code = 1;
-		return (print_error("cd: No such file or directory"), false);
-	}
+		return (check_on_fail_cd(exit_code, expanded), print_error("cd: No such file or directory"), false);
 	oldpwd = get_env_value("PWD", data);
 	if (oldpwd)
 		update_env_list(ft_strdup("OLDPWD"), ft_strdup(oldpwd), data);
 	else
-	{
-		*exit_code = 1;
-		return (minishell_error("cd", "No such file or directory", path_value), false);
-	}
+		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", "No such file or directory", path_value), false);
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
-	{
-		*exit_code = 1;
-		return (perror("cd: getcwd failed\n"), false);
-	}
+		return (check_on_fail_cd(exit_code, expanded), perror("cd: getcwd failed\n"), false);
 	update_env_list(ft_strdup("PWD"), ft_strdup(newpath), data);
-	return (free(newpath), true);
+	free(newpath);
+	if (expanded)
+		free(expanded);
+	return (true);
 }
 
 bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
@@ -96,6 +115,36 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
+
+// static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
+// {
+// 	char *newpath;
+// 	char *oldpwd;
+
+// 	*exit_code = 0;
+// 	if (chdir(path_value) != 0)
+// 	{
+// 		*exit_code = 1;
+// 		return (print_error("cd: No such file or directory"), false);
+// 	}
+// 	oldpwd = get_env_value("PWD", data);
+// 	if (oldpwd)
+// 		update_env_list(ft_strdup("OLDPWD"), ft_strdup(oldpwd), data);
+// 	else
+// 	{
+// 		*exit_code = 1;
+// 		return (minishell_error("cd", "No such file or directory", path_value), false);
+// 	}
+// 	newpath = getcwd(NULL, 0);
+// 	if (!newpath)
+// 	{
+// 		*exit_code = 1;
+// 		return (perror("cd: getcwd failed\n"), false);
+// 	}
+// 	update_env_list(ft_strdup("PWD"), ft_strdup(newpath), data);
+// 	return (free(newpath), true);
+// }
+
 // else
 // {
 // 	if (chdir(cmd->cmd[1]) != 0)
