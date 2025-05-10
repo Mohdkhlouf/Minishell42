@@ -43,3 +43,10 @@ void minishell_error(char *context, char *message, char *errorfile)
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
 }
+
+void check_on_fail_cd(int *exit_code, char *expanded)
+{
+	*exit_code = 1;
+	if (expanded)
+		free(expanded);
+}
