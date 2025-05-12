@@ -10,24 +10,23 @@ bool	validation(t_data *data)
 	while (data->tokens[i].data && i < data->tokens_conter)
 	{
 		if (data->tokens[0].type == 3)
-			{
+		{
 			print_error("syntax error near unexpected token `|'");
 			data->exit_code = 2;
 			return (false);
 		}
-		if (data->tokens[i].type == 3
-			&& data->tokens[i + 1].type == 3)
+		if (data->tokens[i].type == 3 && data->tokens[i + 1].type == 3)
 		{
 			print_error("syntax error near unexpected token `|'");
 			data->exit_code = 2;
 			return (false);
 		}
 
-		if ((data->tokens[i].type == TOK_REDIRECT_IN 
-		|| data->tokens[i].type == TOK_REDIRECT_OUT
-		|| data->tokens[i].type == TOK_REDIRECT_HEREDOC
-		|| data->tokens[i].type == TOK_APPEND) &&
-		data->tokens[i + 1].type == 3)
+		if ((data->tokens[i].type == TOK_REDIRECT_IN
+				|| data->tokens[i].type == TOK_REDIRECT_OUT
+				|| data->tokens[i].type == TOK_REDIRECT_HEREDOC
+				|| data->tokens[i].type == TOK_APPEND) && data->tokens[i
+			+ 1].type == 3)
 		{
 			print_error("syntax error near unexpected token `|'");
 			data->exit_code = 2;

@@ -85,19 +85,17 @@ void handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	if (WIFEXITED(status))
 	{
 		*exit_code = WEXITSTATUS(status);
-		data->exit_code = 130;
-		// printf("Child process exited with code %d\n", *exit_code);
+		data->exit_code = *exit_code;
 	}
 	else if (WIFSIGNALED(status))
 	{
 		signal_num = WTERMSIG(status);
-		printf("Child process terminated by signal %d\n", signal_num);
-	}
-	else if (WIFSTOPPED(status))
-	{
-		// Child process stopped
-		stop_signal = WSTOPSIG(status);
-		// printf("Child process stopped by signal %d\n", stop_signal);
+		if (signal_num == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+		else if (signal_num == SIGQUIT)
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+		*exit_code = 128 + signal_num;
+		data->exit_code = *exit_code;
 	}
 }
 
