@@ -1,7 +1,5 @@
 #include "../includes/lexing.h"
 
-
-
 void	free_var(t_vars_data *var)
 {
 	free_2d_arr(var, var->vars_arr);
@@ -9,16 +7,16 @@ void	free_var(t_vars_data *var)
 	free(var);
 }
 
-void ft_free(char *str)
+void	ft_free(char *str)
 {
-	if(str)
+	if (str)
 		free(str);
 	str = NULL;
 }
 
-void free_2d_arr(t_vars_data *var, char **arr)
+void	free_2d_arr(t_vars_data *var, char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < var->parts_count)
@@ -32,7 +30,6 @@ void free_2d_arr(t_vars_data *var, char **arr)
 	}
 	free(arr);
 }
-
 
 int	find_vars_count(t_data *data, int i)
 {
@@ -50,7 +47,6 @@ int	find_vars_count(t_data *data, int i)
 	return (vars_count);
 }
 
-
 bool	var_init(t_vars_data *var, t_data *data, int i)
 {
 	var->len = 0;
@@ -62,7 +58,7 @@ bool	var_init(t_vars_data *var, t_data *data, int i)
 	var->vars_count = find_vars_count(data, i);
 	var->vars_arr = ft_calloc((var->len), sizeof(char *));
 	if (!var->vars_arr)
-		return (free (var->vars_arr ), false);
+		return (free(var->vars_arr), false);
 	return (true);
 }
 
@@ -70,10 +66,10 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 {
 	while (var->j < var->len)
 	{
-	
 		if (data->tokens[i].data[0] == '$')
 			var->j++;
-		if(ft_isalnum(data->tokens[i].data[var->j]) == 0 && ft_isalpha(data->tokens[i].data[var->j]) == 0 )
+		if (ft_isalnum(data->tokens[i].data[var->j]) == 0
+			&& ft_isalpha(data->tokens[i].data[var->j]) == 0)
 		{
 			data->file_seperator_found = true;
 			break ;
@@ -82,16 +78,12 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 	}
 }
 
-
-
-
-
 void	print_tokens(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (data->tokens[i].data && i<data->tokens_conter)
+	while (data->tokens[i].data && i < data->tokens_conter)
 	{
 		printf("Token:#%s# Type:%u\n", data->tokens[i].data,
 			data->tokens[i].type);
@@ -99,11 +91,11 @@ void	print_tokens(t_data *data)
 	}
 }
 
-void	free_var_handler(t_data *data,t_vars_data *var)
+void	free_var_handler(t_data *data, t_vars_data *var)
 {
 	if (!var)
-		return;
-	(void) data;
+		return ;
+	(void)data;
 	// if (var->vars_arr)
 	// {
 	// 	for (int i = 0; i < data->tokens_conter; i++)

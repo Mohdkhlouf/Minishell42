@@ -1,5 +1,25 @@
 #include "../includes/minishell.h"
 
+void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
+{
+	// if (data->pid)
+	// 	free(data->pid);
+	data->pid = NULL;
+	free_matrix(data->envp);
+	free_cmds_d(cmds_d);
+	free_data(data);
+}
+
+void	free_readingloop(t_data *data, t_parsed_data *cmds_d)
+{
+	free_matrix(data->parsed_path);
+	free_env_list(data->env_lst);
+	ft_free(data->input_line);
+	free(data->tokens);
+	free(data);
+	free(cmds_d);
+}
+
 void	free_cmds_d(t_parsed_data *cmds_d)
 {
 	int	i;
@@ -30,10 +50,7 @@ void	free_data(t_data *data)
 {
 	int	i;
 
-	/* ithingk i free some of these tokens that are moved to new pointer in the
-	cmds_data so i have to check or maybe fr double free for the thinfs copied there*/
 	i = 0;
-
 	while (data->tokens && data->tokens[i].data && i < data->tokens_conter)
 	{
 		if (data->tokens[i].data)
@@ -52,20 +69,6 @@ void	free_data(t_data *data)
 		close(data->pipe_fd[1]);
 }
 
-// void	free_env_list(t_var *env)
-// {
-// 	t_var	*tmp;
-
-// 	while (env)
-// 	{
-// 		tmp = env;
-// 		env = env->next;
-// 		free(tmp->key);
-// 		free(tmp->value);
-// 		free(tmp);
-// 	}
-// }
-
 void	free_env_list(t_var *env)
 {
 	t_var	*tmp;
@@ -74,12 +77,10 @@ void	free_env_list(t_var *env)
 	{
 		tmp = env;
 		env = env->next;
-		// Free the key and value strings if they were dynamically allocated
 		if (tmp->key)
 			free(tmp->key);
 		if (tmp->value)
 			free(tmp->value);
-		// Free the current node itself
 		if (tmp)
 			free(tmp);
 	}

@@ -13,7 +13,7 @@ typedef struct s_vars_data
 {
 	char				**vars_arr;
 	char				*var_var;
-	char *temp;
+	char				*temp;
 	int					parts_count;
 	int					vars_count;
 	int					len;
@@ -40,7 +40,8 @@ void					append_token(t_data *data, int type);
 void					env_variable_function(t_data *data);
 void					eof_function(t_data *data);
 int						find_vars_count(t_data *data, int i);
-void	path_set_and_join(t_data *data, int i, t_vars_data *var);
+void					path_set_and_join(t_data *data, int i,
+							t_vars_data *var);
 void					search_for_file_seperator(t_data *data, t_var_d *var,
 							int i);
 bool					var_init(t_vars_data *var, t_data *data, int i);
@@ -52,7 +53,7 @@ void					quote_fixing(t_data *data, int i);
 void					redirection_setting(t_data *data, int i);
 void					free_var(t_vars_data *var);
 void					append_eof_token(t_data *data, int type);
-void free_2d_arr(t_vars_data *var ,char **arr);
-void ft_free(char *str);
+void					free_2d_arr(t_vars_data *var, char **arr);
+void					ft_free(char *str);
 
 #endif

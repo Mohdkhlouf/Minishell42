@@ -37,15 +37,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->prompt = "\001\033[1;32m\002minishell$ \001\033[0m\002";
 }
 
-void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
-{
-	// if (data->pid)
-	// 	free(data->pid);
-	data->pid = NULL;
-	free_matrix(data->envp);
-	free_cmds_d(cmds_d);
-	free_data(data);
-}
+
 
 bool	pre_validation(t_data *data)
 {
@@ -69,15 +61,7 @@ bool	pre_validation(t_data *data)
 	return (true);
 }
 
-void	free_readingloop(t_data *data, t_parsed_data *cmds_d)
-{
-	free_matrix(data->parsed_path);
-	free_env_list(data->env_lst);
-	ft_free(data->input_line);
-	free(data->tokens);
-	free(data);
-	free(cmds_d);
-}
+
 
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 {

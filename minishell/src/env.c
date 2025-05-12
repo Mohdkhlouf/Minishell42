@@ -65,12 +65,12 @@ void	create_path_arr(char *path, t_data *data)
 	if (!data->parsed_path)
 	{
 		print_error("creating path arr faild");
-		return;
+		return ;
 	}
 }
 /*mohammad add end*/
 
-void set_path(t_data *data)
+void	set_path(t_data *data)
 {
 	/* Mohammad add start*/
 	/*fill in path in main strcut then we have to split using split with :
@@ -79,7 +79,7 @@ void set_path(t_data *data)
 	execv function*/
 	data->path = get_env_value("PATH", data);
 	if (!data->path)
-		return;
+		return ;
 	create_path_arr(data->path, data);
 	/* Mohammad add end*/
 }
@@ -106,8 +106,4 @@ void	init_env(char **envp, t_data *data)
 		i++;
 	}
 	data->env_lst = list;
-
-
 }
-
-

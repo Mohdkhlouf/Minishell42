@@ -13,11 +13,12 @@ typedef struct s_cmds			t_cmds;
 
 bool							execution(t_data *data, t_parsed_data *cmds_d);
 bool							is_empty_cmd(t_cmds *cmd);
-bool								builtin_cmd(t_cmds *cmd, t_data *data,
+bool							builtin_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							parse_path(t_data *data);
 void							handle_empty_cmd(t_cmds *cmd, t_data *data);
-void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid);
+void							external_cmd(t_cmds *cmd, t_data *data,
+									int *exit_code, pid_t *pid);
 
 void							exec_cmd(t_cmds *cmd, t_data *data);
 char							*find_path(t_data *data, char *cmd);
@@ -43,12 +44,14 @@ void							set_child_signals(void);
 
 /*------------------heredoc------------------*/
 
-bool exec_heredoc(t_data *data, t_parsed_data *cmds_d);
-int								handle_heredoc(char *input_delimiter, t_data *data, int expand);
-char 							*strip_quotes(char *delim);
-int 							is_quoted_delimiter(char *delim);
+bool							exec_heredoc(t_data *data,
+									t_parsed_data *cmds_d);
+int								handle_heredoc(char *input_delimiter,
+									t_data *data, int expand);
+char							*strip_quotes(char *delim);
+int								is_quoted_delimiter(char *delim);
 // int								get_heredoc_fd(void);
 // void							heredoc_handller(int *i, char *delimiter);
-void heredoc_signal_rest(t_data *data);
+void							heredoc_signal_rest(t_data *data);
 
 #endif
