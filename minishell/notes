@@ -52,4 +52,87 @@ add check if there is no A2
 unset A2
 the exit code is faluire
 
+****
+echo -nnnnnnnnnnnnnnnnn -nnnn abc -n
 
+
+minishell$ mkdir test
+minishell$ chmod 000 test
+minishell$ cd test
+minishell: cd: No such file or directory
+
+handle shell level ($SHLVL)
+
+minishell$ exit | exit | exit 45
+==855021== Warning: invalid file descriptor -1 in syscall close()
+==855022== Warning: invalid file descriptor -1 in syscall close()
+
+limit for exit -> long long MIN/MAX
+./minishell
+minishell$ exit 43859347573489548789347598834798573498798348479883447598347985
+exit
+
+check for none existing command in child process
+minishell$ << o | << p
+heredoc> dfdf
+heredoc> o
+heredoc> p  // seg fault!!!   parent found leaks
+
+
+Should print only once:
+minishell$ sleep 10 | sleep 7 | sleep 6
+^\Quit (core dumped)
+Quit (core dumped)
+Quit (core dumped)
+
+
+envp
+env -i ./minishell (env, export, unset should work)
+
+
+check if the executable does not exit in PATH 
+minishell$ unset PATH
+minishell$ ls
+ls: command not found  -> should print "No such file"
+
+
+heredoc open fd
+==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==865884== Open file descriptor 3: /dev/tty
+==865884==    at 0x49D953B: open (open64.c:41)
+==865884==    by 0x10ED34: heredoc_signal_rest (signals.c:20)
+==865884==    by 0x109599: reading_loop (minishell.c:72)
+==865884==    by 0x1097A6: main (minishell.c:119)
+==865884== 
+
+when PATh does not exist -> go to current directory
+
+
+
+minishell$ cat << op
+heredoc> $HOME
+heredoc> op
+/home/mkhlouf
+minishell$ cat << "o"p""
+heredoc> dfdf
+heredoc> op
+dfdf
+minishell$ cat << "o"p" "
+heredoc> fddg
+heredoc> op
+heredoc> op 
+fddg
+op
+868493== 
+==868493== HEAP SUMMARY:
+==868493==     in use at exit: 209,130 bytes in 268 blocks
+==868493==   total heap usage: 3,074 allocs, 2,806 frees, 352,482 bytes allocated
+==868493== 
+==868493== 18 bytes in 2 blocks are definitely lost in loss record 9 of 74
+==868493==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==868493==    by 0x10FF10: strip_quotes (heredoc.c:35)
+==868493==    by 0x1100D2: exec_heredoc (heredoc.c:78)
+==868493==    by 0x10E4B2: execution (execution.c:58)
+==868493==    by 0x1096AB: reading_loop (minishell.c:89)
+==868493==    by 0x1097A6: main (minishell.c:119)
+==868493== 

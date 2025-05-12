@@ -67,6 +67,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
 	while (true)
 	{
+		// g_signal_status = 0;
 		data_init(data, cmds_d);
 		heredoc_signal_rest(data);
 		data->input_line = readline(data->prompt);
@@ -77,6 +78,11 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		}
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
+			if (g_signal_status == 130)
+			{
+				g_signal_status = 0;
+				data->exit_code = 130;
+			}
 			add_history(data->input_line);
 			if (!pre_validation(data) || !lexing(data) || !tokenizing(data)
 				|| !parsing(data, cmds_d) || !update_new_env(data)

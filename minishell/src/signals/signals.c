@@ -25,11 +25,15 @@ void	heredoc_signal_rest(t_data *data)
 
 void	handler(int num)
 {
-	(void)num;
-	ft_putstr_fd("\n", 2);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	// (void)num;
+	if (num == SIGINT)
+	{
+		g_signal_status = 130;
+		ft_putstr_fd("\n", 2);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 void	set_prompt_signals(void)

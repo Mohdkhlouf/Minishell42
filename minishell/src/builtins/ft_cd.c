@@ -16,7 +16,7 @@ static bool cd_with_no_param(t_data *data, int *exit_code)
 	if (!home_dir)
 	{
 		*exit_code = 1;
-		return (ft_putstr_fd("cd: Memory allocation failed\n", 2), false);
+		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
 	}
 	if (!change_to_home_dir(data, home_dir, exit_code))
 		return (free(home_dir), false);
@@ -65,8 +65,8 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	oldpwd = get_env_value("PWD", data);
 	if (oldpwd)
 		update_env_list("OLDPWD", ft_strdup(oldpwd), data);
-	else
-		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", "No such file or directory", path_value), false);
+	// else
+	// 	return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", NULL, path_value), false);  // not err
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
 		return (check_on_fail_cd(exit_code, expanded), perror("cd: getcwd failed\n"), false);
