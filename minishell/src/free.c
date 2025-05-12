@@ -78,9 +78,15 @@ void	free_env_list(t_var *env)
 		tmp = env;
 		env = env->next;
 		if (tmp->key)
+		{
 			free(tmp->key);
+			tmp->key = NULL;
+		}
 		if (tmp->value)
+		{
 			free(tmp->value);
+			tmp->value = NULL;
+		}
 		if (tmp)
 			free(tmp);
 	}

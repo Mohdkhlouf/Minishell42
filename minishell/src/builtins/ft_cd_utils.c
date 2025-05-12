@@ -12,8 +12,8 @@ bool change_to_home_dir(t_data *data, char *home_dir, int *exit_code)
 	get_pwd = get_env_value("PWD", data);
 	if (get_pwd)
 	{
-		update_env_list("OLDPWD", ft_strdup(get_pwd), data);
-		free(get_pwd);
+		update_env_list("OLDPWD", get_pwd, data);
+
 	}
 	update_env_list("PWD", home_dir, data);
 	return (true);
