@@ -5,13 +5,12 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 {
 	if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
 	{
-		//test solve this whoami | cat -e | cat -e > tmp/file 
-
+		// test solve this whoami | cat -e | cat -e > tmp/file
 		// close(data->pipe_fd[0]);
 		// close(data->pipe_fd[1]);
 		cleanup_minishell(data);
 		free(data);
-		exit (1) ;
+		exit(1);
 	}
 	if (cmds_d->cmds[i].red_in_fd != -1)
 	{
@@ -37,11 +36,11 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 	if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
 	{
 		if (execute_builtin(data, &cmds_d->cmds[i], exit_code) == 0)
-			{
-				cleanup_minishell(data);
-				free(data);
-				exit(0);
-			}
+		{
+			cleanup_minishell(data);
+			free(data);
+			exit(0);
+		}
 	}
 	else
 		exec_cmd(&cmds_d->cmds[i], data);
@@ -49,25 +48,24 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 
 void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 {
-			// Close the previous pipe if it exists
-		if (*prev_cmd != -1)
-		{
-			close(*prev_cmd);
-		}
-	
-		// If not the last command, set up for the next one
-		if (i < cmds_counter - 1)
-		{
-			close(data->pipe_fd[1]);
-			*prev_cmd = data->pipe_fd[0];
-		}
-		else
-		{
-			// Close both pipe ends when it's the last command
-			close(data->pipe_fd[0]);
-			close(data->pipe_fd[1]);
-			*prev_cmd = -1;
-		}
+	// Close the previous pipe if it exists
+	if (*prev_cmd != -1)
+	{
+		close(*prev_cmd);
+	}
+	// If not the last command, set up for the next one
+	if (i < cmds_counter - 1)
+	{
+		close(data->pipe_fd[1]);
+		*prev_cmd = data->pipe_fd[0];
+	}
+	else
+	{
+		// Close both pipe ends when it's the last command
+		close(data->pipe_fd[0]);
+		close(data->pipe_fd[1]);
+		*prev_cmd = -1;
+	}
 }
 
 bool	allocate_pid(t_data *data, t_parsed_data *cmds_d)
@@ -101,17 +99,39 @@ bool	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 	return (true);
 }
 
+void	wait_all(t_data *data, int *i, int *exit_code)
+{
+	int	signal_num;
+	int status;
+
+	status = 0;
+	signal_num = 0;
+	if (waitpid(data->pid[*i], &status, 0) == -1)
+		return;
+	if (WIFEXITED(status))
+	{
+		*exit_code = WEXITSTATUS(status);
+		data->exit_code = *exit_code;
+	}
+	else if (WIFSIGNALED(status))
+	{
+		signal_num = WTERMSIG(status);
+		if (signal_num == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+		else if (signal_num == SIGQUIT)
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+		*exit_code = 128 + signal_num;
+		data->exit_code = *exit_code;
+	}
+}
+
 bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 {
 	int	prev_cmd;
-	int	status;
 	int	i;
-	int	signal_num;
-	int	stop_signal;
 
 	prev_cmd = -1;
 	i = 0;
-	status = 0;
 	if (!allocate_pid(data, cmds_d))
 		return (false);
 	while (i < cmds_d->cmds_counter)
@@ -121,32 +141,12 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 		i++;
 	}
 	if (prev_cmd != -1)
-	{
 		close(prev_cmd);
-	}
 	i = 0;
 	while (i < cmds_d->cmds_counter && data->pid[i] != -1)
 	{
-		waitpid(data->pid[i], &status, 0);
-		if (WIFEXITED(status))
-		{
-			*exit_code = WEXITSTATUS(status);
-			//  printf("Child process exited with code %d\n", *exit_code);
-		}
-		else if (WIFSIGNALED(status))
-		{
-			signal_num = WTERMSIG(status);
-			//printf("Child process terminated by signal %d\n", signal_num);
-		}
-		else if (WIFSTOPPED(status))
-		{
-			// Child process stopped
-			stop_signal = WSTOPSIG(status);
-			//printf("Child process stopped by signal %d\n", stop_signal);
-		}
+		wait_all(data, &i, exit_code);
 		i++;
 	}
-	free(data->pid);
-	data->pid = NULL;
-	return (true);
+	return (free(data->pid),true);
 }

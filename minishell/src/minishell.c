@@ -39,8 +39,8 @@ void data_init(t_data *data, t_parsed_data *cmds_d)
 
 void command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
-	if (data->pid)
-		free(data->pid);
+	// if (data->pid)
+	// 	free(data->pid);
 	data->pid = NULL;
 	free_matrix(data->envp);
 	free_cmds_d(cmds_d);
