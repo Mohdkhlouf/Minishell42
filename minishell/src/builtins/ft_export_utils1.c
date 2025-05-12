@@ -1,14 +1,15 @@
 #include "../includes/minishell.h"
 
-void get_export(char **sorted_arr, t_data *data)
+void	get_export(char **sorted_arr, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (sorted_arr[i])
 	{
 		printf("declare -x %s", sorted_arr[i]);
-		if (get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i], data)[0] != '\0')
+		if (get_env_value(sorted_arr[i], data) && get_env_value(sorted_arr[i],
+				data)[0] != '\0')
 		{
 			printf("=\"%s\"", get_env_value(sorted_arr[i], data));
 		}

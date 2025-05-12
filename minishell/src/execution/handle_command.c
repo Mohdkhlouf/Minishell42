@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-// /*reset the signals from child process*/
+/*reset the signals from child process*/
 // void set_default_signal_handlers(void)
 // {
 //     struct sigaction sa;
@@ -85,12 +85,13 @@ void handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	if (WIFEXITED(status))
 	{
 		*exit_code = WEXITSTATUS(status);
+		data->exit_code = 130;
 		// printf("Child process exited with code %d\n", *exit_code);
 	}
 	else if (WIFSIGNALED(status))
 	{
 		signal_num = WTERMSIG(status);
-		// printf("Child process terminated by signal %d\n", signal_num);
+		printf("Child process terminated by signal %d\n", signal_num);
 	}
 	else if (WIFSTOPPED(status))
 	{
