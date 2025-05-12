@@ -57,15 +57,22 @@ static void has_equal_sign(char *param_value, t_data *data, bool *invalid_found)
 
 static void handle_valid_export_param(char *param_value, t_data *data, bool *invalid_found)
 {
+	char *temp;
+
+	temp = NULL;
 	if (ft_strchr(param_value, '='))
 		has_equal_sign(param_value, data, invalid_found);
 	else
 	{
 		if (get_env_key(param_value, data))
-			update_env_list(ft_strdup(param_value), NULL, data);
+		{
+			temp = ft_strdup(param_value);
+			update_env_list(temp, NULL, data);
+		}
 		else
 			add_new_env_variable(ft_strdup(param_value), NULL, data);
 	}
+	free(temp);
 }
 
 void export_with_param(t_cmds *cmd, t_data *data, int *exit_code)

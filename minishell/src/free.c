@@ -33,7 +33,8 @@ void	free_data(t_data *data)
 	/* ithingk i free some of these tokens that are moved to new pointer in the
 	cmds_data so i have to check or maybe fr double free for the thinfs copied there*/
 	i = 0;
-	while (i < data->tokens_conter)
+
+	while (data->tokens && data->tokens[i].data && i < data->tokens_conter)
 	{
 		if (data->tokens[i].data)
 		{
