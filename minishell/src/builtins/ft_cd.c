@@ -16,8 +16,7 @@ static bool	cd_with_no_param(t_data *data, int *exit_code)
 	if (chdir(home_dir) != 0)
 	{
 		*exit_code = 1;
-		perror("minishell");
-		return (free(home_dir), false);
+		return (perror("minishell"), free(home_dir), false);
 	}
 	temp = ft_strdup("OLDPWD");
 	update_env_list(temp, ft_strdup(get_env_value("PWD", data)), data);
@@ -55,14 +54,13 @@ static bool	cd_with_dash_param(t_data *data, int *exit_code)
 	return (true);
 }
 
-static char *expand_path(t_data *data, char *path_value, int *exit_code)
+static char	*expand_path(t_data *data, char *path_value, int *exit_code)
 {
-	char *expanded;
-	char *home;
+	char	*expanded;
+	char	*home;
 
 	if (path_value[0] != '~')
 		return (NULL);
-
 	home = get_env_value("HOME", data);
 	if (!home)
 	{
@@ -74,11 +72,11 @@ static char *expand_path(t_data *data, char *path_value, int *exit_code)
 	return (expanded);
 }
 
-static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
+static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
-	char *newpath;
-	char *oldpwd;
-	char *expanded;
+	char	*newpath;
+	char	*oldpwd;
+	char	*expanded;
 
 	*exit_code = 0;
 	expanded = expand_path(data, path_value, exit_code);
@@ -87,15 +85,18 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	if (expanded)
 		path_value = expanded;
 	if (chdir(path_value) != 0)
-		return (check_on_fail_cd(exit_code, expanded), print_error("cd: No such file or directory"), false);
+		return (check_on_fail_cd(exit_code, expanded),
+			print_error("cd: No such file or directory"), false);
 	oldpwd = get_env_value("PWD", data);
 	if (oldpwd)
 		update_env_list(ft_strdup("OLDPWD"), ft_strdup(oldpwd), data);
 	else
-		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", "No such file or directory", path_value), false);
+		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd",
+				"No such file or directory", path_value), false);
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
-		return (check_on_fail_cd(exit_code, expanded), perror("cd: getcwd failed\n"), false);
+		return (check_on_fail_cd(exit_code, expanded),
+			perror("cd: getcwd failed\n"), false);
 	update_env_list(ft_strdup("PWD"), ft_strdup(newpath), data);
 	free(newpath);
 	if (expanded)
@@ -122,4 +123,3 @@ bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
-

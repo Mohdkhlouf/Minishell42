@@ -44,7 +44,6 @@ void							set_child_signals(void);
 /*------------------heredoc------------------*/
 
 bool exec_heredoc(t_data *data, t_parsed_data *cmds_d);
-void							set_heredoc_signals(void);
 int								handle_heredoc(char *input_delimiter, t_data *data, int expand);
 char 							*strip_quotes(char *delim);
 int 							is_quoted_delimiter(char *delim);

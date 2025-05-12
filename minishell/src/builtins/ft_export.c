@@ -1,9 +1,9 @@
 #include "../../includes/minishell.h"
 
-static char **list_to_arr(int size, t_var *env)
+static char	**list_to_arr(int size, t_var *env)
 {
-	char **arr_str;
-	int i;
+	char	**arr_str;
+	int		i;
 
 	i = 0;
 	arr_str = malloc(sizeof(char *) * (size + 1));
@@ -19,11 +19,11 @@ static char **list_to_arr(int size, t_var *env)
 	return (arr_str);
 }
 
-static int swap_arr(char **arr, int limit)
+static int	swap_arr(char **arr, int limit)
 {
-	int i;
-	int swapped;
-	char *temp;
+	int		i;
+	int		swapped;
+	char	*temp;
 
 	i = 0;
 	swapped = 0;
@@ -41,27 +41,27 @@ static int swap_arr(char **arr, int limit)
 	return (swapped);
 }
 
-static char **sort_arr_list(char **arr, int size)
+static char	**sort_arr_list(char **arr, int size)
 {
-	int j;
-	int swapped;
+	int	j;
+	int	swapped;
 
 	j = 0;
 	while (j < size - 1)
 	{
 		swapped = swap_arr(arr, size - j - 1);
 		if (!swapped)
-			break;
+			break ;
 		j++;
 	}
 	return (arr);
 }
 
-static bool export_no_args(t_data *data, int *exit_code, t_var *env)
+static bool	export_no_args(t_data *data, int *exit_code, t_var *env)
 {
-	char **arr;
-	char **sorted_arr;
-	int size;
+	char	**arr;
+	char	**sorted_arr;
+	int		size;
 
 	arr = NULL;
 	sorted_arr = NULL;
@@ -79,9 +79,9 @@ static bool export_no_args(t_data *data, int *exit_code, t_var *env)
 	return (true);
 }
 
-bool ft_export(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_export(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	t_var *env;
+	t_var	*env;
 
 	env = data->env_lst;
 	if (!env)
@@ -93,27 +93,3 @@ bool ft_export(t_cmds *cmd, t_data *data, int *exit_code)
 	return (true);
 }
 
-// free(arr);
-// *exit_code = 0;
-// 		size = get_env_len(env);
-// 		arr = list_to_arr(size, env);
-// 		if (!arr)
-// 		{
-// 			*exit_code = 1;
-// 			return (false);
-// 		}
-// 		sorted_arr = sort_arr_list(arr, size);
-// 		get_export(sorted_arr, data);
-// 		free_split(arr);
-// k = 0;
-// 		while (k < size - j - 1)
-// 		{
-// 			if (ft_strcmp(arr[k], arr[k + 1]) > 0)
-// 			{
-// 				temp = arr[k];
-// 				arr[k] = arr[k + 1];
-// 				arr[k + 1] = temp;
-// 				swapped = 1;
-// 			}
-// 			k++;
-// 		}

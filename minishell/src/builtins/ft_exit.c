@@ -1,8 +1,8 @@
 #include "../includes/minishell.h"
 
-int ft_is_numeric(char *str)
+int	ft_is_numeric(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[0] == '-' || str[0] == '+')
@@ -16,7 +16,7 @@ int ft_is_numeric(char *str)
 	return (1);
 }
 
-bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 {
 	(void)data;
 	if (cmd->cmd[1] && cmd->cmd[2])
@@ -36,15 +36,9 @@ bool ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 		else
 			*exit_code = ft_atoi(cmd->cmd[1]);
 	}
-	close (cmd->saved_stdin);
-	close (cmd->saved_stdout);
+	close(cmd->saved_stdin);
+	close(cmd->saved_stdout);
 	cleanup_minishell(data);
 	free(data);
 	exit(*exit_code);
 }
-
-// if (!cmd->cmd[1])
-// 	printf("exit\n");
-// ft_putstr_fd("minishell: exit: `", 2);
-// ft_putstr_fd(cmd->cmd[1], 2);
-// ft_putstr_fd("': numeric argument required\n", 2);
