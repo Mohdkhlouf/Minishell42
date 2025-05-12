@@ -39,7 +39,8 @@ void	minishell_error(char *context, char *message, char *errorfile)
 		ft_putstr_fd(errorfile, 2);
 		ft_putstr_fd(": ", 2);
 	}
-	ft_putstr_fd(message, 2);
+	if (message)
+		ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
 }
 
