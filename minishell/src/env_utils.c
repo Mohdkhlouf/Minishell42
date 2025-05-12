@@ -12,7 +12,8 @@ void	update_env_list(char *key, char *value, t_data *data)
 		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0
 			&& (ft_strlen(env->key) == ft_strlen(key)))
 		{
-			free(env->value);
+			if (env->value)
+				free(env->value);
 			env->value = value;
 			return ;
 		}

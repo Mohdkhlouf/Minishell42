@@ -2,6 +2,7 @@
 
 int is_builtin(char *cmd)
 {
+	////if (!cmd)
 	const char *builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
 							  "env", NULL};
 	int i;

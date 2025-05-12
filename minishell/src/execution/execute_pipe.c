@@ -33,6 +33,7 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		dup2(data->pipe_fd[1], STDOUT_FILENO);
 		close(data->pipe_fd[1]);
 	}
+	// check empty cmd ***
 	if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
 	{
 		if (execute_builtin(data, &cmds_d->cmds[i], exit_code) == 0)
@@ -134,7 +135,7 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 	i = 0;
 	if (!allocate_pid(data, cmds_d))
 		return (false);
-	while (i < cmds_d->cmds_counter)
+	while (i < cmds_d->cmds_counter )
 	{
 		if (!execute_pipes(data, cmds_d, i, &prev_cmd, exit_code))
 			return (false);
