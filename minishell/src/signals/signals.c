@@ -8,6 +8,22 @@ When executing a child process (like running ls)
 When in a heredoc (<<)
 */
 
+
+void heredoc_signal_rest(t_data *data)
+{
+	int new_stdin;
+
+	new_stdin = 0;
+	if (g_signal_status)
+	{
+		g_signal_status = 0;
+		data->exit_code = 130;
+		new_stdin = open("/dev/tty", O_RDONLY);
+		if (new_stdin >= 0)
+			dup2(new_stdin, STDIN_FILENO);
+	}
+}
+
 void handler(int num)
 {
 	(void)num;

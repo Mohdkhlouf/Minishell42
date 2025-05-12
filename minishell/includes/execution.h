@@ -49,5 +49,6 @@ char 							*strip_quotes(char *delim);
 int 							is_quoted_delimiter(char *delim);
 // int								get_heredoc_fd(void);
 // void							heredoc_handller(int *i, char *delimiter);
+void heredoc_signal_rest(t_data *data);
 
 #endif
