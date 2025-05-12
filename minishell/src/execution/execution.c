@@ -35,6 +35,12 @@ bool execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 	return (true);
 }
 
+void set_data_exit_code_value(t_data *data, int *exit_code, int value)
+{
+	*exit_code = value;
+	data->exit_code = *exit_code;
+}
+
 void set_data_exit_code(t_data *data, int *exit_code)
 {
 	data->exit_code = *exit_code;
@@ -45,17 +51,15 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 	static int exit_code = 0;
 
 	if (!data || !cmds_d)
-		return (false);
+		return (set_data_exit_code_value(data, &exit_code, 0), false);
 	if (cmds_d->cmds_counter == 0)
-		return (false);
-
+		return (set_data_exit_code_value(data, &exit_code, 0), false);
 	if (!exec_heredoc(data, cmds_d))
-		return (false);
+		return (set_data_exit_code(data, &exit_code), false);
 	if (cmds_d->cmds_counter == 1)
 	{
 		if (!cmds_d->cmds[0].cmd[0])
-			return (false);
-		// return(print_error("command is not found"),false);
+			return (set_data_exit_code_value(data, &exit_code, 0), false);
 		if (is_builtin(cmds_d->cmds[0].cmd[0]))
 		{
 			if (!builtin_cmd(&cmds_d->cmds[0], data, &exit_code))

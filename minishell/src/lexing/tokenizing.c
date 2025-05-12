@@ -77,7 +77,11 @@ bool	tokenizing(t_data *data)
 		if (data->tokens[i].data[0] == '$')
 		{
 			if (data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
+			{
+				if (data->tokens[i].data)
+					free(data->tokens[i].data);
 				data->tokens[i].data = ft_itoa(data->exit_code);
+			}
 			else
 				init_var_handler(data, &i);
 		}

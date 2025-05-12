@@ -1,10 +1,10 @@
 #include "../includes/minishell.h"
 
-bool ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	(void)cmd;
-	char *cwd;
+	char	*cwd;
 
+	(void)cmd;
 	(void)data;
 	*exit_code = 0;
 	cwd = getcwd(NULL, 0);
@@ -17,10 +17,3 @@ bool ft_pwd(t_cmds *cmd, t_data *data, int *exit_code)
 	free(cwd);
 	return (true);
 }
-
-// if (cmd->cmd[0] && cmd->cmd[1])
-// {
-// 	*exit_code = 1;
-// 	print_error("minishell: pwd: too many arguments");
-// 	exit (*exit_code);
-// }
