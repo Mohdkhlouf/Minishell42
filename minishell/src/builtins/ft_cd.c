@@ -56,11 +56,14 @@ static bool	cd_with_dash_param(t_data *data, int *exit_code)
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
 	char	*newpath;
 	char	*oldpwd;
 =======
+=======
+>>>>>>> origin/main
 static char *expand_path(t_data *data, char *path_value, int *exit_code)
 {
 	char *expanded;
@@ -85,6 +88,9 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	char *newpath;
 	char *oldpwd;
 	char *expanded;
+<<<<<<< HEAD
+>>>>>>> origin/main
+=======
 >>>>>>> origin/main
 
 	*exit_code = 0;
@@ -100,11 +106,15 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 		update_env_list(ft_strdup("OLDPWD"), ft_strdup(oldpwd), data);
 	else
 <<<<<<< HEAD
+<<<<<<< HEAD
 	{
 		*exit_code = 1;
 		return (minishell_error("cd", "No such file or directory", path_value),
 			false);
 	}
+=======
+		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", "No such file or directory", path_value), false);
+>>>>>>> origin/main
 =======
 		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", "No such file or directory", path_value), false);
 >>>>>>> origin/main
@@ -137,6 +147,7 @@ bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -179,4 +190,7 @@ bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 // 	}
 // }
 // update_env_list(ft_strdup("OLDPWD"), ft_strdup(get_env_value("PWD", data)), data);
+>>>>>>> origin/main
+=======
+
 >>>>>>> origin/main
