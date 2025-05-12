@@ -122,6 +122,8 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code);
 void update_env_list(char *key, char *value, t_data *data);
 char *get_env_value(char *key, t_data *data);
 void check_on_fail_cd(int *exit_code, char *expanded);
+char *expand_path(t_data *data, char *path_value, int *exit_code);
+bool change_to_home_dir(t_data *data, char *home_dir, int *exit_code);
 
 /*------------------export-------------------*/
 

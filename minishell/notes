@@ -52,4 +52,5 @@ add check if there is no A2
 unset A2
 the exit code is faluire
 
-
+//already been closed previously
+echo "hi" | cat | cat | cat | cat | cat | cat | cat

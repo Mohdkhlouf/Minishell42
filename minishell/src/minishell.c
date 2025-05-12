@@ -91,7 +91,7 @@ void reading_loop(t_data *data, t_parsed_data *cmds_d)
 			if (new_stdin >= 0)
 				dup2(new_stdin, STDIN_FILENO);
 		}
-		// if (isatty(fileno(stdin)))
+		//if (isatty(fileno(stdin)))
 		data->input_line = readline(data->prompt);
 		if (!data->input_line)
 		{
