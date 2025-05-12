@@ -7,15 +7,15 @@ int is_quoted_delimiter(char *delimiter)
 	if (!delimiter)
 		return (0);
 	size_t len = ft_strlen(delimiter);
-	if (len < 2) 
+	if (len < 2)
 		return (0);
-	while(delimiter[i])
+	while (delimiter[i])
 	{
-		if((delimiter[i] == '\'' || delimiter[i] == '"'))
+		if ((delimiter[i] == '\'' || delimiter[i] == '"'))
 			count++;
 		i++;
 	}
-	if(count == 2)
+	if (count == 2)
 		return (1);
 	else
 		return (0);
@@ -30,10 +30,10 @@ char *strip_quotes(char *delimiter)
 	if (!delimiter)
 		return (NULL);
 	size_t len = ft_strlen(delimiter);
-	if (len < 2) 
+	if (len < 2)
 		return ft_strdup(delimiter);
 	result = malloc(sizeof(len) + 1);
-	while(delimiter[i])
+	while (delimiter[i])
 	{
 		if ((delimiter[i] != '\'' && delimiter[i] != '"'))
 			result[j++] = delimiter[i];
@@ -54,7 +54,7 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	i = 0;
 	j = 0;
 	expand = 1;
-	new_delimiter=NULL;
+	new_delimiter = NULL;
 	old_delim = NULL;
 	while (i < data->cmds_d->pipes_counter + 1)
 	{
@@ -73,12 +73,22 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 				}
 				j++;
 				old_delim = cmds_d->cmds[i].reds[j];
-				if(is_quoted_delimiter(old_delim) == 1)
+				if (is_quoted_delimiter(old_delim) == 1)
 					expand = 0;
 				new_delimiter = strip_quotes(old_delim);
 				int test = handle_heredoc(new_delimiter, data, expand);
 				if (test == -1)
-					printf("error");
+				{
+					perror("heredoc");
+					free(new_delimiter);
+					return (false);
+				}
+				else if (test == 1)
+				{
+					free(new_delimiter);
+					g_signal_status = 1;
+					return (false);
+				}
 			}
 			j++;
 		}
