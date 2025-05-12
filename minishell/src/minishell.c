@@ -86,6 +86,7 @@ void reading_loop(t_data *data, t_parsed_data *cmds_d)
 		if (g_signal_status)
 		{
 			g_signal_status = 0;
+			data->exit_code = 130;
 			int new_stdin = open("/dev/tty", O_RDONLY);
 			if (new_stdin >= 0)
 				dup2(new_stdin, STDIN_FILENO);

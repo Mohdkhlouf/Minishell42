@@ -85,18 +85,18 @@ void handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	if (WIFEXITED(status))
 	{
 		*exit_code = WEXITSTATUS(status);
-		// printf("Child process exited with code %d\n", *exit_code);
+		//printf("Child process exited with code %d\n", *exit_code);
 	}
 	else if (WIFSIGNALED(status))
 	{
 		signal_num = WTERMSIG(status);
-		// printf("Child process terminated by signal %d\n", signal_num);
+		//printf("Child process terminated by signal %d\n", signal_num);
 	}
 	else if (WIFSTOPPED(status))
 	{
 		// Child process stopped
 		stop_signal = WSTOPSIG(status);
-		// printf("Child process stopped by signal %d\n", stop_signal);
+		//printf("Child process stopped by signal %d\n", stop_signal);
 	}
 }
 
