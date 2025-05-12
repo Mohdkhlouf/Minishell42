@@ -1,38 +1,32 @@
 #include "../includes/minishell.h"
 
-static bool	cd_with_no_param(t_data *data, int *exit_code)
+static bool cd_with_no_param(t_data *data, int *exit_code)
 {
-	char	*home_dir;
-	char	*temp;
+	char *home_dir;
+	char *get_pwd;
 
-	temp = NULL;
 	*exit_code = 0;
-	home_dir = ft_strdup(get_env_value("HOME", data));
+	home_dir = get_env_value("HOME", data);
 	if (!home_dir)
 	{
 		*exit_code = 1;
 		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
 	}
-	if (chdir(home_dir) != 0)
+	home_dir = ft_strdup(home_dir);
+	if (!home_dir)
 	{
 		*exit_code = 1;
-		return (perror("minishell"), free(home_dir), false);
+		return (ft_putstr_fd("cd: Memory allocation failed\n", 2), false);
 	}
-	temp = ft_strdup("OLDPWD");
-	update_env_list(temp, ft_strdup(get_env_value("PWD", data)), data);
-	if (temp)
-		free(temp);
-	temp = ft_strdup("PWD");
-	update_env_list(temp, home_dir, data);
-	if (temp)
-		free(temp);
-	return (true);
+	if (!change_to_home_dir(data, home_dir, exit_code))
+		return (free(home_dir), false);
+	return (free(home_dir), true);
 }
 
-static bool	cd_with_dash_param(t_data *data, int *exit_code)
+static bool cd_with_dash_param(t_data *data, int *exit_code)
 {
-	char	*pwd_path;
-	char	*oldpwd_path;
+	char *pwd_path;
+	char *oldpwd_path;
 
 	*exit_code = 0;
 	pwd_path = ft_strdup(get_env_value("PWD", data));
@@ -49,34 +43,16 @@ static bool	cd_with_dash_param(t_data *data, int *exit_code)
 		*exit_code = 1;
 		return (free(pwd_path), free(oldpwd_path), false);
 	}
-	update_env_list(ft_strdup("PWD"), oldpwd_path, data);
-	update_env_list(ft_strdup("OLDPWD"), pwd_path, data);
+	update_env_list("PWD", oldpwd_path, data);
+	update_env_list("OLDPWD", pwd_path, data);
 	return (true);
 }
 
-static char	*expand_path(t_data *data, char *path_value, int *exit_code)
+static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
-	char	*expanded;
-	char	*home;
-
-	if (path_value[0] != '~')
-		return (NULL);
-	home = get_env_value("HOME", data);
-	if (!home)
-	{
-		*exit_code = 1;
-		print_error("cd: HOME not set");
-		return (NULL);
-	}
-	expanded = ft_strjoin(home, path_value + 1);
-	return (expanded);
-}
-
-static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
-{
-	char	*newpath;
-	char	*oldpwd;
-	char	*expanded;
+	char *newpath;
+	char *oldpwd;
+	char *expanded;
 
 	*exit_code = 0;
 	expanded = expand_path(data, path_value, exit_code);
@@ -85,28 +61,25 @@ static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
 	if (expanded)
 		path_value = expanded;
 	if (chdir(path_value) != 0)
-		return (check_on_fail_cd(exit_code, expanded),
-			print_error("cd: No such file or directory"), false);
+		return (check_on_fail_cd(exit_code, expanded), print_error("cd: No such file or directory"), false);
 	oldpwd = get_env_value("PWD", data);
 	if (oldpwd)
-		update_env_list(ft_strdup("OLDPWD"), ft_strdup(oldpwd), data);
+		update_env_list("OLDPWD", ft_strdup(oldpwd), data);
 	else
-		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd",
-				"No such file or directory", path_value), false);
+		return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", "No such file or directory", path_value), false);
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
-		return (check_on_fail_cd(exit_code, expanded),
-			perror("cd: getcwd failed\n"), false);
-	update_env_list(ft_strdup("PWD"), ft_strdup(newpath), data);
+		return (check_on_fail_cd(exit_code, expanded), perror("cd: getcwd failed\n"), false);
+	update_env_list("PWD", ft_strdup(newpath), data);
 	free(newpath);
 	if (expanded)
 		free(expanded);
 	return (true);
 }
 
-bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
+bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	char	*path_value;
+	char *path_value;
 
 	if (!cmd->cmd[1])
 		return (cd_with_no_param(data, exit_code));
@@ -123,3 +96,43 @@ bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
+
+// static bool	cd_with_no_param(t_data *data, int *exit_code)
+// {
+// 	char	*home_dir;
+// 	char	*temp;
+// 	char *oldpwd;
+
+// 	temp = NULL;
+// 	*exit_code = 0;
+// 	home_dir = ft_strdup(get_env_value("HOME", data));
+// 	if (!home_dir)
+// 	{
+// 		print_error("I am in homedir");
+// 		*exit_code = 1;
+// 		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
+// 	}
+// 	if (chdir(home_dir) != 0)
+// 	{
+// 		print_error("I am in chdir");
+// 		*exit_code = 1;
+// 		return (perror("minishell"), free(home_dir), false);
+// 	}
+// 	oldpwd = ft_strdup("OLDPWD");
+// 	if(oldpwd)
+// 	{
+// 		print_error("I am in oldpwd");
+// 		update_env_list(oldpwd, ft_strdup(get_env_value("PWD", data)), data);
+// 	}
+// 	if(oldpwd)
+// 		free(oldpwd);
+// 	temp = ft_strdup("PWD");
+// 	if (temp)
+// 	{
+// 		print_error("I am in temp");
+// 		update_env_list(temp, home_dir, data);
+// 	}
+// 	if(temp)
+// 		free(temp);
+// 	return (true);
+// }
