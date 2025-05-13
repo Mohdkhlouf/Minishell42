@@ -48,17 +48,21 @@ minishell$ exit | exit | exit 45
 
 
 
-
-#UNSOLVED
-
-
-
 signal test: ctrl + \
 Should print only once:
 minishell$ sleep 10 | sleep 7 | sleep 6
 ^\Quit (core dumped)
 Quit (core dumped)
 Quit (core dumped)
+
+
+check if the executable does not exit in PATH 
+when PATh does not exist -> go to current directory
+minishell$ unset PATH
+minishell$ ls
+ls: command not found  -> should print "No such file"
+
+#UNSOLVED
 
 
 
@@ -69,16 +73,8 @@ heredoc> o
 heredoc> p  // seg fault!!!   parent found leaks
 
 
-
-
 envp
 env -i ./minishell (env, export, unset should work)
-
-
-#SOLEVED: check if the executable does not exit in PATH 
-minishell$ unset PATH
-minishell$ ls
-ls: command not found  -> should print "No such file"
 
 
 heredoc open fd
@@ -90,7 +86,7 @@ heredoc open fd
 ==865884==    by 0x1097A6: main (minishell.c:119)
 ==865884== 
 
-when PATh does not exist -> go to current directory
+
 
 
 
