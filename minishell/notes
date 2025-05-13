@@ -34,21 +34,26 @@ minishell$ chmod 000 test
 minishell$ cd test
 minishell: cd: No such file or directory
 
+limit for exit -> long long MIN/MAX
+./minishell
+minishell$ exit 43859347573489548789347598834798573498798348479883447598347985
+exit
 
 handle shell level ($SHLVL)
-
-#UNSOLVED
-
 
 
 minishell$ exit | exit | exit 45
 ==855021== Warning: invalid file descriptor -1 in syscall close()
 ==855022== Warning: invalid file descriptor -1 in syscall close()
 
-limit for exit -> long long MIN/MAX
-./minishell
-minishell$ exit 43859347573489548789347598834798573498798348479883447598347985
-exit
+
+
+
+#UNSOLVED
+
+
+
+
 
 check for none existing command in child process
 minishell$ << o | << p

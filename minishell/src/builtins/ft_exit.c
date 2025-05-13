@@ -47,8 +47,10 @@ bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 				*exit_code = (int)arg_value;
 		}
 	}
-	close(cmd->saved_stdin);
-	close(cmd->saved_stdout);
+	if (cmd->saved_stdin > 0)
+		close(cmd->saved_stdin);
+	if (cmd->saved_stdout > 0)
+		close(cmd->saved_stdout);
 	cleanup_minishell(data);
 	free(data);
 	exit(*exit_code);
