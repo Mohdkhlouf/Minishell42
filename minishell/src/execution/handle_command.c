@@ -180,6 +180,7 @@ void	path_as_command_handler(t_cmds *cmd, t_data *data, char **path)
 				*path = ft_strdup(temp_name);
 				free(temp_name);
 			}
+			free(temp_name);
 		}
 	}
 	else

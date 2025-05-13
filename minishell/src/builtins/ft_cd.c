@@ -19,8 +19,8 @@ static bool cd_with_no_param(t_data *data, int *exit_code)
 		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
 	}
 	if (!change_to_home_dir(data, home_dir, exit_code))
-		return (free(home_dir), false);
-	return (free(home_dir), true);
+		return (false);
+	return (true);
 }
 
 static bool cd_with_dash_param(t_data *data, int *exit_code)
