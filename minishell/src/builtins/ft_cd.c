@@ -12,12 +12,6 @@ static bool cd_with_no_param(t_data *data, int *exit_code)
 		*exit_code = 1;
 		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
 	}
-	// home_dir = ft_strdup(home_dir);
-	// if (!home_dir)
-	// {
-	// 	*exit_code = 1;
-	// 	return (ft_putstr_fd("cd: HOME not set\n", 2), false);
-	// }
 	if (!change_to_home_dir(data, home_dir, exit_code))
 		return (false);
 	return (true);
@@ -53,6 +47,8 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	char *newpath;
 	char *oldpwd;
 	char *expanded;
+	char *copy_oldpwd;
+	char *copy_newpath;
 
 	*exit_code = 0;
 	expanded = expand_path(data, path_value, exit_code);
@@ -61,16 +57,40 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	if (expanded)
 		path_value = expanded;
 	if (chdir(path_value) != 0)
-		return (check_on_fail_cd(exit_code, expanded), print_error("cd: No such file or directory"), false);
+	{
+		check_on_fail_cd(exit_code, expanded);
+		print_error("cd: No such file or directory");
+		return (false);
+	}
 	oldpwd = get_env_value("PWD", data);
 	if (oldpwd)
-		update_env_list("OLDPWD", ft_strdup(oldpwd), data);
+	{
+		copy_oldpwd = ft_strdup(oldpwd);
+		if(copy_oldpwd)
+		{
+			update_env_list("OLDPWD", copy_oldpwd, data);
+			free(copy_oldpwd);
+		}
+		else
+			return (false);
+	}
 	// else
 	// 	return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", NULL, path_value), false);  // not err
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
-		return (check_on_fail_cd(exit_code, expanded), perror("cd: getcwd failed\n"), false);
-	update_env_list("PWD", ft_strdup(newpath), data);
+	{
+		check_on_fail_cd(exit_code, expanded);
+		perror("cd: getcwd failed\n");
+		return (false);
+	}
+	copy_newpath = ft_strdup(newpath);
+	if(copy_newpath)
+	{
+		update_env_list("PWD", copy_newpath, data);
+		free(copy_newpath);
+	}
+	else	
+		return (false);
 	free(newpath);
 	if (expanded)
 		free(expanded);
@@ -96,6 +116,10 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
+
+
+
+
 
 // static bool	cd_with_no_param(t_data *data, int *exit_code)
 // {
@@ -136,3 +160,10 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 // 		free(temp);
 // 	return (true);
 // }
+
+	// home_dir = ft_strdup(home_dir);
+	// if (!home_dir)
+	// {
+	// 	*exit_code = 1;
+	// 	return (ft_putstr_fd("cd: HOME not set\n", 2), false);
+	// }

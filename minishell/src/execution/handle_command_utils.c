@@ -22,10 +22,8 @@ char	*find_path(t_data *data, char *cmd)
 	i = 0;
 	file_name = NULL;
 	with_slash = join_cmd_with_slash(cmd);
-	
 	if (!data->parsed_path)
 		return (free(with_slash), NULL);
-
 	while (data->parsed_path[i])
 	{
 		if (i != 0)
@@ -40,10 +38,7 @@ char	*find_path(t_data *data, char *cmd)
 		i++;
 	}
 	if (not_found == 1)
-	{
 		free(file_name);
-		// print_error("FILE NOT FOUND\n");
-	}
 	return (free(with_slash), NULL);
 }
 
