@@ -128,7 +128,10 @@ void	wait_all(t_data *data, int *i, int *exit_code)
 		if (signal_num == SIGINT)
 			write(STDOUT_FILENO, "\n", 1);
 		else if (signal_num == SIGQUIT)
-			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+		{
+			data->sigquit_flag = true;
+		}
+			// write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
 		*exit_code = 128 + signal_num;
 		data->exit_code = *exit_code;
 	}
@@ -157,5 +160,7 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 		wait_all(data, &i, exit_code);
 		i++;
 	}
+	if(data->sigquit_flag)
+		write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
 	return (free(data->pid), true);
 }

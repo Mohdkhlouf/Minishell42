@@ -82,6 +82,7 @@ typedef struct s_data
 	int							cline_parts;
 	int							tokens_conter;
 	char						*prompt;
+	bool 						sigquit_flag;
 }								t_data;
 
 /*---------------Parsing------------------*/

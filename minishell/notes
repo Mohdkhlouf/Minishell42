@@ -53,6 +53,13 @@ minishell$ exit | exit | exit 45
 
 
 
+signal test: ctrl + \
+Should print only once:
+minishell$ sleep 10 | sleep 7 | sleep 6
+^\Quit (core dumped)
+Quit (core dumped)
+Quit (core dumped)
+
 
 
 check for none existing command in child process
@@ -62,11 +69,6 @@ heredoc> o
 heredoc> p  // seg fault!!!   parent found leaks
 
 
-Should print only once:
-minishell$ sleep 10 | sleep 7 | sleep 6
-^\Quit (core dumped)
-Quit (core dumped)
-Quit (core dumped)
 
 
 envp
