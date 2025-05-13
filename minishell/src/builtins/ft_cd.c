@@ -12,12 +12,12 @@ static bool cd_with_no_param(t_data *data, int *exit_code)
 		*exit_code = 1;
 		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
 	}
-	home_dir = ft_strdup(home_dir);
-	if (!home_dir)
-	{
-		*exit_code = 1;
-		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
-	}
+	// home_dir = ft_strdup(home_dir);
+	// if (!home_dir)
+	// {
+	// 	*exit_code = 1;
+	// 	return (ft_putstr_fd("cd: HOME not set\n", 2), false);
+	// }
 	if (!change_to_home_dir(data, home_dir, exit_code))
 		return (false);
 	return (true);
