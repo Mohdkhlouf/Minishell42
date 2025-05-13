@@ -1,5 +1,11 @@
 #include "../includes/minishell.h"
 
+void set_data_exit_code_value(t_data *data, int *exit_code, int value)
+{
+	*exit_code = value;
+	data->exit_code = *exit_code;
+}
+
 int is_builtin(char *cmd)
 {
 	////if (!cmd)
@@ -19,27 +25,26 @@ int is_builtin(char *cmd)
 
 bool execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 {
-	if (ft_strncmp(cmds->cmd[0], "echo", ft_strlen("echo")) == 0)
+	if (ft_strcmp(cmds->cmd[0], "echo") == 0)
 		return (!ft_echo(cmds, data, exit_code));
-	else if (ft_strncmp(cmds->cmd[0], "pwd", ft_strlen("pwd")) == 0)
+	else if (ft_strcmp(cmds->cmd[0], "pwd") == 0)
 		return (!ft_pwd(cmds, data, exit_code));
-	else if (ft_strncmp(cmds->cmd[0], "env", ft_strlen("env")) == 0)
+	else if (ft_strcmp(cmds->cmd[0], "env") == 0)
 		return (!ft_env(cmds, data, exit_code));
-	else if (ft_strncmp(cmds->cmd[0], "cd", ft_strlen("cd")) == 0)
+	else if (ft_strcmp(cmds->cmd[0], "cd") == 0)
 		return (!ft_cd(cmds, data, exit_code));
-	else if (ft_strncmp(cmds->cmd[0], "export", ft_strlen("export")) == 0)
+	else if (ft_strcmp(cmds->cmd[0], "export") == 0)
 		return (!ft_export(cmds, data, exit_code));
-	else if (ft_strncmp(cmds->cmd[0], "unset", ft_strlen("unset")) == 0)
+	else if (ft_strcmp(cmds->cmd[0], "unset") == 0)
 		return (!ft_unset(cmds, data, exit_code));
-	else if (ft_strncmp(cmds->cmd[0], "exit", ft_strlen("exit")) == 0)
+	else if (ft_strcmp(cmds->cmd[0], "exit") == 0)
 		return (!ft_exit(cmds, data, exit_code));
+	else
+	{
+		printf("%s: command not found\n", cmds->cmd[0]);
+		return (set_data_exit_code_value(data, exit_code, 127), false);
+	}
 	return (true);
-}
-
-void set_data_exit_code_value(t_data *data, int *exit_code, int value)
-{
-	*exit_code = value;
-	data->exit_code = *exit_code;
 }
 
 void set_data_exit_code(t_data *data, int *exit_code)
