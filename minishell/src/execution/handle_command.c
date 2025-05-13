@@ -1,21 +1,21 @@
 #include "../includes/minishell.h"
 
-/*reset the signals from child process*/
-// void set_default_signal_handlers(void)
-// {
-//     struct sigaction sa;
+void	execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
+{
+	dup2(cmd->saved_stdout, STDOUT_FILENO); // Restore original stdout
+	dup2(cmd->saved_stdin, STDIN_FILENO);   // Restore original stdin
+	close(cmd->saved_stdout);
+	close(cmd->saved_stdin);
+	*exit_code = 1;
+}
 
-//     sa.sa_handler = SIG_DFL;
-//     sigemptyset(&sa.sa_mask);
-//     sa.sa_flags = 0;
-
-//     sigaction(SIGINT, &sa, NULL);
-//     sigaction(SIGQUIT, &sa, NULL);
-// }
-
-/* this function will start the fork to execute the cmd
-i did the fork here.
-then send the execution to child process*/
+void	not_execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
+{
+	dup2(cmd->saved_stdout, STDOUT_FILENO); // Restore original stdout
+	dup2(cmd->saved_stdin, STDIN_FILENO);   // Restore original stdin
+	close(cmd->saved_stdout);
+	close(cmd->saved_stdin);
+}
 
 bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 {
@@ -24,24 +24,10 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	if (execute_redirections(data, cmd, exit_code))
 	{
 		if (!execute_builtin(data, cmd, exit_code))
-		{
-			dup2(cmd->saved_stdout, STDOUT_FILENO); // Restore original stdout
-			dup2(cmd->saved_stdin, STDIN_FILENO);   // Restore original stdin
-			close(cmd->saved_stdout);
-			close(cmd->saved_stdin);
-			// *exit_code = 1; *
-			return (false);
-		}
+			return (not_execute_builtin_handler(data, cmd, exit_code), false);
 	}
 	else
-	{
-		dup2(cmd->saved_stdout, STDOUT_FILENO); // Restore original stdout
-		dup2(cmd->saved_stdin, STDIN_FILENO);   // Restore original stdin
-		close(cmd->saved_stdout);
-		close(cmd->saved_stdin);
-		*exit_code = 1;
-		return (false);
-	}
+		return (execute_builtin_handler(data, cmd, exit_code), false);
 	if (cmd->red_out_fd != -1)
 		dup2(cmd->saved_stdout, STDOUT_FILENO);
 	if (cmd->red_in_fd != -1)
