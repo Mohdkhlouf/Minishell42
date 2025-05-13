@@ -1,18 +1,18 @@
 #include "../includes/minishell.h"
 
-void set_data_exit_code_value(t_data *data, int *exit_code, int value)
+void	set_data_exit_code_value(t_data *data, int *exit_code, int value)
 {
 	*exit_code = value;
 	data->exit_code = *exit_code;
 }
 
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
-	////if (!cmd)
-	const char *builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
-							  "env", NULL};
-	int i;
+	const char	*builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
+			"env", NULL};
+	int			i;
 
+	////if (!cmd)
 	i = 0;
 	while (builtins[i] != NULL)
 	{
@@ -23,7 +23,7 @@ int is_builtin(char *cmd)
 	return (0);
 }
 
-bool execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
+bool	execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 {
 	if (ft_strcmp(cmds->cmd[0], "echo") == 0)
 		return (!ft_echo(cmds, data, exit_code));
@@ -47,14 +47,14 @@ bool execute_builtin(t_data *data, t_cmds *cmds, int *exit_code)
 	return (true);
 }
 
-void set_data_exit_code(t_data *data, int *exit_code)
+void	set_data_exit_code(t_data *data, int *exit_code)
 {
 	data->exit_code = *exit_code;
 }
 
-bool execution(t_data *data, t_parsed_data *cmds_d)
+bool	execution(t_data *data, t_parsed_data *cmds_d)
 {
-	static int exit_code = 0;
+	static int	exit_code = 0;
 
 	if (!data || !cmds_d)
 		return (set_data_exit_code_value(data, &exit_code, 0), false);
@@ -76,7 +76,6 @@ bool execution(t_data *data, t_parsed_data *cmds_d)
 	}
 	else
 		handle_pipes(data, cmds_d, &exit_code);
-
 	data->exit_code = exit_code;
 	return (true);
 }

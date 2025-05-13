@@ -63,7 +63,9 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	int		status;
 	int		signal_num;
 	int		stop_signal;
+	bool sigquit_flag;
 
+	sigquit_flag = false;
 	external_cmd(cmd, data, exit_code, &pid);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))

@@ -34,29 +34,21 @@ minishell$ chmod 000 test
 minishell$ cd test
 minishell: cd: No such file or directory
 
+limit for exit -> long long MIN/MAX
+./minishell
+minishell$ exit 43859347573489548789347598834798573498798348479883447598347985
+exit
 
 handle shell level ($SHLVL)
-
-#UNSOLVED
-
 
 
 minishell$ exit | exit | exit 45
 ==855021== Warning: invalid file descriptor -1 in syscall close()
 ==855022== Warning: invalid file descriptor -1 in syscall close()
 
-limit for exit -> long long MIN/MAX
-./minishell
-minishell$ exit 43859347573489548789347598834798573498798348479883447598347985
-exit
-
-check for none existing command in child process
-minishell$ << o | << p
-heredoc> dfdf
-heredoc> o
-heredoc> p  // seg fault!!!   parent found leaks
 
 
+signal test: ctrl + \
 Should print only once:
 minishell$ sleep 10 | sleep 7 | sleep 6
 ^\Quit (core dumped)
@@ -64,14 +56,27 @@ Quit (core dumped)
 Quit (core dumped)
 
 
-envp
-env -i ./minishell (env, export, unset should work)
-
-
-#SOLEVED: check if the executable does not exit in PATH 
+check if the executable does not exit in PATH 
+when PATh does not exist -> go to current directory
 minishell$ unset PATH
 minishell$ ls
 ls: command not found  -> should print "No such file"
+
+minishell$ << o | << p
+heredoc> dfdf
+heredoc> o
+heredoc> p  // seg fault!!!   parent found leaks
+
+#UNSOLVED
+
+
+
+check for none existing command in child process
+
+
+
+envp
+env -i ./minishell (env, export, unset should work)
 
 
 heredoc open fd
@@ -83,7 +88,7 @@ heredoc open fd
 ==865884==    by 0x1097A6: main (minishell.c:119)
 ==865884== 
 
-when PATh does not exist -> go to current directory
+
 
 
 
@@ -91,16 +96,19 @@ minishell$ cat << op
 heredoc> $HOME
 heredoc> op
 /home/mkhlouf
+
 minishell$ cat << "o"p""
 heredoc> dfdf
 heredoc> op
 dfdf
+
 minishell$ cat << "o"p" "
 heredoc> fddg
 heredoc> op
 heredoc> op 
 fddg
 op
+
 868493== 
 ==868493== HEAP SUMMARY:
 ==868493==     in use at exit: 209,130 bytes in 268 blocks
@@ -114,3 +122,18 @@ op
 ==868493==    by 0x1096AB: reading_loop (minishell.c:89)
 ==868493==    by 0x1097A6: main (minishell.c:119)
 ==868493== 
+
+
+
+minishell$ << op
+heredoc> $HOME
+heredoc> 
+==2424629== Invalid write of size 8
+==2424629==    at 0x10B5B8: split_vars (var_handler.c:72)
+==2424629==    by 0x10BADB: var_handler2 (var_handler.c:169)
+==2424629==    by 0x1102B4: handle_heredoc (handle_heredoc.c:75)
+==2424629==    by 0x110649: exec_heredoc (heredoc.c:79)
+==2424629==    by 0x10E797: execution (exe
+
+
+after doing $HOME, in heredoc, the next line just press enter.. then this error appears

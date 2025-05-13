@@ -18,6 +18,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <limits.h> 
 
 # define SUCCESS 1
 # define FAILIURE 0
@@ -82,6 +83,7 @@ typedef struct s_data
 	int							cline_parts;
 	int							tokens_conter;
 	char						*prompt;
+	bool 						sigquit_flag;
 }								t_data;
 
 /*---------------Parsing------------------*/

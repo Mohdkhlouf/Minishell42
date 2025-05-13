@@ -91,9 +91,10 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 				}
 			}
 			j++;
+			free(new_delimiter);
 		}
 		i++;
 	}
-	free(new_delimiter);
+	
 	return (true);
 }

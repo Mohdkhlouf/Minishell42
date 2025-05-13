@@ -35,6 +35,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->cline_parts = 0;
 	data->tokens_conter = 0;
 	data->prompt = "\001\033[1;32m\002minishell$ \001\033[0m\002";
+	data->sigquit_flag = false;
 }
 
 
