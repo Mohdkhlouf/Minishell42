@@ -25,7 +25,7 @@ unset A2
 the exit code is faluire
 
 ****
-echo -nnnnnnnnnnnnnnnnn -nnnn abc -n
+# SOLVED : echo -nnnnnnnnnnnnnnnnn -nnnn abc -n
 
 
 minishell$ mkdir test
@@ -62,7 +62,7 @@ envp
 env -i ./minishell (env, export, unset should work)
 
 
-check if the executable does not exit in PATH 
+#SOLEVED: check if the executable does not exit in PATH 
 minishell$ unset PATH
 minishell$ ls
 ls: command not found  -> should print "No such file"
