@@ -18,7 +18,8 @@ int	ft_is_numeric(char *str)
 
 bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	(void)data;
+	long long arg_value;
+
 	if (cmd->cmd[1] && cmd->cmd[2])
 	{
 		*exit_code = 1;
@@ -26,6 +27,7 @@ bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 		return (false);
 	}
 	printf("exit\n");
+	exit_shlvl(data);
 	if (cmd->cmd[1])
 	{
 		if (!ft_is_numeric(cmd->cmd[1]))
@@ -34,7 +36,16 @@ bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 			*exit_code = 2;
 		}
 		else
-			*exit_code = ft_atoi(cmd->cmd[1]);
+		{
+			arg_value = ft_atoi(cmd->cmd[1]);
+			if (arg_value == LONG_MAX || arg_value == LONG_MIN)
+            {
+                minishell_error("exit", "numeric argument required", cmd->cmd[1]);
+                *exit_code = 2;
+            }
+			else
+				*exit_code = (int)arg_value;
+		}
 	}
 	close(cmd->saved_stdin);
 	close(cmd->saved_stdout);

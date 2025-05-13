@@ -100,6 +100,10 @@ void							start_signal(void);
 int								free_matrix(char **env);
 void							free_env_list(t_var *head);
 
+/*----------------Shlvl----------------------*/
+void shelvl(t_data *data);
+void exit_shlvl(t_data *data);
+
 // void handle_sigint(int sig);
 // void handle_sigquit(int sig);
 // void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);

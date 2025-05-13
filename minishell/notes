@@ -25,15 +25,21 @@ unset A2
 the exit code is faluire
 
 ****
-# SOLVED : echo -nnnnnnnnnnnnnnnnn -nnnn abc -n
+# SOLVED
+echo -nnnnnnnnnnnnnnnnn -nnnn abc -n
 
-
+----bash: cd: test: Permission denied
 minishell$ mkdir test
 minishell$ chmod 000 test
 minishell$ cd test
 minishell: cd: No such file or directory
 
+
 handle shell level ($SHLVL)
+
+#UNSOLVED
+
+
 
 minishell$ exit | exit | exit 45
 ==855021== Warning: invalid file descriptor -1 in syscall close()
