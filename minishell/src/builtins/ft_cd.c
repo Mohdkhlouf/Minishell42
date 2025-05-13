@@ -59,7 +59,12 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	if (chdir(path_value) != 0)
 	{
 		check_on_fail_cd(exit_code, expanded);
-		print_error("cd: No such file or directory");
+		if (errno == EACCES)
+			minishell_error("cd", "Permission denied", path_value);
+		else if (errno == ENOENT)
+			minishell_error("cd", "No such file or directory", path_value);
+		else
+			minishell_error("cd", strerror(errno), path_value);
 		return (false);
 	}
 	oldpwd = get_env_value("PWD", data);

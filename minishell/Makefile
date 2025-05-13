@@ -36,7 +36,8 @@ SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/free.c $(SRC_DIR)/error.c $(SRC_DIR)
 			$(SRC_DIR)/execution/redirections.c $(SRC_DIR)/execution/redirections_utils.c \
 			$(SRC_DIR)/execution/handle_heredoc.c $(SRC_DIR)/execution/heredoc.c \
 			$(SRC_DIR)/lexing/validation.c $(SRC_DIR)/builtins/ft_cd_utils.c \
-			$(SRC_DIR)/builtins/ft_export_utils1.c
+			$(SRC_DIR)/builtins/ft_export_utils1.c \
+			$(SRC_DIR)/shelvl.c
 
 
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
