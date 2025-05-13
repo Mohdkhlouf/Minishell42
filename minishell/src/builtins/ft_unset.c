@@ -73,8 +73,11 @@ void	remove_value_on_unset(char *key, t_data *data)
 		data->env_lst = env->next;
 	env->next = NULL;
 	free(env->key);
+	env->key = NULL;
 	free(env->value);
+	env->value = NULL;
 	free(env);
+	env = NULL;
 }
 
 bool	ft_unset(t_cmds *cmd, t_data *data, int *exit_code)

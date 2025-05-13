@@ -33,11 +33,20 @@ static bool	validate_and_store_env(char **str, char *param_value, t_data *data)
 		i++;
 	}
 	key = ft_strdup(str[0]);
+	if (!key)
+		return (false);
 	value = str[1] ? ft_strdup(str[1]) : ft_strdup("");
+	if (!value)
+	{
+		free(key);
+		return (false);
+	}
 	if (get_env_key(key, data))
 		update_env_list(key, value, data);
 	else
 		add_new_env_variable(key, value, data);
+	free(key);
+	free(value);
 	return (true);
 }
 
@@ -58,6 +67,7 @@ static void	handle_valid_export_param(char *param_value, t_data *data,
 		bool *invalid_found)
 {
 	char	*temp;
+	char *copy_param_val;
 
 	temp = NULL;
 	if (ft_strchr(param_value, '='))
@@ -70,7 +80,16 @@ static void	handle_valid_export_param(char *param_value, t_data *data,
 			update_env_list(temp, NULL, data);
 		}
 		else
-			add_new_env_variable(ft_strdup(param_value), NULL, data);
+		{
+			copy_param_val = ft_strdup(param_value);
+			if(copy_param_val)
+			{
+				add_new_env_variable(copy_param_val, NULL, data);
+				free(copy_param_val);
+			}
+			else	
+				return;
+		}
 	}
 	free(temp);
 }
