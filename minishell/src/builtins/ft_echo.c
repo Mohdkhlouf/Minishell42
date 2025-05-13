@@ -25,7 +25,7 @@ bool ft_echo(t_cmds *cmd, t_data *data, int *exit_code)
 	(void)data;
 	print_newline = 1;
 	i = 1;
-	if (cmd->cmd[i] && check_nl(cmd->cmd[i]))
+	while (cmd->cmd[i] && check_nl(cmd->cmd[i]))
 	{
 		print_newline = 0;
 		i++;
