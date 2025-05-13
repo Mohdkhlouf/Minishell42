@@ -1,33 +1,17 @@
 #include "../includes/minishell.h"
 
-
-void open_out_fd_handler(int fd_o)
+void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
+		int *exit_code)
 {
-	dup2(fd_o, STDOUT_FILENO);
-	close(fd_o);
-}
-void execute_builtins_handler(t_data *data)
-{
-	cleanup_minishell(data);
-	free(data);
-	exit(0);
-}
-
-void not_execute_redirections(t_data *data)
-{
-// test solve this whoami | cat -e | cat -e > tmp/file
+	if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
+	{
+		// test solve this whoami | cat -e | cat -e > tmp/file
 		// close(data->pipe_fd[0]);
 		// close(data->pipe_fd[1]);
 		cleanup_minishell(data);
 		free(data);
 		exit(1);
-}
-
-void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
-		int *exit_code)
-{
-	if (!execute_redirections(data, &cmds_d->cmds[i], exit_code))
-		not_execute_redirections(data);
+	}
 	if (cmds_d->cmds[i].red_in_fd != -1)
 	{
 		dup2(cmds_d->cmds[i].red_in_fd, STDIN_FILENO);
@@ -39,25 +23,38 @@ void	execute_child(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		close(*prev_cmd);
 	}
 	if (cmds_d->cmds[i].red_out_fd != -1)
-		open_out_fd_handler(cmds_d->cmds[i].red_out_fd);
+	{
+		dup2(cmds_d->cmds[i].red_out_fd, STDOUT_FILENO);
+		close(cmds_d->cmds[i].red_out_fd);
+	}
 	else if (i < cmds_d->cmds_counter - 1)
 	{
 		close(data->pipe_fd[0]);
-		open_out_fd_handler(data->pipe_fd[1]);
+		dup2(data->pipe_fd[1], STDOUT_FILENO);
+		close(data->pipe_fd[1]);
 	}
+	// check empty cmd ***
 	if (is_builtin(cmds_d->cmds[i].cmd[0]) == 1)
+	{
 		if (execute_builtin(data, &cmds_d->cmds[i], exit_code) == 0)
-			execute_builtins_handler(data);
+		{
+			cleanup_minishell(data);
+			free(data);
+			exit(0);
+		}
+	}
 	else
 		exec_cmd(&cmds_d->cmds[i], data);
 }
 
 void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 {
+	// Close the previous pipe if it exists
 	if (*prev_cmd != -1)
 	{
 		close(*prev_cmd);
 	}
+	// If not the last command, set up for the next one
 	if (i < cmds_counter - 1)
 	{
 		close(data->pipe_fd[1]);
@@ -65,6 +62,7 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 	}
 	else
 	{
+		// Close both pipe ends when it's the last command
 		close(data->pipe_fd[0]);
 		close(data->pipe_fd[1]);
 		*prev_cmd = -1;
@@ -89,13 +87,13 @@ bool	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		perror("pipe");
 		return (false);
 	}
-	data->pid[i] = fork(); 
+	data->pid[i] = fork(); // create a child process
 	if (data->pid[i] == -1)
 	{
 		perror("fork");
 		return (false);
 	}
-	else if (data->pid[i] == 0)
+	else if (data->pid[i] == 0) // child process
 		execute_child(data, cmds_d, i, prev_cmd, exit_code);
 	else
 		execute_parent(prev_cmd, data, i, cmds_d->cmds_counter);

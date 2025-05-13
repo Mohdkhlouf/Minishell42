@@ -1,10 +1,10 @@
 
 #include "../includes/lexing.h"
 
-void assign_quotes(t_data *data, int len, int i, char *temp)
+void	assign_quotes(t_data *data, int len, int i, char *temp)
 {
-	int c;
-	int j;
+	int	c;
+	int	j;
 
 	c = 0;
 	j = 0;
@@ -14,7 +14,9 @@ void assign_quotes(t_data *data, int len, int i, char *temp)
 			data->quote_type = '\'';
 		if (data->tokens[i].data[j] == '\"' && data->quote_type == 0)
 			data->quote_type = '\"';
-		if (data->tokens[i].data[j] == data->quote_type || (data->tokens[i].data[j] == '\'' && data->quote_type == 0) || (data->tokens[i].data[j] == '\"' && data->quote_type == 0))
+		if (data->tokens[i].data[j] == data->quote_type
+			|| (data->tokens[i].data[j] == '\'' && data->quote_type == 0)
+				|| (data->tokens[i].data[j] == '\"' && data->quote_type == 0))
 			j++;
 		else
 		{
@@ -27,19 +29,21 @@ void assign_quotes(t_data *data, int len, int i, char *temp)
 	temp[c] = '\0';
 }
 
-void quote_fixing(t_data *data, int i)
+void	quote_fixing(t_data *data, int i)
 {
-	char *temp;
-	int len;
+	char	*temp;
+	int		len;
 
 	if (data->tokens[i].data[0] == '\'')
 	{
-		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC))
+		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i
+				- 1].type != TOK_REDIRECT_HEREDOC))
 			data->tokens[i].type = TOK_SINGLE_QUOTE;
 	}
 	else if (data->tokens[i].data[0] == '\"')
 	{
-		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC))
+		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i
+				- 1].type != TOK_REDIRECT_HEREDOC))
 			data->tokens[i].type = TOK_DOUBLE_QUOTE;
 	}
 	len = ft_strlen(data->tokens[i].data);
@@ -52,17 +56,21 @@ void quote_fixing(t_data *data, int i)
 	free(temp);
 }
 
-void redirection_setting(t_data *data, int i)
+void	redirection_setting(t_data *data, int i)
 {
 	if (data->tokens[i].type == TOK_UNKNOWN && i > 0)
 	{
-		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i - 1].data[0] == '<')
+		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i
+			- 1].data[0] == '<')
 			data->tokens[i].type = TOK_REDIRECT_IN;
-		else if (data->tokens[i - 1].type == TOK_REDIRECT_OUT && data->tokens[i - 1].data[0] == '>')
+		else if (data->tokens[i - 1].type == TOK_REDIRECT_OUT && data->tokens[i
+			- 1].data[0] == '>')
 			data->tokens[i].type = TOK_REDIRECT_OUT;
-		else if (data->tokens[i - 1].type == TOK_APPEND && data->tokens[i - 1].data[0] == '>')
+		else if (data->tokens[i - 1].type == TOK_APPEND && data->tokens[i
+			- 1].data[0] == '>')
 			data->tokens[i].type = TOK_APPEND;
-		else if (data->tokens[i - 1].type == TOK_REDIRECT_HEREDOC && data->tokens[i - 1].data[0] == '<')
+		else if (data->tokens[i - 1].type == TOK_REDIRECT_HEREDOC
+			&& data->tokens[i - 1].data[0] == '<')
 			data->tokens[i].type = TOK_REDIRECT_HEREDOC;
 	}
 }
