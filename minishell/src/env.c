@@ -94,35 +94,35 @@ void	init_env(char **envp, t_data *data)
 	// if (!envp)
 	// 	return ;
 	/* mohammad add srart ***************************************************/
-	if (!envp || !envp[0])
-	{
-		// Create SHLVL=1
-		node = init_envp_node("SHLVL=1");
-		if (!node)
-			return ;
-		env_addtolist(&list, node);
-		// Create PWD=<current_dir>
-		if (getcwd(cwd, sizeof(cwd)))
-		{
-			char *pwd_str = malloc(PATH_MAX + 5); // "PWD=" + cwd
-			if (!pwd_str)
-			{
-				free_env_list(list);
-				return ;
-			}
-			sprintf(pwd_str, "PWD=%s", cwd);
-			node = init_envp_node(pwd_str);
-			free(pwd_str);
-			if (!node)
-			{
-				free_env_list(list);
-				return ;
-			}
-			env_addtolist(&list, node);
-		}
-		data->env_lst = list;
-		return ;
-	}
+	// if (!envp || !envp[0])
+	// {
+	// 	// Create SHLVL=1
+	// 	node = init_envp_node("SHLVL=1");
+	// 	if (!node)
+	// 		return ;
+	// 	env_addtolist(&list, node);
+	// 	// Create PWD=<current_dir>
+	// 	if (getcwd(cwd, sizeof(cwd)))
+	// 	{
+	// 		char *pwd_str = malloc(PATH_MAX + 5); // "PWD=" + cwd
+	// 		if (!pwd_str)
+	// 		{
+	// 			free_env_list(list);
+	// 			return ;
+	// 		}
+	// 		sprintf(pwd_str, "PWD=%s", cwd);
+	// 		node = init_envp_node(pwd_str);
+	// 		free(pwd_str);
+	// 		if (!node)
+	// 		{
+	// 			free_env_list(list);
+	// 			return ;
+	// 		}
+	// 		env_addtolist(&list, node);
+	// 	}
+	// 	data->env_lst = list;
+	// 	return ;
+	// }
 	/*mohammad end addition**************************************************/
 	while (envp[i])
 	{

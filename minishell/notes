@@ -72,18 +72,6 @@ env -i ./minishell (env, export, unset should work)
 
 
 
-#UNSOLVED
-
-check for none existing command in child process
-
-heredoc open fd
-==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==865884== Open file descriptor 3: /dev/tty
-==865884==    at 0x49D953B: open (open64.c:41)
-==865884==    by 0x10ED34: heredoc_signal_rest (signals.c:20)
-==865884==    by 0x109599: reading_loop (minishell.c:72)
-==865884==    by 0x1097A6: main (minishell.c:119)
-==865884== 
 
 minishell$ cat << op
 heredoc> $HOME
@@ -129,9 +117,25 @@ heredoc>
 ==2424629==    by 0x10E797: execution (exe
 
 
+#UNSOLVED
+
+check for none existing command in child process
+
+heredoc open fd
+==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==865884== Open file descriptor 3: /dev/tty
+==865884==    at 0x49D953B: open (open64.c:41)
+==865884==    by 0x10ED34: heredoc_signal_rest (signals.c:20)
+==865884==    by 0x109599: reading_loop (minishell.c:72)
+==865884==    by 0x1097A6: main (minishell.c:119)
+==865884== 
+
+
+
 after doing $HOME, in heredoc, the next line just press enter.. then this error appears
 
 
-
+chech << o | << p
+when commands are null
 
 echo "op"' no erroor

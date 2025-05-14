@@ -106,6 +106,7 @@ void	free_cmd(t_cmds *cmd)
 
 void	not_execve_handler(t_cmds *cmd, t_data *data)
 {
+	printf("mohammad is here after execve fails\n");
 	perror("minishell");
 	cleanup_minishell(data);
 	data->exit_code = errno;
@@ -122,16 +123,57 @@ void	not_access_handler(t_cmds *cmd, t_data *data)
 
 void	not_path_handler(t_cmds *cmd, t_data *data)
 {
-	/*Akancha null check here*/
-	if (cmd && cmd->cmd && cmd->cmd[0])
-	{
-		ft_putstr_fd(cmd->cmd[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-	}
+	ft_putstr_fd(cmd->cmd[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
 	cleanup_minishell(data);
 	free(data);
 	exit(127);
 }
+
+
+void	path_with_slash_handler2(t_cmds *cmd, t_data *data, char **path)
+{
+	struct stat	path_stat;
+
+	if (stat(*path, &path_stat) != 0)
+	{
+		perror("minishell");
+		cleanup_minishell(data);
+		data->exit_code = 127;
+		exit(data->exit_code);
+	}
+	else if (S_ISDIR(path_stat.st_mode))
+	{
+		ft_putstr_fd("minishell: '", 2);
+		ft_putstr_fd(*path, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		cleanup_minishell(data);
+		free(data);
+		exit(126);
+	}
+}
+void	command_stat_hhandler(t_cmds *cmd, t_data *data, char **path)
+{
+	struct stat	path_stat;
+
+	if (stat(*path, &path_stat) != 0)
+	{
+		perror("minishell");
+		cleanup_minishell(data);
+		data->exit_code = 127;
+		exit(data->exit_code);
+	}
+	else if (S_ISDIR(path_stat.st_mode))
+	{
+		ft_putstr_fd(*path, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		free(*path);
+		cleanup_minishell(data);
+		free(data);
+		exit(127);
+	}
+}
+
 
 void	path_with_slash_handler(t_cmds *cmd, t_data *data, char **path)
 {
@@ -170,7 +212,7 @@ void	path_as_command_handler(t_cmds *cmd, t_data *data, char **path)
 			if ((access(temp_name, F_OK) == 0))
 			{
 				*path = ft_strdup(temp_name);
-				free(temp_name);
+				// free(temp_name);
 			}
 			free(temp_name);
 		}
@@ -202,11 +244,14 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		path_with_slash_handler(cmd, data, &path);
 	else
 		path_as_command_handler(cmd, data, &path);
-	printf("test path %s\n", path);
 	if (!path)
 		not_path_handler(cmd, data);
 	if (access(path, X_OK) != 0)
 		not_access_handler(cmd, data);
+	command_stat_hhandler(cmd, data, &path);
 	if (execve(path, cmd->cmd, data->envp) == -1)
+	{
+		free(path);
 		not_execve_handler(cmd, data);
+	}
 }
