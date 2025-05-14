@@ -25,6 +25,7 @@ unset A2
 the exit code is faluire
 
 ****
+
 # SOLVED
 echo -nnnnnnnnnnnnnnnnn -nnnn abc -n
 
@@ -144,46 +145,6 @@ free(): double free detected in tcache 2
 
 
 
-
-
-#UNSOLVED
-
-heredoc open fd
-==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==865884== Open file descriptor 3: /dev/tty
-==865884==    at 0x49D953B: open (open64.c:41)
-==865884==    by 0x10ED34: heredoc_signal_rest (signals.c:20)
-==865884==    by 0x109599: reading_loop (minishell.c:72)
-==865884==    by 0x1097A6: main (minishell.c:119)
-==865884== 
-
-echo "op"' no erroor
-
-
-minishell$ "ls -la | ./minishell" > c
-minishell: No such file or directory
-==1707313== 
-==1707313== FILE DESCRIPTORS: 3 open (3 std) at exit.
-==1707313== 
-==1707313== HEAP SUMMARY:
-==1707313==     in use at exit: 209,922 bytes in 303 blocks
-==1707313==   total heap usage: 4,050 allocs, 3,747 frees, 371,745 bytes allocated
-==1707313== 
-==1707313== 160 bytes in 1 blocks are still reachable in loss record 31 of 79
-==1707313==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1707313==    by 0x111473: ft_calloc (in /home/akumari/Hive/42_Cursus/shared_minishell/minishell/minishell)
-==1707313==    by 0x109730: main (minishell.c:108)
-==1707313== 
-==1707313== LEAK SUMMARY:
-==1707313==    definitely lost: 0 bytes in 0 blocks
-==1707313==    indirectly lost: 0 bytes in 0 blocks
-==1707313==      possibly lost: 0 bytes in 0 blocks
-==1707313==    still reachable: 160 bytes in 1 blocks
-==1707313==         suppressed: 209,762 bytes in 302 blocks
-==1707313== 
-==1707313== For lists of detected and suppressed errors, rerun with: -s
-==1707313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
-
 minishell$ <<here | <<here4 | << here5
 heredoc> here
 heredoc> here4
@@ -252,6 +213,49 @@ heredoc> here5
 ==1708527== 
 ==1708527== For lists of detected and suppressed errors, rerun with: -s
 ==1708527== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+
+
+
+
+
+# ####################################################################
+# UNSOLVED
+
+heredoc open fd
+==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==865884== Open file descriptor 3: /dev/tty
+==865884==    at 0x49D953B: open (open64.c:41)
+==865884==    by 0x10ED34: heredoc_signal_rest (signals.c:20)
+==865884==    by 0x109599: reading_loop (minishell.c:72)
+==865884==    by 0x1097A6: main (minishell.c:119)
+==865884== 
+
+echo "op"' no erroor
+
+
+minishell$ "ls -la | ./minishell" > c
+minishell: No such file or directory
+==1707313== 
+==1707313== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==1707313== 
+==1707313== HEAP SUMMARY:
+==1707313==     in use at exit: 209,922 bytes in 303 blocks
+==1707313==   total heap usage: 4,050 allocs, 3,747 frees, 371,745 bytes allocated
+==1707313== 
+==1707313== 160 bytes in 1 blocks are still reachable in loss record 31 of 79
+==1707313==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1707313==    by 0x111473: ft_calloc (in /home/akumari/Hive/42_Cursus/shared_minishell/minishell/minishell)
+==1707313==    by 0x109730: main (minishell.c:108)
+==1707313== 
+==1707313== LEAK SUMMARY:
+==1707313==    definitely lost: 0 bytes in 0 blocks
+==1707313==    indirectly lost: 0 bytes in 0 blocks
+==1707313==      possibly lost: 0 bytes in 0 blocks
+==1707313==    still reachable: 160 bytes in 1 blocks
+==1707313==         suppressed: 209,762 bytes in 302 blocks
+==1707313== 
+==1707313== For lists of detected and suppressed errors, rerun with: -s
+==1707313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
 
 
 echo $USER'ksldjf'"$HOME"$HOME38479sfjls
