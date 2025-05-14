@@ -19,7 +19,10 @@ void	heredoc_signal_rest(t_data *data)
 		data->exit_code = 130;
 		new_stdin = open("/dev/tty", O_RDONLY);
 		if (new_stdin >= 0)
+		{
 			dup2(new_stdin, STDIN_FILENO);
+			close(new_stdin);
+		}
 	}
 }
 

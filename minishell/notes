@@ -47,7 +47,6 @@ minishell$ exit | exit | exit 45
 ==855022== Warning: invalid file descriptor -1 in syscall close()
 
 
-
 signal test: ctrl + \
 Should print only once:
 minishell$ sleep 10 | sleep 7 | sleep 6
@@ -67,17 +66,15 @@ heredoc> dfdf
 heredoc> o
 heredoc> p  // seg fault!!!   parent found leaks
 
-#UNSOLVED
-
-
-
-check for none existing command in child process
-
-
 
 envp
 env -i ./minishell (env, export, unset should work)
 
+
+
+#UNSOLVED
+
+check for none existing command in child process
 
 heredoc open fd
 ==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
@@ -87,10 +84,6 @@ heredoc open fd
 ==865884==    by 0x109599: reading_loop (minishell.c:72)
 ==865884==    by 0x1097A6: main (minishell.c:119)
 ==865884== 
-
-
-
-
 
 minishell$ cat << op
 heredoc> $HOME

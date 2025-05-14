@@ -12,7 +12,9 @@ int	is_builtin(char *cmd)
 			"env", NULL};
 	int			i;
 
-	////if (!cmd)
+	/*Akancha added for null check*/
+	if (!cmd || !cmd[0])
+		return (0);
 	i = 0;
 	while (builtins[i] != NULL)
 	{

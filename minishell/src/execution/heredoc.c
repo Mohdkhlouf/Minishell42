@@ -30,8 +30,8 @@ char *strip_quotes(char *delimiter)
 	if (!delimiter)
 		return (NULL);
 	size_t len = ft_strlen(delimiter);
-	if (len < 2)
-		return ft_strdup(delimiter);
+	// if (len < 2)
+	// 	return ft_strdup(delimiter);
 	result = malloc(sizeof(len) + 1);
 	while (delimiter[i])
 	{
