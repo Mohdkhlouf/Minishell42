@@ -96,6 +96,7 @@ run: $(NAME)
 	@echo "$(YELLOW)Running with Valgrind...$(RESET)"
 	$(VALGRIND) ./$(NAME)
 
+
 # Debug build
 debug: CFLAGS += -DDEBUG -fsanitize=address -g3
 debug: re

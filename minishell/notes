@@ -125,3 +125,136 @@ heredoc open fd
 ==865884== 
 
 echo "op"' no erroor
+
+
+minishell$ cat
+^C
+minishell$ 
+minishell$ cat
+
+//multiple spaces
+minishell$ cat | cat | cat | cat
+^C
+minishell$ 
+
+
+minishell$ "ls -la | ./minishell" > c
+minishell: No such file or directory
+==1707313== 
+==1707313== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==1707313== 
+==1707313== HEAP SUMMARY:
+==1707313==     in use at exit: 209,922 bytes in 303 blocks
+==1707313==   total heap usage: 4,050 allocs, 3,747 frees, 371,745 bytes allocated
+==1707313== 
+==1707313== 160 bytes in 1 blocks are still reachable in loss record 31 of 79
+==1707313==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1707313==    by 0x111473: ft_calloc (in /home/akumari/Hive/42_Cursus/shared_minishell/minishell/minishell)
+==1707313==    by 0x109730: main (minishell.c:108)
+==1707313== 
+==1707313== LEAK SUMMARY:
+==1707313==    definitely lost: 0 bytes in 0 blocks
+==1707313==    indirectly lost: 0 bytes in 0 blocks
+==1707313==      possibly lost: 0 bytes in 0 blocks
+==1707313==    still reachable: 160 bytes in 1 blocks
+==1707313==         suppressed: 209,762 bytes in 302 blocks
+==1707313== 
+==1707313== For lists of detected and suppressed errors, rerun with: -s
+==1707313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+
+minishell$ <<here | <<here4 | << here5
+heredoc> here
+heredoc> here4
+heredoc> here5
+==1708525== 
+==1708525== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==1708525== 
+==1708525== HEAP SUMMARY:
+==1708525==     in use at exit: 208,846 bytes in 247 blocks
+==1708525==   total heap usage: 1,774 allocs, 1,527 frees, 278,420 bytes allocated
+==1708525== 
+==1708525== LEAK SUMMARY:
+==1708525==    definitely lost: 0 bytes in 0 blocks
+==1708525==    indirectly lost: 0 bytes in 0 blocks
+==1708525==      possibly lost: 0 bytes in 0 blocks
+==1708525==    still reachable: 0 bytes in 0 blocks
+==1708525==         suppressed: 208,846 bytes in 247 blocks
+==1708525== 
+==1708525== For lists of detected and suppressed errors, rerun with: -s
+==1708525== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+==1708526== 
+==1708526== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==1708526== Open file descriptor 3:
+==1708526==    at 0x49DA07D: pipe (pipe.c:29)
+==1708526==    by 0x10F8F1: execute_pipes (execute_pipe.c:93)
+==1708526==    by 0x10FB40: handle_pipes (execute_pipe.c:151)
+==1708526==    by 0x10E8CF: execution (execution.c:80)
+==1708526==    by 0x1096C6: reading_loop (minishell.c:90)
+==1708526==    by 0x1097E0: main (minishell.c:122)
+==1708526== 
+==1708526== 
+==1708526== HEAP SUMMARY:
+==1708526==     in use at exit: 208,846 bytes in 247 blocks
+==1708526==   total heap usage: 1,774 allocs, 1,527 frees, 278,420 bytes allocated
+==1708526== 
+==1708526== LEAK SUMMARY:
+==1708526==    definitely lost: 0 bytes in 0 blocks
+==1708526==    indirectly lost: 0 bytes in 0 blocks
+==1708526==      possibly lost: 0 bytes in 0 blocks
+==1708526==    still reachable: 0 bytes in 0 blocks
+==1708526==         suppressed: 208,846 bytes in 247 blocks
+==1708526== 
+==1708526== For lists of detected and suppressed errors, rerun with: -s
+==1708526== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+==1708527== 
+==1708527== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==1708527== Open file descriptor 4:
+==1708527==    at 0x49DA07D: pipe (pipe.c:29)
+==1708527==    by 0x10F8F1: execute_pipes (execute_pipe.c:93)
+==1708527==    by 0x10FB40: handle_pipes (execute_pipe.c:151)
+==1708527==    by 0x10E8CF: execution (execution.c:80)
+==1708527==    by 0x1096C6: reading_loop (minishell.c:90)
+==1708527==    by 0x1097E0: main (minishell.c:122)
+==1708527== 
+==1708527== 
+==1708527== HEAP SUMMARY:
+==1708527==     in use at exit: 208,846 bytes in 247 blocks
+==1708527==   total heap usage: 1,774 allocs, 1,527 frees, 278,420 bytes allocated
+==1708527== 
+==1708527== LEAK SUMMARY:
+==1708527==    definitely lost: 0 bytes in 0 blocks
+==1708527==    indirectly lost: 0 bytes in 0 blocks
+==1708527==      possibly lost: 0 bytes in 0 blocks
+==1708527==    still reachable: 0 bytes in 0 blocks
+==1708527==         suppressed: 208,846 bytes in 247 blocks
+==1708527== 
+==1708527== For lists of detected and suppressed errors, rerun with: -s
+==1708527== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+
+
+
+echo $USER'ksldjf'"$HOME"$HOME38479sfjls
+akumariksldjf"/home/akumari"
+minishell$ echo "$USER'ksldjf'"$HOME"$HOME38479sfjls"
+akumari'ksldjf'/home/akumari
+
+
+ls > out444 | cat < out444 
+
+minishell$ mkdir test
+minishell$ cd test
+minishell$ rm -rf ../test
+minishell$ pwd
+getcwd failed: No such file or directory
+
+
+minishell$ mkdir path
+minishell$ ./path
+minishell: ./path: Is a directory
+minishell$ path
+free(): double free detected in tcache 2
+
+minishell$ touch a
+minishell$ chmod 000 a
+minishell$ a
+free(): double free detected in tcache 2
