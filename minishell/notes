@@ -66,25 +66,10 @@ heredoc> dfdf
 heredoc> o
 heredoc> p  // seg fault!!!   parent found leaks
 
-
 envp
 env -i ./minishell (env, export, unset should work)
 
-
-
-#UNSOLVED
-
-check for none existing command in child process
-
-heredoc open fd
-==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==865884== Open file descriptor 3: /dev/tty
-==865884==    at 0x49D953B: open (open64.c:41)
-==865884==    by 0x10ED34: heredoc_signal_rest (signals.c:20)
-==865884==    by 0x109599: reading_loop (minishell.c:72)
-==865884==    by 0x1097A6: main (minishell.c:119)
-==865884== 
-
+after doing $HOME, in heredoc, the next line just press enter.. then this error appears
 minishell$ cat << op
 heredoc> $HOME
 heredoc> op
@@ -116,8 +101,6 @@ op
 ==868493==    by 0x1097A6: main (minishell.c:119)
 ==868493== 
 
-
-
 minishell$ << op
 heredoc> $HOME
 heredoc> 
@@ -128,10 +111,17 @@ heredoc>
 ==2424629==    by 0x110649: exec_heredoc (heredoc.c:79)
 ==2424629==    by 0x10E797: execution (exe
 
+check for none existing command in child process
 
-after doing $HOME, in heredoc, the next line just press enter.. then this error appears
+#UNSOLVED
 
-
-
+heredoc open fd
+==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==865884== Open file descriptor 3: /dev/tty
+==865884==    at 0x49D953B: open (open64.c:41)
+==865884==    by 0x10ED34: heredoc_signal_rest (signals.c:20)
+==865884==    by 0x109599: reading_loop (minishell.c:72)
+==865884==    by 0x1097A6: main (minishell.c:119)
+==865884== 
 
 echo "op"' no erroor
