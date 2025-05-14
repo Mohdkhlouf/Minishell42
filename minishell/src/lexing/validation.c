@@ -44,9 +44,12 @@ bool	validation(t_data *data)
 
 	if (data->double_quote_found && data->first_quote_type == 2)
 	{
-		print_error("quotes are not closed");
+		print_error("double quotes are not closed");
 		data->exit_code = 2;
 		return (false);
 	}
+
+	
+
 	return (true);
 }

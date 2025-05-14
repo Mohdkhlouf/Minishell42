@@ -32,6 +32,7 @@ bool	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
+	// print_tokens(data);
 	if (!validation(data))
 		return (false);
 	while (i < data->tokens_conter && data->tokens[i].data)

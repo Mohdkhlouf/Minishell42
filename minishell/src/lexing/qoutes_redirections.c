@@ -33,7 +33,7 @@ void	quote_fixing(t_data *data, int i)
 {
 	char	*temp;
 	int		len;
-
+	printf("token is :%s\n", data->tokens[i].data);
 	if (data->tokens[i].data[0] == '\'')
 	{
 		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i
