@@ -130,3 +130,8 @@ heredoc>
 
 
 after doing $HOME, in heredoc, the next line just press enter.. then this error appears
+
+
+
+
+echo "op"' no erroor

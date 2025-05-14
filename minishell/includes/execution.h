@@ -48,6 +48,7 @@ bool							exec_heredoc(t_data *data,
 									t_parsed_data *cmds_d);
 int								handle_heredoc(char *input_delimiter,
 									t_data *data, int expand);
+
 char							*strip_quotes(char *delim);
 int								is_quoted_delimiter(char *delim);
 // int								get_heredoc_fd(void);
