@@ -36,6 +36,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->tokens_conter = 0;
 	data->prompt = "\001\033[1;32m\002minishell$ \001\033[0m\002";
 	data->sigquit_flag = false;
+	data->sigterm_flag = false;
 }
 
 
@@ -62,13 +63,10 @@ bool	pre_validation(t_data *data)
 	return (true);
 }
 
-
-
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
 	while (true)
 	{
-		// g_signal_status = 0;
 		data_init(data, cmds_d);
 		heredoc_signal_rest(data);
 		data->input_line = readline(data->prompt);

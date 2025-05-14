@@ -13,7 +13,7 @@ void	heredoc_signal_rest(t_data *data)
 	int	new_stdin;
 
 	new_stdin = 0;
-	if (g_signal_status)
+	if (g_signal_status == 1)
 	{
 		g_signal_status = 0;
 		data->exit_code = 130;
@@ -32,10 +32,10 @@ void	handler(int num)
 	if (num == SIGINT)
 	{
 		g_signal_status = 130;
-		ft_putstr_fd("\n", 2);
+		//ft_putstr_fd("\n", 2);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		rl_redisplay();
+		//rl_redisplay();
 	}
 }
 
