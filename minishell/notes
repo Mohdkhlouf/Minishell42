@@ -69,13 +69,7 @@ heredoc> p  // seg fault!!!   parent found leaks
 envp
 env -i ./minishell (env, export, unset should work)
 
-<<<<<<< HEAD
-
-
-
-=======
 after doing $HOME, in heredoc, the next line just press enter.. then this error appears
->>>>>>> origin/main
 minishell$ cat << op
 heredoc> $HOME
 heredoc> op
@@ -119,13 +113,18 @@ heredoc>
 
 check for none existing command in child process
 
+
+
+minishell$ touch a
+minishell$ chmod 000 a
+minishell$ a
+free(): double free detected in tcache 2
+
+
+
+
 #UNSOLVED
 
-<<<<<<< HEAD
-check for none existing command in child process
-
-=======
->>>>>>> origin/main
 heredoc open fd
 ==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
 ==865884== Open file descriptor 3: /dev/tty
@@ -134,17 +133,6 @@ heredoc open fd
 ==865884==    by 0x109599: reading_loop (minishell.c:72)
 ==865884==    by 0x1097A6: main (minishell.c:119)
 ==865884== 
-<<<<<<< HEAD
-
-
-
-after doing $HOME, in heredoc, the next line just press enter.. then this error appears
-
-
-chech << o | << p
-when commands are null
-=======
->>>>>>> origin/main
 
 echo "op"' no erroor
 
@@ -274,9 +262,4 @@ minishell$ mkdir path
 minishell$ ./path
 minishell: ./path: Is a directory
 minishell$ path
-free(): double free detected in tcache 2
-
-minishell$ touch a
-minishell$ chmod 000 a
-minishell$ a
 free(): double free detected in tcache 2
