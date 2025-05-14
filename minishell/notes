@@ -122,6 +122,14 @@ free(): double free detected in tcache 2
 
 
 
+minishell$ mkdir path
+minishell$ ./path
+minishell: ./path: Is a directory
+minishell$ path
+free(): double free detected in tcache 2
+
+
+
 
 #UNSOLVED
 
@@ -258,8 +266,3 @@ minishell$ pwd
 getcwd failed: No such file or directory
 
 
-minishell$ mkdir path
-minishell$ ./path
-minishell: ./path: Is a directory
-minishell$ path
-free(): double free detected in tcache 2
