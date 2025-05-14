@@ -104,20 +104,23 @@ void    free_cmd(t_cmds *cmd)
     free_2d_cmd_arr(cmd->reds);
 }
 
-void    not_execve_handler(t_cmds *cmd, t_data *data)
+void    not_execve_handler(t_cmds *cmd, t_data *data, char *path)
 {
     printf("mohammad is here after execve fails\n");
     perror("minishell");
+	free(path);
     cleanup_minishell(data);
     data->exit_code = errno;
     exit(data->exit_code);
 }
 
-void    not_access_handler(t_cmds *cmd, t_data *data)
+void    not_access_handler(t_cmds *cmd, t_data *data, char *path)
 {
     ft_putstr_fd(cmd->cmd[0], 2);
     ft_putstr_fd(": Permission denied\n", 2);
+	free(path);
     cleanup_minishell(data);
+	free(data);
     exit(126); // Command found, but not executable
 }
 
@@ -247,11 +250,8 @@ void    exec_cmd(t_cmds *cmd, t_data *data)
     if (!path)
         not_path_handler(cmd, data);
     if (access(path, X_OK) != 0)
-        not_access_handler(cmd, data);
+		not_access_handler(cmd, data, path);
     command_stat_hhandler(cmd, data, &path);
     if (execve(path, cmd->cmd, data->envp) == -1)
-    {
-        free(path);
-        not_execve_handler(cmd, data);
-    }
+        not_execve_handler(cmd, data, path);
 }

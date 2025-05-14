@@ -119,8 +119,6 @@ void	set_path(t_data *data)
 	/* Mohammad add end*/
 }
 
-
-
 // t_var	*init_envp_node(char *env)
 // {
 // 	t_var	*node;
