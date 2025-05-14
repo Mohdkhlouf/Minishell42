@@ -53,7 +53,6 @@ void	add_new_env_variable(char *key, char *value, t_data *data)
 	}
 	else
 		new_node->value = NULL;
-	//new_node->value = ft_strdup(value);
 	new_node->next = NULL;
 	env_addtolist(&data->env_lst, new_node);
 }
@@ -89,6 +88,22 @@ char	*get_env_key(char *key, t_data *data)
 	}
 	return (NULL);
 }
+
+char	*get_env_value(char *key, t_data *data)
+{
+	t_var	*env;
+
+	env = data->env_lst;
+	while (env)
+	{
+		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0
+			&& (ft_strlen(env->key) == ft_strlen(key)))
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
+}
+
 // && (ft_strlen(env->key) == ft_strlen(key)))
 // if (ft_strcmp(env->key, key) == 0)
 // 		{

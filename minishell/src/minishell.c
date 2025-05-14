@@ -116,7 +116,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	data_init(data, cmds_d);
 	init_env(envp, data);
-	shelvl(data);
+	if (envp && envp[0])  // ✅ Only increment SHLVL if it was inherited
+		shelvl(data);
 	set_prompt_signals();
 	reading_loop(data, cmds_d);
 	free(cmds_d);
