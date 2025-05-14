@@ -70,7 +70,6 @@ void	split_vars(char *token, t_vars_data *var)
 		else
 			var->temp = ft_substr(token, start, c - start);
 		var->vars_arr[var->parts_count] = ft_strdup(var->temp);
-		// ft_free(temp);
 		var->parts_count++;
 	}
 	var->vars_arr[var->parts_count] = NULL;

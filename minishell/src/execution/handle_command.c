@@ -122,8 +122,12 @@ void	not_access_handler(t_cmds *cmd, t_data *data)
 
 void	not_path_handler(t_cmds *cmd, t_data *data)
 {
-	ft_putstr_fd(cmd->cmd[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
+	/*Akancha null check here*/
+	if (cmd && cmd->cmd && cmd->cmd[0])
+	{
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
 	cleanup_minishell(data);
 	free(data);
 	exit(127);
@@ -188,11 +192,17 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	path = NULL;
 	set_child_signals();
 	set_path(data);
+	/*Akancha added for null check to prevent seg fault*/
+	if (!cmd->cmd || !cmd->cmd[0])
+	{
+		not_path_handler(cmd, data);  // Or handle appropriately
+		return;
+	}
 	if (ft_strchr(cmd->cmd[0], '/'))
 		path_with_slash_handler(cmd, data, &path);
 	else
 		path_as_command_handler(cmd, data, &path);
-	printf("test path %s/n", path);
+	printf("test path %s\n", path);
 	if (!path)
 		not_path_handler(cmd, data);
 	if (access(path, X_OK) != 0)
