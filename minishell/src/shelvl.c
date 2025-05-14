@@ -14,7 +14,7 @@ t_var *get_env_lst(t_var *env_lst, const char *key)
 void shelvl(t_data *data)
 {
 	t_var *env_var;
-	int shell_level;
+	int shell_level = 1;
 	char *shlvl_str;
 
 	env_var = get_env_lst(data->env_lst, "SHLVL");

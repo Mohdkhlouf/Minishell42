@@ -1,20 +1,5 @@
 #include "../includes/minishell.h"
 
-char	*get_env_value(char *key, t_data *data)
-{
-	t_var	*env;
-
-	env = data->env_lst;
-	while (env)
-	{
-		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0
-			&& (ft_strlen(env->key) == ft_strlen(key)))
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
 void	env_addtolist(t_var **lst, t_var *node)
 {
 	t_var	*current;
@@ -56,6 +41,58 @@ t_var	*init_envp_node(char *env)
 	return (node);
 }
 
+void add_env_var(t_var **list, char *key, char *value)
+{
+	t_var *update_node;
+	char *node;
+	
+	node = malloc(ft_strlen(key) + ft_strlen(value) + 2);
+	if (!node)
+		return;
+	node[0] = '\0';
+    ft_strcat(node, key);     
+    ft_strcat(node, "=");     
+    ft_strcat(node, value);
+	update_node = init_envp_node(node);
+	if (update_node)
+		env_addtolist(list, update_node);
+	free(node);
+}
+
+
+void	init_env(char **envp, t_data *data)
+{
+	int		i;
+	t_var	*list;
+	t_var	*node;
+	char	cwd[PATH_MAX];
+
+	i = 0;
+	list = NULL;
+	if (!envp || !envp[0])
+	{
+		if (getcwd(cwd, sizeof(cwd)))
+			add_env_var(&list, "PWD", cwd);
+		add_env_var(&list, "SHLVL", "1");
+		add_env_var(&list, "_", "/usr/bin/make");	
+	}
+	else
+	{
+		while (envp[i])
+		{
+			node = init_envp_node(envp[i]);
+			if (!node)
+			{
+				free_env_list(list);
+				return ;
+			}
+			env_addtolist(&list, node);
+			i++;
+		}
+	}
+	data->env_lst = list;
+}
+
 /*mohammad add start*/
 void	create_path_arr(char *path, t_data *data)
 {
@@ -82,13 +119,8 @@ void	set_path(t_data *data)
 	/* Mohammad add end*/
 }
 
-void	init_env(char **envp, t_data *data)
-{
-	int		i;
-	t_var	*list;
-	t_var	*node;
-	char	cwd[PATH_MAX];
 
+<<<<<<< HEAD
 	i = 0;
 	list = NULL;
 	// if (!envp)
@@ -137,6 +169,8 @@ void	init_env(char **envp, t_data *data)
 	}
 	data->env_lst = list;
 }
+=======
+>>>>>>> origin/main
 
 // t_var	*init_envp_node(char *env)
 // {
@@ -164,3 +198,30 @@ void	init_env(char **envp, t_data *data)
 // 	free(value);
 // 	return (node);
 // }
+
+// // Create SHLVL=1
+		// node = init_envp_node("SHLVL=1");
+		// if (!node)
+		// 	return ;
+		// env_addtolist(&list, node);
+		// // Create PWD=<current_dir>
+		// if (getcwd(cwd, sizeof(cwd)))
+		// {
+		// 	char *pwd_str = malloc(PATH_MAX + 5); // "PWD=" + cwd
+		// 	if (!pwd_str)
+		// 	{
+		// 		free_env_list(list);
+		// 		return ;
+		// 	}
+		// 	sprintf(pwd_str, "PWD=%s", cwd);
+		// 	node = init_envp_node(pwd_str);
+		// 	free(pwd_str);
+		// 	if (!node)
+		// 	{
+		// 		free_env_list(list);
+		// 		return ;
+		// 	}
+		// 	env_addtolist(&list, node);
+		// }
+		// data->env_lst = list;
+		// return ;

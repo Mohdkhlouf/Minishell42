@@ -189,7 +189,7 @@ void	path_with_slash_handler(t_cmds *cmd, t_data *data, char **path)
 	}
 	else if (S_ISDIR(path_stat.st_mode))
 	{
-		ft_putstr_fd("minishell: '", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(*path, 2);
 		ft_putstr_fd(": Is a directory\n", 2);
 		cleanup_minishell(data);
@@ -244,6 +244,10 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		path_with_slash_handler(cmd, data, &path);
 	else
 		path_as_command_handler(cmd, data, &path);
+<<<<<<< HEAD
+=======
+	//printf("test path %s\n", path);
+>>>>>>> origin/main
 	if (!path)
 		not_path_handler(cmd, data);
 	if (access(path, X_OK) != 0)
