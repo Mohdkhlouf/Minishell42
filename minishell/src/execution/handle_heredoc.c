@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-static void heredoc_sigint_handler(int signum)
+static void	heredoc_sigint_handler(int signum)
 {
 	(void)signum;
 	g_signal_status = 1;
@@ -9,9 +9,9 @@ static void heredoc_sigint_handler(int signum)
 	close(STDIN_FILENO); // alternative to rl_done
 }
 
-static void set_heredoc_signals(void)
+static void	set_heredoc_signals(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = heredoc_sigint_handler;
 	sigemptyset(&sa.sa_mask);
@@ -21,17 +21,18 @@ static void set_heredoc_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void reset_signals_to_prompt(void)
+void	reset_signals_to_prompt(void)
 {
 	set_prompt_signals(); // Reapply prompt signal handlers
 }
 
-int handle_heredoc(char *input_delimiter, t_data *data, int expand)
+int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 {
-	int fd;
-	char *line;
-	t_token tmp_token;
-	char *to_write;
+	int		fd;
+	char	*line;
+	t_token	tmp_token;
+	char	*to_write;
+	t_token	*original_tokens;
 
 	fd = open("HEREDOC_TEMP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
@@ -52,30 +53,35 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 			return (1);
 		}
 		if (!line)
-			break;
+			break ;
 		if (!input_delimiter)
 		{
 			printf("heredoc: null delimiter\n");
 			free(line);
-			break;
+			break ;
 		}
 		if (ft_strcmp(line, input_delimiter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
-		if (expand)
+		if (expand == 1)
 		{
-			tmp_token.data = ft_strdup(line);
-			tmp_token.type = TOK_STRING;
-
-			t_token *original_tokens = data->tokens;
-			data->tokens = &tmp_token;
-
-			var_handler2(data, 0);
-			to_write = ft_strdup(tmp_token.data);
-			free(tmp_token.data);
-			data->tokens = original_tokens;
+			if (ft_strchr(line, '$'))
+			{
+				tmp_token.data = ft_strdup(line);
+				tmp_token.type = TOK_STRING;
+				original_tokens = data->tokens;
+				data->tokens = &tmp_token;
+				var_handler2(data, 0);
+				to_write = ft_strdup(tmp_token.data);
+				free(tmp_token.data);
+				data->tokens = original_tokens;
+			}
+			else
+			{
+				to_write = ft_strdup(line);
+			}
 		}
 		else
 		{
@@ -94,12 +100,12 @@ int handle_heredoc(char *input_delimiter, t_data *data, int expand)
 // int get_heredoc_fd()
 // {
 // 	printf("I am here3.\n");
-// 	return open("HEREDOC_TEMP.txt", O_RDONLY);
+// 	return (open("HEREDOC_TEMP.txt", O_RDONLY));
 // }
 
 /*
 --------------------Important one to use later---------------------------
-static void sigint_handler(int sig)
+static void	sigint_handler(int sig)
 {
 	(void)sig;
 	g_heredoc_interrupted = 1;
@@ -109,9 +115,10 @@ static void sigint_handler(int sig)
 	rl_redisplay();
 }
 
-void signal_handler_heredoc()
+void	signal_handler_heredoc(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
+
 	sa.sa_handler = sigint_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
@@ -200,19 +207,20 @@ void signal_handler_heredoc()
 // 	{
 // 		line = readline("heredoc> ");
 // 		if (!line)
-// 			break;
+// 			break ;
 // 		if (!input_delimiter)
 // 		{
 // 			printf("heredoc: null delimiter\n");
 // 			free(line);
-// 			break;
+// 			break ;
 // 		}
 // 		if (ft_strcmp(line, input_delimiter) == 0)
 // 		{
 // 			free(line);
-// 			break;
+// 			break ;
 // 		}
-// 		char *to_write = expand ? expand_variables(line, data) : ft_strdup(line);
+// 		char *to_write = expand ? expand_variables(line,
+				// data) : ft_strdup(line);
 // 		ft_strncpy(buff, to_write, ft_strlen(to_write));
 // 		buff[ft_strlen(to_write)] = '\n';
 //     	buff[ft_strlen(to_write) + 1] = '\0';

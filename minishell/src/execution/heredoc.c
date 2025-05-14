@@ -50,7 +50,9 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	int expand;
 	char *new_delimiter;
 	char *old_delim;
+	int test;
 
+	test = 0;
 	i = 0;
 	j = 0;
 	expand = 1;
@@ -79,7 +81,8 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 					new_delimiter = strip_quotes(old_delim);
 				else
 					new_delimiter = ft_strdup(old_delim);
-				int test = handle_heredoc(new_delimiter, data, expand);
+				
+				test = handle_heredoc(new_delimiter, data, expand);
 				if (test == -1)
 				{
 					perror("heredoc");
