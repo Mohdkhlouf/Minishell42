@@ -130,12 +130,10 @@ void	wait_all(t_data *data, int *i, int *exit_code)
 	{
 		signal_num = WTERMSIG(status);
 		if (signal_num == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
+			data->sigterm_flag = true;
 		else if (signal_num == SIGQUIT)
-		{
 			data->sigquit_flag = true;
-		}
-		// write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+
 		*exit_code = 128 + signal_num;
 		data->exit_code = *exit_code;
 	}
@@ -166,5 +164,7 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 	}
 	if (data->sigquit_flag)
 		write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+	if(data->sigterm_flag)
+		write(STDOUT_FILENO, "\n", 1);
 	return (free(data->pid), true);
 }

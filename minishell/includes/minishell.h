@@ -84,6 +84,7 @@ typedef struct s_data
 	int							tokens_conter;
 	char						*prompt;
 	bool 						sigquit_flag;
+	bool						sigterm_flag;
 }								t_data;
 
 /*---------------Parsing------------------*/

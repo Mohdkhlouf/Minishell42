@@ -114,6 +114,18 @@ heredoc>
 check for none existing command in child process
 
 
+minishell$ cat
+^C
+minishell$ 
+minishell$ cat
+
+
+//multiple spaces
+minishell$ cat | cat | cat | cat
+^C
+minishell$ 
+
+
 
 minishell$ touch a
 minishell$ chmod 000 a
@@ -131,6 +143,9 @@ free(): double free detected in tcache 2
 
 
 
+
+
+
 #UNSOLVED
 
 heredoc open fd
@@ -143,17 +158,6 @@ heredoc open fd
 ==865884== 
 
 echo "op"' no erroor
-
-
-minishell$ cat
-^C
-minishell$ 
-minishell$ cat
-
-//multiple spaces
-minishell$ cat | cat | cat | cat
-^C
-minishell$ 
 
 
 minishell$ "ls -la | ./minishell" > c
@@ -248,7 +252,6 @@ heredoc> here5
 ==1708527== 
 ==1708527== For lists of detected and suppressed errors, rerun with: -s
 ==1708527== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
-
 
 
 echo $USER'ksldjf'"$HOME"$HOME38479sfjls
