@@ -56,7 +56,7 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	expand = 1;
 	new_delimiter = NULL;
 	old_delim = NULL;
-	while (i < data->cmds_d->pipes_counter + 1)
+	while (i < data->cmds_d->cmds_counter)
 	{
 		j = 0;
 		while (true)
@@ -75,7 +75,10 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 				old_delim = cmds_d->cmds[i].reds[j];
 				if (is_quoted_delimiter(old_delim) == 1)
 					expand = 0;
-				new_delimiter = strip_quotes(old_delim);
+				if (ft_strchr(old_delim,'\"') || ft_strchr(old_delim,'\''))
+					new_delimiter = strip_quotes(old_delim);
+				else
+					new_delimiter = ft_strdup(old_delim);
 				int test = handle_heredoc(new_delimiter, data, expand);
 				if (test == -1)
 				{
