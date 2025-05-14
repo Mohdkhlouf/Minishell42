@@ -113,6 +113,7 @@ heredoc>
 
 check for none existing command in child process
 
+<<<<<<< HEAD
 minishell$ cat
 ^C
 minishell$ 
@@ -123,6 +124,17 @@ minishell$ cat
 minishell$ cat | cat | cat | cat
 ^C
 minishell$ 
+=======
+
+
+minishell$ touch a
+minishell$ chmod 000 a
+minishell$ a
+free(): double free detected in tcache 2
+
+
+
+>>>>>>> 8a8c2bcb25119472e4f5ccacd8dc592c1f1932fc
 
 #UNSOLVED
 
@@ -251,9 +263,4 @@ minishell$ mkdir path
 minishell$ ./path
 minishell: ./path: Is a directory
 minishell$ path
-free(): double free detected in tcache 2
-
-minishell$ touch a
-minishell$ chmod 000 a
-minishell$ a
 free(): double free detected in tcache 2
