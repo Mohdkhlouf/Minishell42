@@ -106,7 +106,6 @@ void	free_cmd(t_cmds *cmd)
 
 void	not_execve_handler(t_cmds *cmd, t_data *data, char *path)
 {
-	printf("mohammad is here after execve fails\n");
 	perror("minishell");
 	free(path);
 	cleanup_minishell(data);
@@ -184,9 +183,10 @@ void	path_with_slash_handler(t_cmds *cmd, t_data *data, char **path)
 	if (stat(*path, &path_stat) != 0)
 	{
 		perror("minishell");
-		cleanup_minishell(data);
 		data->exit_code = 127;
-		exit(data->exit_code);
+		cleanup_minishell(data);
+		free(data);
+		exit(127);
 	}
 	else if (S_ISDIR(path_stat.st_mode))
 	{

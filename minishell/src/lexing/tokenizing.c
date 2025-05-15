@@ -56,7 +56,10 @@ bool	tokenizing(t_data *data)
 		{
 			if (!(i > 0 && (data->tokens[i - 1].data)
 					&& ft_strnstr(data->tokens[i - 1].data, "<<", 2)))
-				quote_fixing(data, i);
+			{
+				if (!quote_fixing(data, i))
+					return (false);
+			}
 		}
 		redirection_setting(data, i);
 		i++;

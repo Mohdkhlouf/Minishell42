@@ -49,7 +49,7 @@ bool					var_handler2(t_data *data, int i);
 void					print_tokens(t_data *data);
 void					free_var(t_vars_data *var);
 int					assign_quotes(t_data *data, int len, int i, char *temp);
-void					quote_fixing(t_data *data, int i);
+bool					quote_fixing(t_data *data, int i);
 void					redirection_setting(t_data *data, int i);
 void					free_var(t_vars_data *var);
 void					append_eof_token(t_data *data, int type);
