@@ -32,10 +32,10 @@ void	handler(int num)
 	if (num == SIGINT)
 	{
 		g_signal_status = 130;
-		//ft_putstr_fd("\n", 2);
+		ft_putstr_fd("\n", 2);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		//rl_redisplay();
+		rl_redisplay();
 	}
 }
 

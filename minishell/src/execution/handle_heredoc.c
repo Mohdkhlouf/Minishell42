@@ -6,7 +6,7 @@ static void	heredoc_sigint_handler(int signum)
 	g_signal_status = 1;
 	write(STDOUT_FILENO, "\n", 1);
 	// rl_done = 1; // Force readline() to return immediately
-	close(STDIN_FILENO); // alternative to rl_done
+	//close(STDIN_FILENO); // alternative to rl_done
 }
 
 static void	set_heredoc_signals(void)
@@ -33,6 +33,9 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 	t_token	tmp_token;
 	char	*to_write;
 	t_token	*original_tokens;
+
+	//int fd_in_copy
+	//fd_in_copy = dup(STDIN_FILENO)
 
 	fd = open("HEREDOC_TEMP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)

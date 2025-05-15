@@ -117,10 +117,11 @@ void	not_access_handler(t_cmds *cmd, t_data *data, char *path)
 {
 	ft_putstr_fd(cmd->cmd[0], 2);
 	ft_putstr_fd(": Permission denied\n", 2);
-	free(path);
 	cleanup_minishell(data);
+	// if(path)
+	// 	free(path);
 	free(data);
-	exit(126); // Command found, but not executable
+	exit(126);
 }
 
 void	not_path_handler(t_cmds *cmd, t_data *data)
