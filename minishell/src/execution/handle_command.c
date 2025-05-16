@@ -238,11 +238,14 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	set_child_signals();
 	set_path(data);
 	/*Akancha added for null check to prevent seg fault*/
-	if (!cmd->cmd || !cmd->cmd[0])
+
+	if (!cmd->cmd || !cmd->cmd[0] || cmd->cmd[0][0] == '\0')
 	{
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		cleanup_minishell(data);
 		free(data);
-		exit(0);
+		exit(127);
 	}
 	if (ft_strchr(cmd->cmd[0], '/'))
 		path_with_slash_handler(cmd, data, &path);
