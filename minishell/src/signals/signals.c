@@ -31,12 +31,14 @@ void	handler(int num)
 	if (num == SIGINT)
 	{
 		g_signal_status = 130;
-		if (rl_done != 1)
+		if (!rl_done)
 		{
 			write(1, "\n", 1);      // Print a newline to clear the line
 			rl_replace_line("", 0); // Clear any typed input
 			rl_on_new_line();       // Move Readline to a new line
 			rl_redisplay();         // Redisplay the prompt
+			rl_done = 1;
+
 		}
 	}
 }

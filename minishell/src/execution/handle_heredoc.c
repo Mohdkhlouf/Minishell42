@@ -1,5 +1,9 @@
 #include "../includes/minishell.h"
 
+void	reset_signals_to_prompt(void)
+{
+	set_prompt_signals(); // Reapply prompt signal handlers
+}
 
 static void	handle_heredoc_signals(int sig)
 {
@@ -59,9 +63,11 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 		if (g_signal_status)
 		{
 			free(line);
+			free(input_delimiter);
 			close(fd);
 			unlink("HEREDOC_TEMP.txt");
-			// reset_signals_to_prompt();
+			reset_signals_to_prompt();
+			rl_event_hook = NULL;
 			return (1);
 		}
 		if (!line)
@@ -105,7 +111,8 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 		free(line);
 	}
 	close(fd);
-	// reset_signals_to_prompt();
+	reset_signals_to_prompt();
+	rl_event_hook = NULL;
 	return (0);
 }
 
