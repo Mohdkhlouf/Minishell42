@@ -433,3 +433,7 @@ and Null check all functions.
 also we have to inisialize all structs when creating them.
 
 
+must handle
+    $EMPTY echo hi
+    "" return command not found
+    $EMPTY do nothing.

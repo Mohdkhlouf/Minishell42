@@ -97,7 +97,8 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 	else
 	{
 		free(var->vars_arr[*c]);
-		var->vars_arr[*c] = ft_strdup("");
+		// var->vars_arr[*c] = ft_strdup("");
+		var->vars_arr[*c] = 0;
 	}
 }
 
@@ -119,6 +120,8 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	c = 0;
 	while (c < var->parts_count)
 	{
+		if(!var->vars_arr[0])
+			return (NULL);
 		if (!joined)
 			joined = ft_strdup(var->vars_arr[0]);
 		else
@@ -135,7 +138,11 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 void	path_set_and_join(t_data *data, int i, t_vars_data *var)
 {
 	if (var->var_var == NULL)
-		exit(EXIT_FAILURE);
+	{
+		free(data->tokens[i].data);
+		data->tokens[i].data = NULL;
+		// exit(EXIT_FAILURE);
+	}
 	else
 	{
 		free(data->tokens[i].data);
