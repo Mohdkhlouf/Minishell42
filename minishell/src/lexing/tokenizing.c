@@ -50,11 +50,11 @@ bool	tokenizing(t_data *data)
 		{
 			if (data->tokens_conter > 1 && i !=0)
 			{
-				if (ft_strnstr(data->tokens[i - 1].data, "<<", 2))
-					continue;
-				else
+				if ( !ft_strnstr(data->tokens[i - 1].data, "<<", 2))
 					var_handler2(data, i);
 			}
+			else
+				var_handler2(data, i);
 		}
 		if ((ft_strchr(data->tokens[i].data, '\'')
 					|| ft_strchr(data->tokens[i].data, '\"')))
