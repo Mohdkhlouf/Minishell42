@@ -38,6 +38,12 @@ int	assign_quotes(t_data *data, int len, int i, char *temp)
 	j = 0;
 	c = 0;
 	char quote = 0; // No active quote initially
+	// if (ft_strlen(data->tokens[i].data) == 2)
+	// {
+	// 	ft_strncpy(temp, data->tokens[i].data,2);
+	// 	return (0);
+	// }
+		
 	while (j < len)
 	{
 		ch = data->tokens[i].data[j];

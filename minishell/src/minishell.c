@@ -47,6 +47,14 @@ bool	pre_validation(t_data *data)
 
 	len = 0;
 	len = ft_strlen(data->input_line);
+
+	if ((len == 2) && (ft_strcmp(data->input_line, "\"\"") == 0 || ft_strcmp(data->input_line, "''") == 0))
+	{
+		print_error("Command '' not found");
+		data->exit_code = 127;
+		return (false);
+	}
+	
 	if (data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>'
 		|| data->input_line[len - 1] == '|')
 	{
