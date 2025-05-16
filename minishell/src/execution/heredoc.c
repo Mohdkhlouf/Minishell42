@@ -32,11 +32,11 @@ char *strip_quotes(char *delimiter)
 	size_t len = ft_strlen(delimiter);
 	// if (len < 2)
 	// 	return ft_strdup(delimiter);
-	result = malloc(sizeof(len) + 1);
+	result = malloc(sizeof(len) + 1); // malloc check
 	while (delimiter[i])
 	{
 		if ((delimiter[i] != '\'' && delimiter[i] != '"'))
-			result[j++] = delimiter[i];
+			result[j++] = delimiter[i]; // segfault
 		i++;
 	}
 	result[j] = '\0';
@@ -88,7 +88,7 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 					new_delimiter = ft_strdup(old_delim);
 				test = handle_heredoc(new_delimiter, data, expand);
 				if (test == -1)
-					return (ft_free(new_delimiter),false);
+					return (false);
 				else if (test == 1)		
 					return (set_g_signal(1), false);
 				ft_free(new_delimiter);

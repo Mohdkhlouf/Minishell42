@@ -32,6 +32,8 @@ bool ft_echo(t_cmds *cmd, t_data *data, int *exit_code)
 	}
 	while (cmd->cmd[i])
 	{
+		if (cmd->cmd[i][0] == '\0')
+			printf("1111111111111\n");
 		if (cmd->cmd[i][0] != '\0')
 		{
 			ft_putstr_fd(cmd->cmd[i], 1);

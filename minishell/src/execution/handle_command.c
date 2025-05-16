@@ -43,7 +43,7 @@ void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
 	if (*pid == -1)
 	{
 		print_error("ERROR IN FORKING\n");
-		exit(127);
+		exit(127); // cleaning
 	}
 	if (*pid == 0)
 	{

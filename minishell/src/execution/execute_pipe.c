@@ -68,6 +68,7 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 	{
 		close(data->pipe_fd[1]);
 		*prev_cmd = data->pipe_fd[0];
+		close(data->pipe_fd[0]);
 	}
 	else
 	{
