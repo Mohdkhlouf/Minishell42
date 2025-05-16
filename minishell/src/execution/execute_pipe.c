@@ -75,10 +75,6 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 		close(data->pipe_fd[1]);
 		*prev_cmd = -1;
 	}
-	if (data->pipe_fd[0] != -1)
-		close(data->pipe_fd[0]);
-	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
 }
 
 bool	allocate_pid(t_data *data, t_parsed_data *cmds_d)
@@ -133,7 +129,6 @@ void	wait_all(t_data *data, int *i, int *exit_code)
 			data->sigterm_flag = true;
 		else if (signal_num == SIGQUIT)
 			data->sigquit_flag = true;
-
 		*exit_code = 128 + signal_num;
 		data->exit_code = *exit_code;
 	}
@@ -164,7 +159,11 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 	}
 	if (data->sigquit_flag)
 		write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
-	if(data->sigterm_flag)
+	if (data->sigterm_flag)
 		write(STDOUT_FILENO, "\n", 1);
+	if (data->pipe_fd[0] != -1)
+		close(data->pipe_fd[0]);
+	if (data->pipe_fd[1] != -1)
+		close(data->pipe_fd[1]);
 	return (free(data->pid), true);
 }

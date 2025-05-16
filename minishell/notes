@@ -215,8 +215,13 @@ heredoc> here5
 ==1708527== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
 
 
+echo $USER'ksldjf'"$HOME"$HOME38479sfjls
+akumariksldjf"/home/akumari"
+minishell$ echo "$USER'ksldjf'"$HOME"$HOME38479sfjls"
+akumari'ksldjf'/home/akumari
 
 
+echo "op"' no erroor
 
 # ####################################################################
 # UNSOLVED
@@ -230,7 +235,7 @@ heredoc open fd
 ==865884==    by 0x1097A6: main (minishell.c:119)
 ==865884== 
 
-echo "op"' no erroor
+
 
 
 minishell$ "ls -la | ./minishell" > c
@@ -258,10 +263,7 @@ minishell: No such file or directory
 ==1707313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
 
 
-echo $USER'ksldjf'"$HOME"$HOME38479sfjls
-akumariksldjf"/home/akumari"
-minishell$ echo "$USER'ksldjf'"$HOME"$HOME38479sfjls"
-akumari'ksldjf'/home/akumari
+
 
 
 ls > out444 | cat < out444 
@@ -272,4 +274,16 @@ minishell$ rm -rf ../test
 minishell$ pwd
 getcwd failed: No such file or directory
 
+minishell$ << EOF cat | echo hello
+heredoc> hello
+heredoc> ^C
+- Exits minishell, should only stop heredoc process and go back to readline
 
+when ctrl+c
+must print empty line, after you add the fix ini the line with signal, 
+they said we have to use rl_done
+
+
+
+leaks:
+ cat < minishell.h << p < missing | ls

@@ -42,6 +42,10 @@ char *strip_quotes(char *delimiter)
 	result[j] = '\0';
 	return (result);
 }
+void set_g_signal(int value)
+{
+	g_signal_status = value;
+}
 
 bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 {
@@ -61,11 +65,12 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	while (i < data->cmds_d->cmds_counter)
 	{
 		j = 0;
-		while (true)
+		while (true && cmds_d->cmds[i].reds[j])
 		{
 			char *cmd_exist = cmds_d->cmds[i].reds[j];
 			if (!cmd_exist)
 				break;
+
 			if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
 			{
 				if (!cmds_d->cmds[i].reds[j + 1])
@@ -81,26 +86,16 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 					new_delimiter = strip_quotes(old_delim);
 				else
 					new_delimiter = ft_strdup(old_delim);
-				
 				test = handle_heredoc(new_delimiter, data, expand);
 				if (test == -1)
-				{
-					perror("heredoc");
-					free(new_delimiter);
-					return (false);
-				}
-				else if (test == 1)
-				{
-					free(new_delimiter);
-					g_signal_status = 1;
-					return (false);
-				}
+					return (ft_free(new_delimiter),false);
+				else if (test == 1)		
+					return (set_g_signal(1), false);
+				ft_free(new_delimiter);
 			}
 			j++;
-			free(new_delimiter);
 		}
 		i++;
 	}
-	
 	return (true);
 }
