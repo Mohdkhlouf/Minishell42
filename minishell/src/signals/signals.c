@@ -37,6 +37,8 @@ void	handler(int num)
 			rl_replace_line("", 0); // Clear any typed input
 			rl_on_new_line();       // Move Readline to a new line
 			rl_redisplay();         // Redisplay the prompt
+			rl_done = 1;
+
 		}
 	}
 }

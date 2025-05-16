@@ -2,7 +2,7 @@
 
 void	process_add(t_vars_data *var, char *temp)
 {
-	var->vars_arr[var->parts_count] = ft_strdup(temp);
+	var->vars_arr[var->parts_count] = ft_strdup(temp); //segfault
 	ft_free(temp);
 	var->parts_count++;
 }
@@ -69,7 +69,7 @@ void	split_vars(char *token, t_vars_data *var)
 			var->temp = ft_substr(token, start, 1);
 		else
 			var->temp = ft_substr(token, start, c - start);
-		var->vars_arr[var->parts_count] = ft_strdup(var->temp);
+		var->vars_arr[var->parts_count] = ft_strdup(var->temp); // segfault
 		var->parts_count++;
 	}
 	var->vars_arr[var->parts_count] = NULL;

@@ -46,10 +46,15 @@ bool	tokenizing(t_data *data)
 		}
 		else if (ft_strchr(data->tokens[i].data, '\"')
 			&& ft_strchr(data->tokens[i].data, '$')
-			&& data->tokens[i].data[0] != '\'' && !(data->tokens_conter > 1
-			&& ft_strnstr(data->tokens[i - 1].data, "<<", 2)))
+			&& data->tokens[i].data[0] != '\'')
 		{
-			var_handler2(data, i);
+			if (data->tokens_conter > 1 && i !=0)
+			{
+				if ( !ft_strnstr(data->tokens[i - 1].data, "<<", 2))
+					var_handler2(data, i);
+			}
+			else
+				var_handler2(data, i);
 		}
 		if ((ft_strchr(data->tokens[i].data, '\'')
 					|| ft_strchr(data->tokens[i].data, '\"')))

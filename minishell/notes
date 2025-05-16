@@ -223,8 +223,8 @@ akumari'ksldjf'/home/akumari
 
 echo "op"' no erroor
 
-# ####################################################################
-# UNSOLVED
+leaks:
+ cat < minishell.h << p < missing | ls
 
 heredoc open fd
 ==865884== FILE DESCRIPTORS: 4 open (3 std) at exit.
@@ -234,6 +234,23 @@ heredoc open fd
 ==865884==    by 0x109599: reading_loop (minishell.c:72)
 ==865884==    by 0x1097A6: main (minishell.c:119)
 ==865884== 
+
+
+minishell$ << EOF cat | echo hello
+heredoc> hello
+heredoc> ^C
+- Exits minishell, should only stop heredoc process and go back to readline
+
+when ctrl+c
+must print empty line, after you add the fix ini the line with signal, 
+they said we have to use rl_done
+
+
+leaks:
+
+<< echo oi
+echo
+
 
 
 
@@ -264,26 +281,155 @@ minishell: No such file or directory
 
 
 
-
+ech"$O" Hello segfault
 
 ls > out444 | cat < out444 
 
+
+
+
+
+minishell$ << j | << h | << g
+heredoc> fjkhhfjkhjkgh
+heredoc> j
+heredoc> dfdf
+heredoc> h
+heredoc> sferg
+heredoc> g
+==3512886== 
+==3512886== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==3512886== 
+==3512886== HEAP SUMMARY:
+==3512886==     in use at exit: 208,284 bytes in 228 blocks
+==3512886==   total heap usage: 1,105 allocs, 877 frees, 250,206 bytes allocated
+==3512886== 
+==3512886== LEAK SUMMARY:
+==3512886==    definitely lost: 0 bytes in 0 blocks
+==3512886==    indirectly lost: 0 bytes in 0 blocks
+==3512886==      possibly lost: 0 bytes in 0 blocks
+==3512886==    still reachable: 0 bytes in 0 blocks
+==3512886==         suppressed: 208,284 bytes in 228 blocks
+==3512886== 
+==3512886== For lists of detected and suppressed errors, rerun with: -s
+==3512886== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3512888== 
+==3512888== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==3512888== Open file descriptor 4:
+==3512888==    at 0x49DA07D: pipe (pipe.c:29)
+==3512888==    by 0x10FB2F: execute_pipes (execute_pipe.c:93)
+==3512888==    by 0x10FD73: handle_pipes (execute_pipe.c:148)
+==3512888==    by 0x10E8A9: execution (execution.c:80)
+==3512888==    by 0x1096D1: reading_loop (minishell.c:88)
+==3512888==    by 0x1097EB: main (minishell.c:120)
+==3512888== 
+==3512888== 
+==3512888== HEAP SUMMARY:
+==3512888==     in use at exit: 208,284 bytes in 228 blocks
+==3512888==   total heap usage: 1,105 allocs, 877 frees, 250,206 bytes allocated
+==3512888== 
+==3512888== LEAK SUMMARY:
+==3512888==    definitely lost: 0 bytes in 0 blocks
+==3512888==    indirectly lost: 0 bytes in 0 blocks
+==3512888==      possibly lost: 0 bytes in 0 blocks
+==3512888==    still reachable: 0 bytes in 0 blocks
+==3512888==         suppressed: 208,284 bytes in 228 blocks
+==3512888== 
+==3512888== For lists of detected and suppressed errors, rerun with: -s
+==3512888== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3512887== 
+==3512887== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==3512887== Open file descriptor 3:
+==3512887==    at 0x49DA07D: pipe (pipe.c:29)
+==3512887==    by 0x10FB2F: execute_pipes (execute_pipe.c:93)
+==3512887==    by 0x10FD73: handle_pipes (execute_pipe.c:148)
+==3512887==    by 0x10E8A9: execution (execution.c:80)
+==3512887==    by 0x1096D1: reading_loop (minishell.c:88)
+==3512887==    by 0x1097EB: main (minishell.c:120)
+==3512887== 
+==3512887== 
+==3512887== HEAP SUMMARY:
+==3512887==     in use at exit: 208,284 bytes in 228 blocks
+==3512887==   total heap usage: 1,105 allocs, 877 frees, 250,206 bytes allocated
+==3512887== 
+==3512887== LEAK SUMMARY:
+==3512887==    definitely lost: 0 bytes in 0 blocks
+==3512887==    indirectly lost: 0 bytes in 0 blocks
+==3512887==      possibly lost: 0 bytes in 0 blocks
+==3512887==    still reachable: 0 bytes in 0 blocks
+==3512887==         suppressed: 208,284 bytes in 228 blocks
+==3512887== 
+==3512887== For lists of detected and suppressed errors, rerun with: -s
+==3512887== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+
+
+
+minishell$ << EOF
+heredoc> ^C
+minishell$ exit
+exit
+==3512763== 
+==3512763== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==3512763== 
+==3512763== HEAP SUMMARY:
+==3512763==     in use at exit: 208,303 bytes in 230 blocks
+==3512763==   total heap usage: 991 allocs, 761 frees, 247,687 bytes allocated
+==3512763== 
+==3512763== 4 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==3512763==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3512763==    by 0x1118B7: ft_strdup (in /home/mkhlouf/shared_minishell/minishell/minishell)
+==3512763==    by 0x110A3F: exec_heredoc (heredoc.c:88)
+==3512763==    by 0x10E7B1: execution (execution.c:65)
+==3512763==    by 0x1096D1: reading_loop (minishell.c:88)
+==3512763==    by 0x1097EB: main (minishell.c:120)
+==3512763== 
+==3512763== LEAK SUMMARY:
+==3512763==    definitely lost: 4 bytes in 1 blocks
+==3512763==    indirectly lost: 0 bytes in 0 blocks
+==3512763==      possibly lost: 0 bytes in 0 blocks
+==3512763==    still reachable: 0 bytes in 0 blocks
+==3512763==         suppressed: 208,299 bytes in 229 blocks
+==3512763== 
+==3512763== For lists of detected and suppressed errors, rerun with: -s
+==3512763== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
+
+
+
+# ####################################################################
+# UNSOLVED
+
+
+
+
+
+
+# *
 minishell$ mkdir test
 minishell$ cd test
 minishell$ rm -rf ../test
 minishell$ pwd
 getcwd failed: No such file or directory
 
-minishell$ << EOF cat | echo hello
-heredoc> hello
-heredoc> ^C
-- Exits minishell, should only stop heredoc process and go back to readline
-
-when ctrl+c
-must print empty line, after you add the fix ini the line with signal, 
-they said we have to use rl_done
 
 
 
-leaks:
- cat < minishell.h << p < missing | ls
+
+# spaces:
+echo hi "" "C"
+
+"" command must return not found
+
+
+pwd -g
+	must return invalid like bash
+	check all built ins with all.
+
+
+
+
+
+fix all malloced return some functions are withut
+and Null check all functions.
+also we have to inisialize all structs when creating them.
+
+

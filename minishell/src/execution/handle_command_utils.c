@@ -28,7 +28,7 @@ char	*find_path(t_data *data, char *cmd)
 	{
 		if (i != 0)
 			ft_free(file_name);
-		file_name = ft_strjoin(data->parsed_path[i], with_slash);
+		file_name = ft_strjoin(data->parsed_path[i], with_slash); // segfault
 		if (!file_name)
 			print_error("Join is not done\n");
 		if ((access(file_name, F_OK) == 0))
