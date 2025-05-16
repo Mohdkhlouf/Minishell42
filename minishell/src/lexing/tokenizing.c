@@ -32,12 +32,11 @@ bool	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
-	print_tokens(data);
+	// print_tokens(data);
 	if (!validation(data))
 		return (false);
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
-
 		if (data->tokens[i].data[0] == '$')
 		{
 			if (data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
@@ -57,7 +56,7 @@ bool	tokenizing(t_data *data)
 			else
 				var_handler2(data, i);
 		}
-		if (data->tokens[i].data && (ft_strchr(data->tokens[i].data, '\'')
+		if ((ft_strchr(data->tokens[i].data, '\'')
 					|| ft_strchr(data->tokens[i].data, '\"')))
 		{
 			if (!(i > 0 && (data->tokens[i - 1].data)

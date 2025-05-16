@@ -118,7 +118,7 @@ void	not_access_handler(t_cmds *cmd, t_data *data, char *path)
 {
 	ft_putstr_fd(cmd->cmd[0], 2);
 	ft_putstr_fd(": Permission denied\n", 2);
-	if (!data->parsed_path && path)
+	if(!data->parsed_path &&  path)
 		ft_free(path);
 	cleanup_minishell(data);
 	free(data);
@@ -238,21 +238,11 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	set_child_signals();
 	set_path(data);
 	/*Akancha added for null check to prevent seg fault*/
-
 	if (!cmd->cmd || !cmd->cmd[0])
 	{
 		cleanup_minishell(data);
 		free(data);
-		exit(127);
-	}
-
-	if (cmd->cmd[0][0] == '\0')
-	{
-		ft_putstr_fd(cmd->cmd[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		cleanup_minishell(data);
-		free(data);
-		exit(127);
+		exit(0);
 	}
 	if (ft_strchr(cmd->cmd[0], '/'))
 		path_with_slash_handler(cmd, data, &path);

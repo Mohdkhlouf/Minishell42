@@ -44,17 +44,9 @@ void	pipe_found(t_parsed_data *cmds_d)
 /* add new redirecttion from tokens to the final struct for execution*/
 void	cmd_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 {
-	if (data->tokens[*i].data && data->tokens[*i].data[0] != '\0')
+	if (data->tokens[*i].data[0] != '\0')
 	{
 		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = ft_strdup(data->tokens[*i].data);
-		cmds_d->token_ctr++;
-	}
-	else if (!data->tokens[*i].data)
-		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
-	else
-	{
-		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr]= malloc(1);
-		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr][0] = 0;
 		cmds_d->token_ctr++;
 	}
 }
