@@ -364,6 +364,36 @@ heredoc> g
 
 
 
+minishell$ << EOF
+heredoc> ^C
+minishell$ exit
+exit
+==3512763== 
+==3512763== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==3512763== 
+==3512763== HEAP SUMMARY:
+==3512763==     in use at exit: 208,303 bytes in 230 blocks
+==3512763==   total heap usage: 991 allocs, 761 frees, 247,687 bytes allocated
+==3512763== 
+==3512763== 4 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==3512763==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3512763==    by 0x1118B7: ft_strdup (in /home/mkhlouf/shared_minishell/minishell/minishell)
+==3512763==    by 0x110A3F: exec_heredoc (heredoc.c:88)
+==3512763==    by 0x10E7B1: execution (execution.c:65)
+==3512763==    by 0x1096D1: reading_loop (minishell.c:88)
+==3512763==    by 0x1097EB: main (minishell.c:120)
+==3512763== 
+==3512763== LEAK SUMMARY:
+==3512763==    definitely lost: 4 bytes in 1 blocks
+==3512763==    indirectly lost: 0 bytes in 0 blocks
+==3512763==      possibly lost: 0 bytes in 0 blocks
+==3512763==    still reachable: 0 bytes in 0 blocks
+==3512763==         suppressed: 208,299 bytes in 229 blocks
+==3512763== 
+==3512763== For lists of detected and suppressed errors, rerun with: -s
+==3512763== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
+
+
 
 # ####################################################################
 # UNSOLVED
@@ -394,36 +424,6 @@ pwd -g
 	must return invalid like bash
 	check all built ins with all.
 
-
-
-minishell$ << EOF
-heredoc> ^C
-minishell$ exit
-exit
-==3512763== 
-==3512763== FILE DESCRIPTORS: 3 open (3 std) at exit.
-==3512763== 
-==3512763== HEAP SUMMARY:
-==3512763==     in use at exit: 208,303 bytes in 230 blocks
-==3512763==   total heap usage: 991 allocs, 761 frees, 247,687 bytes allocated
-==3512763== 
-==3512763== 4 bytes in 1 blocks are definitely lost in loss record 1 of 68
-==3512763==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==3512763==    by 0x1118B7: ft_strdup (in /home/mkhlouf/shared_minishell/minishell/minishell)
-==3512763==    by 0x110A3F: exec_heredoc (heredoc.c:88)
-==3512763==    by 0x10E7B1: execution (execution.c:65)
-==3512763==    by 0x1096D1: reading_loop (minishell.c:88)
-==3512763==    by 0x1097EB: main (minishell.c:120)
-==3512763== 
-==3512763== LEAK SUMMARY:
-==3512763==    definitely lost: 4 bytes in 1 blocks
-==3512763==    indirectly lost: 0 bytes in 0 blocks
-==3512763==      possibly lost: 0 bytes in 0 blocks
-==3512763==    still reachable: 0 bytes in 0 blocks
-==3512763==         suppressed: 208,299 bytes in 229 blocks
-==3512763== 
-==3512763== For lists of detected and suppressed errors, rerun with: -s
-==3512763== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
 
 
 

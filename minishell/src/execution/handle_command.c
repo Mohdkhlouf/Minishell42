@@ -96,6 +96,7 @@ void	free_2d_cmd_arr(char **arr)
 		i++;
 	}
 	free(arr);
+	arr = NULL;
 }
 
 void	free_cmd(t_cmds *cmd)
@@ -107,7 +108,7 @@ void	free_cmd(t_cmds *cmd)
 void	not_execve_handler(t_cmds *cmd, t_data *data, char *path)
 {
 	perror("minishell");
-	free(path);
+	ft_free(path);
 	cleanup_minishell(data);
 	data->exit_code = errno;
 	exit(data->exit_code);
@@ -117,9 +118,9 @@ void	not_access_handler(t_cmds *cmd, t_data *data, char *path)
 {
 	ft_putstr_fd(cmd->cmd[0], 2);
 	ft_putstr_fd(": Permission denied\n", 2);
+	if(!data->parsed_path &&  path)
+		ft_free(path);
 	cleanup_minishell(data);
-	// if(path)
-	// 	free(path);
 	free(data);
 	exit(126);
 }
@@ -208,7 +209,7 @@ void	path_as_command_handler(t_cmds *cmd, t_data *data, char **path)
 	if (cmd->cmd[0][0])
 	{
 		*path = find_path(data, cmd->cmd[0]);
-		if (!*path)
+		if (!*path && !data->parsed_path)
 		{
 			temp_name = ft_strjoin("./", cmd->cmd[0]);
 			if ((access(temp_name, F_OK) == 0))
