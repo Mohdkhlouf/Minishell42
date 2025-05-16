@@ -68,7 +68,6 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 	{
 		close(data->pipe_fd[1]);
 		*prev_cmd = data->pipe_fd[0];
-		close(data->pipe_fd[0]);
 	}
 	else
 	{
@@ -91,7 +90,7 @@ bool	allocate_pid(t_data *data, t_parsed_data *cmds_d)
 bool	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		int *exit_code)
 {
-	if (i < cmds_d->cmds_counter && pipe(data->pipe_fd) == -1)
+	if (i < cmds_d->cmds_counter - 1 && pipe(data->pipe_fd) == -1)
 	{
 		perror("pipe");
 		return (false);
