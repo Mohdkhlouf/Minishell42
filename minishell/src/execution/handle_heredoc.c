@@ -1,30 +1,36 @@
 #include "../includes/minishell.h"
 
-static void	heredoc_sigint_handler(int signum)
+
+static void	handle_heredoc_signals(int sig)
 {
-	(void)signum;
-	g_signal_status = 1;
-	write(STDOUT_FILENO, "\n", 1);
-	// rl_done = 1; // Force readline() to return immediately
-	//close(STDIN_FILENO); // alternative to rl_done
+	if (sig == SIGINT)
+	{
+		g_signal_status = SIGINT;
+	}
 }
 
-static void	set_heredoc_signals(void)
+int	heredoc_event_hook(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = heredoc_sigint_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0; // No SA_RESTART: readline must return NULL on Ctrl+C
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN; // Usually ignore Ctrl+\ during heredoc
-	sigaction(SIGQUIT, &sa, NULL);
+	if (g_signal_status)
+	{
+		rl_done = 1;
+		return (1);
+	}
+	return (0);
 }
 
-void	reset_signals_to_prompt(void)
+void	set_heredoc_signals(struct sigaction *sa_old)
 {
-	set_prompt_signals(); // Reapply prompt signal handlers
+	struct sigaction	new_sa;
+
+	ft_memset(&new_sa, 0, sizeof(new_sa));
+	new_sa.sa_handler = handle_heredoc_signals;
+	new_sa.sa_flags = SA_RESTART;
+	sigemptyset(&new_sa.sa_mask);
+	if (sigaction(SIGINT, &new_sa, sa_old) == -1)
+		return ;
 }
+
 
 int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 {
@@ -33,6 +39,8 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 	t_token	tmp_token;
 	char	*to_write;
 	t_token	*original_tokens;
+	struct sigaction	sa_old;
+
 
 	//int fd_in_copy
 	//fd_in_copy = dup(STDIN_FILENO)
@@ -43,7 +51,8 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 		perror("open");
 		return (-1);
 	}
-	set_heredoc_signals();
+	set_heredoc_signals(&sa_old);
+	rl_event_hook = heredoc_event_hook;
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -52,7 +61,7 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 			free(line);
 			close(fd);
 			unlink("HEREDOC_TEMP.txt");
-			reset_signals_to_prompt();
+			// reset_signals_to_prompt();
 			return (1);
 		}
 		if (!line)
@@ -96,7 +105,7 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 		free(line);
 	}
 	close(fd);
-	reset_signals_to_prompt();
+	// reset_signals_to_prompt();
 	return (0);
 }
 

@@ -282,3 +282,8 @@ heredoc> ^C
 when ctrl+c
 must print empty line, after you add the fix ini the line with signal, 
 they said we have to use rl_done
+
+
+
+leaks:
+ cat < minishell.h << p < missing | ls

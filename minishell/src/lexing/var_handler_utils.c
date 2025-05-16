@@ -12,7 +12,8 @@ void	ft_free(char *str)
 	if (str)
 		free(str);
 	str = NULL;
-}
+
+	}
 
 void	free_2d_arr(t_vars_data *var, char **arr)
 {
