@@ -176,5 +176,4 @@ bool							pre_validation(t_data *data);
 void							signal_130(t_data *data);
 void							faild_read_line(t_data *data,
 									t_parsed_data *cmds_d);
-
 #endif

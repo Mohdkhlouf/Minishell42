@@ -66,3 +66,23 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 		var->j++;
 	}
 }
+
+void	split_vars(char *token, t_vars_data *var)
+{
+	var->temp = NULL;
+	var->start = 0;
+	var->c = 0;
+	var->var_is_found = false;
+	split_vars_var(token, var);
+	if (token[var->c] == '\0')
+	{
+		var->var_is_found = false;
+		if (var->start == var->c)
+			var->temp = ft_substr(token, var->start, 1);
+		else
+			var->temp = ft_substr(token, var->start, var->c - var->start);
+		var->vars_arr[var->parts_count] = ft_strdup(var->temp); // segfault
+		var->parts_count++;
+	}
+	var->vars_arr[var->parts_count] = NULL;
+}
