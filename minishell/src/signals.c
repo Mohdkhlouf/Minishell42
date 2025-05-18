@@ -1,13 +1,5 @@
 #include "../includes/minishell.h"
 
-/*
-When waiting for user input (in prompt)
-
-When executing a child process (like running ls)
-
-When in a heredoc (<<)
-*/
-
 void	heredoc_signal_rest(t_data *data)
 {
 	int	new_stdin;

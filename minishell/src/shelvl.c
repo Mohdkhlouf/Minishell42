@@ -1,6 +1,18 @@
 #include "../includes/minishell.h"
 
-t_var *get_env_lst(t_var *env_lst, const char *key)
+void	signal_130(t_data *data)
+{
+	g_signal_status = 0;
+	data->exit_code = 130;
+}
+
+void	faild_read_line(t_data *data, t_parsed_data *cmds_d)
+{
+	free_readingloop(data, cmds_d);
+	exit(0);
+}
+
+t_var	*get_env_lst(t_var *env_lst, const char *key)
 {
 	while (env_lst)
 	{
@@ -11,12 +23,13 @@ t_var *get_env_lst(t_var *env_lst, const char *key)
 	return (NULL);
 }
 
-void shelvl(t_data *data)
+void	shelvl(t_data *data)
 {
-	t_var *env_var;
-	int shell_level = 1;
-	char *shlvl_str;
+	t_var	*env_var;
+	int		shell_level;
+	char	*shlvl_str;
 
+	shell_level = 1;
 	env_var = get_env_lst(data->env_lst, "SHLVL");
 	if (env_var)
 		shell_level = ft_atoi(env_var->value) + 1;
@@ -25,14 +38,16 @@ void shelvl(t_data *data)
 	free(shlvl_str);
 }
 
-void exit_shlvl(t_data *data)
+void	exit_shlvl(t_data *data)
 {
-	t_var *env_var;
-	char *shlvl_str;
+	t_var	*env_var;
+	char	*shlvl_str;
+	int		shell_level;
+
 	env_var = get_env_lst(data->env_lst, "SHLVL");
 	if (env_var)
 	{
-		int shell_level = ft_atoi(env_var->value);
+		shell_level = ft_atoi(env_var->value);
 		if (shell_level > 2)
 		{
 			shell_level--;

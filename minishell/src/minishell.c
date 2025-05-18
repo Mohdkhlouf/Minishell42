@@ -39,38 +39,6 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->sigterm_flag = false;
 }
 
-
-
-bool	pre_validation(t_data *data)
-{
-	int	len;
-
-	len = 0;
-	len = ft_strlen(data->input_line);
-
-	if ((len == 2) && (ft_strcmp(data->input_line, "\"\"") == 0 || ft_strcmp(data->input_line, "''") == 0))
-	{
-		print_error("Command '' not found");
-		data->exit_code = 127;
-		return (false);
-	}
-	
-	if (data->input_line[len - 1] == '<' || data->input_line[len - 1] == '>'
-		|| data->input_line[len - 1] == '|')
-	{
-		print_error("syntax error near unexpected token `|'");
-		data->exit_code = 2;
-		return (false);
-	}
-	if (len == 1 && data->input_line[len - 1] == '.')
-	{
-		print_error_2msgs(".", "filename argument required");
-		data->exit_code = 2;
-		return (false);
-	}
-	return (true);
-}
-
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
 	while (true)
@@ -79,17 +47,11 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 		heredoc_signal_rest(data);
 		data->input_line = readline(data->prompt);
 		if (!data->input_line)
-		{
-			free_readingloop(data, cmds_d);
-			exit(0);
-		}
+			faild_read_line(data, cmds_d);
 		else if (ft_strcmp(data->input_line, "") != 0)
 		{
 			if (g_signal_status == 130)
-			{
-				g_signal_status = 0;
-				data->exit_code = 130;
-			}
+				signal_130(data);
 			add_history(data->input_line);
 			if (!pre_validation(data) || !lexing(data) || !tokenizing(data)
 				|| !parsing(data, cmds_d) || !update_new_env(data)
@@ -117,18 +79,17 @@ int	main(int argc, char **argv, char **envp)
 	{
 		free(data);
 		free(cmds_d);
-		perror("Memory allocation failed");
+		perror("Minishell: ");
 		exit(EXIT_FAILURE);
 	}
 	data_init(data, cmds_d);
 	init_env(envp, data);
-	if (envp && envp[0])  // ✅ Only increment SHLVL if it was inherited
+	if (envp && envp[0])
 		shelvl(data);
 	set_prompt_signals();
 	reading_loop(data, cmds_d);
 	free(cmds_d);
 	free(data->path);
 	free(data);
-	printf("END OF MAIN FILE REACHED\n");
 	return (g_signal_status);
 }

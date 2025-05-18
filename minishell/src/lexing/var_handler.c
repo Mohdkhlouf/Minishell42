@@ -1,80 +1,5 @@
 #include "../includes/lexing.h"
 
-void	process_add(t_vars_data *var, char *temp)
-{
-	var->vars_arr[var->parts_count] = ft_strdup(temp); //segfault
-	ft_free(temp);
-	var->parts_count++;
-}
-
-void	split_vars_var(char *token, int *c, t_vars_data *var, int *start)
-{
-	char	*temp;
-
-	while (token[*c])
-	{
-		temp = NULL;
-		if (token[*c] == '$')
-		{
-			var->var_is_found = true;
-			if (*c != 0)
-			{
-				temp = ft_substr(token, *start, *c - *start);
-				process_add(var, temp);
-			}
-			*start = *c;
-		}
-		else if (token[*c] == '?' && token[*c - 1] == '$')
-		{
-			var->var_is_found = false;
-			temp = ft_substr(token, *start, 2);
-			process_add(var, temp);
-			*start = *c + 1;
-		}
-		else if (*c > 0 && (token[*c - 1] == '$')
-			&& ((ft_isdigit(token[*c]) == 1) && (ft_isdigit(token[*c
-						+ 1]) == 1)))
-		{
-			var->var_is_found = false;
-			temp = ft_substr(token, *start, 2);
-			process_add(var, temp);
-			*start = *c + 1;
-		}
-		else if (var->var_is_found && (ft_isalnum(token[*c]) == 0))
-		{
-			var->var_is_found = false;
-			temp = ft_substr(token, *start, *c - *start);
-			process_add(var, temp);
-			*start = *c;
-		}
-		(*c)++;
-	}
-	// free(temp);
-}
-
-void	split_vars(char *token, t_vars_data *var)
-{
-	int	start;
-	int	c;
-
-	var->temp = NULL;
-	start = 0;
-	c = 0;
-	var->var_is_found = false;
-	split_vars_var(token, &c, var, &start);
-	if (token[c] == '\0')
-	{
-		var->var_is_found = false;
-		if (start == c)
-			var->temp = ft_substr(token, start, 1);
-		else
-			var->temp = ft_substr(token, start, c - start);
-		var->vars_arr[var->parts_count] = ft_strdup(var->temp); // segfault
-		var->parts_count++;
-	}
-	var->vars_arr[var->parts_count] = NULL;
-}
-
 void	var_expander(t_vars_data *var, int *c, t_data *data)
 {
 	char	*env_value;
@@ -101,6 +26,19 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 	}
 }
 
+void	loop_to_expand(t_vars_data *var, t_data *data)
+{
+	int	c;
+
+	c = 0;
+	while (c < var->parts_count)
+	{
+		if (var->vars_arr[c][0] == '$' && var->vars_arr[c][1])
+			var_expander(var, &c, data);
+		c++;
+	}
+}
+
 char	*expand_vars(t_vars_data *var, t_data *data)
 {
 	int		c;
@@ -110,13 +48,7 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	c = 0;
 	temp = NULL;
 	joined = NULL;
-	while (c < var->parts_count)
-	{
-		if (var->vars_arr[c][0] == '$' && var->vars_arr[c][1])
-			var_expander(var, &c, data);
-		c++;
-	}
-	c = 0;
+	loop_to_expand(var, data);
 	while (c < var->parts_count)
 	{
 		if (!joined)

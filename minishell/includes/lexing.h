@@ -18,6 +18,8 @@ typedef struct s_vars_data
 	int					vars_count;
 	int					len;
 	bool				var_is_found;
+	int start;
+	int c;
 }						t_vars_data;
 
 // for var when it is single one
@@ -48,12 +50,14 @@ bool					var_init(t_vars_data *var, t_data *data, int i);
 bool					var_handler2(t_data *data, int i);
 void					print_tokens(t_data *data);
 void					free_var(t_vars_data *var);
-int					assign_quotes(t_data *data, int len, int i, char *temp);
+int						assign_quotes(t_data *data, int len, int i, char *temp);
 bool					quote_fixing(t_data *data, int i);
 void					redirection_setting(t_data *data, int i);
 void					free_var(t_vars_data *var);
 void					append_eof_token(t_data *data, int type);
-void					free_2d_arr(t_vars_data *var, char **arr);
 void					ft_free(char *str);
+void					split_vars(char *token, t_vars_data *var);
+void					split_vars_var(char *token, t_vars_data *var);
+void	process_add(t_vars_data *var, char *temp);
 
 #endif

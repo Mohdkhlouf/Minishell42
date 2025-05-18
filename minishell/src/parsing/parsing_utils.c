@@ -51,7 +51,7 @@ void	cmd_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 	}
 	else
 	{
-		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr]= ft_strdup("\0");
+		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = ft_strdup("\0");
 		cmds_d->token_ctr++;
 	}
 }

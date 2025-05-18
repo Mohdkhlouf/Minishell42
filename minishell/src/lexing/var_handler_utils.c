@@ -2,34 +2,22 @@
 
 void	free_var(t_vars_data *var)
 {
-	free_2d_arr(var, var->vars_arr);
-	ft_free(var->var_var);
-	free(var);
-}
-
-void	ft_free(char *str)
-{
-	if (str)
-		free(str);
-	str = NULL;
-
-	}
-
-void	free_2d_arr(t_vars_data *var, char **arr)
-{
 	int	i;
 
 	i = 0;
 	while (i < var->parts_count)
 	{
-		if (arr[i] != NULL)
+		if (var->vars_arr[i] != NULL)
 		{
-			free(arr[i]);
-			arr[i] = NULL;
+			free(var->vars_arr[i]);
+			var->vars_arr[i] = NULL;
 		}
 		i++;
 	}
-	free(arr);
+	free(var->vars_arr);
+	var->vars_arr = NULL;
+	ft_free(var->var_var);
+	free(var);
 }
 
 int	find_vars_count(t_data *data, int i)
@@ -79,29 +67,22 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 	}
 }
 
-void	print_tokens(t_data *data)
+void	split_vars(char *token, t_vars_data *var)
 {
-	int	i;
-
-	i = 0;
-	while (data->tokens[i].data && i < data->tokens_conter)
+	var->temp = NULL;
+	var->start = 0;
+	var->c = 0;
+	var->var_is_found = false;
+	split_vars_var(token, var);
+	if (token[var->c] == '\0')
 	{
-		printf("Token:#%s# Type:%u\n", data->tokens[i].data,
-			data->tokens[i].type);
-		i++;
+		var->var_is_found = false;
+		if (var->start == var->c)
+			var->temp = ft_substr(token, var->start, 1);
+		else
+			var->temp = ft_substr(token, var->start, var->c - var->start);
+		var->vars_arr[var->parts_count] = ft_strdup(var->temp); // segfault
+		var->parts_count++;
 	}
-}
-
-void	free_var_handler(t_data *data, t_vars_data *var)
-{
-	if (!var)
-		return ;
-	(void)data;
-	// if (var->vars_arr)
-	// {
-	// 	for (int i = 0; i < data->tokens_conter; i++)
-	// 		free(var->vars_arr[i]);  // 🔥 This is the key fix
-	// }
-	free(var->var_var);
-	free(var);
+	var->vars_arr[var->parts_count] = NULL;
 }
