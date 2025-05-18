@@ -49,11 +49,9 @@ void	cmd_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = ft_strdup(data->tokens[*i].data);
 		cmds_d->token_ctr++;
 	}
-	else if (!data->tokens[*i].data[0])
-		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
 	else
 	{
-		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr]= ft_strdup("");
+		cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr]= ft_strdup("\0");
 		cmds_d->token_ctr++;
 	}
 }

@@ -7,22 +7,7 @@ these need to be handleld
 cd libft
 thi give seg fault
 
-when unset pwd, and use cd again, it must set the PWD value but will not shown in ENV, same as oldpwd
-
-
-
 whoami | cat -e | cat -e > tmp/file 
-
-
-
-whoami | cat -e | cat -e > tmp/file 
-
-
-
-
-add check if there is no A2
-unset A2
-the exit code is faluire
 
 ****
 
