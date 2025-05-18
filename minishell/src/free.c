@@ -139,7 +139,6 @@ void	cleanup_minishell(t_data *data)
 	free_cmds_d(data->cmds_d);
 	free_data(data);
 	free(data->cmds_d);
-	// free(data);
 }
 
 void	free_split(char **str)
@@ -156,38 +155,3 @@ void	free_split(char **str)
 	}
 	free(str);
 }
-// void free_env_list(t_var *env)
-// {
-// 	while (env)
-// 	{
-// 		if (env->key)
-// 		{
-// 			free(env->key);
-// 			env->key = NULL;
-// 		}
-// 		if (env->value)
-// 		{
-// 			free(env->value);
-// 			env->value = NULL;
-// 		}
-// 		if (env)
-// 			free(env);
-// 		env = env->next;
-// 	}
-// }
-
-// void free_env_list(t_var *env)
-// {
-// 	t_var *tmp;
-
-// 	while (env)
-// 	{
-// 		tmp = env->next;
-// 		if (env->key)
-// 			free(env->key);
-// 		if (env->value)
-// 			free(env->value);
-// 		free(env); // <- FREE THE NODE
-// 		env = tmp;
-// 	}
-// }

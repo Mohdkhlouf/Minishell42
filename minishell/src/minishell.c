@@ -39,19 +39,6 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->sigterm_flag = false;
 }
 
-
-
-void signal_130(t_data *data)
-{
-	g_signal_status = 0;
-	data->exit_code = 130;
-}
-
-void faild_read_line(t_data *data, t_parsed_data *cmds_d)
-{
-	free_readingloop(data, cmds_d);
-	exit(0);
-}
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 {
 	while (true)
