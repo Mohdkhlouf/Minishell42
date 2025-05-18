@@ -38,7 +38,7 @@ void	set_ecode_print(t_data *data, int value, char *msg)
 	data->exit_code = value;
 }
 
-bool quotes_validation(t_data *data)
+bool	quotes_validation(t_data *data)
 {
 	if (data->quote_found && data->first_quote_type == 1)
 		return (set_ecode_print(data, 2, "quotes are not closed"), false);

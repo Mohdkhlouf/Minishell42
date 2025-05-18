@@ -38,3 +38,30 @@ void	printing_cmds_reds(t_parsed_data *cmds_d)
 		i++;
 	}
 }
+
+void	print_tokens(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->tokens[i].data && i < data->tokens_conter)
+	{
+		printf("Token:#%s# Type:%u\n", data->tokens[i].data,
+			data->tokens[i].type);
+		i++;
+	}
+}
+
+// void	free_var_handler(t_data *data, t_vars_data *var)
+// {
+// 	if (!var)
+// 		return ;
+// 	(void)data;
+// 	// if (var->vars_arr)
+// 	// {
+// 	// 	for (int i = 0; i < data->tokens_conter; i++)
+// 	// 		free(var->vars_arr[i]);  // 🔥 This is the key fix
+// 	// }
+// 	free(var->var_var);
+// 	free(var);
+// }

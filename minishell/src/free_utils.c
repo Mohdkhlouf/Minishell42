@@ -1,5 +1,12 @@
 #include "../includes/minishell.h"
 
+void	ft_free(char *str)
+{
+	if (str)
+		free(str);
+	str = NULL;
+}
+
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
 	if (access("HEREDOC_TEMP.txt", F_OK) == 0)
