@@ -7,6 +7,7 @@
 # include "parsing.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <sched.h>
@@ -18,7 +19,6 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <limits.h> 
 
 # define SUCCESS 1
 # define FAILIURE 0
@@ -83,7 +83,7 @@ typedef struct s_data
 	int							cline_parts;
 	int							tokens_conter;
 	char						*prompt;
-	bool 						sigquit_flag;
+	bool						sigquit_flag;
 	bool						sigterm_flag;
 }								t_data;
 
@@ -104,8 +104,8 @@ int								free_matrix(char **env);
 void							free_env_list(t_var *head);
 
 /*----------------Shlvl----------------------*/
-void shelvl(t_data *data);
-void exit_shlvl(t_data *data);
+void							shelvl(t_data *data);
+void							exit_shlvl(t_data *data);
 
 // void handle_sigint(int sig);
 // void handle_sigquit(int sig);
@@ -137,8 +137,10 @@ void							update_env_list(char *key, char *value,
 char							*get_env_value(char *key, t_data *data);
 void							check_on_fail_cd(int *exit_code,
 									char *expanded);
-char *expand_path(t_data *data, char *path_value, int *exit_code);
-bool change_to_home_dir(t_data *data, char *home_dir, int *exit_code);
+char							*expand_path(t_data *data, char *path_value,
+									int *exit_code);
+bool							change_to_home_dir(t_data *data, char *home_dir,
+									int *exit_code);
 /*------------------export-------------------*/
 
 bool							ft_export(t_cmds *cmd, t_data *data,
@@ -170,6 +172,7 @@ void							free_readingloop(t_data *data,
 									t_parsed_data *cmds_d);
 void							command_cleanup(t_data *data,
 									t_parsed_data *cmds_d);
+bool							pre_validation(t_data *data);
 
 #endif
 
