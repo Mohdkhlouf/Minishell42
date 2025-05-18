@@ -2,7 +2,7 @@
 
 void	process_add(t_vars_data *var, char *temp)
 {
-	var->vars_arr[var->parts_count] = ft_strdup(temp); //segfault
+	var->vars_arr[var->parts_count] = ft_strdup(temp); // segfault
 	ft_free(temp);
 	var->parts_count++;
 }
@@ -101,6 +101,19 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 	}
 }
 
+void	loop_to_expand(t_vars_data *var, t_data *data)
+{
+	int	c;
+
+	c = 0;
+	while (c < var->parts_count)
+	{
+		if (var->vars_arr[c][0] == '$' && var->vars_arr[c][1])
+			var_expander(var, &c, data);
+		c++;
+	}
+}
+
 char	*expand_vars(t_vars_data *var, t_data *data)
 {
 	int		c;
@@ -110,13 +123,7 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	c = 0;
 	temp = NULL;
 	joined = NULL;
-	while (c < var->parts_count)
-	{
-		if (var->vars_arr[c][0] == '$' && var->vars_arr[c][1])
-			var_expander(var, &c, data);
-		c++;
-	}
-	c = 0;
+	loop_to_expand(var, data);
 	while (c < var->parts_count)
 	{
 		if (!joined)

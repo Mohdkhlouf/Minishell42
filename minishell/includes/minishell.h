@@ -178,17 +178,3 @@ void							faild_read_line(t_data *data,
 									t_parsed_data *cmds_d);
 
 #endif
-
-// void add_export_to_list(char **arr_list, t_data *data);
-// void print_export(t_data *data);
-// void check_echo_$(t_data *data);
-// int check$(char *sign);
-// void print_env_to_envp(t_data *data);
-// t_var *env_content(char *key, char *value);
-// t_var *lst_new_elem(char *name, char *value);
-// void lst_add_back(t_var **lst, t_var *new_node);
-// t_var *lst_last(t_var *lst);
-// void init_env(char **envp, t_data *data);
-// void set_shlvl(t_data *data, char **envp, int i);
-
-//
