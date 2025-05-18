@@ -238,7 +238,7 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 	set_child_signals();
 	set_path(data);
 	/*Akancha added for null check to prevent seg fault*/
-	if (!cmd->cmd || !cmd->cmd[0])
+	if (!cmd->cmd || !cmd->cmd[0] || cmd->cmd[0][0] == '\0')
 	{
 		cleanup_minishell(data);
 		free(data);
