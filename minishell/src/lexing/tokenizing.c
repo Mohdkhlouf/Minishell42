@@ -34,7 +34,7 @@ void	var_handler_quotes_token(t_data *data, int i)
 		var_handler2(data, i);
 }
 
-void	var_hnandler_token(t_data *data, int i)
+void	var_handler_token(t_data *data, int i)
 {
 	if (data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
 		set_exit_value(data, i);
@@ -70,8 +70,13 @@ bool	tokenizing(t_data *data)
 		return (false);
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
+		if (data->malloc_fail_flag)
+			{
+				command_cleanup(data, data->cmds_d);
+				exit(1);
+			}
 		if (data->tokens[i].data[0] == '$')
-			var_hnandler_token(data, i);
+			var_handler_token(data, i);
 		else if (ft_strchr(data->tokens[i].data, '\"')
 			&& ft_strchr(data->tokens[i].data, '$')
 			&& data->tokens[i].data[0] != '\'')

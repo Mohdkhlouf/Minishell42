@@ -1,11 +1,11 @@
 #include "../includes/minishell.h"
 
-/*this function tests if the function is empty then print and return value. it needs more later*/
+/*this function tests if the function is empty then print and return value.
+it needs more later*/
 bool	is_empty_cmd(t_cmds *cmd)
 {
 	if (ft_strcmp(cmd->cmd[0], "") == 0)
 	{
-		/*print_error("Command not found.\n");*/
 		return (true);
 	}
 	return (false);

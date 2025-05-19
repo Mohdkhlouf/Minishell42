@@ -8,6 +8,7 @@ void	signal_130(t_data *data)
 
 void	faild_read_line(t_data *data, t_parsed_data *cmds_d)
 {
+	ft_putstr_fd("exit\n", 1);
 	free_readingloop(data, cmds_d);
 	exit(0);
 }

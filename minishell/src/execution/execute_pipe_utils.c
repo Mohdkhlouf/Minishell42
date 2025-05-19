@@ -26,8 +26,7 @@ void	pipe_fd_close_dup(t_data *data)
 	close(data->pipe_fd[1]);
 }
 
-void	execute_child(t_data *data,int i, int *prev_cmd,
-		int *exit_code)
+void	execute_child(t_data *data, int i, int *prev_cmd, int *exit_code)
 {
 	if (!execute_redirections(data, &data->cmds_d->cmds[i], exit_code))
 		not_execute_redirections_handler(data);

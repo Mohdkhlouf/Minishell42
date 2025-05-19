@@ -37,9 +37,9 @@ char	*strip_quotes(char *delimiter)
 	if (!delimiter)
 		return (NULL);
 	len = ft_strlen(delimiter);
-	// if (len < 2)
-	// 	return (ft_strdup(delimiter));
-	result = malloc(sizeof(len) + 1); // malloc check
+	result = malloc(sizeof(len) + 1);
+	if (!result)
+		return (NULL);
 	while (delimiter[i])
 	{
 		if ((delimiter[i] != '\'' && delimiter[i] != '"'))

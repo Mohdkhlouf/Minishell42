@@ -9,7 +9,7 @@ void	set_data_exit_code_value(t_data *data, int *exit_code, int value)
 int	is_builtin(char *cmd)
 {
 	const char	*builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
-			"env", NULL};
+		"env", NULL};
 	int			i;
 
 	if (!cmd || !cmd[0])

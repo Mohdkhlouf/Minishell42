@@ -30,6 +30,8 @@ void	case_normal(char *token, t_vars_data *var, char *temp)
 	if (var->c != 0)
 	{
 		temp = ft_substr(token, var->start, var->c - var->start);
+		if (!temp)
+				return ;
 		process_add(var, temp);
 	}
 	var->start = var->c;

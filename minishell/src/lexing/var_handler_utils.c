@@ -67,7 +67,7 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 	}
 }
 
-void	split_vars(char *token, t_vars_data *var)
+void	split_vars(t_data *data, char *token, t_vars_data *var)
 {
 	var->temp = NULL;
 	var->start = 0;
@@ -81,7 +81,12 @@ void	split_vars(char *token, t_vars_data *var)
 			var->temp = ft_substr(token, var->start, 1);
 		else
 			var->temp = ft_substr(token, var->start, var->c - var->start);
-		var->vars_arr[var->parts_count] = ft_strdup(var->temp); // segfault
+		if (!var->temp)
+		{
+			data->malloc_fail_flag = true;
+			return ;
+		}
+		var->vars_arr[var->parts_count] = ft_strdup(var->temp);
 		var->parts_count++;
 	}
 	var->vars_arr[var->parts_count] = NULL;

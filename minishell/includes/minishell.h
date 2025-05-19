@@ -87,6 +87,7 @@ typedef struct s_data
 	bool						sigterm_flag;
 	char						*file_name;
 	char						*with_slash;
+	bool malloc_fail_flag;
 }								t_data;
 
 /*---------------Parsing------------------*/
@@ -123,7 +124,7 @@ bool							ft_pwd(t_cmds *cmd, t_data *data,
 /*------------------env---------------------*/
 bool							ft_env(t_cmds *cmd, t_data *data,
 									int *exit_code);
-void							init_env(char **envp, t_data *data);
+bool							init_env(char **envp, t_data *data);
 t_var							*init_envp_node(char *env);
 void							env_addtolist(t_var **lst, t_var *node);
 int								get_env_len(t_var *env);

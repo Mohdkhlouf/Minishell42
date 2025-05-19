@@ -10,6 +10,11 @@ void	append_token_double(t_data *data, int type)
 	else
 		data->tokens[data->tokens_conter].data = ft_substr(data->input_line,
 				data->start, data->end - data->start + 1);
+	if (!data->tokens[data->tokens_conter].data )
+	{
+		command_cleanup(data, data->cmds_d);
+		exit(1);
+	}
 	data->tokens[data->tokens_conter].type = type;
 	data->tokens_conter++;
 }

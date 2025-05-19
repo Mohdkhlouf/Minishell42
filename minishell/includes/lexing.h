@@ -54,7 +54,7 @@ void					redirection_setting(t_data *data, int i);
 void					free_var(t_vars_data *var);
 void					append_eof_token(t_data *data, int type);
 void					ft_free(char *str);
-void					split_vars(char *token, t_vars_data *var);
+void					split_vars(t_data *data, char *token, t_vars_data *var);
 void					split_vars_var(char *token, t_vars_data *var);
 void					process_add(t_vars_data *var, char *temp);
 

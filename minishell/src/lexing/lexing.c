@@ -13,6 +13,7 @@ bool	malloc_tokens_arr(t_data *data)
 		if (!data->tokens)
 		{
 			print_error("Error allocating memory for tokens\n");
+			data->exit_code = 1;
 			return (false);
 		}
 		return (true);
@@ -32,11 +33,20 @@ void	append_eof_token(t_data *data, int type)
 void	append_token(t_data *data, int type)
 {
 	if (data->end == data->start)
+	{
 		data->tokens[data->tokens_conter].data = ft_substr(data->input_line,
 				data->start, 1);
+	}
 	else
+	{
 		data->tokens[data->tokens_conter].data = ft_substr(data->input_line,
 				data->start, data->end - data->start);
+	}
+	if (!data->tokens[data->tokens_conter].data)
+	{
+		command_cleanup(data, data->cmds_d);
+		exit(1);
+	}
 	data->tokens[data->tokens_conter].type = type;
 	data->tokens_conter++;
 }

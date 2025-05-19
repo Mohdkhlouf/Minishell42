@@ -21,6 +21,7 @@ void	path_with_slash_handler2(t_cmds *cmd, t_data *data, char **path)
 		exit(126);
 	}
 }
+
 void	command_stat_hhandler(t_cmds *cmd, t_data *data, char **path)
 {
 	struct stat	path_stat;

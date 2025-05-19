@@ -28,7 +28,7 @@ void	set_empty_env(t_var **list)
 	add_env_var(list, "_", "/usr/bin/make");
 }
 
-void	init_env(char **envp, t_data *data)
+bool	init_env(char **envp, t_data *data)
 {
 	int		i;
 	t_var	*list;
@@ -46,13 +46,14 @@ void	init_env(char **envp, t_data *data)
 			if (!node)
 			{
 				free_env_list(list);
-				return ;
+				return (false);
 			}
 			env_addtolist(&list, node);
 			i++;
 		}
 	}
 	data->env_lst = list;
+	return (true);
 }
 
 void	create_path_arr(char *path, t_data *data)
