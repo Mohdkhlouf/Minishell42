@@ -19,10 +19,9 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 	}
 }
 
-bool	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
-		int *exit_code)
+bool	execute_pipes(t_data *data, int i, int *prev_cmd, int *exit_code)
 {
-	if (i < cmds_d->cmds_counter - 1 && pipe(data->pipe_fd) == -1)
+	if (i < data->cmds_d->cmds_counter - 1 && pipe(data->pipe_fd) == -1)
 	{
 		perror("pipe");
 		return (false);
@@ -34,9 +33,9 @@ bool	execute_pipes(t_data *data, t_parsed_data *cmds_d, int i, int *prev_cmd,
 		return (false);
 	}
 	else if (data->pid[i] == 0)
-		execute_child(data, cmds_d, i, prev_cmd, exit_code);
+		execute_child(data, i, prev_cmd, exit_code);
 	else
-		execute_parent(prev_cmd, data, i, cmds_d->cmds_counter);
+		execute_parent(prev_cmd, data, i, data->cmds_d->cmds_counter);
 	return (true);
 }
 
@@ -74,7 +73,7 @@ bool	execute_pipes_loop(t_data *data, t_parsed_data *cmds_d, int prev_cmd,
 	i = 0;
 	while (i < cmds_d->cmds_counter)
 	{
-		if (!execute_pipes(data, cmds_d, i, &prev_cmd, exit_code))
+		if (!execute_pipes(data, i, &prev_cmd, exit_code))
 			return (false);
 		i++;
 	}

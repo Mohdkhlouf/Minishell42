@@ -22,9 +22,8 @@ char							*find_path(t_data *data, char *cmd);
 char							*join_cmd_with_slash(char *cmd);
 bool							handle_pipes(t_data *data,
 									t_parsed_data *cmds_d, int *exit_code);
-bool							execute_pipes(t_data *data,
-									t_parsed_data *cmds_d, int i, int *prev_cmd,
-									int *exit_code);
+bool							execute_pipes(t_data *data, int i,
+									int *prev_cmd, int *exit_code);
 void							set_default_signal_handlers(void);
 
 /*---------------redirectins------------------*/
@@ -53,9 +52,8 @@ void							heredoc_signal_rest(t_data *data);
 /* extras */
 void							hanlde_fd(int old, int fd);
 void							not_execute_builtin(t_data *data);
-void							execute_child(t_data *data,
-									t_parsed_data *cmds_d, int i, int *prev_cmd,
-									int *exit_code);
+void							execute_child(t_data *data, int i,
+									int *prev_cmd, int *exit_code);
 void							not_execve_handler(t_cmds *cmd, t_data *data,
 									char *path);
 void							not_access_handler(t_cmds *cmd, t_data *data,

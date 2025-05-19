@@ -78,6 +78,6 @@ bool	execution(t_data *data, t_parsed_data *cmds_d)
 			handle_single_command(&cmds_d->cmds[0], data, &exit_code);
 	}
 	else
-		handle_pipes(data, cmds_d, &exit_code);
+		handle_pipes(data, data->cmds_d, &exit_code);
 	return (set_data_exit_code(data, &exit_code), true);
 }
