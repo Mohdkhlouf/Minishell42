@@ -69,6 +69,7 @@ bool	tokenizing(t_data *data)
 	int	i;
 
 	i = 0;
+	// print_tokens(data);
 	if (!validation(data))
 		return (false);
 	while (i < data->tokens_conter && data->tokens[i].data)
@@ -94,12 +95,38 @@ bool	tokenizing(t_data *data)
 	i = 0;
 	while (i < data->tokens_conter && data->tokens[i].data)
 	{
-		if (data->tokens[i].type == TOK_DOUBLE_QUOTE && data->tokens[i].data[0] == '\0')
+		if ((data->tokens[i].type == TOK_DOUBLE_QUOTE)  && data->tokens[i].data[0] == '\0')
 		{
 			free(data->tokens[i].data);
 			data->tokens[i].data = ft_strdup(" ");
 		}
 		i++;
 	}
+
+	i = 0;
+	while (i < data->tokens_conter && data->tokens[i].data)
+	{
+		if (data->tokens[i].type == TOK_ENV_VAR && data->tokens[i].data[0] == '\0')
+		{
+			ft_free(data->tokens[i].data);
+			data->tokens[i].data = 0;
+		}
+		i++;
+	}
+	// print_tokens(data);
 	return (true);
+}
+
+
+void	print_tokens(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->tokens[i].data && i < data->tokens_conter)
+	{
+		printf("Token:#%s# Type:%u\n", data->tokens[i].data,
+			data->tokens[i].type);
+		i++;
+	}
 }

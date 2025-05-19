@@ -53,18 +53,20 @@ void	cmd_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 	char	**temp_cmd;
 
 	temp_cmd = &cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr];
-	if (data->tokens[*i].data[0] != '\0')
+	if (data->tokens[*i].data != NULL)
 	{
+		free(*temp_cmd);
 		*temp_cmd = ft_strdup(data->tokens[*i].data);
+		if (!*temp_cmd)
+			clean_exit(data, cmds_d);
 		cmds_d->token_ctr++;
 	}
-	else
-	{
-		*temp_cmd = ft_strdup("\0");
-		cmds_d->token_ctr++;
-	}
-	if (!*temp_cmd)
-		clean_exit(data, cmds_d);
+	// else
+	// {
+	// 	*temp_cmd = ft_strdup("");
+	// 	cmds_d->token_ctr++;
+	// }
+	
 }
 /* add new commands from tokens to the final struct for execution*/
 void	redirection_appened(t_parsed_data *cmds_d, t_data *data, int *i)

@@ -10,6 +10,7 @@
 		"parsing.h": "c",
 		"random": "c",
 		"fcntl.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"cstdlib": "c"
 	}
 }

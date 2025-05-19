@@ -9,6 +9,7 @@ void	ft_free(char *str)
 
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
+	
 	if (access("HEREDOC_TEMP.txt", F_OK) == 0)
 	{
 		if (!unlink("HEREDOC_TEMP.txt") == 0)
@@ -61,7 +62,17 @@ void	free_data(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->tokens && data->tokens[i].data && i < data->tokens_conter)
+	// after i changed the empty var $empty echo hi
+	// while (data->tokens && data->tokens[i].data && i < data->tokens_conter)
+	// {
+	// 	if (data->tokens[i].data)
+	// 	{
+	// 		free(data->tokens[i].data);
+	// 		data->tokens[i].data = NULL;
+	// 	}
+	// 	i++;
+	// }
+	while (data->tokens && i < data->tokens_conter)
 	{
 		if (data->tokens[i].data)
 		{

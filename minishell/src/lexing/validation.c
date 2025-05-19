@@ -6,8 +6,7 @@ bool	pre_validation(t_data *data)
 
 	len = 0;
 	len = ft_strlen(data->input_line);
-	if ((len == 2) && (ft_strcmp(data->input_line, "\"\"") == 0
-			|| ft_strcmp(data->input_line, "''") == 0))
+	if (ft_strcmp(data->input_line, "''") == 0)
 	{
 		data->exit_code = 127;
 		return (print_error("Command '' not found"), false);
