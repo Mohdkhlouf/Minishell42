@@ -56,6 +56,9 @@ bool	quotes_tekonizing(t_data *data, int i)
 	}
 	return (true);
 }
+
+
+
 /*after creatiing the tokens, i start iterate them as i need, so this funnction
 will solve the var$ seperated, withing quotes and then fix the qouting text to
 work with double quotes and single quotes.
@@ -86,6 +89,16 @@ bool	tokenizing(t_data *data)
 		if (!quotes_tekonizing(data, i))
 			return (false);
 		redirection_setting(data, i);
+		i++;
+	}
+	i = 0;
+	while (i < data->tokens_conter && data->tokens[i].data)
+	{
+		if (data->tokens[i].type == TOK_DOUBLE_QUOTE && data->tokens[i].data[0] == '\0')
+		{
+			free(data->tokens[i].data);
+			data->tokens[i].data = ft_strdup(" ");
+		}
 		i++;
 	}
 	return (true);

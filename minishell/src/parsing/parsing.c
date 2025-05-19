@@ -68,10 +68,49 @@ void	fill_in_arr(t_parsed_data *cmds_d, t_data *data)
 	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL;
 }
 
+
+void	printing_cmds_reds(t_parsed_data *cmds_d)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	printf("i have %d commands\n", cmds_d->cmds_counter);
+	while (i < cmds_d->cmds_counter)
+	{
+		j = 0;
+		printf("Final Command %d: ", i);
+		while (cmds_d->cmds[i].cmd[j])
+		{
+			printf("%s ", cmds_d->cmds[i].cmd[j]);
+			j++;
+		}
+		printf("#\n");
+		printf("Final reds %d: ", i);
+		j = 0;
+		if (cmds_d->cmds[i].reds[j] && cmds_d->cmds[i].reds)
+		{
+			while (cmds_d->cmds[i].reds[j])
+			{
+				printf("%s ", cmds_d->cmds[i].reds[j]);
+				j++;
+			}
+		}
+		else
+		{
+			printf("No reds");
+		}
+		printf("#\n");
+		i++;
+	}
+}
+
 bool	parsing(t_data *data, t_parsed_data *cmds_d)
 {
 	find_cmds_counter(data, cmds_d);
 	create_cmds_arr(data, cmds_d);
 	fill_in_arr(cmds_d, data);
+	// printing_cmds_reds(cmds_d);
 	return (true);
 }
