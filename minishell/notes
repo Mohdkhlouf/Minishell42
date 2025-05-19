@@ -422,3 +422,4 @@ also we have to inisialize all structs when creating them.
 cat << o
 
 "" << p << l
+

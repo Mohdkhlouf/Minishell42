@@ -78,12 +78,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
+	if(!data)
+		exit(EXIT_FAILURE);
 	cmds_d = ft_calloc(1, sizeof(t_parsed_data));
-	if (!data || !cmds_d)
+	if (!cmds_d)
 	{
 		free(data);
-		free(cmds_d);
-		perror("Minishell: ");
 		exit(EXIT_FAILURE);
 	}
 	data_init(data, cmds_d);

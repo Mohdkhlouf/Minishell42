@@ -44,7 +44,7 @@ void	var_handler_token(t_data *data, int i)
 
 bool	quotes_tekonizing(t_data *data, int i)
 {
-	if ((ft_strchr(data->tokens[i].data, '\'')
+	if (data->tokens[i].data && (ft_strchr(data->tokens[i].data, '\'')
 				|| ft_strchr(data->tokens[i].data, '\"')))
 	{
 		if (!(i > 0 && (data->tokens[i - 1].data) && ft_strnstr(data->tokens[i

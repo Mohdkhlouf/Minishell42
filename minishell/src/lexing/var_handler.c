@@ -79,16 +79,19 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	return (joined);
 }
 
-void	path_set_and_join(t_data *data, int i, t_vars_data *var)
+bool	path_set_and_join(t_data *data, int i, t_vars_data *var)
 {
 	if (var->var_var == NULL)
-		exit(EXIT_FAILURE);
+		return (false);
 	else
 	{
 		free(data->tokens[i].data);
 		data->tokens[i].data = ft_strdup(var->var_var);
+		if (!data->tokens[i].data)
+			return (false);
 	}
 	data->tokens[i].type = TOK_ENV_VAR;
+	return (true);
 }
 
 bool	var_handler2(t_data *data, int i)
@@ -111,9 +114,11 @@ bool	var_handler2(t_data *data, int i)
 		return (free(var), false);
 	if (!var_init(var, data, i))
 		return (free(var), false);
-	split_vars(data, data->tokens[i].data, var);
+	if (!split_vars(data, data->tokens[i].data, var))
+		return (free(var), false);
 	var->var_var = expand_vars(var, data);
-	path_set_and_join(data, i, var);
+	if (!path_set_and_join(data, i, var))
+		return (free(var), false);
 	free(var->temp);
 	free_var(var);
 	return (true);

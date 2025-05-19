@@ -48,6 +48,7 @@ bool	var_init(t_vars_data *var, t_data *data, int i)
 	var->vars_arr = ft_calloc((var->len), sizeof(char *));
 	if (!var->vars_arr)
 		return (free(var->vars_arr), false);
+	var->var_malloc_flag = false;
 	return (true);
 }
 
@@ -67,13 +68,14 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 	}
 }
 
-void	split_vars(t_data *data, char *token, t_vars_data *var)
+bool	split_vars(t_data *data, char *token, t_vars_data *var)
 {
 	var->temp = NULL;
 	var->start = 0;
 	var->c = 0;
 	var->var_is_found = false;
-	split_vars_var(token, var);
+	if (!split_vars_var(token, var))
+		return (false);
 	if (token[var->c] == '\0')
 	{
 		var->var_is_found = false;
@@ -82,12 +84,12 @@ void	split_vars(t_data *data, char *token, t_vars_data *var)
 		else
 			var->temp = ft_substr(token, var->start, var->c - var->start);
 		if (!var->temp)
-		{
-			data->malloc_fail_flag = true;
-			return ;
-		}
+			return (false);
 		var->vars_arr[var->parts_count] = ft_strdup(var->temp);
+		if (!var->vars_arr[var->parts_count])
+			return (false);
 		var->parts_count++;
 	}
 	var->vars_arr[var->parts_count] = NULL;
+	return (true);
 }
