@@ -35,20 +35,17 @@ void	set_heredoc_signals(struct sigaction *sa_old)
 		return ;
 }
 
-
 int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 {
-	int		fd;
-	char	*line;
-	t_token	tmp_token;
-	char	*to_write;
-	t_token	*original_tokens;
+	int					fd;
+	char				*line;
+	t_token				tmp_token;
+	char				*to_write;
+	t_token				*original_tokens;
 	struct sigaction	sa_old;
 
-
-	//int fd_in_copy
-	//fd_in_copy = dup(STDIN_FILENO)
-
+	// int fd_in_copy
+	// fd_in_copy = dup(STDIN_FILENO)
 	fd = open("HEREDOC_TEMP.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
 	{
@@ -239,7 +236,7 @@ void	signal_handler_heredoc(void)
 // 			break ;
 // 		}
 // 		char *to_write = expand ? expand_variables(line,
-				// data) : ft_strdup(line);
+// data) : ft_strdup(line);
 // 		ft_strncpy(buff, to_write, ft_strlen(to_write));
 // 		buff[ft_strlen(to_write)] = '\n';
 //     	buff[ft_strlen(to_write) + 1] = '\0';

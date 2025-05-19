@@ -1,9 +1,9 @@
 #include "../includes/minishell.h"
 
-static bool cd_with_no_param(t_data *data, int *exit_code)
+static bool	cd_with_no_param(t_data *data, int *exit_code)
 {
-	char *home_dir;
-	char *get_pwd;
+	char	*home_dir;
+	char	*get_pwd;
 
 	*exit_code = 0;
 	home_dir = get_env_value("HOME", data);
@@ -17,10 +17,10 @@ static bool cd_with_no_param(t_data *data, int *exit_code)
 	return (true);
 }
 
-static bool cd_with_dash_param(t_data *data, int *exit_code)
+static bool	cd_with_dash_param(t_data *data, int *exit_code)
 {
-	char *pwd_path;
-	char *oldpwd_path;
+	char	*pwd_path;
+	char	*oldpwd_path;
 
 	*exit_code = 0;
 	pwd_path = ft_strdup(get_env_value("PWD", data));
@@ -42,13 +42,13 @@ static bool cd_with_dash_param(t_data *data, int *exit_code)
 	return (true);
 }
 
-static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
+static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
-	char *newpath;
-	char *oldpwd;
-	char *expanded;
-	char *copy_oldpwd;
-	char *copy_newpath;
+	char	*newpath;
+	char	*oldpwd;
+	char	*expanded;
+	char	*copy_oldpwd;
+	char	*copy_newpath;
 
 	*exit_code = 0;
 	expanded = expand_path(data, path_value, exit_code);
@@ -71,7 +71,7 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	if (oldpwd)
 	{
 		copy_oldpwd = ft_strdup(oldpwd);
-		if(copy_oldpwd)
+		if (copy_oldpwd)
 		{
 			update_env_list("OLDPWD", copy_oldpwd, data);
 			free(copy_oldpwd);
@@ -79,8 +79,6 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 		else
 			return (false);
 	}
-	// else
-	// 	return (check_on_fail_cd(exit_code, expanded), minishell_error("cd", NULL, path_value), false);  // not err
 	newpath = getcwd(NULL, 0);
 	if (!newpath)
 	{
@@ -89,12 +87,12 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 		return (false);
 	}
 	copy_newpath = ft_strdup(newpath);
-	if(copy_newpath)
+	if (copy_newpath)
 	{
 		update_env_list("PWD", copy_newpath, data);
 		free(copy_newpath);
 	}
-	else	
+	else
 		return (false);
 	free(newpath);
 	if (expanded)
@@ -102,9 +100,9 @@ static bool cd_with_param(t_data *data, char *path_value, int *exit_code)
 	return (true);
 }
 
-bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	char *path_value;
+	char	*path_value;
 
 	if (!cmd->cmd[1])
 		return (cd_with_no_param(data, exit_code));
@@ -121,10 +119,6 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
-
-
-
-
 
 // static bool	cd_with_no_param(t_data *data, int *exit_code)
 // {
@@ -166,9 +160,9 @@ bool ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 // 	return (true);
 // }
 
-	// home_dir = ft_strdup(home_dir);
-	// if (!home_dir)
-	// {
-	// 	*exit_code = 1;
-	// 	return (ft_putstr_fd("cd: HOME not set\n", 2), false);
-	// }
+// home_dir = ft_strdup(home_dir);
+// if (!home_dir)
+// {
+// 	*exit_code = 1;
+// 	return (ft_putstr_fd("cd: HOME not set\n", 2), false);
+// }

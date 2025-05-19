@@ -8,7 +8,6 @@
 
 typedef struct s_data	t_data;
 
-// for var when it is double quoted
 typedef struct s_vars_data
 {
 	char				**vars_arr;
@@ -18,11 +17,10 @@ typedef struct s_vars_data
 	int					vars_count;
 	int					len;
 	bool				var_is_found;
-	int start;
-	int c;
+	int					start;
+	int					c;
 }						t_vars_data;
 
-// for var when it is single one
 typedef struct s_var_d
 {
 	char				*path;
@@ -58,6 +56,6 @@ void					append_eof_token(t_data *data, int type);
 void					ft_free(char *str);
 void					split_vars(char *token, t_vars_data *var);
 void					split_vars_var(char *token, t_vars_data *var);
-void	process_add(t_vars_data *var, char *temp);
+void					process_add(t_vars_data *var, char *temp);
 
 #endif

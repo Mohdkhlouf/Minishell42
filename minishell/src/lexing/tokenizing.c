@@ -78,7 +78,7 @@ bool	tokenizing(t_data *data)
 		{
 			var_handler_quotes_token(data, i);
 		}
-		if(!quotes_tekonizing(data, i))
+		if (!quotes_tekonizing(data, i))
 			return (false);
 		redirection_setting(data, i);
 		i++;

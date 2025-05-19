@@ -1,6 +1,5 @@
 #ifndef PARSING_H
 # define PARSING_H
-
 # include "minishell.h"
 
 typedef struct s_data	t_data;

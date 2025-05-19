@@ -5,8 +5,6 @@
 # include "minishell.h"
 # include <stdbool.h>
 
-// static int						g_heredoc_interrupted = 0;
-
 typedef struct s_data			t_data;
 typedef struct s_parsed_data	t_parsed_data;
 typedef struct s_cmds			t_cmds;
@@ -16,7 +14,6 @@ bool							is_empty_cmd(t_cmds *cmd);
 bool							builtin_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code);
 void							parse_path(t_data *data);
-void							handle_empty_cmd(t_cmds *cmd, t_data *data);
 void							external_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code, pid_t *pid);
 
@@ -51,8 +48,20 @@ int								handle_heredoc(char *input_delimiter,
 
 char							*strip_quotes(char *delim);
 int								is_quoted_delimiter(char *delim);
-// int								get_heredoc_fd(void);
-// void							heredoc_handller(int *i, char *delimiter);
 void							heredoc_signal_rest(t_data *data);
+
+/* extras */
+void							hanlde_fd(int old, int fd);
+void							not_execute_builtin(t_data *data);
+void							execute_child(t_data *data,
+									t_parsed_data *cmds_d, int i, int *prev_cmd,
+									int *exit_code);
+void							not_execve_handler(t_cmds *cmd, t_data *data,
+									char *path);
+void							not_access_handler(t_cmds *cmd, t_data *data,
+									char *path);
+void							not_path_handler(t_cmds *cmd, t_data *data);
+bool							allocate_pid(t_data *data,
+									t_parsed_data *cmds_d);
 
 #endif

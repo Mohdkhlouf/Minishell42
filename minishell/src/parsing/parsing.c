@@ -9,6 +9,7 @@ void	cmds_init(t_parsed_data *cmds_d)
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
 }
+
 /*function to re read the line and count the pipes so we know how
 many commands we will have*/
 void	find_cmds_counter(t_data *data, t_parsed_data *cmds_d)

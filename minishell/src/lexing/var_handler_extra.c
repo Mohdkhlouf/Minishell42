@@ -1,7 +1,5 @@
 #include "../includes/lexing.h"
 
-
-
 void	case_allnum(char *token, t_vars_data *var, char *temp)
 {
 	var->var_is_found = false;

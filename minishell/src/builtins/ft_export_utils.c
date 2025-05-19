@@ -67,7 +67,7 @@ static void	handle_valid_export_param(char *param_value, t_data *data,
 		bool *invalid_found)
 {
 	char	*temp;
-	char *copy_param_val;
+	char	*copy_param_val;
 
 	temp = NULL;
 	if (ft_strchr(param_value, '='))
@@ -82,13 +82,13 @@ static void	handle_valid_export_param(char *param_value, t_data *data,
 		else
 		{
 			copy_param_val = ft_strdup(param_value);
-			if(copy_param_val)
+			if (copy_param_val)
 			{
 				add_new_env_variable(copy_param_val, NULL, data);
 				free(copy_param_val);
 			}
-			else	
-				return;
+			else
+				return ;
 		}
 	}
 	free(temp);

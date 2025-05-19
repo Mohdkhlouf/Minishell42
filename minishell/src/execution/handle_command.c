@@ -2,8 +2,8 @@
 
 void	execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
 {
-	dup2(cmd->saved_stdout, STDOUT_FILENO); // Restore original stdout
-	dup2(cmd->saved_stdin, STDIN_FILENO);   // Restore original stdin
+	dup2(cmd->saved_stdout, STDOUT_FILENO);
+	dup2(cmd->saved_stdin, STDIN_FILENO);
 	close(cmd->saved_stdout);
 	close(cmd->saved_stdin);
 	*exit_code = 1;
@@ -11,8 +11,8 @@ void	execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
 
 void	not_execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
 {
-	dup2(cmd->saved_stdout, STDOUT_FILENO); // Restore original stdout
-	dup2(cmd->saved_stdin, STDIN_FILENO);   // Restore original stdin
+	dup2(cmd->saved_stdout, STDOUT_FILENO);
+	dup2(cmd->saved_stdin, STDIN_FILENO);
 	close(cmd->saved_stdout);
 	close(cmd->saved_stdin);
 }
@@ -43,7 +43,7 @@ void	external_cmd(t_cmds *cmd, t_data *data, int *exit_code, pid_t *pid)
 	if (*pid == -1)
 	{
 		print_error("ERROR IN FORKING\n");
-		exit(127); // cleaning
+		exit(127);
 	}
 	if (*pid == 0)
 	{
@@ -83,176 +83,4 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 		*exit_code = 128 + signal_num;
 		data->exit_code = *exit_code;
 	}
-}
-
-void	free_2d_cmd_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		ft_free(arr[i]);
-		i++;
-	}
-	free(arr);
-	arr = NULL;
-}
-
-void	free_cmd(t_cmds *cmd)
-{
-	free_2d_cmd_arr(cmd->cmd);
-	free_2d_cmd_arr(cmd->reds);
-}
-
-void	not_execve_handler(t_cmds *cmd, t_data *data, char *path)
-{
-	perror("minishell");
-	ft_free(path);
-	cleanup_minishell(data);
-	data->exit_code = errno;
-	exit(data->exit_code);
-}
-
-void	not_access_handler(t_cmds *cmd, t_data *data, char *path)
-{
-	ft_putstr_fd(cmd->cmd[0], 2);
-	ft_putstr_fd(": Permission denied\n", 2);
-	if(!data->parsed_path &&  path)
-		ft_free(path);
-	cleanup_minishell(data);
-	free(data);
-	exit(126);
-}
-
-void	not_path_handler(t_cmds *cmd, t_data *data)
-{
-	ft_putstr_fd(cmd->cmd[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
-	cleanup_minishell(data);
-	free(data);
-	exit(127);
-}
-
-void	path_with_slash_handler2(t_cmds *cmd, t_data *data, char **path)
-{
-	struct stat	path_stat;
-
-	if (stat(*path, &path_stat) != 0)
-	{
-		perror("minishell");
-		cleanup_minishell(data);
-		data->exit_code = 127;
-		exit(data->exit_code);
-	}
-	else if (S_ISDIR(path_stat.st_mode))
-	{
-		ft_putstr_fd("minishell: '", 2);
-		ft_putstr_fd(*path, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		cleanup_minishell(data);
-		free(data);
-		exit(126);
-	}
-}
-void	command_stat_hhandler(t_cmds *cmd, t_data *data, char **path)
-{
-	struct stat	path_stat;
-
-	if (stat(*path, &path_stat) != 0)
-	{
-		perror("minishell");
-		cleanup_minishell(data);
-		data->exit_code = 127;
-		exit(data->exit_code);
-	}
-	else if (S_ISDIR(path_stat.st_mode))
-	{
-		ft_putstr_fd(*path, 2);
-		ft_putstr_fd(": command not found\n", 2);
-		free(*path);
-		cleanup_minishell(data);
-		free(data);
-		exit(127);
-	}
-}
-
-void	path_with_slash_handler(t_cmds *cmd, t_data *data, char **path)
-{
-	struct stat	path_stat;
-
-	*path = cmd->cmd[0];
-	if (stat(*path, &path_stat) != 0)
-	{
-		perror("minishell");
-		data->exit_code = 127;
-		cleanup_minishell(data);
-		free(data);
-		exit(127);
-	}
-	else if (S_ISDIR(path_stat.st_mode))
-	{
-		ft_putstr_fd("minishell: '", 2);
-		ft_putstr_fd(*path, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		cleanup_minishell(data);
-		free(data);
-		exit(126);
-	}
-}
-
-void	path_as_command_handler(t_cmds *cmd, t_data *data, char **path)
-{
-	char	*temp_name;
-
-	temp_name = NULL;
-	if (cmd->cmd[0][0])
-	{
-		*path = find_path(data, cmd->cmd[0]);
-		if (!*path && !data->parsed_path)
-		{
-			temp_name = ft_strjoin("./", cmd->cmd[0]);
-			if ((access(temp_name, F_OK) == 0))
-			{
-				*path = ft_strdup(temp_name);
-				// free(temp_name);
-			}
-			free(temp_name);
-		}
-	}
-	else
-	{
-		cleanup_minishell(data);
-		data->exit_code = 0;
-		exit(0);
-	}
-}
-
-/* main function to execute one command, i will make it execute the redirections
-then do the command execution*/
-void	exec_cmd(t_cmds *cmd, t_data *data)
-{
-	char	*path;
-
-	path = NULL;
-	set_child_signals();
-	set_path(data);
-	/*Akancha added for null check to prevent seg fault*/
-	if (!cmd->cmd || !cmd->cmd[0] || cmd->cmd[0][0] == '\0')
-	{
-		cleanup_minishell(data);
-		free(data);
-		exit(0);
-	}
-	if (ft_strchr(cmd->cmd[0], '/'))
-		path_with_slash_handler(cmd, data, &path);
-	else
-		path_as_command_handler(cmd, data, &path);
-	if (!path)
-		not_path_handler(cmd, data);
-	if (access(path, X_OK) != 0)
-		not_access_handler(cmd, data, path);
-	command_stat_hhandler(cmd, data, &path);
-	if (execve(path, cmd->cmd, data->envp) == -1)
-		not_execve_handler(cmd, data, path);
 }

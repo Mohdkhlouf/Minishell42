@@ -9,7 +9,6 @@ void	process_add(t_vars_data *var, char *temp)
 
 /* this function to continue when the input is nprmal not from the needed
 charaters*/
-
 void	normal_function(t_data *data)
 {
 	data->in_token = true;
@@ -34,8 +33,8 @@ void	normal_function(t_data *data)
 	if (data->variable_sign_found)
 		data->variable_sign_found = false;
 }
-/* this funcction to add variable tokens like $HOME*/
 
+/* this funcction to add variable tokens like $HOME*/
 void	env_variable_function(t_data *data)
 {
 	if (data->in_token)
@@ -57,6 +56,5 @@ void	eof_function(t_data *data)
 	if (data->variable_sign_found)
 		data->variable_sign_found = false;
 	data->start = data->end;
-	// append_eof_token(data, TOK_EOF);
 	data->start = data->end + 1;
 }

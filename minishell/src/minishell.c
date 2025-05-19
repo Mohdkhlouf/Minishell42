@@ -37,6 +37,8 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->prompt = "\001\033[1;32m\002minishell$ \001\033[0m\002";
 	data->sigquit_flag = false;
 	data->sigterm_flag = false;
+	data->file_name = NULL;
+	data->with_slash = NULL;
 }
 
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)

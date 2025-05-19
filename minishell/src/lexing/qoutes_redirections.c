@@ -1,4 +1,3 @@
-
 #include "../includes/lexing.h"
 
 void	quote_assign_ch(char *quote, char ch, char *temp, int *c)
@@ -45,13 +44,17 @@ void	quote_type_check(t_data *data, int i)
 	{
 		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i
 				- 1].type != TOK_REDIRECT_HEREDOC))
+		{
 			data->tokens[i].type = TOK_SINGLE_QUOTE;
+		}
 	}
 	else if (data->tokens[i].data[0] == '\"')
 	{
 		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i
 				- 1].type != TOK_REDIRECT_HEREDOC))
+		{
 			data->tokens[i].type = TOK_DOUBLE_QUOTE;
+		}
 	}
 }
 
@@ -86,15 +89,23 @@ void	redirection_setting(t_data *data, int i)
 	{
 		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i
 			- 1].data[0] == '<')
+		{
 			data->tokens[i].type = TOK_REDIRECT_IN;
+		}
 		else if (data->tokens[i - 1].type == TOK_REDIRECT_OUT && data->tokens[i
 			- 1].data[0] == '>')
+		{
 			data->tokens[i].type = TOK_REDIRECT_OUT;
+		}
 		else if (data->tokens[i - 1].type == TOK_APPEND && data->tokens[i
 			- 1].data[0] == '>')
+		{
 			data->tokens[i].type = TOK_APPEND;
+		}
 		else if (data->tokens[i - 1].type == TOK_REDIRECT_HEREDOC
 			&& data->tokens[i - 1].data[0] == '<')
+		{
 			data->tokens[i].type = TOK_REDIRECT_HEREDOC;
+		}
 	}
 }

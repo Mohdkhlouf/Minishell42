@@ -1,10 +1,10 @@
 #include "../includes/minishell.h"
 
-bool change_to_home_dir(t_data *data, char *home_dir, int *exit_code)
+bool	change_to_home_dir(t_data *data, char *home_dir, int *exit_code)
 {
-	char *get_pwd;
-	char *copy_pwd;
-	char *copy_dir;
+	char	*get_pwd;
+	char	*copy_pwd;
+	char	*copy_dir;
 
 	if (chdir(home_dir) != 0)
 		return (perror("minishell"), false);
@@ -12,7 +12,7 @@ bool change_to_home_dir(t_data *data, char *home_dir, int *exit_code)
 	if (get_pwd)
 	{
 		copy_pwd = ft_strdup(get_pwd);
-		if(copy_pwd)
+		if (copy_pwd)
 		{
 			update_env_list("OLDPWD", copy_pwd, data);
 			free(copy_pwd);
@@ -23,9 +23,9 @@ bool change_to_home_dir(t_data *data, char *home_dir, int *exit_code)
 	else
 	{
 		copy_dir = ft_strdup(home_dir);
-		if(copy_dir)
+		if (copy_dir)
 		{
-			add_new_env_variable("PWD", copy_dir, data); 
+			add_new_env_variable("PWD", copy_dir, data);
 			free(copy_dir);
 		}
 		else
@@ -34,7 +34,7 @@ bool change_to_home_dir(t_data *data, char *home_dir, int *exit_code)
 	return (true);
 }
 
-char *expand_path(t_data *data, char *path_value, int *exit_code)
+char	*expand_path(t_data *data, char *path_value, int *exit_code)
 {
 	char *expanded;
 	char *home;
