@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:38:59 by akumari           #+#    #+#             */
+/*   Updated: 2025/05/20 14:39:02 by akumari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static bool	cd_with_no_param(t_data *data, int *exit_code)
@@ -44,11 +56,8 @@ static bool	cd_with_dash_param(t_data *data, int *exit_code)
 
 static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
 {
-	char	*newpath;
 	char	*oldpwd;
 	char	*expanded;
-	char	*copy_oldpwd;
-	char	*copy_newpath;
 
 	*exit_code = 0;
 	expanded = expand_path(data, path_value, exit_code);
@@ -65,38 +74,12 @@ static bool	cd_with_param(t_data *data, char *path_value, int *exit_code)
 			minishell_error("cd", "No such file or directory", path_value);
 		else
 			minishell_error("cd", strerror(errno), path_value);
-		return (false);
+		return (free(expanded), false);
 	}
 	oldpwd = get_env_value("PWD", data);
-	if (oldpwd)
-	{
-		copy_oldpwd = ft_strdup(oldpwd);
-		if (copy_oldpwd)
-		{
-			update_env_list("OLDPWD", copy_oldpwd, data);
-			free(copy_oldpwd);
-		}
-		else
-			return (false);
-	}
-	newpath = getcwd(NULL, 0);
-	if (!newpath)
-	{
-		check_on_fail_cd(exit_code, expanded);
-		perror("cd: getcwd failed\n");
-		return (false);
-	}
-	copy_newpath = ft_strdup(newpath);
-	if (copy_newpath)
-	{
-		update_env_list("PWD", copy_newpath, data);
-		free(copy_newpath);
-	}
-	else
-		return (false);
-	free(newpath);
-	if (expanded)
-		free(expanded);
+	if (!update_pwd_and_oldpwd(data, expanded, oldpwd, exit_code))
+		return (free(expanded), false);
+	free(expanded);
 	return (true);
 }
 
@@ -119,50 +102,3 @@ bool	ft_cd(t_cmds *cmd, t_data *data, int *exit_code)
 		return (print_error("cd : too many arguments"), false);
 	return (false);
 }
-
-// static bool	cd_with_no_param(t_data *data, int *exit_code)
-// {
-// 	char	*home_dir;
-// 	char	*temp;
-// 	char *oldpwd;
-
-// 	temp = NULL;
-// 	*exit_code = 0;
-// 	home_dir = ft_strdup(get_env_value("HOME", data));
-// 	if (!home_dir)
-// 	{
-// 		print_error("I am in homedir");
-// 		*exit_code = 1;
-// 		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
-// 	}
-// 	if (chdir(home_dir) != 0)
-// 	{
-// 		print_error("I am in chdir");
-// 		*exit_code = 1;
-// 		return (perror("minishell"), free(home_dir), false);
-// 	}
-// 	oldpwd = ft_strdup("OLDPWD");
-// 	if(oldpwd)
-// 	{
-// 		print_error("I am in oldpwd");
-// 		update_env_list(oldpwd, ft_strdup(get_env_value("PWD", data)), data);
-// 	}
-// 	if(oldpwd)
-// 		free(oldpwd);
-// 	temp = ft_strdup("PWD");
-// 	if (temp)
-// 	{
-// 		print_error("I am in temp");
-// 		update_env_list(temp, home_dir, data);
-// 	}
-// 	if(temp)
-// 		free(temp);
-// 	return (true);
-// }
-
-// home_dir = ft_strdup(home_dir);
-// if (!home_dir)
-// {
-// 	*exit_code = 1;
-// 	return (ft_putstr_fd("cd: HOME not set\n", 2), false);
-// }
