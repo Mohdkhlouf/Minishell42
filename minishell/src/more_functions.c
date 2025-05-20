@@ -51,6 +51,7 @@ void	print_tokens(t_data *data)
 	}
 }
 
+
 // void	free_var_handler(t_data *data, t_vars_data *var)
 // {
 // 	if (!var)

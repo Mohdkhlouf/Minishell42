@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_handler_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:58:37 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 13:58:43 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lexing.h"
 
 void	free_var(t_vars_data *var)
@@ -87,7 +99,7 @@ bool	split_vars(t_data *data, char *token, t_vars_data *var)
 			return (false);
 		var->vars_arr[var->parts_count] = ft_strdup(var->temp);
 		if (!var->vars_arr[var->parts_count])
-			return (false);
+			return (free(var->temp), false);
 		var->parts_count++;
 	}
 	var->vars_arr[var->parts_count] = NULL;

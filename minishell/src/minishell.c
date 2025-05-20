@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:04:27 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 14:34:36 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 volatile sig_atomic_t	g_signal_status = 0;
@@ -17,6 +29,8 @@ void	cmds_d_init(t_data *data, t_parsed_data *cmds_d)
 	cmds_d->cmds_ctr = 0;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
+	data->new_delimiter = NULL;
+	data->old_delim = NULL;
 }
 
 void	data_init(t_data *data, t_parsed_data *cmds_d)
@@ -40,7 +54,6 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->file_name = NULL;
 	data->with_slash = NULL;
 	data->malloc_fail_flag = false;
-	data->old_delim = NULL;
 	data->here_line = NULL;
 	data->here_return  = 0;
 	data->here_to_write = NULL;

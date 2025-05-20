@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexing_functions.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:59:37 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 13:59:38 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lexing.h"
 
 // this one to add the data for double operators,
@@ -10,7 +22,7 @@ void	append_token_double(t_data *data, int type)
 	else
 		data->tokens[data->tokens_conter].data = ft_substr(data->input_line,
 				data->start, data->end - data->start + 1);
-	if (!data->tokens[data->tokens_conter].data )
+	if (!data->tokens[data->tokens_conter].data)
 	{
 		command_cleanup(data, data->cmds_d);
 		exit(1);
