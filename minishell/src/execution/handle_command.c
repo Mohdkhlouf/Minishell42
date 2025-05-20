@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:22:47 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:22:48 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/20 23:16:09 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
 {
 	dup2(cmd->saved_stdout, STDOUT_FILENO);
 	dup2(cmd->saved_stdin, STDIN_FILENO);
-	close(cmd->saved_stdout);
-	close(cmd->saved_stdin);
+	if (cmd->saved_stdout != -1)
+		ft_close(&cmd->saved_stdout);
+	if (cmd->saved_stdin != -1)
+		ft_close(&cmd->saved_stdin);
 	*exit_code = 1;
 }
 
@@ -25,8 +27,10 @@ void	not_execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
 {
 	dup2(cmd->saved_stdout, STDOUT_FILENO);
 	dup2(cmd->saved_stdin, STDIN_FILENO);
-	close(cmd->saved_stdout);
-	close(cmd->saved_stdin);
+	if (cmd->saved_stdout != -1)
+		ft_close(&cmd->saved_stdout);
+	if (cmd->saved_stdin != -1)
+		ft_close(&cmd->saved_stdin);
 }
 
 bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
@@ -44,8 +48,10 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 		dup2(cmd->saved_stdout, STDOUT_FILENO);
 	if (cmd->red_in_fd != -1)
 		dup2(cmd->saved_stdin, STDIN_FILENO);
-	close(cmd->saved_stdout);
-	close(cmd->saved_stdin);
+	if (cmd->saved_stdout != -1)
+		ft_close(&cmd->saved_stdout);
+	if (cmd->saved_stdin != -1)
+		ft_close(&cmd->saved_stdin);
 	return (true);
 }
 

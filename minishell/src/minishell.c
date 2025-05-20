@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:04:27 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:34:36 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/20 23:01:45 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			{
 				command_cleanup(data, cmds_d);
 				continue ;
-			}
+			}	
 			command_cleanup(data, cmds_d);
 		}
 		free(data->input_line);

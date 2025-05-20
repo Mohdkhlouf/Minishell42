@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:04:59 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:05:00 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/20 23:58:56 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ void	ft_free(char *str)
 
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
+int i;
+
+i = 0;
+while (i < cmds_d->cmds_counter)
+{
+	printf("cmds->red_in_fd [%d] status %d\n",i, data->cmds_d->cmds[i].red_in_fd);
+	printf("cmds->red_out_fd [%d]status %d\n",i, data->cmds_d->cmds[i].red_out_fd);
+	printf("cmds->saved_stdin[%d] status %d\n",i, data->cmds_d->cmds[i].saved_stdin);
+	printf("cmds->saved_stdout[%d] status %d\n", i, data->cmds_d->cmds[i].saved_stdout);
+	i++;
+}
+	
+	
 	if (access("HEREDOC_TEMP.txt", F_OK) == 0)
 	{
 		if (!unlink("HEREDOC_TEMP.txt") == 0)
@@ -56,9 +69,9 @@ void	free_cmds_d(t_parsed_data *cmds_d)
 		if (cmds_d->cmds[i].reds)
 			free_2arr_general(cmds_d->cmds[i].reds);
 		if (cmds_d->cmds[i].red_in_fd != -1)
-			close(cmds_d->cmds[i].red_in_fd);
+			ft_close(&cmds_d->cmds[i].red_in_fd);
 		if (cmds_d->cmds[i].red_out_fd != -1)
-			close(cmds_d->cmds[i].red_out_fd);
+			ft_close(&cmds_d->cmds[i].red_out_fd);
 		i++;
 	}
 	if (cmds_d->cmds)
@@ -86,7 +99,13 @@ void	free_data(t_data *data)
 	data->tokens = NULL;
 	free(data->pid);
 	if (data->pipe_fd[0] != -1)
-		close(data->pipe_fd[0]);
+		ft_close(&data->pipe_fd[0]);
 	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
+		ft_close(&data->pipe_fd[1]);
+}
+
+void	ft_close(int *fd)
+{
+	close(*fd);
+	*fd = -1;
 }

@@ -186,5 +186,6 @@ void							signal_130(t_data *data);
 void							faild_read_line(t_data *data,
 									t_parsed_data *cmds_d);
 void							printing_cmds_reds(t_parsed_data *cmds_d);
+void	ft_close(int *fd);
 
 #endif

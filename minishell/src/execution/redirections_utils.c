@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:20:44 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:20:45 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 00:52:23 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	hanlde_fd(int old, int fd)
 {
 	dup2(fd, old);
-	close(fd);
+	if(fd != -1)
+		ft_close(&fd);
 }
 
 bool	open_output_file(t_cmds *cmd, char *outfile, int mode)
