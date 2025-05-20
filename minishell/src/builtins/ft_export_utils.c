@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:39:30 by akumari           #+#    #+#             */
+/*   Updated: 2025/05/20 14:39:32 by akumari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static int	is_valid_identifier(const char *str)
@@ -18,36 +30,25 @@ static int	is_valid_identifier(const char *str)
 
 static bool	validate_and_store_env(char **str, char *param_value, t_data *data)
 {
-	int		i;
 	char	*key;
 	char	*value;
 
-	i = 0;
-	while (str[0][i])
-	{
-		if (!ft_isalnum(str[0][i]) && str[0][i] != '_')
-		{
-			minishell_error("export", "not a valid identifier", param_value);
-			return (false);
-		}
-		i++;
-	}
+	if (!check_valid_identifier(str[0], param_value))
+		return (false);
 	key = ft_strdup(str[0]);
 	if (!key)
 		return (false);
-	value = str[1] ? ft_strdup(str[1]) : ft_strdup("");
+	if (str[1])
+		value = ft_strdup(str[1]);
+	else
+		value = ft_strdup("");
 	if (!value)
-	{
-		free(key);
-		return (false);
-	}
+		return (free(key), false);
 	if (get_env_key(key, data))
 		update_env_list(key, value, data);
 	else
 		add_new_env_variable(key, value, data);
-	free(key);
-	free(value);
-	return (true);
+	return (free(key), free(value), true);
 }
 
 static void	has_equal_sign(char *param_value, t_data *data, bool *invalid_found)
@@ -82,13 +83,10 @@ static void	handle_valid_export_param(char *param_value, t_data *data,
 		else
 		{
 			copy_param_val = ft_strdup(param_value);
-			if (copy_param_val)
-			{
-				add_new_env_variable(copy_param_val, NULL, data);
-				free(copy_param_val);
-			}
-			else
+			if (!copy_param_val)
 				return ;
+			add_new_env_variable(copy_param_val, NULL, data);
+			free(copy_param_val);
 		}
 	}
 	free(temp);
