@@ -59,36 +59,38 @@ typedef struct s_var
 
 typedef struct s_data
 {
-	t_parsed_data *cmds_d;
-	t_token *tokens;
-	size_t end;
-	size_t start;
-	t_var *env_lst;
-	pid_t *pid;
-	bool in_token;
-	bool quote_found;
-	bool double_quote_found;
-	int first_quote_type;
-	bool file_seperator_found;
-	bool variable_sign_found;
-	char *input_line;
-	char quote_type;
-	char *path;
-	char **parsed_path;
-	char *pwd;
-	char **words;
-	char **envp;
-	int pipe_fd[2];
-	int exit_code;
-	int cline_parts;
-	int tokens_conter;
-	char *prompt;
-	bool sigquit_flag;
-	bool sigterm_flag;
-	char *file_name;
-	char *with_slash;
-	bool malloc_fail_flag;
-} t_data;
+	t_parsed_data				*cmds_d;
+	t_token						*tokens;
+	size_t						end;
+	size_t						start;
+	t_var						*env_lst;
+	pid_t						*pid;
+	bool						in_token;
+	bool						quote_found;
+	bool						double_quote_found;
+	int							first_quote_type;
+	bool						file_seperator_found;
+	bool						variable_sign_found;
+	char						*input_line;
+	char						quote_type;
+	char						*path;
+	char						**parsed_path;
+	char						*pwd;
+	char						**words;
+	char						**envp;
+	int							pipe_fd[2];
+	int							exit_code;
+	int							cline_parts;
+	int							tokens_conter;
+	char						*prompt;
+	bool						sigquit_flag;
+	bool						sigterm_flag;
+	char						*file_name;
+	char						*with_slash;
+	bool 						malloc_fail_flag;
+		char	*new_delimiter;
+	char	*old_delim;
+}								t_data;
 
 /*---------------Parsing------------------*/
 

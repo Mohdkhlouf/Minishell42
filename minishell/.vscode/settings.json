@@ -11,6 +11,7 @@
 		"random": "c",
 		"fcntl.h": "c",
 		"libft.h": "c",
-		"cstdlib": "c"
+		"cstdlib": "c",
+		"lexing.h": "c"
 	}
 }

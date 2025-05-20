@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_handler.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:58:50 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 13:58:51 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lexing.h"
 
 void	var_expander(t_vars_data *var, int *c, t_data *data)
@@ -60,10 +72,7 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	while (c < var->parts_count)
 	{
 		if (data->malloc_fail_flag)
-		{
-			command_cleanup(data, data->cmds_d);
-			exit(1);
-		}
+			malloc_fail(var, data);
 		if (!joined)
 			joined = ft_strdup(var->vars_arr[0]);
 		else
@@ -104,22 +113,21 @@ bool	var_handler2(t_data *data, int i)
 	len = ft_strlen(data->tokens[i].data);
 	while (j < len)
 	{
-		if (data->tokens[i].data[j] == '$' && (data->tokens[i].data[j
-				+ 1] == '\"' || data->tokens[i].data[j + 1] == '\0'))
+		if ((data->tokens[i].data[j] == '$')
+			&& ((data->tokens[i].data[j + 1] == '\"')
+				|| data->tokens[i].data[j + 1] == '\0'))
 			return (true);
 		j++;
 	}
 	var = ft_calloc(1, sizeof(t_vars_data));
 	if (!var)
-		return (free(var), false);
+		return (false);
 	if (!var_init(var, data, i))
 		return (free(var), false);
 	if (!split_vars(data, data->tokens[i].data, var))
-		return (free(var), false);
+		return (free_var(var), false);
 	var->var_var = expand_vars(var, data);
 	if (!path_set_and_join(data, i, var))
-		return (free(var), false);
-	free(var->temp);
-	free_var(var);
-	return (true);
+		return (ft_free(var->temp), free_var(var), false);
+	return (ft_free(var->temp), free_var(var), true);
 }

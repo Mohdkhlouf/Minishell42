@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:04:27 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 14:34:36 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 volatile sig_atomic_t	g_signal_status = 0;
@@ -17,7 +29,8 @@ void	cmds_d_init(t_data *data, t_parsed_data *cmds_d)
 	cmds_d->cmds_ctr = 0;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
-	
+	data->new_delimiter = NULL;
+	data->old_delim = NULL;
 }
 
 void	data_init(t_data *data, t_parsed_data *cmds_d)
@@ -78,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
-	if(!data)
+	if (!data)
 		exit(EXIT_FAILURE);
 	cmds_d = ft_calloc(1, sizeof(t_parsed_data));
 	if (!cmds_d)
@@ -87,8 +100,8 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	data_init(data, cmds_d);
-	if(!init_env(envp, data))
-		return(free(data), free(cmds_d), 1);
+	if (!init_env(envp, data))
+		return (free(data), free(cmds_d), 1);
 	if (envp && envp[0])
 		shelvl(data);
 	set_prompt_signals();

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:04:59 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 14:05:00 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	ft_free(char *str)
@@ -62,16 +74,6 @@ void	free_data(t_data *data)
 	int	i;
 
 	i = 0;
-	// after i changed the empty var $empty echo hi
-	// while (data->tokens && data->tokens[i].data && i < data->tokens_conter)
-	// {
-	// 	if (data->tokens[i].data)
-	// 	{
-	// 		free(data->tokens[i].data);
-	// 		data->tokens[i].data = NULL;
-	// 	}
-	// 	i++;
-	// }
 	while (data->tokens && i < data->tokens_conter)
 	{
 		if (data->tokens[i].data)
