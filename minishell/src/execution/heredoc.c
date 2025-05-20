@@ -49,60 +49,67 @@ char	*strip_quotes(char *delimiter)
 	result[j] = '\0';
 	return (result);
 }
-void	set_g_signal(int value)
+
+
+bool	new_delim_assign(t_data *data)
 {
-	g_signal_status = value;
+	if (ft_strchr(data->old_delim, '\"') || ft_strchr(data->old_delim, '\''))
+	{
+		data->new_delimiter = strip_quotes(data->old_delim);
+		if (!data->new_delimiter)
+			return (false);
+	}
+	else
+	{
+		data->new_delimiter = ft_strdup(data->old_delim);
+		if (!data->new_delimiter)
+			return (false);
+	}
+	return (true);
+}
+
+bool	here_loop(t_data *data, t_parsed_data *cmds_d, int i, int *expand)
+{
+	int	j;
+
+	j = 0;
+	while (true && cmds_d->cmds[i].reds[j])
+	{
+		if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
+		{
+			if (!cmds_d->cmds[i].reds[j + 1])
+				return (print_error("syntax error near unexpected token"),false);
+			j++;
+			data->old_delim = cmds_d->cmds[i].reds[j];
+			if (is_quoted_delimiter(data->old_delim) == 1)
+				*expand = 0;
+			if (!new_delim_assign(data))
+				return (false);
+			data->here_return = handle_heredoc(data->new_delimiter, data, *expand);
+			if (data->here_return == -1)
+				return (false);
+			else if (data->here_return == 1)
+				return (set_g_signal(1), false);
+			ft_free(data->new_delimiter);
+		}
+		j++;
+	}
+	return (true);
 }
 
 bool	exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 {
-	int		i;
-	int		j;
-	int		expand;
-	char	*new_delimiter;
-	char	*old_delim;
-	int		test;
-	char	*cmd_exist;
+	int	i;
+	int expand;
 
-	test = 0;
 	i = 0;
-	j = 0;
 	expand = 1;
-	new_delimiter = NULL;
-	old_delim = NULL;
 	while (i < data->cmds_d->cmds_counter)
 	{
-		j = 0;
-		while (true && cmds_d->cmds[i].reds[j])
-		{
-			cmd_exist = cmds_d->cmds[i].reds[j];
-			if (!cmd_exist)
-				break ;
-			if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
-			{
-				if (!cmds_d->cmds[i].reds[j + 1])
-				{
-					printf("syntax error: expected delimiter after <<\n");
-					break ;
-				}
-				j++;
-				old_delim = cmds_d->cmds[i].reds[j];
-				if (is_quoted_delimiter(old_delim) == 1)
-					expand = 0;
-				if (ft_strchr(old_delim, '\"') || ft_strchr(old_delim, '\''))
-					new_delimiter = strip_quotes(old_delim);
-				else
-					new_delimiter = ft_strdup(old_delim);
-				test = handle_heredoc(new_delimiter, data, expand);
-				if (test == -1)
-					return (false);
-				else if (test == 1)
-					return (set_g_signal(1), false);
-				ft_free(new_delimiter);
-			}
-			j++;
-		}
+		if (!here_loop(data, cmds_d, i, &expand))
+			return (false);
 		i++;
 	}
 	return (true);
 }
+

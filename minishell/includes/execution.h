@@ -1,4 +1,3 @@
-
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
@@ -44,6 +43,12 @@ bool							exec_heredoc(t_data *data,
 									t_parsed_data *cmds_d);
 int								handle_heredoc(char *input_delimiter,
 									t_data *data, int expand);
+void	write_free_heredoc(int fd, char *to_write, char *line);
+	void	set_g_signal(int value);
+	void	reset_signals_to_prompt(void);
+			void	handle_heredoc_signals(int sig);
+		int	heredoc_event_hook(void);
+						
 
 char							*strip_quotes(char *delim);
 int								is_quoted_delimiter(char *delim);

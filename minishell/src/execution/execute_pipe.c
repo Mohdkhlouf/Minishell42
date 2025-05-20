@@ -69,6 +69,7 @@ bool	execute_pipes_loop(t_data *data, t_parsed_data *cmds_d, int prev_cmd,
 		int *exit_code)
 {
 	int	i;
+	int old_prev_cmd = -1;
 
 	i = 0;
 	while (i < cmds_d->cmds_counter)

@@ -19,7 +19,7 @@ typedef struct s_vars_data
 	bool				var_is_found;
 	int					start;
 	int					c;
-	bool var_malloc_flag;
+	bool				var_malloc_flag;
 }						t_vars_data;
 
 typedef struct s_var_d
