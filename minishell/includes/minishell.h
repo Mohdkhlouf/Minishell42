@@ -28,18 +28,18 @@ extern volatile sig_atomic_t	g_signal_status;
 
 typedef enum e_token_type
 {
-	TOK_UNKNOWN,          // Unknown token
-	TOK_COMMAND,          // Command (e.g., "ls")
-	TOK_ARGUMENT,         // Argument (e.g., "file.txt")
-	TOK_PIPE,             // Pipe "|" operator
-	TOK_REDIRECT_IN,      // Redirect "<" operator
-	TOK_REDIRECT_OUT,     // Redirect ">" operator
-	TOK_APPEND,           // Append ">>" operator
-	TOK_REDIRECT_HEREDOC, // Here Document "<<" operator
-	TOK_SINGLE_QUOTE,     // Single quote "'" character
-	TOK_DOUBLE_QUOTE,     // Double quote "\"" character
-	TOK_ENV_VAR,          // Environment variable (e.g., $HOME)
-	TOK_EOF,              // End of file or input termination
+	TOK_UNKNOWN,
+	TOK_COMMAND,
+	TOK_ARGUMENT,
+	TOK_PIPE,
+	TOK_REDIRECT_IN,
+	TOK_REDIRECT_OUT,
+	TOK_APPEND,
+	TOK_REDIRECT_HEREDOC,
+	TOK_SINGLE_QUOTE,
+	TOK_DOUBLE_QUOTE,
+	TOK_ENV_VAR,
+	TOK_EOF,
 	TOK_STRING,
 }								t_token_type;
 
@@ -85,6 +85,9 @@ typedef struct s_data
 	char						*prompt;
 	bool						sigquit_flag;
 	bool						sigterm_flag;
+	char						*file_name;
+	char						*with_slash;
+	bool malloc_fail_flag;
 }								t_data;
 
 /*---------------Parsing------------------*/
@@ -107,10 +110,6 @@ void							free_env_list(t_var *head);
 void							shelvl(t_data *data);
 void							exit_shlvl(t_data *data);
 
-// void handle_sigint(int sig);
-// void handle_sigquit(int sig);
-// void	cmds_process_loop(t_data *data, t_parsed_data *cmds_data);
-
 /*---------------Built-ins--------------------*/
 bool							execute_builtin(t_data *data, t_cmds *cmds,
 									int *exit_code);
@@ -125,7 +124,7 @@ bool							ft_pwd(t_cmds *cmd, t_data *data,
 /*------------------env---------------------*/
 bool							ft_env(t_cmds *cmd, t_data *data,
 									int *exit_code);
-void							init_env(char **envp, t_data *data);
+bool							init_env(char **envp, t_data *data);
 t_var							*init_envp_node(char *env);
 void							env_addtolist(t_var **lst, t_var *node);
 int								get_env_len(t_var *env);
@@ -176,4 +175,6 @@ bool							pre_validation(t_data *data);
 void							signal_130(t_data *data);
 void							faild_read_line(t_data *data,
 									t_parsed_data *cmds_d);
+void	printing_cmds_reds(t_parsed_data *cmds_d);
+
 #endif

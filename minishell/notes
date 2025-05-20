@@ -418,3 +418,8 @@ and Null check all functions.
 also we have to inisialize all structs when creating them.
 
 
+/////////////// 19.05 ///////////////////
+cat << o
+
+"" << p << l
+

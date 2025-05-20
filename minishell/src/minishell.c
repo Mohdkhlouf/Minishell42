@@ -2,19 +2,8 @@
 
 volatile sig_atomic_t	g_signal_status = 0;
 
-void	cmds_d_init(t_parsed_data *cmds_d)
+void	cmds_d_init(t_data *data, t_parsed_data *cmds_d)
 {
-	cmds_d->cmds = NULL;
-	cmds_d->cmds_counter = 0;
-	cmds_d->pipes_counter = 0;
-	cmds_d->cmds_ctr = 0;
-	cmds_d->red_ctr = 0;
-	cmds_d->token_ctr = 0;
-}
-
-void	data_init(t_data *data, t_parsed_data *cmds_d)
-{
-	cmds_d_init(cmds_d);
 	data->cmds_d = cmds_d;
 	data->tokens = NULL;
 	data->end = 0;
@@ -22,6 +11,18 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->pid = NULL;
 	data->in_token = false;
 	data->quote_found = false;
+	cmds_d->cmds = NULL;
+	cmds_d->cmds_counter = 0;
+	cmds_d->pipes_counter = 0;
+	cmds_d->cmds_ctr = 0;
+	cmds_d->red_ctr = 0;
+	cmds_d->token_ctr = 0;
+	
+}
+
+void	data_init(t_data *data, t_parsed_data *cmds_d)
+{
+	cmds_d_init(data, cmds_d);
 	data->double_quote_found = false;
 	data->first_quote_type = 0;
 	data->file_seperator_found = false;
@@ -37,6 +38,9 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->prompt = "\001\033[1;32m\002minishell$ \001\033[0m\002";
 	data->sigquit_flag = false;
 	data->sigterm_flag = false;
+	data->file_name = NULL;
+	data->with_slash = NULL;
+	data->malloc_fail_flag = false;
 }
 
 void	reading_loop(t_data *data, t_parsed_data *cmds_d)
@@ -74,16 +78,17 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(1, sizeof(t_data));
+	if(!data)
+		exit(EXIT_FAILURE);
 	cmds_d = ft_calloc(1, sizeof(t_parsed_data));
-	if (!data || !cmds_d)
+	if (!cmds_d)
 	{
 		free(data);
-		free(cmds_d);
-		perror("Minishell: ");
 		exit(EXIT_FAILURE);
 	}
 	data_init(data, cmds_d);
-	init_env(envp, data);
+	if(!init_env(envp, data))
+		return(free(data), free(cmds_d), 1);
 	if (envp && envp[0])
 		shelvl(data);
 	set_prompt_signals();

@@ -1,8 +1,8 @@
 #include "../includes/minishell.h"
 
-int check_nl(char *new_line)
+int	check_nl(char *new_line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_strlen(new_line) <= 1)
@@ -17,12 +17,13 @@ int check_nl(char *new_line)
 	return (1);
 }
 
-bool ft_echo(t_cmds *cmd, t_data *data, int *exit_code)
+bool	ft_echo(t_cmds *cmd, t_data *data, int *exit_code)
 {
-	int print_newline;
-	int i;
-	int first = 1;
+	int	print_newline;
+	int	i;
+	int	first;
 
+	first = 1;
 	(void)data;
 	print_newline = 1;
 	i = 1;
@@ -33,36 +34,14 @@ bool ft_echo(t_cmds *cmd, t_data *data, int *exit_code)
 	}
 	while (cmd->cmd[i])
 	{
-		/*mohammad add this*/
 		if (!first)
 			ft_putchar_fd(' ', 1);
 		ft_putstr_fd(cmd->cmd[i], 1);
 		first = 0;
 		i++;
-		/*mohammad add this*/
-
-		// if (cmd->cmd[i][0] == '\0')
-		// 	printf(" ");
-		// if (cmd->cmd[i][0] != '\0')
-		// {
-		// 	ft_putstr_fd(cmd->cmd[i], 1);
-		// 	if (cmd->cmd[i + 1])
-		// 		ft_putchar_fd(' ', 1);
-		// }
-		// i++;
 	}
 	if (print_newline)
 		ft_putchar_fd('\n', 1);
 	*exit_code = 0;
 	return (true);
 }
-
-// if (cmd->cmd[i][0] == '\0')
-// 		{
-// 			i++;
-// 			continue;
-// 		}
-// 		ft_putstr_fd(cmd->cmd[i], 1);
-// 		if (cmd->cmd[i + 1])
-// 			ft_putchar_fd(' ', 1);
-// 		i++;

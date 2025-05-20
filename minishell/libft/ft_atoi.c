@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:15:39 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/13 16:44:14 by akumari          ###   ########.fr       */
+/*   Updated: 2025/05/19 11:56:16 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//changed for exit
+// changed for exit
 long	ft_atoi(char *str)
 {
 	long	sign;
@@ -34,12 +34,12 @@ long	ft_atoi(char *str)
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		if (num > (LONG_MAX - (str[i] - '0')) / 10)
-        {
-            if (sign == 1)
-                return (LONG_MAX);
-            else
-                return (LONG_MIN);
-        }
+		{
+			if (sign == 1)
+				return (LONG_MAX);
+			else
+				return (LONG_MIN);
+		}
 		num = num * 10 + (str[i] - 48);
 		i++;
 	}

@@ -10,13 +10,14 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 		free(var->vars_arr[*c]);
 		var->vars_arr[*c] = NULL;
 		var->vars_arr[*c] = ft_itoa(data->exit_code);
+		if (!var->vars_arr[*c])
+			data->malloc_fail_flag = true;
 		return ;
 	}
 	env_value = get_env_value(var->vars_arr[*c] + 1, data);
 	if (env_value)
 	{
 		free(var->vars_arr[*c]);
-		var->vars_arr[*c] = NULL;
 		var->vars_arr[*c] = ft_strdup(env_value);
 	}
 	else
@@ -24,6 +25,8 @@ void	var_expander(t_vars_data *var, int *c, t_data *data)
 		free(var->vars_arr[*c]);
 		var->vars_arr[*c] = ft_strdup("");
 	}
+	if (!var->vars_arr[*c])
+		data->malloc_fail_flag = true;
 }
 
 void	loop_to_expand(t_vars_data *var, t_data *data)
@@ -33,6 +36,11 @@ void	loop_to_expand(t_vars_data *var, t_data *data)
 	c = 0;
 	while (c < var->parts_count)
 	{
+		if (data->malloc_fail_flag)
+		{
+			command_cleanup(data, data->cmds_d);
+			exit(1);
+		}
 		if (var->vars_arr[c][0] == '$' && var->vars_arr[c][1])
 			var_expander(var, &c, data);
 		c++;
@@ -51,6 +59,11 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 	loop_to_expand(var, data);
 	while (c < var->parts_count)
 	{
+		if (data->malloc_fail_flag)
+		{
+			command_cleanup(data, data->cmds_d);
+			exit(1);
+		}
 		if (!joined)
 			joined = ft_strdup(var->vars_arr[0]);
 		else
@@ -59,21 +72,26 @@ char	*expand_vars(t_vars_data *var, t_data *data)
 			joined = ft_strjoin(temp, var->vars_arr[c]);
 			free(temp);
 		}
+		if (!joined)
+			data->malloc_fail_flag = true;
 		c++;
 	}
 	return (joined);
 }
 
-void	path_set_and_join(t_data *data, int i, t_vars_data *var)
+bool	path_set_and_join(t_data *data, int i, t_vars_data *var)
 {
 	if (var->var_var == NULL)
-		exit(EXIT_FAILURE);
+		return (false);
 	else
 	{
 		free(data->tokens[i].data);
 		data->tokens[i].data = ft_strdup(var->var_var);
+		if (!data->tokens[i].data)
+			return (false);
 	}
 	data->tokens[i].type = TOK_ENV_VAR;
+	return (true);
 }
 
 bool	var_handler2(t_data *data, int i)
@@ -83,7 +101,6 @@ bool	var_handler2(t_data *data, int i)
 	int			j;
 
 	j = 0;
-	len = 0;
 	len = ft_strlen(data->tokens[i].data);
 	while (j < len)
 	{
@@ -97,9 +114,11 @@ bool	var_handler2(t_data *data, int i)
 		return (free(var), false);
 	if (!var_init(var, data, i))
 		return (free(var), false);
-	split_vars(data->tokens[i].data, var);
+	if (!split_vars(data, data->tokens[i].data, var))
+		return (free(var), false);
 	var->var_var = expand_vars(var, data);
-	path_set_and_join(data, i, var);
+	if (!path_set_and_join(data, i, var))
+		return (free(var), false);
 	free(var->temp);
 	free_var(var);
 	return (true);

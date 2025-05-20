@@ -1,12 +1,16 @@
 #include "../includes/minishell.h"
 
-int is_quoted_delimiter(char *delimiter)
+int	is_quoted_delimiter(char *delimiter)
 {
-	int count = 0;
-	size_t i = 0;
+	int		count;
+	size_t	i;
+	size_t	len;
+
+	count = 0;
+	i = 0;
 	if (!delimiter)
 		return (0);
-	size_t len = ft_strlen(delimiter);
+	len = ft_strlen(delimiter);
 	if (len < 2)
 		return (0);
 	while (delimiter[i])
@@ -21,18 +25,21 @@ int is_quoted_delimiter(char *delimiter)
 		return (0);
 }
 
-char *strip_quotes(char *delimiter)
+char	*strip_quotes(char *delimiter)
 {
-	size_t i = 0;
-	size_t j = 0;
-	char *result;
+	size_t	i;
+	size_t	j;
+	char	*result;
+	size_t	len;
 
+	i = 0;
+	j = 0;
 	if (!delimiter)
 		return (NULL);
-	size_t len = ft_strlen(delimiter);
-	// if (len < 2)
-	// 	return ft_strdup(delimiter);
-	result = malloc(sizeof(len) + 1); // malloc check
+	len = ft_strlen(delimiter);
+	result = malloc(sizeof(len) + 1);
+	if (!result)
+		return (NULL);
 	while (delimiter[i])
 	{
 		if ((delimiter[i] != '\'' && delimiter[i] != '"'))
@@ -42,19 +49,20 @@ char *strip_quotes(char *delimiter)
 	result[j] = '\0';
 	return (result);
 }
-void set_g_signal(int value)
+void	set_g_signal(int value)
 {
 	g_signal_status = value;
 }
 
-bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
+bool	exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 {
-	int i;
-	int j;
-	int expand;
-	char *new_delimiter;
-	char *old_delim;
-	int test;
+	int		i;
+	int		j;
+	int		expand;
+	char	*new_delimiter;
+	char	*old_delim;
+	int		test;
+	char	*cmd_exist;
 
 	test = 0;
 	i = 0;
@@ -67,29 +75,28 @@ bool exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 		j = 0;
 		while (true && cmds_d->cmds[i].reds[j])
 		{
-			char *cmd_exist = cmds_d->cmds[i].reds[j];
+			cmd_exist = cmds_d->cmds[i].reds[j];
 			if (!cmd_exist)
-				break;
-
+				break ;
 			if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
 			{
 				if (!cmds_d->cmds[i].reds[j + 1])
 				{
 					printf("syntax error: expected delimiter after <<\n");
-					break;
+					break ;
 				}
 				j++;
 				old_delim = cmds_d->cmds[i].reds[j];
 				if (is_quoted_delimiter(old_delim) == 1)
 					expand = 0;
-				if (ft_strchr(old_delim,'\"') || ft_strchr(old_delim,'\''))
+				if (ft_strchr(old_delim, '\"') || ft_strchr(old_delim, '\''))
 					new_delimiter = strip_quotes(old_delim);
 				else
 					new_delimiter = ft_strdup(old_delim);
 				test = handle_heredoc(new_delimiter, data, expand);
 				if (test == -1)
 					return (false);
-				else if (test == 1)		
+				else if (test == 1)
 					return (set_g_signal(1), false);
 				ft_free(new_delimiter);
 			}

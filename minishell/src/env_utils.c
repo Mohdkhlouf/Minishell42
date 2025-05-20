@@ -4,22 +4,22 @@ void	update_env_list(char *key, char *value, t_data *data)
 {
 	t_var	*env;
 
-	if (!key)// || !value)
+	if (!key)
 		return ;
 	env = data->env_lst;
 	while (env)
 	{
 		if (ft_strcmp(env->key, key) == 0)
 		{
-			free(env->value); 
+			free(env->value);
 			if (value)
 			{
-				env->value  = ft_strdup(value);
-				if(!env->value)
+				env->value = ft_strdup(value);
+				if (!env->value)
 					env->value = NULL;
 			}
 			else
-				env->value  = NULL;
+				env->value = NULL;
 			return ;
 		}
 		env = env->next;

@@ -1,12 +1,16 @@
 #include "../includes/lexing.h"
 
-
-
 void	case_allnum(char *token, t_vars_data *var, char *temp)
 {
 	var->var_is_found = false;
 	temp = ft_substr(token, var->start, var->c - var->start);
-	process_add(var, temp);
+	if (!temp)
+		{
+			var->var_malloc_flag = true;
+			return ;
+		}
+	if (!process_add(var, temp))
+		return ;
 	var->start = var->c;
 }
 
@@ -14,7 +18,13 @@ void	case_shell_index(char *token, t_vars_data *var, char *temp)
 {
 	var->var_is_found = false;
 	temp = ft_substr(token, var->start, 2);
-	process_add(var, temp);
+	if (!temp)
+		{
+			var->var_malloc_flag = true;
+			return ;
+		}
+	if (!process_add(var, temp))
+		return ;
 	var->start = var->c + 1;
 }
 
@@ -22,7 +32,13 @@ void	case_exit_code(char *token, t_vars_data *var, char *temp)
 {
 	var->var_is_found = false;
 	temp = ft_substr(token, var->start, 2);
-	process_add(var, temp);
+	if (!temp)
+		{
+			var->var_malloc_flag = true;
+			return ;
+		}
+	if (!process_add(var, temp))
+		return ;
 	var->start = var->c + 1;
 }
 
@@ -32,17 +48,25 @@ void	case_normal(char *token, t_vars_data *var, char *temp)
 	if (var->c != 0)
 	{
 		temp = ft_substr(token, var->start, var->c - var->start);
-		process_add(var, temp);
+		if (!temp)
+		{
+			var->var_malloc_flag = true;
+			return ;
+		}
+		if (!process_add(var, temp))
+			return ;
 	}
 	var->start = var->c;
 }
 
-void	split_vars_var(char *token, t_vars_data *var)
+bool	split_vars_var(char *token, t_vars_data *var)
 {
 	char	*temp;
 
 	while (token[var->c])
 	{
+		if (var->var_malloc_flag)
+			return (false);
 		temp = NULL;
 		if (token[var->c] == '$')
 			case_normal(token, var, temp);
@@ -58,5 +82,5 @@ void	split_vars_var(char *token, t_vars_data *var)
 			case_allnum(token, var, temp);
 		(var->c)++;
 	}
-	// free(temp);
+	return (true);
 }

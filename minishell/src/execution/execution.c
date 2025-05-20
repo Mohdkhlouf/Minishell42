@@ -9,10 +9,9 @@ void	set_data_exit_code_value(t_data *data, int *exit_code, int value)
 int	is_builtin(char *cmd)
 {
 	const char	*builtins[] = {"cd", "exit", "echo", "pwd", "export", "unset",
-			"env", NULL};
+		"env", NULL};
 	int			i;
 
-	/*Akancha added for null check*/
 	if (!cmd || !cmd[0])
 		return (0);
 	i = 0;
@@ -69,21 +68,16 @@ bool	execution(t_data *data, t_parsed_data *cmds_d)
 		if (!cmds_d->cmds[0].cmd[0])
 			return (set_data_exit_code_value(data, &exit_code, 0), false);
 		if (cmds_d->cmds[0].cmd[0][0] == 0)
-		{
 			return (true);
-			// return (set_data_exit_code_value(data, &exit_code, 0), false);
-		}
-			
 		if (is_builtin(cmds_d->cmds[0].cmd[0]))
 		{
 			if (!builtin_cmd(&cmds_d->cmds[0], data, &exit_code))
 				return (set_data_exit_code(data, &exit_code), false);
 		}
 		else
-			handle_single_command(&cmds_d->cmds[0], data, &exit_code);		
+			handle_single_command(&cmds_d->cmds[0], data, &exit_code);
 	}
 	else
-		handle_pipes(data, cmds_d, &exit_code);
-	data->exit_code = exit_code;
-	return (true);
+		handle_pipes(data, data->cmds_d, &exit_code);
+	return (set_data_exit_code(data, &exit_code), true);
 }

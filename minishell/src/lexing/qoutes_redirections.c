@@ -1,4 +1,3 @@
-
 #include "../includes/lexing.h"
 
 void	quote_assign_ch(char *quote, char ch, char *temp, int *c)
@@ -43,15 +42,19 @@ void	quote_type_check(t_data *data, int i)
 {
 	if (data->tokens[i].data[0] == '\'')
 	{
-		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i
-				- 1].type != TOK_REDIRECT_HEREDOC))
+		if (!(i > 0 && data->tokens[i - 1].type
+				&& data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC))
+		{
 			data->tokens[i].type = TOK_SINGLE_QUOTE;
+		}
 	}
 	else if (data->tokens[i].data[0] == '\"')
 	{
-		if (!(i > 0 && data->tokens[i - 1].type && data->tokens[i
-				- 1].type != TOK_REDIRECT_HEREDOC))
+		if (!(i > 0 && data->tokens[i - 1].type
+				&& data->tokens[i - 1].type != TOK_REDIRECT_HEREDOC))
+		{
 			data->tokens[i].type = TOK_DOUBLE_QUOTE;
+		}
 	}
 }
 
@@ -77,6 +80,8 @@ bool	quote_fixing(t_data *data, int i)
 	}
 	free(data->tokens[i].data);
 	data->tokens[i].data = ft_strdup(temp);
+	if (!data->tokens[i].data)
+		return (free(temp),false);
 	return (free(temp), true);
 }
 
@@ -84,17 +89,25 @@ void	redirection_setting(t_data *data, int i)
 {
 	if (data->tokens[i].type == TOK_UNKNOWN && i > 0)
 	{
-		if (data->tokens[i - 1].type == TOK_REDIRECT_IN && data->tokens[i
-			- 1].data[0] == '<')
+		if (data->tokens[i - 1].type == TOK_REDIRECT_IN
+			&& data->tokens[i - 1].data[0] == '<')
+		{
 			data->tokens[i].type = TOK_REDIRECT_IN;
-		else if (data->tokens[i - 1].type == TOK_REDIRECT_OUT && data->tokens[i
-			- 1].data[0] == '>')
+		}
+		else if (data->tokens[i - 1].type == TOK_REDIRECT_OUT
+			&& data->tokens[i - 1].data[0] == '>')
+		{
 			data->tokens[i].type = TOK_REDIRECT_OUT;
-		else if (data->tokens[i - 1].type == TOK_APPEND && data->tokens[i
-			- 1].data[0] == '>')
+		}
+		else if (data->tokens[i - 1].type == TOK_APPEND
+			&& data->tokens[i - 1].data[0] == '>')
+		{
 			data->tokens[i].type = TOK_APPEND;
+		}
 		else if (data->tokens[i - 1].type == TOK_REDIRECT_HEREDOC
 			&& data->tokens[i - 1].data[0] == '<')
+		{
 			data->tokens[i].type = TOK_REDIRECT_HEREDOC;
+		}
 	}
 }

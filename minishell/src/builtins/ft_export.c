@@ -92,4 +92,3 @@ bool	ft_export(t_cmds *cmd, t_data *data, int *exit_code)
 		export_with_param(cmd, data, exit_code);
 	return (true);
 }
-
