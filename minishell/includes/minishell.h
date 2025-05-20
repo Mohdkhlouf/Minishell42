@@ -88,7 +88,8 @@ typedef struct s_data
 	char						*file_name;
 	char						*with_slash;
 	bool 						malloc_fail_flag;
-	
+		char	*new_delimiter;
+	char	*old_delim;
 }								t_data;
 
 /*---------------Parsing------------------*/

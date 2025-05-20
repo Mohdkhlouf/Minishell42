@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:04:27 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:04:29 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:34:36 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	cmds_d_init(t_data *data, t_parsed_data *cmds_d)
 	cmds_d->cmds_ctr = 0;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
+	data->new_delimiter = NULL;
+	data->old_delim = NULL;
 }
 
 void	data_init(t_data *data, t_parsed_data *cmds_d)
