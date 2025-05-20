@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizing_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:59:15 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 13:59:16 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lexing.h"
 
 bool	init_var_handler(t_data *data, int *i)
@@ -60,10 +72,10 @@ bool	var_handler_token(t_data *data, int i)
 bool	quotes_tekonizing(t_data *data, int i)
 {
 	if (data->tokens[i].data && (ft_strchr(data->tokens[i].data, '\'')
-				|| ft_strchr(data->tokens[i].data, '\"')))
+			|| ft_strchr(data->tokens[i].data, '\"')))
 	{
-		if (!(i > 0 && (data->tokens[i - 1].data) && ft_strnstr(data->tokens[i
-					- 1].data, "<<", 2)))
+		if (!(i > 0 && (data->tokens[i - 1].data)
+				&& ft_strnstr(data->tokens[i - 1].data, "<<", 2)))
 		{
 			if (!quote_fixing(data, i))
 				return (false);

@@ -63,5 +63,6 @@ bool					var_handler_token(t_data *data, int i);
 bool					var_handler_quotes_token(t_data *data, int i);
 bool					set_exit_value(t_data *data, int i);
 bool					init_var_handler(t_data *data, int *i);
+void	malloc_fail(t_vars_data *var, t_data *data);
 
 #endif

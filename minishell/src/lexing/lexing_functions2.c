@@ -1,14 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexing_functions2.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:59:32 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 13:59:33 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lexing.h"
+
+void	malloc_fail(t_vars_data *var, t_data *data)
+{
+	ft_free(var->temp);
+	free_var(var);
+	command_cleanup(data, data->cmds_d);
+	exit(1);
+}
 
 bool	process_add(t_vars_data *var, char *temp)
 {
 	var->vars_arr[var->parts_count] = ft_strdup(temp);
 	if (!var->vars_arr[var->parts_count])
-		{
-			ft_free(temp);
-			var->var_malloc_flag = true;
-			return (false);
-		}
+	{
+		ft_free(temp);
+		var->var_malloc_flag = true;
+		return (false);
+	}
 	ft_free(temp);
 	var->parts_count++;
 	return (true);

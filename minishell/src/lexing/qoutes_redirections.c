@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   qoutes_redirections.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:59:21 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 13:59:22 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lexing.h"
 
 void	quote_assign_ch(char *quote, char ch, char *temp, int *c)
@@ -81,7 +93,7 @@ bool	quote_fixing(t_data *data, int i)
 	free(data->tokens[i].data);
 	data->tokens[i].data = ft_strdup(temp);
 	if (!data->tokens[i].data)
-		return (free(temp),false);
+		return (free(temp), false);
 	return (free(temp), true);
 }
 

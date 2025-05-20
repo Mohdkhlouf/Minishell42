@@ -1,18 +1,23 @@
-#include "../includes/parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:02:08 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 14:02:54 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	init_cmd(t_cmds *cmd)
-{
-	cmd->red_in_fd = -1;
-	cmd->red_out_fd = -1;
-	cmd->saved_stdin = -1;
-	cmd->saved_stdin = -1;
-}
+#include "../includes/parsing.h"
 
 void	clean_exit(t_data *data, t_parsed_data *cmds_d)
 {
 	command_cleanup(data, cmds_d);
 	exit(1);
 }
+
 void	create_cmds_arr(t_data *data, t_parsed_data *cmds_d)
 {
 	int	i;
@@ -41,7 +46,6 @@ void	pipe_found(t_parsed_data *cmds_d)
 {
 	cmds_d->cmds[cmds_d->cmds_ctr].cmd[cmds_d->token_ctr] = NULL;
 	cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = NULL;
-	/* here is a problem*/
 	cmds_d->cmds_ctr++;
 	cmds_d->red_ctr = 0;
 	cmds_d->token_ctr = 0;
@@ -61,19 +65,15 @@ void	cmd_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 			clean_exit(data, cmds_d);
 		cmds_d->token_ctr++;
 	}
-	// else
-	// {
-	// 	*temp_cmd = ft_strdup("");
-	// 	cmds_d->token_ctr++;
-	// }
-	
 }
+
 /* add new commands from tokens to the final struct for execution*/
 void	redirection_appened(t_parsed_data *cmds_d, t_data *data, int *i)
 {
 	if (data->tokens[*i].data[0] != '\0')
 	{
-		cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr] = ft_strdup(data->tokens[*i].data);
+		cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr]
+			= ft_strdup(data->tokens[*i].data);
 		if (!cmds_d->cmds[cmds_d->cmds_ctr].reds[cmds_d->red_ctr])
 			clean_exit(data, cmds_d);
 		cmds_d->red_ctr++;

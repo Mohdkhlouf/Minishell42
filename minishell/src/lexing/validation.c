@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:58:57 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 13:58:58 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lexing.h"
 
 bool	pre_validation(t_data *data)
@@ -62,8 +74,8 @@ bool	validation(t_data *data)
 		if ((data->tokens[i].type == TOK_REDIRECT_IN
 				|| data->tokens[i].type == TOK_REDIRECT_OUT
 				|| data->tokens[i].type == TOK_REDIRECT_HEREDOC
-				|| data->tokens[i].type == TOK_APPEND) && data->tokens[i
-			+ 1].type == 3)
+				|| data->tokens[i].type == TOK_APPEND)
+			&& data->tokens[i + 1].type == 3)
 		{
 			return (set_ecode_print_pipe(data, 2), false);
 		}
