@@ -59,9 +59,9 @@ bool					split_vars(t_data *data, char *token, t_vars_data *var);
 bool					split_vars_var(char *token, t_vars_data *var);
 bool					process_add(t_vars_data *var, char *temp);
 bool					quotes_tekonizing(t_data *data, int i);
-void					var_handler_token(t_data *data, int i);
+bool					var_handler_token(t_data *data, int i);
 void					var_handler_quotes_token(t_data *data, int i);
-void					set_exit_value(t_data *data, int i);
+bool					set_exit_value(t_data *data, int i);
 bool					init_var_handler(t_data *data, int *i);
 
 #endif

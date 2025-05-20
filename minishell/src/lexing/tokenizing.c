@@ -52,7 +52,10 @@ bool main_tokenizing_loop(t_data *data)
 		if (data->malloc_fail_flag)
 			return (false);
 		if (data->tokens[i].data[0] == '$')
-			var_handler_token(data, i);
+			{
+				if (!var_handler_token(data, i))
+					return (false);
+			}
 		else if (ft_strchr(data->tokens[i].data, '\"')
 			&& ft_strchr(data->tokens[i].data, '$')
 			&& data->tokens[i].data[0] != '\'')

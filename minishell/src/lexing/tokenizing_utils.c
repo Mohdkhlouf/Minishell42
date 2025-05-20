@@ -14,11 +14,14 @@ bool	init_var_handler(t_data *data, int *i)
 	return (true);
 }
 
-void	set_exit_value(t_data *data, int i)
+bool	set_exit_value(t_data *data, int i)
 {
 	if (data->tokens[i].data)
 		free(data->tokens[i].data);
 	data->tokens[i].data = ft_itoa(data->exit_code);
+	if (!data->tokens[i].data)
+		return (false);
+	return (true);
 }
 
 void	var_handler_quotes_token(t_data *data, int i)
@@ -32,12 +35,19 @@ void	var_handler_quotes_token(t_data *data, int i)
 		var_handler2(data, i);
 }
 
-void	var_handler_token(t_data *data, int i)
+bool	var_handler_token(t_data *data, int i)
 {
 	if (data->tokens[i].data[1] == '?' && !data->tokens[i].data[2])
-		set_exit_value(data, i);
+	{
+		if (!set_exit_value(data, i))
+			return (false);
+	}
 	else
-		init_var_handler(data, &i);
+	{
+		if (!init_var_handler(data, &i))
+			return (false);
+	}
+	return (true);
 }
 
 bool	quotes_tekonizing(t_data *data, int i)
