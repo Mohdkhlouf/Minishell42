@@ -24,15 +24,22 @@ bool	set_exit_value(t_data *data, int i)
 	return (true);
 }
 
-void	var_handler_quotes_token(t_data *data, int i)
+bool	var_handler_quotes_token(t_data *data, int i)
 {
 	if (data->tokens_conter > 1 && i != 0)
 	{
 		if (!ft_strnstr(data->tokens[i - 1].data, "<<", 2))
-			var_handler2(data, i);
+		{
+			if (!var_handler2(data, i))
+				return (false);
+		}
 	}
 	else
-		var_handler2(data, i);
+	{
+		if (!var_handler2(data, i))
+			return (false);
+	}
+	return (true);
 }
 
 bool	var_handler_token(t_data *data, int i)

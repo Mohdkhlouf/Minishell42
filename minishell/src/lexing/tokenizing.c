@@ -60,7 +60,8 @@ bool main_tokenizing_loop(t_data *data)
 			&& ft_strchr(data->tokens[i].data, '$')
 			&& data->tokens[i].data[0] != '\'')
 		{
-			var_handler_quotes_token(data, i);
+			if (!var_handler_quotes_token(data, i))
+				return (false);
 		}
 		if (!quotes_tekonizing(data, i))
 			return (false);
