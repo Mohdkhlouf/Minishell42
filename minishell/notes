@@ -379,16 +379,10 @@ exit
 ==3512763== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
 
 
+pwd -g
+	must return invalid like bash
+	check all built ins with all.
 
-# ####################################################################
-# UNSOLVED
-
-
-
-
-
-
-# *
 minishell$ mkdir test
 minishell$ cd test
 minishell$ rm -rf ../test
@@ -396,6 +390,8 @@ minishell$ pwd
 getcwd failed: No such file or directory
 
 
+# ####################################################################
+# UNSOLVED
 
 
 
@@ -403,13 +399,6 @@ getcwd failed: No such file or directory
 echo hi "" "C"
 
 "" command must return not found
-
-
-pwd -g
-	must return invalid like bash
-	check all built ins with all.
-
-
 
 
 
