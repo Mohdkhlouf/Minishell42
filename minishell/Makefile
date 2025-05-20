@@ -40,7 +40,7 @@ SRC     = $(SRC_DIR)/minishell.c $(SRC_DIR)/free.c $(SRC_DIR)/error.c $(SRC_DIR)
 			$(SRC_DIR)/shelvl.c\
 			$(SRC_DIR)/free_utils.c  $(SRC_DIR)/env_utils_2.c  $(SRC_DIR)/lexing/var_handler_extra.c \
 			$(SRC_DIR)/execution/execute_pipe_utils.c $(SRC_DIR)/execution/exec_cmd.c \
-			$(SRC_DIR)/lexing/tokenizing_utils.c
+			$(SRC_DIR)/execution/heredoc_utils.c $(SRC_DIR)/lexing/tokenizing_utils.c
 			
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 LIBFT_A = $(LIBFT)/libft.a

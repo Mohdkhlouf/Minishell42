@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-
 /*testing function to print commands and redirections*/
 void	printing_cmds_reds(t_parsed_data *cmds_d)
 {
