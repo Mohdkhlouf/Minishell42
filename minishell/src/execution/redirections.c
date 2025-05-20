@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:20:12 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 14:22:53 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 bool	append_handller(t_cmds *cmd, int *i, char *append, int *exit_code)

@@ -87,7 +87,8 @@ typedef struct s_data
 	bool						sigterm_flag;
 	char						*file_name;
 	char						*with_slash;
-	bool malloc_fail_flag;
+	bool 						malloc_fail_flag;
+	
 }								t_data;
 
 /*---------------Parsing------------------*/

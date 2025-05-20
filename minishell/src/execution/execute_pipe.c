@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_pipe.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 14:21:55 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/20 14:21:56 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
