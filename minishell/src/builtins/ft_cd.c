@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:38:59 by akumari           #+#    #+#             */
-/*   Updated: 2025/05/20 14:39:02 by akumari          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:12:25 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static bool	cd_with_no_param(t_data *data, int *exit_code)
 {
 	char	*home_dir;
-	char	*get_pwd;
 
 	*exit_code = 0;
 	home_dir = get_env_value("HOME", data);

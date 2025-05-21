@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:25:40 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 12:25:45 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:11:35 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void					redirection_setting(t_data *data, int i);
 void					free_var(t_vars_data *var);
 void					append_eof_token(t_data *data, int type);
 void					ft_free(char *str);
-bool					split_vars(t_data *data, char *token, t_vars_data *var);
+bool					split_vars(char *token, t_vars_data *var);
 bool					split_vars_var(char *token, t_vars_data *var);
 bool					process_add(t_vars_data *var, char *temp);
 bool					quotes_tekonizing(t_data *data, int i);

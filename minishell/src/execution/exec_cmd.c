@@ -6,13 +6,13 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:22:38 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:22:39 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:49:57 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	path_with_slash_handler2(t_cmds *cmd, t_data *data, char **path)
+void	path_with_slash_handler2(t_data *data, char **path)
 {
 	struct stat	path_stat;
 
@@ -34,7 +34,7 @@ void	path_with_slash_handler2(t_cmds *cmd, t_data *data, char **path)
 	}
 }
 
-void	command_stat_hhandler(t_cmds *cmd, t_data *data, char **path)
+void	command_stat_hhandler(t_data *data, char **path)
 {
 	struct stat	path_stat;
 
@@ -127,7 +127,7 @@ void	exec_cmd(t_cmds *cmd, t_data *data)
 		not_path_handler(cmd, data);
 	if (access(path, X_OK) != 0)
 		not_access_handler(cmd, data, path);
-	command_stat_hhandler(cmd, data, &path);
+	command_stat_hhandler(data, &path);
 	if (execve(path, cmd->cmd, data->envp) == -1)
-		not_execve_handler(cmd, data, path);
+		not_execve_handler(data, path);
 }

@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:25:29 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 12:25:34 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:23:57 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ bool							execution(t_data *data, t_parsed_data *cmds_d);
 bool							is_empty_cmd(t_cmds *cmd);
 bool							builtin_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code);
-void							parse_path(t_data *data);
 void							external_cmd(t_cmds *cmd, t_data *data,
 									int *exit_code, pid_t *pid);
 
@@ -35,11 +34,9 @@ bool							handle_pipes(t_data *data,
 									t_parsed_data *cmds_d, int *exit_code);
 bool							execute_pipes(t_data *data, int i,
 									int *prev_cmd, int *exit_code);
-void							set_default_signal_handlers(void);
 
 /*---------------redirectins------------------*/
-bool							execute_redirections(t_data *data,
-									t_cmds *cmds_d, int *exit_code);
+bool							execute_redirections(t_data *data, t_cmds *cmds_d, int *exit_code);
 bool							open_output_file(t_cmds *cmd, char *outfile,
 									int mode);
 bool							open_input_file(t_cmds *cmd, char *infile);
@@ -71,8 +68,7 @@ void							hanlde_fd(int old, int fd);
 void							not_execute_builtin(t_data *data);
 void							execute_child(t_data *data, int i,
 									int *prev_cmd, int *exit_code);
-void							not_execve_handler(t_cmds *cmd, t_data *data,
-									char *path);
+void							not_execve_handler(t_data *data, char *path);
 void							not_access_handler(t_cmds *cmd, t_data *data,
 									char *path);
 void							not_path_handler(t_cmds *cmd, t_data *data);
