@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free_utils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 14:04:59 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 13:22:33 by mkhlouf          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -66,29 +55,6 @@ void	free_cmds_d(t_parsed_data *cmds_d)
 		free(cmds_d->cmds);
 		cmds_d->cmds = NULL;
 	}
-}
-
-void	free_data(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->tokens && i < data->tokens_conter)
-	{
-		if (data->tokens[i].data)
-		{
-			free(data->tokens[i].data);
-			data->tokens[i].data = NULL;
-		}
-		i++;
-	}
-	free(data->tokens);
-	data->tokens = NULL;
-	free(data->pid);
-	if (data->pipe_fd[0] != -1)
-		ft_close(&data->pipe_fd[0]);
-	if (data->pipe_fd[1] != -1)
-		ft_close(&data->pipe_fd[1]);
 }
 
 void	ft_close(int *fd)

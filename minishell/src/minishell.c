@@ -55,7 +55,7 @@ void	data_init(t_data *data, t_parsed_data *cmds_d)
 	data->with_slash = NULL;
 	data->malloc_fail_flag = false;
 	data->here_line = NULL;
-	data->here_ret  = 0;
+	data->here_ret = 0;
 	data->here_to_write = NULL;
 }
 
@@ -79,7 +79,7 @@ void	reading_loop(t_data *data, t_parsed_data *cmds_d)
 			{
 				command_cleanup(data, cmds_d);
 				continue ;
-			}	
+			}
 			command_cleanup(data, cmds_d);
 		}
 		free(data->input_line);

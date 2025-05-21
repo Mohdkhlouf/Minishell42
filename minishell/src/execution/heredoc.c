@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 13:12:36 by akumari           #+#    #+#             */
+/*   Updated: 2025/05/21 13:15:02 by akumari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	is_quoted_delimiter(char *delimiter)
@@ -43,7 +55,7 @@ char	*strip_quotes(char *delimiter)
 	while (delimiter[i])
 	{
 		if ((delimiter[i] != '\'' && delimiter[i] != '"'))
-			result[j++] = delimiter[i]; // segfault
+			result[j++] = delimiter[i];
 		i++;
 	}
 	result[j] = '\0';
