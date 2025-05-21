@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:58:50 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 13:58:51 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:11:27 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ bool	var_handler2(t_data *data, int i)
 		return (false);
 	if (!var_init(var, data, i))
 		return (free(var), false);
-	if (!split_vars(data, data->tokens[i].data, var))
+	if (!split_vars(data->tokens[i].data, var))
 		return (free_var(var), false);
 	var->var_var = expand_vars(var, data);
 	if (!path_set_and_join(data, i, var))

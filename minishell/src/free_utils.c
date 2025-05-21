@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:04:59 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 02:05:40 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:22:33 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
 	if (access("HEREDOC_TEMP.txt", F_OK) == 0)
 	{
-		if (!unlink("HEREDOC_TEMP.txt") == 0)
+		if (unlink("HEREDOC_TEMP.txt") != 0)
 			perror("unlink failed");
 	}
 	data->pid = NULL;

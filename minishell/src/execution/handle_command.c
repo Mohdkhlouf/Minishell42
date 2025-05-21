@@ -6,13 +6,13 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:22:47 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 02:37:08 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:16:19 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
+void	execute_builtin_handler(t_cmds *cmd, int *exit_code)
 {
 	dup2(cmd->saved_stdout, STDOUT_FILENO);
 	dup2(cmd->saved_stdin, STDIN_FILENO);
@@ -23,7 +23,7 @@ void	execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
 	*exit_code = 1;
 }
 
-void	not_execute_builtin_handler(t_data *data, t_cmds *cmd, int *exit_code)
+void	not_execute_builtin_handler(t_cmds *cmd)
 {
 	dup2(cmd->saved_stdout, STDOUT_FILENO);
 	dup2(cmd->saved_stdin, STDIN_FILENO);
@@ -40,10 +40,10 @@ bool	builtin_cmd(t_cmds *cmd, t_data *data, int *exit_code)
 	if (execute_redirections(data, cmd, exit_code))
 	{
 		if (!execute_builtin(data, cmd, exit_code))
-			return (not_execute_builtin_handler(data, cmd, exit_code), false);
+			return (not_execute_builtin_handler(cmd), false);
 	}
 	else
-		return (execute_builtin_handler(data, cmd, exit_code), false);
+		return (execute_builtin_handler(cmd, exit_code), false);
 	if (cmd->red_out_fd != -1)
 		dup2(cmd->saved_stdout, STDOUT_FILENO);
 	if (cmd->red_in_fd != -1)
@@ -80,7 +80,6 @@ void	handle_single_command(t_cmds *cmd, t_data *data, int *exit_code)
 	pid_t	pid;
 	int		status;
 	int		signal_num;
-	int		stop_signal;
 	bool	sigquit_flag;
 
 	sigquit_flag = false;
