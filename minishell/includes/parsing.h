@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 12:26:01 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/21 12:26:04 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 # include "minishell.h"
@@ -32,6 +44,6 @@ void					redirection_appened(t_parsed_data *cmds_d, t_data *data,
 void					cmd_appened(t_parsed_data *cmds_d, t_data *data,
 							int *i);
 bool					validation(t_data *data);
-void	init_cmd(t_cmds *cmd);
+void					init_cmd(t_cmds *cmd);
 
 #endif
