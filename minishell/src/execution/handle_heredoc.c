@@ -12,7 +12,6 @@ void	set_heredoc_signals(struct sigaction *sa_old)
 		return ;
 }
 
-
 void	when_g_signal_status(int fd, char *line, char *input_delimiter)
 {
 	free(line);

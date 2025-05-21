@@ -50,19 +50,18 @@ char	*strip_quotes(char *delimiter)
 	return (result);
 }
 
-
 bool	new_delim_assign(t_data *data)
 {
 	if (ft_strchr(data->old_delim, '\"') || ft_strchr(data->old_delim, '\''))
 	{
-		data->new_delimiter = strip_quotes(data->old_delim);
-		if (!data->new_delimiter)
+		data->new_delim = strip_quotes(data->old_delim);
+		if (!data->new_delim)
 			return (false);
 	}
 	else
 	{
-		data->new_delimiter = ft_strdup(data->old_delim);
-		if (!data->new_delimiter)
+		data->new_delim = ft_strdup(data->old_delim);
+		if (!data->new_delim)
 			return (false);
 	}
 	return (true);
@@ -78,19 +77,19 @@ bool	here_loop(t_data *data, t_parsed_data *cmds_d, int i, int *expand)
 		if (ft_strcmp(cmds_d->cmds[i].reds[j], "<<") == 0)
 		{
 			if (!cmds_d->cmds[i].reds[j + 1])
-				return (print_error("syntax error near unexpected token"),false);
+				return (print_error("syntax error unexpected token"), false);
 			j++;
 			data->old_delim = cmds_d->cmds[i].reds[j];
 			if (is_quoted_delimiter(data->old_delim) == 1)
 				*expand = 0;
 			if (!new_delim_assign(data))
 				return (false);
-			data->here_return = handle_heredoc(data->new_delimiter, data, *expand);
-			if (data->here_return == -1)
+			data->here_ret = handle_heredoc(data->new_delim, data, *expand);
+			if (data->here_ret == -1)
 				return (false);
-			else if (data->here_return == 1)
+			else if (data->here_ret == 1)
 				return (set_g_signal(1), false);
-			ft_free(data->new_delimiter);
+			ft_free(data->new_delim);
 		}
 		j++;
 	}
@@ -100,7 +99,7 @@ bool	here_loop(t_data *data, t_parsed_data *cmds_d, int i, int *expand)
 bool	exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 {
 	int	i;
-	int expand;
+	int	expand;
 
 	i = 0;
 	expand = 1;
@@ -112,4 +111,3 @@ bool	exec_heredoc(t_data *data, t_parsed_data *cmds_d)
 	}
 	return (true);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:25:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 12:25:56 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:02:33 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ typedef struct s_data
 	char						*file_name;
 	char						*with_slash;
 	bool						malloc_fail_flag;
-	char						*new_delimiter;
+	char						*new_delim;
 	char						*old_delim;
 	char						*here_line;
-	int here_return ;
+	int							here_ret;
 	char						*here_to_write;
 }								t_data;
 
