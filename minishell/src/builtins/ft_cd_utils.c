@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:38:47 by akumari           #+#    #+#             */
-/*   Updated: 2025/05/20 14:38:49 by akumari          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:18:44 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool	change_to_home_dir(t_data *data, char *home_dir, int *exit_code)
+bool	change_to_home_dir(t_data *data, char *home_dir)
 {
 	char	*get_pwd;
 	char	*copy_pwd;

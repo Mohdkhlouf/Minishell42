@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:58:37 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 13:58:43 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:11:11 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	search_for_file_seperator(t_data *data, t_var_d *var, int i)
 	}
 }
 
-bool	split_vars(t_data *data, char *token, t_vars_data *var)
+bool	split_vars(char *token, t_vars_data *var)
 {
 	var->temp = NULL;
 	var->start = 0;

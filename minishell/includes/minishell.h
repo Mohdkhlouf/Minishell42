@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:25:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 13:02:33 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:20:05 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,6 @@ void							print_error(char *msg);
 void							minishell_error(char *context, char *message,
 									char *errorfile);
 void							free_cmds_d(t_parsed_data *cmds_d);
-void							start_signal(void);
-
 /*---------------free-----------------------*/
 int								free_matrix(char **env);
 void							free_env_list(t_var *head);
@@ -155,8 +153,7 @@ void							check_on_fail_cd(int *exit_code,
 									char *expanded);
 char							*expand_path(t_data *data, char *path_value,
 									int *exit_code);
-bool							change_to_home_dir(t_data *data, char *home_dir,
-									int *exit_code);
+bool							change_to_home_dir(t_data *data, char *home_dir);
 bool							update_pwd_and_oldpwd(t_data *data,
 									char *expanded, char *oldpwd,
 									int *exit_code);

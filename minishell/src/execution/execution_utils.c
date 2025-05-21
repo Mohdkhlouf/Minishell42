@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:20:25 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:20:39 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:16:45 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	is_empty_cmd(t_cmds *cmd)
 	return (false);
 }
 
-void	not_execve_handler(t_cmds *cmd, t_data *data, char *path)
+void	not_execve_handler(t_data *data, char *path)
 {
 	perror("minishell");
 	ft_free(path);

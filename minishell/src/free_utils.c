@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free_utils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 14:04:59 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 13:09:45 by akumari          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -23,7 +12,7 @@ void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
 	if (access("HEREDOC_TEMP.txt", F_OK) == 0)
 	{
-		if (!unlink("HEREDOC_TEMP.txt") == 0)
+		if (unlink("HEREDOC_TEMP.txt") != 0)
 			perror("unlink failed");
 	}
 	data->pid = NULL;
