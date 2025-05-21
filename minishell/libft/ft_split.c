@@ -104,7 +104,7 @@ char	**ft_split(char *s, char c)
 	word_start = -1;
 	if (!s)
 	{
-		arr = malloc(sizeof (char*) * 1);
+		arr = malloc(sizeof(char *) * 1);
 		arr[0] = NULL;
 	}
 	else
