@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shelvl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:59:52 by akumari           #+#    #+#             */
-/*   Updated: 2025/05/21 13:02:33 by akumari          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:01:07 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ void	shelvl(t_data *data)
 		shell_level = ft_atoi(env_var->value) + 1;
 	shlvl_str = ft_itoa(shell_level);
 	if (!shlvl_str)
-		return ;
+	{
+		free(data);
+		free(data->cmds_d);
+		exit(1);
+	}
 	update_env_list("SHLVL", shlvl_str, data);
 	free(shlvl_str);
 }
@@ -68,9 +72,13 @@ void	exit_shlvl(t_data *data)
 			shell_level--;
 			shlvl_str = ft_itoa(shell_level);
 			if (!shlvl_str)
-				return ;
+			{
+				free(data);
+				free(data->cmds_d);
+				exit(1);
+			}
 			update_env_list("SHLVL", shlvl_str, data);
 			free(shlvl_str);
 		}
-	}
+	}	
 }

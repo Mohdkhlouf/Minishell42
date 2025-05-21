@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:38:59 by akumari           #+#    #+#             */
-/*   Updated: 2025/05/21 13:12:25 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:09:51 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ static bool	cd_with_no_param(t_data *data, int *exit_code)
 		*exit_code = 1;
 		return (ft_putstr_fd("cd: HOME not set\n", 2), false);
 	}
-	if (!change_to_home_dir(data, home_dir, exit_code))
+	if (!change_to_home_dir(data, home_dir))
+	{
+		set_data_exit_code_value(data, exit_code, 1);
 		return (false);
+	}
 	return (true);
 }
 

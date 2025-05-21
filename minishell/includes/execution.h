@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:25:29 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 13:23:57 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:18:41 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ bool							execute_pipes(t_data *data, int i,
 									int *prev_cmd, int *exit_code);
 
 /*---------------redirectins------------------*/
-bool							execute_redirections(t_data *data, t_cmds *cmds_d, int *exit_code);
+bool							execute_redirections(t_data *data,
+									t_cmds *cmds_d, int *exit_code);
 bool							open_output_file(t_cmds *cmd, char *outfile,
 									int mode);
 bool							open_input_file(t_cmds *cmd, char *infile);
@@ -74,5 +75,6 @@ void							not_access_handler(t_cmds *cmd, t_data *data,
 void							not_path_handler(t_cmds *cmd, t_data *data);
 bool							allocate_pid(t_data *data,
 									t_parsed_data *cmds_d);
+void							closing_heredoc(int fd);
 
 #endif
