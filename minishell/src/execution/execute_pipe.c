@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 14:21:55 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 12:58:51 by mkhlouf          ###   ########.fr       */
+/*   Created: 2025/05/21 13:13:46 by akumari           #+#    #+#             */
+/*   Updated: 2025/05/21 13:14:27 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 
 bool	execute_pipes(t_data *data, int i, int *prev_cmd, int *exit_code)
 {
-	/**/
 	if (i > data->cmds_d->cmds_counter - 1)
 	{
 		if (data->pipe_fd[0] != -1)
@@ -49,7 +48,6 @@ bool	execute_pipes(t_data *data, int i, int *prev_cmd, int *exit_code)
 		if (data->pipe_fd[1] != -1)
 			ft_close(&data->pipe_fd[1]);
 	}
-	/**/
 	if (i < data->cmds_d->cmds_counter - 1 && pipe(data->pipe_fd) == -1)
 	{
 		perror("pipe");

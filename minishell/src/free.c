@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:05:06 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:05:07 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:07:53 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,6 @@ int	free_2arr_general(char **arr)
 	return (0);
 }
 
-void	cleanup_minishell(t_data *data)
-{
-	if (data->pid)
-	{
-		free(data->pid);
-		data->pid = NULL;
-	}
-	free_matrix(data->envp);
-	free_2arr_general(data->parsed_path);
-	free_2arr_general(data->words);
-	ft_free(data->pwd);
-	ft_free(data->input_line);
-	free_env_list(data->env_lst);
-	free_cmds_d(data->cmds_d);
-	free_data(data);
-	free(data->cmds_d);
-}
-
 void	free_split(char **str)
 {
 	int	i;
@@ -94,4 +76,27 @@ void	free_split(char **str)
 		i++;
 	}
 	free(str);
+}
+
+void	free_data(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->tokens && i < data->tokens_conter)
+	{
+		if (data->tokens[i].data)
+		{
+			free(data->tokens[i].data);
+			data->tokens[i].data = NULL;
+		}
+		i++;
+	}
+	free(data->tokens);
+	data->tokens = NULL;
+	free(data->pid);
+	if (data->pipe_fd[0] != -1)
+		ft_close(&data->pipe_fd[0]);
+	if (data->pipe_fd[1] != -1)
+		ft_close(&data->pipe_fd[1]);
 }
