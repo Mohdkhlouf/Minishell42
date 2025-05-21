@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:20:12 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:22:53 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 12:22:22 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 bool	append_handller(t_cmds *cmd, int *i, char *append, int *exit_code)
 {
+	if (!append)
+		return (print_error("ambiguous redirect") ,false);
 	if (!open_output_file(cmd, append, O_APPEND))
 	{
 		*exit_code = 1;
@@ -25,6 +27,8 @@ bool	append_handller(t_cmds *cmd, int *i, char *append, int *exit_code)
 
 bool	output_handller(t_cmds *cmd, int *i, char *outfile, int *exit_code)
 {
+	if (!outfile)
+		return (print_error("ambiguous redirect") ,false);
 	if (!open_output_file(cmd, outfile, O_TRUNC))
 	{
 		*exit_code = 1;
@@ -36,6 +40,8 @@ bool	output_handller(t_cmds *cmd, int *i, char *outfile, int *exit_code)
 
 bool	input_handller(t_cmds *cmd, int *i, char *infile, int *exit_code)
 {
+	if (!infile)
+		return (print_error("ambiguous redirect") ,false);
 	if (!open_input_file(cmd, infile))
 	{
 		*exit_code = 1;

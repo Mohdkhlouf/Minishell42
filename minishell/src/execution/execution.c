@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:22:23 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:22:25 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:48:03 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ bool	execution(t_data *data, t_parsed_data *cmds_d)
 		return (set_data_exit_code(data, &exit_code), false);
 	if (cmds_d->cmds_counter == 1)
 	{
-		if (!cmds_d->cmds[0].cmd[0])
+		if (!cmds_d->cmds[0].cmd[0] && !cmds_d->cmds[0].reds[0])
 			return (set_data_exit_code_value(data, &exit_code, 0), false);
-		if (cmds_d->cmds[0].cmd[0][0] == 0)
+		if (cmds_d->cmds[0].cmd[0] && cmds_d->cmds[0].cmd[0][0] == 0)
 			return (true);
 		if (is_builtin(cmds_d->cmds[0].cmd[0]))
 		{

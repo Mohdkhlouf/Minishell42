@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 12:25:54 by mkhlouf           #+#    #+#             */
+/*   Updated: 2025/05/21 12:25:56 by mkhlouf          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -91,7 +103,7 @@ typedef struct s_data
 	char						*new_delimiter;
 	char						*old_delim;
 	char						*here_line;
-	int 						here_return;
+	int here_return ;
 	char						*here_to_write;
 }								t_data;
 
@@ -186,5 +198,6 @@ void							signal_130(t_data *data);
 void							faild_read_line(t_data *data,
 									t_parsed_data *cmds_d);
 void							printing_cmds_reds(t_parsed_data *cmds_d);
+void							ft_close(int *fd);
 
 #endif

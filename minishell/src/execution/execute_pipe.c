@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:55 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:21:56 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:11:29 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,39 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 	if (*prev_cmd != -1)
 	{
 		close(*prev_cmd);
+		*prev_cmd = -1;
 	}
 	if (i < cmds_counter - 1)
 	{
-		close(data->pipe_fd[1]);
+		if (data->pipe_fd[1] != -1)
+			ft_close(&data->pipe_fd[1]);
 		*prev_cmd = data->pipe_fd[0];
 	}
 	else
 	{
-		close(data->pipe_fd[0]);
-		close(data->pipe_fd[1]);
-		*prev_cmd = -1;
+		if (data->pipe_fd[0] != -1)
+			ft_close(&data->pipe_fd[0]);
+		if (data->pipe_fd[1] != -1)
+			ft_close(&data->pipe_fd[1]);
+		if (*prev_cmd != -1)
+		{
+			close(*prev_cmd);
+			*prev_cmd = -1;
+		}
 	}
 }
 
 bool	execute_pipes(t_data *data, int i, int *prev_cmd, int *exit_code)
 {
+	/**/
+	if (i > data->cmds_d->cmds_counter - 1)
+	{
+		if (data->pipe_fd[0] != -1)
+			ft_close(&data->pipe_fd[0]);
+		if (data->pipe_fd[1] != -1)
+			ft_close(&data->pipe_fd[1]);
+	}
+	/**/
 	if (i < data->cmds_d->cmds_counter - 1 && pipe(data->pipe_fd) == -1)
 	{
 		perror("pipe");
@@ -77,16 +94,15 @@ void	wait_all(t_data *data, int *i, int *exit_code)
 	}
 }
 
-bool	execute_pipes_loop(t_data *data, t_parsed_data *cmds_d, int prev_cmd,
+bool	execute_pipes_loop(t_data *data, t_parsed_data *cmds_d, int *prev_cmd,
 		int *exit_code)
 {
 	int	i;
-	int old_prev_cmd = -1;
 
 	i = 0;
 	while (i < cmds_d->cmds_counter)
 	{
-		if (!execute_pipes(data, i, &prev_cmd, exit_code))
+		if (!execute_pipes(data, i, prev_cmd, exit_code))
 			return (false);
 		i++;
 	}
@@ -102,7 +118,7 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 	i = 0;
 	if (!allocate_pid(data, cmds_d))
 		return (false);
-	if (!execute_pipes_loop(data, cmds_d, prev_cmd, exit_code))
+	if (!execute_pipes_loop(data, cmds_d, &prev_cmd, exit_code))
 		return (false);
 	if (prev_cmd != -1)
 		close(prev_cmd);
@@ -116,8 +132,8 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 	if (data->sigterm_flag)
 		write(STDOUT_FILENO, "\n", 1);
 	if (data->pipe_fd[0] != -1)
-		close(data->pipe_fd[0]);
+		ft_close(&data->pipe_fd[0]);
 	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
+		ft_close(&data->pipe_fd[1]);
 	return (free(data->pid), true);
 }

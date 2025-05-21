@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:39:24 by akumari           #+#    #+#             */
-/*   Updated: 2025/05/20 14:39:25 by akumari          ###   ########.fr       */
+/*   Updated: 2025/05/20 23:24:13 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ bool	ft_exit(t_cmds *cmd, t_data *data, int *exit_code)
 	exit_shlvl(data);
 	if (cmd->cmd[1])
 		parse_exit_code(cmd->cmd[1], exit_code);
-	if (cmd->saved_stdin > 0)
-		close(cmd->saved_stdin);
-	if (cmd->saved_stdout > 0)
-		close(cmd->saved_stdout);
+	if (cmd->saved_stdin != -1)
+		ft_close(&cmd->saved_stdin);
+	if (cmd->saved_stdout != -1)
+		ft_close(&cmd->saved_stdout);
 	cleanup_minishell(data);
 	free(data);
 	exit(*exit_code);
