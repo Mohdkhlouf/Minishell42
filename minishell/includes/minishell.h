@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:25:54 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 13:20:05 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:18:52 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,8 @@ void							check_on_fail_cd(int *exit_code,
 									char *expanded);
 char							*expand_path(t_data *data, char *path_value,
 									int *exit_code);
-bool							change_to_home_dir(t_data *data, char *home_dir);
+bool							change_to_home_dir(t_data *data,
+									char *home_dir);
 bool							update_pwd_and_oldpwd(t_data *data,
 									char *expanded, char *oldpwd,
 									int *exit_code);
@@ -197,4 +198,6 @@ void							faild_read_line(t_data *data,
 void							printing_cmds_reds(t_parsed_data *cmds_d);
 void							ft_close(int *fd);
 
+void							set_data_exit_code_value(t_data *data,
+									int *exit_code, int value);
 #endif

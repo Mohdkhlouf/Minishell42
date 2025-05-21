@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:20:12 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 13:17:27 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:16:50 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,14 @@ bool	heredoc_read(t_cmds *cmd, int *i, char *heredoc_filename)
 	return (true);
 }
 
-bool	execute_redirections(t_cmds *cmd, int *exit_code)
+bool	execute_redirections(t_data *data, t_cmds *cmd, int *exit_code)
 {
 	int		i;
 	bool	result;
 
 	result = true;
 	i = 0;
+	(void)data;
 	if (!cmd->reds)
 		return (false);
 	while (cmd->reds[i] && result)
