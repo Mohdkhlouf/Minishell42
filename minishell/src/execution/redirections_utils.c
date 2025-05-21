@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:20:44 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 03:00:25 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:33:22 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	hanlde_fd(int old, int fd)
 {
 	dup2(fd, old);
-	if(fd != -1)
+	if (fd != -1)
 		ft_close(&fd);
 }
 
@@ -29,22 +29,20 @@ bool	open_output_file(t_cmds *cmd, char *outfile, int mode)
 	return (true);
 }
 
-
-
 bool	open_input_file(t_cmds *cmd, char *infile)
 {
 	cmd->red_in_fd = open(infile, O_RDONLY);
 	if (cmd->red_in_fd < 0)
 		return (print_error_2msgs(infile, strerror(errno)), false);
 	else
+	{
+		if (cmd->red_in_fd != -1)
 		{
-			dup2(cmd->red_in_fd, STDIN_FILENO);
-			if (cmd->red_in_fd != -1)
-			{
-				close(cmd->red_in_fd);
-				cmd->red_in_fd = -1;
-			}
+			dup2(cmd->red_in_fd, STDIN_FILENO); // Redirect STDIN to red_in_fd
+			close(cmd->red_in_fd);              // Close the original fd
+			cmd->red_in_fd = -1;                // Mark it as closed
 		}
+	}
 	return (true);
 }
 

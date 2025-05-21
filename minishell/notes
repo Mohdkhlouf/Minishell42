@@ -418,3 +418,8 @@ cat << o
 <a | <b | <c
 
 when files are not existed
+
+
+
+
+echo hi < $nope

@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:55 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 02:06:03 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:11:29 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,15 @@ void	wait_all(t_data *data, int *i, int *exit_code)
 	}
 }
 
-bool	execute_pipes_loop(t_data *data, t_parsed_data *cmds_d, int prev_cmd,
+bool	execute_pipes_loop(t_data *data, t_parsed_data *cmds_d, int *prev_cmd,
 		int *exit_code)
 {
 	int	i;
-	int	old_prev_cmd;
 
-	old_prev_cmd = -1;
 	i = 0;
 	while (i < cmds_d->cmds_counter)
 	{
-		if (!execute_pipes(data, i, &prev_cmd, exit_code))
+		if (!execute_pipes(data, i, prev_cmd, exit_code))
 			return (false);
 		i++;
 	}
@@ -120,7 +118,7 @@ bool	handle_pipes(t_data *data, t_parsed_data *cmds_d, int *exit_code)
 	i = 0;
 	if (!allocate_pid(data, cmds_d))
 		return (false);
-	if (!execute_pipes_loop(data, cmds_d, prev_cmd, exit_code))
+	if (!execute_pipes_loop(data, cmds_d, &prev_cmd, exit_code))
 		return (false);
 	if (prev_cmd != -1)
 		close(prev_cmd);
