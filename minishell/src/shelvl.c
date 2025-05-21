@@ -6,7 +6,7 @@
 /*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:59:52 by akumari           #+#    #+#             */
-/*   Updated: 2025/05/20 14:59:55 by akumari          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:02:33 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_var	*get_env_lst(t_var *env_lst, const char *key)
 {
 	while (env_lst)
 	{
-		if (strcmp(env_lst->key, key) == 0)
+		if (ft_strcmp(env_lst->key, key) == 0)
 			return (env_lst);
 		env_lst = env_lst->next;
 	}
@@ -47,6 +47,8 @@ void	shelvl(t_data *data)
 	if (env_var)
 		shell_level = ft_atoi(env_var->value) + 1;
 	shlvl_str = ft_itoa(shell_level);
+	if(!shlvl_str)
+		return;
 	update_env_list("SHLVL", shlvl_str, data);
 	free(shlvl_str);
 }
@@ -65,6 +67,8 @@ void	exit_shlvl(t_data *data)
 		{
 			shell_level--;
 			shlvl_str = ft_itoa(shell_level);
+			if(!shlvl_str)
+				return;
 			update_env_list("SHLVL", shlvl_str, data);
 			free(shlvl_str);
 		}
