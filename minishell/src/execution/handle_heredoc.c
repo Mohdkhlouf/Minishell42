@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 13:12:23 by akumari           #+#    #+#             */
+/*   Updated: 2025/05/21 13:16:20 by akumari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	set_heredoc_signals(struct sigaction *sa_old)
@@ -42,13 +54,6 @@ void	case_expand(t_data *data, char **to_write, char *line)
 	{
 		*to_write = ft_strdup(line);
 	}
-}
-
-void	closing_heredoc(int fd)
-{
-	close(fd);
-	reset_signals_to_prompt();
-	rl_event_hook = NULL;
 }
 
 bool	open_file(int *fd)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 13:12:29 by akumari           #+#    #+#             */
+/*   Updated: 2025/05/21 13:13:06 by akumari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	write_free_heredoc(int fd, char *to_write, char *line)
@@ -15,7 +27,7 @@ void	set_g_signal(int value)
 
 void	reset_signals_to_prompt(void)
 {
-	set_prompt_signals(); 
+	set_prompt_signals();
 }
 
 void	handle_heredoc_signals(int sig)

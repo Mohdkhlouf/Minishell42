@@ -47,8 +47,8 @@ void	shelvl(t_data *data)
 	if (env_var)
 		shell_level = ft_atoi(env_var->value) + 1;
 	shlvl_str = ft_itoa(shell_level);
-	if(!shlvl_str)
-		return;
+	if (!shlvl_str)
+		return ;
 	update_env_list("SHLVL", shlvl_str, data);
 	free(shlvl_str);
 }
@@ -67,8 +67,8 @@ void	exit_shlvl(t_data *data)
 		{
 			shell_level--;
 			shlvl_str = ft_itoa(shell_level);
-			if(!shlvl_str)
-				return;
+			if (!shlvl_str)
+				return ;
 			update_env_list("SHLVL", shlvl_str, data);
 			free(shlvl_str);
 		}
