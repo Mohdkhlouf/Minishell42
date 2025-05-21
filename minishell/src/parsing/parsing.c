@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:03 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 14:02:04 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:04:18 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_cmd(t_cmds *cmd)
 	cmd->red_in_fd = -1;
 	cmd->red_out_fd = -1;
 	cmd->saved_stdin = -1;
-	cmd->saved_stdin = -1;
+	cmd->saved_stdout = -1;
 }
 
 /*initialize the data for the struct*/

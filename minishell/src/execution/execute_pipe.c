@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:21:55 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 00:53:00 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:06:03 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 		if (data->pipe_fd[1] != -1)
 			ft_close(&data->pipe_fd[1]);
 		*prev_cmd = data->pipe_fd[0];
-		printf("cmds->saved_stdout[%d] status %d\n", i, data->cmds_d->cmds->saved_stdout);
 	}
 	else
 	{
@@ -37,14 +36,6 @@ void	execute_parent(int *prev_cmd, t_data *data, int i, int cmds_counter)
 			close(*prev_cmd);
 			*prev_cmd = -1;
 		}
-		
-		printf("data->pipe_fd[0] status %d\n", data->pipe_fd[0]);
-		printf("data->pipe_fd[1] status %d\n", data->pipe_fd[1]);
-		printf("cmds->red_in_fd status %d\n", data->cmds_d->cmds->red_in_fd);
-		printf("cmds->red_in_fd status %d\n", data->cmds_d->cmds->red_in_fd);
-		printf("cmds->saved_stdin status %d\n", data->cmds_d->cmds->saved_stdin);
-		printf("cmds->saved_stdout status %d\n", data->cmds_d->cmds->saved_stdout);
-		printf("cmds->saved_stdout[%d] status %d\n", i, data->cmds_d->cmds->saved_stdout);
 	}
 }
 

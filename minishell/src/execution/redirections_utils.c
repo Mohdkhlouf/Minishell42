@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:20:44 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/21 00:52:23 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 03:00:25 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,34 @@ bool	open_output_file(t_cmds *cmd, char *outfile, int mode)
 	return (true);
 }
 
+
+
 bool	open_input_file(t_cmds *cmd, char *infile)
 {
 	cmd->red_in_fd = open(infile, O_RDONLY);
 	if (cmd->red_in_fd < 0)
 		return (print_error_2msgs(infile, strerror(errno)), false);
 	else
-		hanlde_fd(STDIN_FILENO, cmd->red_in_fd);
+		{
+			dup2(cmd->red_in_fd, STDIN_FILENO);
+			if (cmd->red_in_fd != -1)
+			{
+				close(cmd->red_in_fd);
+				cmd->red_in_fd = -1;
+			}
+		}
 	return (true);
 }
+
+// bool	open_input_file(t_cmds *cmd, char *infile)
+// {
+// 	cmd->red_in_fd = open(infile, O_RDONLY);
+// 	if (cmd->red_in_fd < 0)
+// 		return (print_error_2msgs(infile, strerror(errno)), false);
+// 	else
+// 		hanlde_fd(STDIN_FILENO, cmd->red_in_fd);
+// 	return (true);
+// }
 
 bool	allocate_pid(t_data *data, t_parsed_data *cmds_d)
 {

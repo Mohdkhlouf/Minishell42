@@ -6,7 +6,7 @@
 /*   By: mkhlouf <mkhlouf@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:04:59 by mkhlouf           #+#    #+#             */
-/*   Updated: 2025/05/20 23:58:56 by mkhlouf          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:05:40 by mkhlouf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ void	ft_free(char *str)
 
 void	command_cleanup(t_data *data, t_parsed_data *cmds_d)
 {
-int i;
-
-i = 0;
-while (i < cmds_d->cmds_counter)
-{
-	printf("cmds->red_in_fd [%d] status %d\n",i, data->cmds_d->cmds[i].red_in_fd);
-	printf("cmds->red_out_fd [%d]status %d\n",i, data->cmds_d->cmds[i].red_out_fd);
-	printf("cmds->saved_stdin[%d] status %d\n",i, data->cmds_d->cmds[i].saved_stdin);
-	printf("cmds->saved_stdout[%d] status %d\n", i, data->cmds_d->cmds[i].saved_stdout);
-	i++;
-}
-	
-	
 	if (access("HEREDOC_TEMP.txt", F_OK) == 0)
 	{
 		if (!unlink("HEREDOC_TEMP.txt") == 0)

@@ -412,3 +412,9 @@ cat << o
 
 "" << p << l
 
+
+
+< a 
+<a | <b | <c
+
+when files are not existed
