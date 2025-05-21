@@ -6,7 +6,7 @@
 /*   By: akumari <akumari@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:12:23 by akumari           #+#    #+#             */
-/*   Updated: 2025/05/21 13:16:20 by akumari          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:32:43 by akumari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	handle_heredoc(char *input_delimiter, t_data *data, int expand)
 			return (when_g_signal_status(fd, data->here_line, input_delimiter),
 				1);
 		if (!data->here_line)
-			break ;
+			return (print_error("warning: here-doc at line 1 delimited by eof"),
+				closing_heredoc(fd), 0);
 		if (!input_delimiter)
 			return (free(data->here_line), printf("null delimiter\n"),
 				closing_heredoc(fd), 0);
